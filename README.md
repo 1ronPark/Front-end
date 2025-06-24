@@ -53,7 +53,7 @@ yarn dev
 - `fix/버그명`: 버그 수정 브랜치
 - `hotfix/패치명`: 긴급 패치 브랜치
 
-> ⚠️ 모든 커밋은 Pull Request(PR) 기반으로 `main`에 병합합니다.
+> ⚠️ 모든 커밋은 Pull Request(PR) 기반으로 `develop`에 병합합니다.
 
 ---
 
