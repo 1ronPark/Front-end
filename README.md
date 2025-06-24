@@ -9,13 +9,11 @@ React + TypeScript 기반의 모듈형 구조로 구성되어 있으며, 기능 
 
 ```bash
 # 의존성 설치
-yarn install
+yarn
 
 # 개발 서버 실행
-yarn start
+yarn dev
 
-# 테스트 실행
-yarn test
 ```
 --- 
 ## ⚙️ 기술 스택
