@@ -1,9 +1,45 @@
-import SideNavbar from "./components/common/SideNavbar";
+import SideNavbar from "./components/common/sideNavbar/SideNavbar";
 
 function App() {
   return (
     <>
       <SideNavbar />
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div> <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div> <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
+      <div>radwasdsad</div>
       <div>radwasdsad</div>
       <div>radwasdsad</div>
       <div>radwasdsad</div>
