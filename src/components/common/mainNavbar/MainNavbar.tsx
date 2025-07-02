@@ -53,7 +53,7 @@ export const MainNavbar = ({ isLoggedIn, userName }:MainNavbarProps) => {
 
             {/* 버튼들 */}
             <div className="flex items-center gap-4 label-large"> 
-                {/* 임시 경로 */}
+                {/* 임시 경로 - 수정 필요!!! */}
                 <NavLink to="/register-profile" className="border border-[#CBC4CF] px-4 py-2.5 rounded-[12px]">
                     프로필 등록
                 </NavLink>
