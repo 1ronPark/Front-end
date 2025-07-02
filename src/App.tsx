@@ -18,7 +18,6 @@ function App() {
       <div>radwasdsad</div>
       <div>radwasdsad</div>
       <div>radwasdsad</div>
-      <div>radwasdsad</div> <div>radwasdsad</div>
       <div>radwasdsad</div>
       <div>radwasdsad</div>
       <div>radwasdsad</div>
@@ -36,7 +35,7 @@ function App() {
       <div>radwasdsad</div>
       <div>radwasdsad</div>
       <div>radwasdsad</div>
-      <div>radwasdsad</div> <div>radwasdsad</div>
+      <div>radwasdsad</div>
       <div>radwasdsad</div>
       <div>radwasdsad</div>
       <div>radwasdsad</div>
