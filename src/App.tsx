@@ -1,34 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Layout } from './components/layout/Layout';
 import './App.css'
 
+
+// 주디: 최상단 Navbar 표시를 위해 임의로 경로를 설정하였습니다!
+//      논의 후 수정하는 방향으로 해봐요!
+
+import { Projects } from './pages/Projects';
+import { Members } from './pages/Members';
+import { LightTalk } from './pages/LightTalk';
+import { MyProfile } from './pages/MyProfile';
+
+
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/members" element={<Members />} />
+          <Route path="/lighttalk" element={<LightTalk />} />
+          <Route path="/myprofile" element={<MyProfile />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   )
 }
 
