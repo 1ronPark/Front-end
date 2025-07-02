@@ -12,13 +12,13 @@ export const SearchInput = ({
   onChange,
 }: SearchInputProps) => {
   return (
-    <div className="w-[296px] h-[48px] flex items-center px-5 py-4 bg-[#E7E0E8] rounded-[28px] ml-[8px]">
+    <div className="w-[296px] h-[48px] flex items-center px-5 py-4 bg-[#E7E0E8]/[0.58] rounded-[28px] ml-[8px]">
       <input
         type="text"
         placeholder={placeholder}
         disabled={disabled}
         onChange={onChange}
-        className="flex-1 bg-transparent outline-none placeholder:text-gray-400 text-base"
+        className="flex-1 bg-transparent outline-none body-large placeholder:opacity-60"
       />
       <img
         src={ic_search}
