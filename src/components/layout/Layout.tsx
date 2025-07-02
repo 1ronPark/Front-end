@@ -1,5 +1,6 @@
 import { MainNavbar } from "../common/mainNavbar/MainNavbar";
 import { Outlet } from "react-router-dom";
+import { Footbar } from "../common/footbar/Footbar";
 import SideNavbar from "../common/sideNavbar/SideNavbar"
 
 export const Layout = () => {
@@ -10,6 +11,7 @@ export const Layout = () => {
       <div className="flex-1 w-full">
         <Outlet />
       </div>
+      <Footbar />
     </div>
   );
 };

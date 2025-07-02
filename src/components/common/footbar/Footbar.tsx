@@ -1,4 +1,4 @@
-export const Footer = () => {
+export const Footbar = () => {
   return (
     <footer className="w-full pt-6 pb-6 flex flex-col justify-center items-center gap-6">
       {/* 상단 링크들 */}
@@ -46,5 +46,3 @@ export const Footer = () => {
     </footer>
   );
 };
-
-export default Footer;
