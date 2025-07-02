@@ -1,6 +1,6 @@
 import { MainNavbar } from "../common/mainNavbar/MainNavbar";
 import { Outlet } from "react-router-dom";
-import SideNavbar from "../common/sideNavbar/SideNavbar";
+import SideNavbar from "../common/sideNavbar/SideNavbar"
 
 export const Layout = () => {
   return (
