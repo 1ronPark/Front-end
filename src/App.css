@@ -1,0 +1,358 @@
+/* --- 1. Noto Sans KR 가변 폰트 등록 --- */
+@font-face {
+  font-family: 'Noto Sans KR';
+  src: url('./assets/fonts/NotoSansKR-Thin.woff2') format('woff2-variations'); /* 파일 경로는 실제 파일 이름에 맞게 조정하세요 */
+  /* Noto Sans KR 가변 폰트가 지원하는 굵기 범위 */
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@layer components {
+/* --- 2. 디자인 가이드에 맞는 클래스 생성(Baseline) --- */
+
+  /* Display */
+  .display-large {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/display/large */
+    font-family: "Noto Sans KR";
+    font-size: 57px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 64px; /* 112.281% */
+    letter-spacing: -0.25px;
+  }
+  .display-medium {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/display/medium */
+    font-family: "Noto Sans KR";
+    font-size: 45px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 52px; /* 115.556% */
+  }
+  .display-small {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/display/small */
+    font-family: "Noto Sans KR";
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 44px; /* 122.222% */
+  }
+
+  /* Headline */
+  .headline-large {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/headline/large */
+    font-family: "Noto Sans KR";
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 40px; /* 125% */
+  }
+  .headline-medium {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/headline/medium */
+    font-family: "Noto Sans KR";
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 36px; /* 128.571% */
+  }
+  .headline-small {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/headline/small */
+    font-family: "Noto Sans KR";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 32px; /* 133.333% */
+  }
+
+  /* Title */
+  .title-large {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/title/large */
+    font-family: "Noto Sans KR";
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 28px; /* 127.273% */
+  }
+  .title-medium {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/title/medium */
+    font-family: "Noto Sans KR";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px; /* 150% */
+    letter-spacing: 0.15px;
+  }
+  .title-small {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/title/small */
+    font-family: "Noto Sans KR";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: 0.1px;
+  }
+
+  /* Label */
+  .label-large {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/label/large */
+    font-family: "Noto Sans KR";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: 0.1px;
+  }
+  .label-medium {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/label/medium */
+    font-family: "Noto Sans KR";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px; /* 133.333% */
+    letter-spacing: 0.5px;
+  }  
+  .label-small {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/label/small */
+    font-family: "Noto Sans KR";
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px; /* 145.455% */
+    letter-spacing: 0.5px;
+  }
+
+  /* Body */
+  .body-large {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/body/large */
+    font-family: "Noto Sans KR";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px; /* 150% */
+    letter-spacing: 0.5px;
+  }
+  .body-medium {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/body/medium */
+    font-family: "Noto Sans KR";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: 0.25px;
+  }
+  .body-small {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/body/small */
+    font-family: "Noto Sans KR";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px; /* 133.333% */
+    letter-spacing: 0.4px;
+  }
+
+/* --- 3. 디자인 가이드에 맞는 클래스 생성(Emphasis) --- */
+  /* Display */
+  .display-large-emphasis {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/display/large-emphasized */
+    font-family: "Noto Sans KR";
+    font-size: var(--Static-Display-Large-Size, 57px);
+    font-style: normal;
+    font-weight: 500;
+    line-height: var(--Static-Display-Large-Line-Height, 64px); /* 112.281% */
+    letter-spacing: var(--Static-Display-Large-Tracking, -0.25px);
+  }
+  .display-medium-emphasis {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/display/medium-emphasized */
+    font-family: "Noto Sans KR";
+    font-size: var(--Static-Display-Medium-Size, 45px);
+    font-style: normal;
+    font-weight: 500;
+    line-height: var(--Static-Display-Medium-Line-Height, 52px); /* 115.556% */
+    letter-spacing: var(--Static-Display-Medium-Tracking, 0px);
+  }
+  .display-small-emphasis {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/display/small-emphasized */
+    font-family: "Noto Sans KR";
+    font-size: var(--Static-Display-Small-Size, 36px);
+    font-style: normal;
+    font-weight: 500;
+    line-height: var(--Static-Display-Small-Line-Height, 44px); /* 122.222% */
+    letter-spacing: var(--Static-Display-Small-Tracking, 0px);
+  }
+
+  /* Headline */
+  .headline-large-emphasis {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/headline/large-emphasized */
+    font-family: "Noto Sans KR";
+    font-size: var(--Static-Headline-Large-Size, 32px);
+    font-style: normal;
+    font-weight: 500;
+    line-height: var(--Static-Headline-Large-Line-Height, 40px); /* 125% */
+    letter-spacing: var(--Static-Headline-Large-Tracking, 0px);
+  }
+  .headline-medium-emphasis {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/headline/medium-emphasized */
+    font-family: "Noto Sans KR";
+    font-size: var(--Static-Headline-Medium-Size, 28px);
+    font-style: normal;
+    font-weight: 500;
+    line-height: var(--Static-Headline-Medium-Line-Height, 36px); /* 128.571% */
+    letter-spacing: var(--Static-Headline-Medium-Tracking, 0px);
+  }
+  .headline-small-emphasis {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/headline/small-emphasized */
+    font-family: "Noto Sans KR";
+    font-size: var(--Static-Headline-Small-Size, 24px);
+    font-style: normal;
+    font-weight: 500;
+    line-height: var(--Static-Headline-Small-Line-Height, 32px); /* 133.333% */
+    letter-spacing: var(--Static-Headline-Small-Tracking, 0px);
+  }
+  /* Title */
+  .title-large-emphasis {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/title/large-emphasized */
+    font-family: "Noto Sans KR";
+    font-size: var(--Static-Title-Large-Size, 22px);
+    font-style: normal;
+    font-weight: 500;
+    line-height: var(--Static-Title-Large-Line-Height, 28px); /* 127.273% */
+    letter-spacing: var(--Static-Title-Large-Tracking, 0px);
+  }
+  .title-medium-emphasis {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/title/medium-emphasized */
+    font-family: var(--Static-Title-Medium-Font, Roboto);
+    font-size: var(--Static-Title-Medium-Size, 16px);
+    font-style: normal;
+    font-weight: 600;
+    line-height: var(--Static-Title-Medium-Line-Height, 24px); /* 150% */
+    letter-spacing: var(--Static-Title-Medium-Tracking, 0.15px);
+  }
+  .title-small-emphasis {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/title/small-emphasized */
+    font-family: var(--Static-Title-Small-Font, Roboto);
+    font-size: var(--Static-Title-Small-Size, 14px);
+    font-style: normal;
+    font-weight: 600;
+    line-height: var(--Static-Title-Small-Line-Height, 20px); /* 142.857% */
+    letter-spacing: var(--Static-Title-Small-Tracking, 0.1px);
+  }
+
+  /* Label */
+  .label-large-emphasis {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/label/large-emphasized */
+    font-family: var(--Static-Label-Large-Font, Roboto);
+    font-size: var(--Static-Label-Large-Size, 14px);
+    font-style: normal;
+    font-weight: 600;
+    line-height: var(--Static-Label-Large-Line-Height, 20px); /* 142.857% */
+    letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);
+  }
+  .label-medium-emphasis {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/label/medium-emphasized */
+    font-family: var(--Static-Label-Medium-Font, Roboto);
+    font-size: var(--Static-Label-Medium-Size, 12px);
+    font-style: normal;
+    font-weight: 600;
+    line-height: var(--Static-Label-Medium-Line-Height, 16px); /* 133.333% */
+    letter-spacing: var(--Static-Label-Medium-Tracking, 0.5px);
+  }
+  .label-small-emphasis {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/label/small-emphasized */
+    font-family: "Noto Sans KR";
+    font-size: var(--Static-Label-Small-Size, 11px);
+    font-style: normal;
+    font-weight: 600;
+    line-height: var(--Static-Label-Small-Line-Height, 16px); /* 145.455% */
+    letter-spacing: var(--Static-Label-Small-Tracking, 0.5px);
+  }
+
+  /* Body */
+  .body-large-emphasis {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/body/large-emphasized */
+    font-family: "Noto Sans KR";
+    font-size: var(--Static-Body-Large-Size, 16px);
+    font-style: normal;
+    font-weight: 500;
+    line-height: var(--Static-Body-Large-Line-Height, 24px); /* 150% */
+    letter-spacing: var(--Static-Body-Large-Tracking, 0.5px);
+  }
+  .body-medium-emphasis {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/body/medium-emphasized */
+    font-family: "Noto Sans KR";
+    font-size: var(--Static-Body-Medium-Size, 14px);
+    font-style: normal;
+    font-weight: 500;
+    line-height: var(--Static-Body-Medium-Line-Height, 20px); /* 142.857% */
+    letter-spacing: var(--Static-Body-Medium-Tracking, 0.25px);
+  }
+  .body-small-emphasis {
+    color: var(--L1-sys-light-on-surface, #1D1B20);
+
+    /* L1/body/small-emphasized */
+    font-family: "Noto Sans KR";
+    font-size: var(--Static-Body-Small-Size, 12px);
+    font-style: normal;
+    font-weight: 500;
+    line-height: var(--Static-Body-Small-Line-Height, 16px); /* 133.333% */
+    letter-spacing: var(--Static-Body-Small-Tracking, 0.4px);
+  }
+}
