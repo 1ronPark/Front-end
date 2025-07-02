@@ -1,9 +1,16 @@
 import { NavLink } from 'react-router-dom';
 import logo_lightup from '../../../assets/logo_lightup.svg';
 import ic_loginbutton from '../../../assets/ic_loginbutton.svg';
+import ic_myprofile from  '../../../assets/ic_myprofile.svg';
 import { SearchInput } from './SearchInput';
 
-export const MainNavbar = () => {
+type MainNavbarProps = {
+    isLoggedIn: boolean;
+    userName: string;
+};
+
+
+export const MainNavbar = ({ isLoggedIn, userName }:MainNavbarProps) => {
     
     const MainNavItems = [
         // 임시 루트
@@ -53,13 +60,22 @@ export const MainNavbar = () => {
                 <NavLink to="/register-project" className="border border-[#CBC4CF] px-4 py-2.5 rounded-[12px]">
                     프로젝트 등록
                 </NavLink>
-                <NavLink
-                    to="/login"
-                    className="bg-[#68548E] text-white px-4 py-2.5 rounded-[12px] flex items-center gap-1.5"
-                >
-                    <img src={ic_loginbutton} alt="login" className="w-4 h-4" />
-                    로그인
-                </NavLink>
+
+                { isLoggedIn
+                    ? 
+                        <div className="flex items-center gap-2 px-6 py-4 bg-white">
+                            <img src={ic_myprofile} alt="myprofile" className="w-6 h-6" />
+                            <span className="text-[#6750A4] title-medium">{userName}</span>
+                        </div>
+                    : 
+                    <NavLink
+                        to="/login"
+                        className="bg-[#68548E] text-white px-4 py-2.5 rounded-[12px] flex items-center gap-1.5"
+                    >
+                        <img src={ic_loginbutton} alt="login" className="w-4 h-4" />
+                        로그인
+                    </NavLink>
+                }
             </div>
         </div>
     );
