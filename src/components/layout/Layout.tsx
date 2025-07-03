@@ -1,7 +1,7 @@
 import { MainNavbar } from "../common/mainNavbar/MainNavbar";
 import { Outlet } from "react-router-dom";
-import { Footbar } from "../common/footbar/Footbar";
 import SideNavbar from "../common/sideNavbar/SideNavbar";
+import { Footbar } from "../common/footbar/Footbar";
 
 export const Layout = () => {
   return (
