@@ -31,14 +31,12 @@ export const Footbar = () => {
           </div>
         ))}
       </div>
-
-      /* 하단 기본 텍스트*/
       <div className="w-[646px] flex flex-col items-center gap-2 opacity-60">
-        <p className="text-center text-[#49454E] text-[12px] font-medium font-pretendard leading-4">
+        <p className="whitespace-nowrap text-center text-[#49454E] text-[12px] font-medium font-pretendard leading-4">
           사업자 등록 번호 : 123-45-67891 &nbsp; 대표 : 박종인 &nbsp; 주소 :
           경기도 안산시 상록구 한양대학로 55 (한양대학교 ERICA캠퍼스)
         </p>
-        <p className="text-center text-[#49454E] text-[12px] font-medium font-pretendard leading-4">
+        <p className="whitespace-nowrap text-center text-[#49454E] text-[12px] font-medium font-pretendard leading-4">
           라이텁에서 제공하는 종합 정보는 사용자의 창업 및 프로젝트 진행을 위한 단순 참고용일 뿐,
           투자 제안 및 권유를 위해 작성된 것이 아닙니다.
         </p>
