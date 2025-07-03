@@ -1,4 +1,4 @@
-import ic_search from '../../../assets/ic_search.svg';
+import ic_search from "../../../assets/ic_search.svg";
 
 type SearchInputProps = {
   placeholder?: string;
