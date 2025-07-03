@@ -1,4 +1,4 @@
-import BasePanel from "./BasePanel";
+import BasePanel from "../BasePanel";
 import FavoriteList from "./FavoriteList";
 import NoFavoriteList from "./NoFavoriteList";
 

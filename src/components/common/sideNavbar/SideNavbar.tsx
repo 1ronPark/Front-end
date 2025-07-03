@@ -3,8 +3,8 @@ import notificationIcon from "../../../assets/sideNavbar/notifications.svg";
 import favoriteIcon from "../../../assets/sideNavbar/favorite.svg";
 import lightModeIcon from "../../../assets/sideNavbar/light_mode.svg";
 import { useState } from "react";
-import NotificationPanel from "./NotificationPanel";
-import FavoritePanel from "./FavoritePanel";
+import NotificationPanel from "./notification/NotificationPanel";
+import FavoritePanel from "./favorite/FavoritePanel";
 
 const SideNavbar = () => {
   const [activePanel, setActivePanel] = useState<
@@ -18,7 +18,7 @@ const SideNavbar = () => {
   return (
     <>
       <div
-        className="fixed right-0 w-[97px] h-screen py-6 bg-[#FFF]
+        className="fixed right-0 w-[65px] h-screen py-6 bg-[#FFF]
     flex flex-col items-center gap-6 border-l border-l-[#CBC4CF] box-border"
       >
         {/* 메뉴 버튼 */}
