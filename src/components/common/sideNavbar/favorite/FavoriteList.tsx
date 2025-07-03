@@ -1,3 +1,5 @@
+import FavoriteItem from "./FavoriteItem";
+
 const FavoriteList = () => {
   return (
     <div className="w-[300px]">
@@ -11,18 +13,18 @@ const FavoriteList = () => {
         최근 본
       </div>
       <div className="flex flex-col justify-center items-center min-h-[72px] border-b border-[#CBC4CF]">
-        <div>관심 리스트</div>
-        <div>관심 리스트</div>
-        <div>관심 리스트</div>
+        <FavoriteItem />
+        <FavoriteItem />
+        <FavoriteItem />
       </div>
       {/* 관심그룹 1*/}
       <div className="flex flex-col px-6 pt-6 pb-2 gap-2 title-small text-[#49454E]">
         관심그룹 1
       </div>
       <div className="flex flex-col items-center justify-center min-h-[72px] border-b border-[#CBC4CF]">
-        <div>관심 리스트</div>
-        <div>관심 리스트</div>
-        <div>관심 리스트</div>
+        <FavoriteItem />
+        <FavoriteItem />
+        <FavoriteItem />
       </div>
 
       {/* 관심그루 2*/}
@@ -31,9 +33,9 @@ const FavoriteList = () => {
       </div>
 
       <div className="flex flex-col items-center justify-center min-h-[72px] border-b border-[#CBC4CF]">
-        <div>관심 리스트</div>
-        <div>관심 리스트</div>
-        <div>관심 리스트</div>
+        <FavoriteItem />
+        <FavoriteItem />
+        <FavoriteItem />
       </div>
     </div>
   );

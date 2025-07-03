@@ -1,3 +1,5 @@
+import NoticeItem from "./NoticeItem";
+
 const NotificationList = () => {
   return (
     <div className="w-[300px]">
@@ -10,9 +12,9 @@ const NotificationList = () => {
         이번 주
       </div>
       <div className="flex flex-col justify-center items-center min-h-[72px] border-b border-[#CBC4CF]">
-        <div>알림 리스트</div>
-        <div>알림 리스트</div>
-        <div>알림 리스트</div>
+        <NoticeItem />
+        <NoticeItem />
+        <NoticeItem />
       </div>
 
       {/* 이번 달 */}
@@ -20,9 +22,9 @@ const NotificationList = () => {
         이번 달
       </div>
       <div className="flex flex-col items-center justify-center min-h-[72px] border-b border-[#CBC4CF]">
-        <div>알림 리스트</div>
-        <div>알림 리스트</div>
-        <div>알림 리스트</div>
+        <NoticeItem />
+        <NoticeItem />
+        <NoticeItem />
       </div>
 
       {/* 이전 활동 */}
@@ -31,9 +33,9 @@ const NotificationList = () => {
       </div>
 
       <div className="flex flex-col items-center justify-center min-h-[72px] border-b border-[#CBC4CF]">
-        <div>알림 리스트</div>
-        <div>알림 리스트</div>
-        <div>알림 리스트</div>
+        <NoticeItem />
+        <NoticeItem />
+        <NoticeItem />
       </div>
     </div>
   );
