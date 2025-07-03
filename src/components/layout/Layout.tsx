@@ -11,10 +11,7 @@ export const Layout = () => {
       <div className="flex-1 w-full">
         <Outlet />
       </div>
-      {/*footbar 여백 설정*/}
-      <div className="h-[30px]" />
       <Footbar />
-      <div className="h-[150px]" />
     </div>
   );
 };

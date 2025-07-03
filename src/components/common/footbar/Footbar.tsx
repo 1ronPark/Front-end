@@ -1,6 +1,6 @@
 export const Footbar = () => {
   return (
-    <footer className="w-full mt-[30px] pt-[24px] pb-[24px] mb-[150px] flex flex-col justify-center items-center gap-[24px]">
+    <footer className="w-full mt-[30px] pt-[24px] pb-[150px] flex flex-col justify-center items-center gap-[24px]">
       {/* 상단 링크들 */}
       <div className="flex flex-wrap justify-center items-center opacity-60">
         {[
