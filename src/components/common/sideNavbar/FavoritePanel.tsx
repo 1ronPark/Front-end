@@ -3,10 +3,14 @@ import FavoriteList from "./FavoriteList";
 import NoFavoriteList from "./NoFavoriteList";
 
 const FavoritePanel = () => {
-  const hasFavorite = false;
+  const hasFavorite = true;
 
   return (
-    <BasePanel>{hasFavorite ? <FavoriteList /> : <NoFavoriteList />}</BasePanel>
+    <BasePanel
+      hasData={hasFavorite}
+      list={<FavoriteList />}
+      empty={<NoFavoriteList />}
+    />
   );
 };
 

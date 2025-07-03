@@ -5,9 +5,11 @@ import NotificationList from "./NotificationList";
 const NotificationPanel = () => {
   const hasNotification = true;
   return (
-    <BasePanel>
-      {hasNotification ? <NotificationList /> : <NoNotificationList />}
-    </BasePanel>
+    <BasePanel
+      hasData={hasNotification}
+      list={<NotificationList />}
+      empty={<NoNotificationList />}
+    />
   );
 };
 
