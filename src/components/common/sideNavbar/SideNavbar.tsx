@@ -2,6 +2,7 @@ import menuIcon from "../../../assets//sideNavbar/menu2.svg";
 import notificationIcon from "../../../assets/sideNavbar/notifications.svg";
 import favoriteIcon from "../../../assets/sideNavbar/favorite.svg";
 import lightModeIcon from "../../../assets/sideNavbar/light_mode.svg";
+import menuOpenIcon from "../../../assets/sideNavbar/menu_open.svg";
 import { useState } from "react";
 import NotificationPanel from "./notification/NotificationPanel";
 import FavoritePanel from "./favorite/FavoritePanel";
@@ -11,8 +12,21 @@ const SideNavbar = () => {
     "notification" | "favorite" | null
   >(null);
 
+  const [lastPanel, setLastPanel] = useState<
+    "notification" | "favorite" | null
+  >(null);
+
   const togglePanel = (panel: "notification" | "favorite") => {
+    setLastPanel(panel); //마지막에 열었던 패널 기록
     setActivePanel((prev) => (prev === panel ? null : panel));
+  };
+
+  const handleMenuClick = () => {
+    if (activePanel) {
+      setActivePanel(null); //패널 닫기
+    } else if (lastPanel) {
+      setActivePanel(lastPanel); //마지막 패널 다시 열기
+    }
   };
 
   return (
@@ -22,9 +36,18 @@ const SideNavbar = () => {
     flex flex-col items-center gap-6 border-l border-l-[#CBC4CF] box-border"
       >
         {/* 메뉴 버튼 */}
-        <div className="w-[56px] h-[56px] flex justify-center items-center py-1 gap-[10px]">
-          <img src={menuIcon} className="px-[3px]  py-1.5" />
-        </div>
+        <button
+          className="w-[56px] h-[56px] flex justify-center items-center py-1 gap-[10px]"
+          onClick={handleMenuClick}
+        >
+          {activePanel === null ? (
+            //패널이 없으면 메뉴 아이콘에 화살표있는 버전
+            <img src={menuOpenIcon} className="px-[3px]  py-1.5" />
+          ) : (
+            //패널이 있으면 메뉴 아이콘에 화살표 없는 버전
+            <img src={menuIcon} className="px-[3px]  py-1.5" />
+          )}
+        </button>
 
         {/* 알림 & 관심 버튼 */}
         <div className="flex flex-col h-[960px] items-center justify-between">
