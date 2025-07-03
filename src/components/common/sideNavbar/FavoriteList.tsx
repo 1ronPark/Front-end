@@ -3,10 +3,11 @@ const FavoriteList = () => {
     <>
       {/* 헤더 */}
       <div className="w-[400px] flex flex-col px-6 pt-6 pb-2 gap-2">
-        <div className="font-semibold text-2xl">관심</div>
+        <div className="title-large text-[#1D1B20]">관심</div>
+        {/* <div className="title-large">관심</div> */}
       </div>
 
-      <div className="w-[400px] flex flex-col px-6 pt-6 pb-2 gap-2 text-sm">
+      <div className="w-[400px] flex flex-col px-6 pt-6 pb-2 gap-2 title-small text-[#49454E]">
         최근 본
       </div>
       <div className="flex flex-col justify-center items-center min-h-[72px] border-b border-[#CBC4CF]">
@@ -15,7 +16,7 @@ const FavoriteList = () => {
         <div>관심 리스트</div>
       </div>
       {/* 관심그룹 1*/}
-      <div className="w-[400px] flex flex-col px-6 pt-6 pb-2 gap-2 text-sm">
+      <div className="w-[400px] flex flex-col px-6 pt-6 pb-2 gap-2 title-small text-[#49454E]">
         관심그룹 1
       </div>
       <div className="flex flex-col items-center justify-center min-h-[72px] border-b border-[#CBC4CF]">
@@ -25,7 +26,7 @@ const FavoriteList = () => {
       </div>
 
       {/* 관심그루 2*/}
-      <div className="w-[400px] flex flex-col px-6 pt-6 pb-2 gap-2 text-sm">
+      <div className="w-[400px] flex flex-col px-6 pt-6 pb-2 gap-2 title-small text-[#49454E]">
         관심그룹 2
       </div>
 

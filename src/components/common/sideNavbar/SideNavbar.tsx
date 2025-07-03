@@ -7,28 +7,19 @@ import NotificationPanel from "./NotificationPanel";
 import FavoritePanel from "./FavoritePanel";
 
 const SideNavbar = () => {
-  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-  const [isFavoriteOpen, setIsFavoriteOpen] = useState(false);
+  const [activePanel, setActivePanel] = useState<
+    "notification" | "favorite" | null
+  >(null);
 
-  const toggleNotification = () => {
-    if (isFavoriteOpen === true) {
-      setIsFavoriteOpen(false);
-    }
-    setIsNotificationOpen(!isNotificationOpen);
-  };
-
-  const toggleFavorite = () => {
-    if (isNotificationOpen === true) {
-      setIsNotificationOpen(false);
-    }
-    setIsFavoriteOpen(!isFavoriteOpen);
+  const togglePanel = (panel: "notification" | "favorite") => {
+    setActivePanel((prev) => (prev === panel ? null : panel));
   };
 
   return (
     <>
       <div
         className="fixed right-0 w-[97px] h-screen py-6 bg-[#FFF]
-    flex flex-col items-center gap-6 text-[#68548E] text-xs text-center not-italic border-l border-l-[#CBC4CF] box-border"
+    flex flex-col items-center gap-6 border-l border-l-[#CBC4CF] box-border"
       >
         {/* 메뉴 버튼 */}
         <div className="w-[56px] h-[56px] flex justify-center items-center py-1 gap-[10px]">
@@ -41,35 +32,44 @@ const SideNavbar = () => {
             {/* 알림 버튼 */}
 
             <button
-              onClick={toggleNotification}
+              onClick={() => togglePanel("notification")}
               className="flex flex-col justify-center items-center py-1.5 gap-1"
             >
               <div
-                className={`flex flex-col items-center justify-center w-[56px] h-[32px] py-1 gap-2.5 rounded-2xl hover:bg-[#E9DEF8]
-                  ${isNotificationOpen && "bg-[#E9DEF8]"}`}
+                className={`flex flex-col items-center justify-center w-[56px] h-[32px] py-1 gap-2.5 rounded-2xl
+                  ${
+                    activePanel === "notification"
+                      ? "bg-[#E9DEF8]"
+                      : "hover:bg-[#E9DEF8]"
+                  }
+                  `}
               >
                 <img
                   src={notificationIcon}
                   className="flex justify-center items-center py-1 gap-[10px]"
                 />
               </div>
-              <span>알림</span>
+              <p className="label-medium text-[#68548E]">알림</p>
             </button>
             {/* 관심 버튼 */}
             <button
-              onClick={toggleFavorite}
+              onClick={() => togglePanel("favorite")}
               className="flex flex-col justify-center items-center py-1.5 gap-1"
             >
               <div
                 className={`flex flex-col items-center justify-center w-[56px] h-[32px] py-1 gap-2.5 rounded-2xl hover:bg-[#E9DEF8]
-                ${isFavoriteOpen && "bg-[#E9DEF8]"}`}
+                  ${
+                    activePanel === "favorite"
+                      ? "bg-[#E9DEF8]"
+                      : "hover:bg-[#E9DEF8]"
+                  }`}
               >
                 <img
                   src={favoriteIcon}
                   className="flex justify-center items-center py-1 gap-[10px]"
                 />
               </div>
-              <span>관심</span>
+              <p className="label-medium text-[#68548E]">관심</p>
             </button>
           </div>
           {/* 다크/라이트모드 */}
@@ -80,8 +80,8 @@ const SideNavbar = () => {
           </div>
         </div>
       </div>
-      {isNotificationOpen && <NotificationPanel />}
-      {isFavoriteOpen && <FavoritePanel />}
+      {activePanel === "notification" && <NotificationPanel />}
+      {activePanel === "favorite" && <FavoritePanel />}
     </>
   );
 };
