@@ -1,7 +1,7 @@
 export const Footbar = () => {
   return (
     <footer className="w-full mt-[30px] pt-[24px] pb-[150px] flex flex-col justify-center items-center gap-[24px]">
-      {/* 상단 링크들 */}
+      {/* 상단 링크 */}
       <div className="flex flex-wrap justify-center items-center opacity-60">
         {[
           { label: "개인정보 처리방침", bold: true },
