@@ -1,10 +1,15 @@
 import { useState } from 'react';
-import { ChevronDown, CheckSquare, Square, Plus, Minus } from 'lucide-react';
+import { CheckSquare, Square, Plus, Minus } from 'lucide-react';
 import { locationData } from '../../../data/locationData';
+import SplitButton from '../../common/buttons/SplitButton';
+import CustomDropdown from '../../common/CustomDropdown';
 
 const Desired = () => {
   const [locations, setLocations] = useState([{ city: '', district: '' }]);
   const [parts, setParts] = useState<string[]>([]);
+  const [cityDropdownOpen, setCityDropdownOpen] = useState<Record<number, boolean>>({});
+  const [districtDropdownOpen, setDistrictDropdownOpen] = useState<Record<number, boolean>>({});
+
   const allCities = Object.keys(locationData);
 
   const handleAddLocation = () => {
@@ -20,12 +25,27 @@ const Desired = () => {
       newLocations[index].district = ''; // 시/도 변경 시 시/군/구 초기화
     }
     setLocations(newLocations);
+    if (field === 'city') {
+      setCityDropdownOpen((prev) => ({ ...prev, [index]: false }));
+    } else {
+      setDistrictDropdownOpen((prev) => ({ ...prev, [index]: false }));
+    }
   };
 
   const handlePartChange = (part: string) => {
     setParts((prevParts) =>
       prevParts.includes(part) ? prevParts.filter((p) => p !== part) : [...prevParts, part]
     );
+  };
+
+  const toggleCityDropdown = (index: number) => {
+    setCityDropdownOpen((prev) => ({ ...prev, [index]: !prev[index] }));
+    setDistrictDropdownOpen((prev) => ({ ...prev, [index]: false })); // 다른 드롭다운 닫기
+  };
+
+  const toggleDistrictDropdown = (index: number) => {
+    setDistrictDropdownOpen((prev) => ({ ...prev, [index]: !prev[index] }));
+    setCityDropdownOpen((prev) => ({ ...prev, [index]: false })); // 다른 드롭다운 닫기
   };
 
   return (
@@ -35,50 +55,47 @@ const Desired = () => {
         <hr className="my-4 border-[#EAE9EA]" />
       </div>
 
-      <div className="grid grid-cols-[240px_1fr] ">
+      <div className="grid grid-cols-[240px_auto] gap-8">
         <div>
           <h3 className="text-lg font-semibold">지역</h3>
           <p className="text-sm text-gray-500">선호 하는 지역을 선택해 주세요</p>
         </div>
-        <div className="space-y-4">
+        <div className="space-y-4 min-w-[550px]">
           <p className="text-sm font-semibold text-gray-600">지역선택 {locations.length} / 3</p>
           {locations.map((location, index) => (
-            <div key={index} className="flex items-center gap-2">
-              <div className="relative w-60">
-                <select
-                  className="w-full appearance-none text-center rounded-md border border-gray-300 bg-white px-4 py-3 pr-8 text-gray-500"
-                  value={location.city}
-                  onChange={(e) => handleLocationChange(index, 'city', e.target.value)}
-                >
-                  <option value="">시/도</option>
-                  {allCities.map((city) => (
-                    <option key={city} value={city}>
-                      {city}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500" />
+            <div key={index} className="flex items-center gap-4">
+              <div className="relative w-[280px]">
+                <SplitButton
+                  labelText={location.city || '시/도'}
+                  onClickLeading={() => toggleCityDropdown(index)}
+                  onClickTrailing={() => toggleCityDropdown(index)}
+                />
+                <CustomDropdown
+                  options={allCities}
+                  onSelect={(value) => handleLocationChange(index, 'city', value)}
+                  isOpen={cityDropdownOpen[index] || false}
+                  setIsOpen={(isOpen) => setCityDropdownOpen((prev) => ({ ...prev, [index]: isOpen }))}
+                  selectedValue={location.city}
+                />
               </div>
-              <div className="relative w-60">
-                <select
-                  className="w-full appearance-none rounded-md border text-center border-gray-300 bg-white px-4 py-3 pr-8 text-gray-500 disabled:bg-gray-100"
-                  value={location.district}
-                  onChange={(e) => handleLocationChange(index, 'district', e.target.value)}
+              <div className="relative w-[280px]">
+                <SplitButton
+                  labelText={location.district || '시/군/구'}
+                  onClickLeading={() => toggleDistrictDropdown(index)}
+                  onClickTrailing={() => toggleDistrictDropdown(index)}
                   disabled={!location.city}
-                >
-                  <option value="">시/군/구</option>
-                  {location.city &&
-                    locationData[location.city]?.map((district) => (
-                      <option key={district} value={district}>
-                        {district}
-                      </option>
-                    ))}
-                </select>
-                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500" />
+                />
+                <CustomDropdown
+                  options={location.city ? locationData[location.city] || [] : []}
+                  onSelect={(value) => handleLocationChange(index, 'district', value)}
+                  isOpen={districtDropdownOpen[index] || false}
+                  setIsOpen={(isOpen) => setDistrictDropdownOpen((prev) => ({ ...prev, [index]: isOpen }))}
+                  selectedValue={location.district}
+                />
               </div>
               {index === locations.length - 1 && locations.length < 3 ? (
                 <button
-                  className="flex w-24 items-center justify-center gap-1 rounded-md bg-[#68548E] py-3 text-white"
+                  className="flex w-32 items-center justify-center gap-1 rounded-md bg-[#68548E] py-3 text-white"
                   onClick={handleAddLocation}
                 >
                   <Plus size={16} />
@@ -87,7 +104,7 @@ const Desired = () => {
               ) : (
                 locations.length > 1 && (
                   <button
-                    className="flex w-24 items-center justify-center gap-1 rounded-md border border-gray-300 bg-white py-3 text-gray-500"
+                    className="flex w-32 items-center justify-center gap-1 rounded-md border border-gray-300 bg-white py-3 text-gray-500"
                     onClick={() => setLocations(locations.filter((_, i) => i !== index))}
                   >
                     <Minus size={16} />
