@@ -8,7 +8,7 @@ const MyProfileEdit = () => {
   return (
     <div className="flex-1 overflow-y-auto p-6 mx-[100px]">
       <div className="mb-4">
-        <h1 className="text-2xl font-bold">프로필 관리</h1>
+        <h1 className="text-2xl font-semibold">프로필 관리</h1>
         <p className="text-gray-500">지원 후 수정한 프로필 내용(회원정보 제외)은 지원한 프로필에 반영 되지 않아요!</p>
       </div>
       <hr className="mb-16 border-t border-[#CBC4CF]" />
@@ -32,7 +32,7 @@ const MyProfileEdit = () => {
         </div>
 
         <div className="rounded-lg bg-white p-8 shadow">
-          <h3 className="mb-5 text-2xl font-bold">기술과 디자인을 넘나들며 방향을 설계하는 실전형 디자이너</h3>
+          <h3 className="mb-5 text-2xl font-semibold">기술과 디자인을 넘나들며 방향을 설계하는 실전형 디자이너</h3>
           <hr className="mb-5 border-t border-[#CBC4CF]" />
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-2">

@@ -31,14 +31,14 @@ const Reception = () => {
     >
       {isReceivingOffers ? (
         <div>
-          <h2 className="text-xl font-bold">
+          <h2 className="text-xl font-semibold">
             현재 팀원 제안을 <span className="text-[#895EDB]">받는 중</span> 입니다.
           </h2>
           <p className="text-gray-500">프로필 등록을 통해 남들과 다른 차별성을 가져보세요!</p>
         </div>
       ) : (
         <div>
-          <h2 className="text-xl font-bold">현재 팀원 제안을 <span className="text-[#FF5449]">받지 않는 중</span> 입니다.</h2>
+          <h2 className="text-xl font-semibold">현재 팀원 제안을 <span className="text-[#FF5449]">받지 않는 중</span> 입니다.</h2>
           <p className="text-gray-500">팀원 제안을 받고, 프로젝트 경험을 통해 성장과 창업의 기회를 얻어보세요!</p>
         </div>
       )}
