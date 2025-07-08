@@ -13,8 +13,8 @@ const Strength = () => {
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-2xl font-bold">강점 • 자기소개서</h2>
-        <hr className="my-4" />
+        <h2 className="text-2xl font-semibold">강점 • 자기소개서</h2>
+        <hr className="my-4 border-[#EAE9EA]" />
       </div>
 
       <div className="grid grid-cols-[240px_1fr] gap-8">
