@@ -6,9 +6,10 @@ import "./App.css";
 //      논의 후 수정하는 방향으로 해봐요!
 
 import { Projects } from "./pages/Projects";
-import { Members } from "./pages/Members";
+import { Members } from "./pages/member/Members";
 import { LightTalk } from "./pages/LightTalk";
 import { MyProfile } from "./pages/MyProfile";
+import MemberDetail from "./pages/member/MemberProfile";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route path="/projects" element={<Projects />} />
           <Route path="/members" element={<Members />} />
+          <Route path="/members/:memberId" element={<MemberDetail />} />
           <Route path="/lighttalk" element={<LightTalk />} />
           <Route path="/myprofile" element={<MyProfile />} />
         </Route>
