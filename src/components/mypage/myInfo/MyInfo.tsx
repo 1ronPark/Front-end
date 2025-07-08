@@ -2,7 +2,7 @@ import { ChevronLeft, DoorOpen } from "lucide-react";
 import editIcon from "../../../assets/icons/mypage/ic_edit.svg";
 import sample from "../../../assets/icons/mypage/sample_profile.png";
 import { useState } from "react";
-import MyInfoEditModal from "./myInfoEditModal";
+import MyInfoEditModal from "./MyInfoEditModal";
 
 interface myProps {
   name: string;
