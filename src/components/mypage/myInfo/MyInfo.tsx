@@ -1,6 +1,8 @@
 import { ChevronLeft, DoorOpen } from "lucide-react";
 import editIcon from "../../../assets/icons/mypage/ic_edit.svg";
 import sample from "../../../assets/icons/mypage/sample_profile.png";
+import { useState } from "react";
+import MyInfoEditModal from "./myInfoEditModal";
 
 interface myProps {
   name: string;
@@ -13,6 +15,8 @@ interface myProps {
 }
 
 const MyInfo = (myProps: myProps) => {
+  const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
+
   return (
     <div className="w-[1280px] flex flex-col gap-[40px]">
       {/* 회원정보 */}
@@ -22,9 +26,12 @@ const MyInfo = (myProps: myProps) => {
           <p className="headline-small-emphasis">
             {myProps.name} 님의 회원정보
           </p>
-          <button className="flex flex-row justify-center px-1.5 py-3 gap-1 hover:cursor-pointer">
+          <button
+            className="flex flex-row justify-center px-1.5 py-3 gap-1 hover:cursor-pointer"
+            onClick={() => setEditModalOpen(true)}
+          >
             <img src={editIcon} />
-            <p className="label-large">수정하기</p>
+            <p className="label-large text-[#49454E]">수정하기</p>
           </button>
         </div>
         {/* 구분선 */}
@@ -103,6 +110,9 @@ const MyInfo = (myProps: myProps) => {
           </button>
         </div>
       </div>
+      {editModalOpen && (
+        <MyInfoEditModal onClose={() => setEditModalOpen(false)} />
+      )}
     </div>
   );
 };
