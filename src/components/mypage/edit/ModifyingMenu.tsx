@@ -1,4 +1,6 @@
-import { Folder, Check } from 'lucide-react';
+import { Check} from 'lucide-react';
+import Save from './Save'; // Save 컴포넌트 경로에 맞게 수정 필요
+
 
 const ModifyingMenu = () => {
   const lastModifiedDate = "2025. 07. 03"; // 실제 데이터로 교체 필요
@@ -12,12 +14,9 @@ const ModifyingMenu = () => {
   ];
 
   return (
-    <div className="flex flex-col gap-4 p-4 w-56">
-      <button className="flex items-center justify-center gap-2 rounded-lg bg-[#68548E] px-6 py-3 text-white">
-        <Folder size={20} />
-        <span>프로필 저장</span>
-      </button>
-      <div className="text-right text-sm text-gray-500">
+    <div className="flex flex-col gap-2 p-4 w-56">
+      <Save />
+      <div className="text-center text-sm text-gray-500">
         최종 수정일 : {lastModifiedDate}
       </div>
       <div className="rounded-lg border border-gray-200 p-4">
