@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { MapPin, Briefcase, Wrench, FilePenLine, Check } from 'lucide-react';
+import { useNavigate } from "react-router-dom";
+
 
 const ToggleSwitch = ({ isOn, onToggle }: { isOn: boolean; onToggle: () => void }) => (
   <div
@@ -20,6 +22,7 @@ const ToggleSwitch = ({ isOn, onToggle }: { isOn: boolean; onToggle: () => void 
 
 const MyProfileEdit = () => {
   const [isReceivingOffers, setIsReceivingOffers] = useState(true);
+  const navigate = useNavigate();
 
   return (
     <div className="flex-1 overflow-y-auto p-6 mx-[100px]">
@@ -53,9 +56,14 @@ const MyProfileEdit = () => {
           <div>
             <p className="text-sm text-gray-500">2025. 07. 03 최종 수정됨</p>
           </div>
-          <button className="flex items-center gap-1 text-gray-500">
+          <button
+            onClick={() => navigate("/myprofile/edit") && console.log("수정 모드 진입")}
+            
+            className="flex items-center gap-1 text-primary-600 font-medium text-sm hover:underline"
+            type="button"
+          >
             <FilePenLine size={15} />
-            <span className="text-sm hover:underline">수정하기</span>
+            수정하기
           </button>
         </div>
 
