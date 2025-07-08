@@ -11,7 +11,7 @@ export const FormEdit = () => {
   return (
     <div className="flex justify-center w-full">
       <div className="flex w-full max-w-[1024px] px-6 py-8">
-        <div className="flex-1 space-y-8">
+        <div className="flex-1 space-y-20">
           <Header />
           <Desired />
           <Strength />
