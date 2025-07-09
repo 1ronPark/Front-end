@@ -9,7 +9,7 @@ const MemberDetail = () => {
 
     return (
         <div className="bg-[#EDE6EE] min-h-screen py-[64px]">
-            <div className="mx-auto flex flex-col gap-[48px] w-auto px-10 md:px-20 lg:px-40">
+            <div className="mx-auto flex flex-col gap-20 w-auto px-10 md:px-20 lg:px-40">
                 <MemberProfileCard />
                 <MemberStrengths />
                 <MemberPortfolio />

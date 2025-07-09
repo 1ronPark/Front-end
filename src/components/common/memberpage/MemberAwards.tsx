@@ -13,7 +13,7 @@ const MemberAwards = () => {
     ];
     
     return (
-        <section>
+        <section className="mb-2">
             <p className="headline-small-emphasis mb-4">경력 및 수상 이력</p>
             <div className="bg-white rounded-[8px] border border-[#CBC4CF] p-16 w-full">
                 <div className="flex flex-col gap-[34px]">

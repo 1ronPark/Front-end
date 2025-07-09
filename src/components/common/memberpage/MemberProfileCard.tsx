@@ -62,7 +62,7 @@ const MemberProfileCard = () => (
     </div>
 
     {/* 하단 버튼 */}
-    <div className="flex gap-4 justify-center mt-4">
+    <div className="flex gap-4 justify-center mt-4 mb-4">
       <button
         className="w-[200px] h-[56px] flex items-center justify-center gap-2.5 rounded-[16px] bg-[#F8F1FA] shadow-[0px_2px_6px_2px_rgba(0,0,0,0.15),_0px_1px_2px_0px_rgba(0,0,0,0.3)]"
       >
