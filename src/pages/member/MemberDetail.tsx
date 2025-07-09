@@ -12,8 +12,8 @@ const MemberDetail = () => {
             <div className="mx-auto flex flex-col gap-[48px] w-auto px-10 md:px-20 lg:px-40">
                 <MemberProfileCard />
                 <MemberStrengths />
-                <MemberAwards />
                 <MemberPortfolio />
+                <MemberAwards />
             </div>
         </div>
     );
