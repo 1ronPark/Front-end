@@ -42,8 +42,8 @@ export const Footbar = ({ bgColor = "white" }: FootbarProps) => {
           경기도 안산시 상록구 한양대학로 55 (한양대학교 ERICA캠퍼스)
         </p>
         <p className="text-[#49454E] text-[12px] font-medium font-pretendard leading-[16px] text-center whitespace-nowrap">
-          라이텁에서 제공하는 종합 정보는 사용자의 창업 및 프로젝트 진행을 위한 단순 참고용일 뿐,
-          투자 제안 및 권유를 위해 작성된 것이 아닙니다.
+          라이텁에서 제공하는 종합 정보는 사용자의 창업 및 프로젝트 진행을 위한
+          단순 참고용일 뿐, 투자 제안 및 권유를 위해 작성된 것이 아닙니다.
         </p>
       </div>
     </footer>
