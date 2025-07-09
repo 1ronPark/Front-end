@@ -4,7 +4,7 @@ import sample from "../../../assets/icons/mypage/sample_profile.png";
 import { useState } from "react";
 import MyInfoEditModal from "./MyInfoEditModal";
 
-interface myProps {
+export interface myProps {
   name: string;
   nickname: string;
   phone: string;
@@ -18,11 +18,11 @@ const MyInfo = (myProps: myProps) => {
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
 
   return (
-    <div className="w-[1280px] flex flex-col gap-[40px]">
+    <div className="w-[1280px] flex flex-col items-start gap-[62px]">
       {/* 회원정보 */}
-      <div className="flex flex-col px-[160px] gap-6">
+      <div className="flex flex-col px-[160px] gap-4">
         {/* header */}
-        <div className="flex justify-between">
+        <div className="flex justify-between items-center w-[960px] h-[32px]">
           <p className="headline-small-emphasis">
             {myProps.name} 님의 회원정보
           </p>
@@ -82,7 +82,7 @@ const MyInfo = (myProps: myProps) => {
       </div>
       {/* 비밀번호 */}
       <div className="flex flex-col px-[160px] gap-6">
-        <div className="flex justify-between">
+        <div className="flex justify-between h-[32px] items-center">
           <p className="headline-small-emphasis">비밀번호</p>
         </div>
         {/* 구분선 */}
@@ -101,17 +101,20 @@ const MyInfo = (myProps: myProps) => {
         </div>
       </div>
       {/* 회원 탈퇴 */}
-      <div className="flex flex-col px-[160px] gap-6">
-        <div className="flex justify-between">
+      <div className="flex flex-col  px-[160px] gap-6">
+        <div className="flex justify-between w-[960px]">
           <p className="headline-small-emphasis">회원 탈퇴</p>
-          <button className="flex justify-center items-center px-3 py-1.5 gap-1 hover:cursor-pointer">
+          <button className="flex px-3 py-1.5 gap-1 hover:cursor-pointer">
             <DoorOpen className="w-[20px] h-[20px] text-[#49454E]" />
-            <p className="label-large">탈퇴 하기</p>
+            <p className="label-large text-[#49454E]">탈퇴 하기</p>
           </button>
         </div>
       </div>
       {editModalOpen && (
-        <MyInfoEditModal onClose={() => setEditModalOpen(false)} />
+        <MyInfoEditModal
+          onClose={() => setEditModalOpen(false)}
+          myInfo={myProps}
+        />
       )}
     </div>
   );
