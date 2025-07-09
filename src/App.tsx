@@ -15,10 +15,10 @@ import { FormEdit } from "./pages/FormEdit";
 {
   /* 로그인/회원가입 관련 컴포넌트들 */
 }
-import { LoginForm } from "./pages/Auth/loginForm";
+import { LoginForm } from "./pages/Auth/LoginForm";
 import { LoginPassword } from "./pages/Auth/LoginPassword";
-import { SignupForm } from "./pages/Auth/signupEmail";
-import { SignupPassword } from "./pages/Auth/signupPassword";
+import { SignupForm } from "./pages/Auth/SignupForm";
+import { SignupPassword } from "./pages/Auth/SignupPassword";
 import { PasswordReset } from "./pages/Auth/PasswordReset";
 // Add the correct import for SignupPage or use SignupEmail if that's intended
 
