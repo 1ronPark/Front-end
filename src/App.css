@@ -358,8 +358,8 @@
 
 /* --- 3. Pretendard Variable 폰트 등록 --- */
 @font-face {
-  font-family: 'Pretendard Variable';
-  src: url('./woff2/PretendardVariable.woff2') format('woff2-variations');
+  font-family: "Pretendard Variable";
+  src: url("./woff2/PretendardVariable.woff2") format("woff2-variations");
   /* Pretendard Variable 폰트가 지원하는 굵기 범위 */
   font-weight: 100 900;
   font-style: normal;
@@ -369,6 +369,6 @@
 @layer components {
   /* --- 4. Pretendard Variable 폰트 클래스 생성 --- */
   .font-pretendard {
-    font-family: 'Pretendard Variable', sans-serif;
+    font-family: "Pretendard Variable", sans-serif;
   }
 }

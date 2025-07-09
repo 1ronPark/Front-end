@@ -23,7 +23,7 @@ export const SearchInput = ({
       <img
         src={ic_search}
         alt="Search"
-        className="w-4.5 h-4.5 text-gray-400 text-[#49454E]"
+        className="w-4.5 h-4.5 text-[#49454E]"
       />
     </div>
   );
