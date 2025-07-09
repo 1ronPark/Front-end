@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "./components/layout/Layout";
+import { FormLayout } from "./components/layout/FormLayout";
 import "./App.css";
 
 // 주디: 최상단 Navbar 표시를 위해 임의로 경로를 설정하였습니다!
@@ -10,6 +11,7 @@ import { Members } from "./pages/member/Members";
 import { LightTalk } from "./pages/LightTalk";
 import { MyProfile } from "./pages/MyProfile";
 import MemberDetail from "./pages/member/MemberDetail";
+import { FormEdit } from "./pages/FormEdit";
 
 function App() {
   return (
@@ -21,6 +23,10 @@ function App() {
           <Route path="/members/:memberId" element={<MemberDetail />} />
           <Route path="/lighttalk" element={<LightTalk />} />
           <Route path="/myprofile" element={<MyProfile />} />
+        </Route>
+        
+        <Route path="/myprofile/edit" element={<FormLayout />}>
+          <Route index element={<FormEdit />} />
         </Route>
       </Routes>
     </BrowserRouter>
