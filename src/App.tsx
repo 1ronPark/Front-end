@@ -9,7 +9,7 @@ import { Projects } from "./pages/Projects";
 import { Members } from "./pages/member/Members";
 import { LightTalk } from "./pages/LightTalk";
 import { MyProfile } from "./pages/MyProfile";
-import MemberDetail from "./pages/member/MemberProfile";
+import MemberDetail from "./pages/member/MemberDetail";
 
 function App() {
   return (

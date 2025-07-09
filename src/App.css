@@ -232,7 +232,7 @@
     color: var(--L1-sys-light-on-surface, #1d1b20);
 
     /* L1/headline/medium-emphasized */
-    font-family: "Noto Sans KR";
+    font-family: "Noto Sans KR"; 
     font-size: var(--Static-Headline-Medium-Size, 28px);
     font-style: normal;
     font-weight: 500;

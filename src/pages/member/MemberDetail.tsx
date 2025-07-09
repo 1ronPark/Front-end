@@ -1,0 +1,22 @@
+import MemberProfileCard from '../../components/common/memberpage/MemberProfileCard';
+import MemberStrengths from '../../components/common/memberpage/MemberStrengths';
+import MemberAwards from '../../components/common/memberpage/MemberAwards';
+import MemberPortfolio from '../../components/common/memberpage/MemberPortfolio';
+
+const MemberDetail = () => {
+  // 추후 API 연결 시 useQuery 등으로 데이터 패칭
+  // const { data, isLoading } = useMemberDetailQuery(memberId);
+
+    return (
+        <div className="bg-[#EDE6EE] min-h-screen py-[64px]">
+            <div className="mx-auto flex flex-col gap-[48px] w-auto px-10 md:px-20 lg:px-40">
+                <MemberProfileCard />
+                <MemberStrengths />
+                <MemberAwards />
+                <MemberPortfolio />
+            </div>
+        </div>
+    );
+};
+
+export default MemberDetail;
