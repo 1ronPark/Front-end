@@ -15,7 +15,7 @@ export const MainNavbar = ({ isLoggedIn, userName }: MainNavbarProps) => {
     { label: "프로젝트", to: "/projects" },
     { label: "팀원 찾아보기", to: "/members" },
     { label: "라잇톡", to: "/lighttalk" },
-    { label: "내 프로필", to: "/myprofile" },
+    { label: "마이페이지", to: "/myprofile" },
   ];
   return (
     <div className="flex w-full bg-white px-8 py-4 justify-between items-center">
