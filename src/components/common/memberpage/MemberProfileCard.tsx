@@ -3,10 +3,9 @@ import { Heart } from 'lucide-react';
 
 const MemberProfileCard = () => (
     
-  <section className="">
-    
+  <section>
     <p className="label-large text-[#49454E] mb-4">마지막 업데이트 : 2025-07-01, 23:00:20</p>
-    <div className="bg-white rounded-xl shadow border border-[#E2D6EE] px-4 py-8 w-full">
+    <div className="bg-white rounded-[8px] border border-[#CBC4CF] px-4 py-8 w-full">
       {/* 상단: 마지막 업데이트, 제안 상태 */}
       
       <div className="flex justify-between items-center mb-4.5">
@@ -55,18 +54,12 @@ const MemberProfileCard = () => (
           </div>
         </div>
 
-
         {/* 오른쪽: 연락처 안내 */}
         <div className="flex items-center justify-center title-small bg-[#FFFBFF] w-[200px] h-[127px] text-center text-[#49454E] mt-[23px]">  
           <div>제안 수락 시,<br />연락처가 공개됩니다.</div>
         </div>
       </div>
     </div>
-    
-
-
-
-
 
     {/* 하단 버튼 */}
     <div className="flex gap-4 justify-center mt-4">

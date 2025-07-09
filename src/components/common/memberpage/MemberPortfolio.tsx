@@ -1,6 +1,8 @@
 const MemberPortfolio = () => (
-    <section className="bg-white rounded-xl p-6 shadow">
-        {/* 자기소개, 포트폴리오 */}
+    <section>
+        <div className="bg-white rounded-[8px] border border-[#CBC4CF] px-16 py-10 w-full">
+            
+        </div>
     </section>
 );
 

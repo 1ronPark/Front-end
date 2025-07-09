@@ -1,6 +1,8 @@
 const MemberAwards = () => (
-    <section className="bg-white rounded-xl p-6 shadow">
-        {/* 자기소개, 포트폴리오 */}
+    <section className="">
+        <div className="bg-white rounded-[8px] border border-[#CBC4CF] px-4 py-8 w-full">
+
+        </div>
     </section>
 );
 
