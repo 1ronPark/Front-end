@@ -2,7 +2,9 @@ import { ChevronLeft, DoorOpen } from "lucide-react";
 import editIcon from "../../../assets/icons/mypage/ic_edit.svg";
 import sample from "../../../assets/icons/mypage/sample_profile.png";
 import { useState } from "react";
-import MyInfoEditModal from "./MyInfoEditModal";
+import MyInfoEditModal from "../modal/MyInfoEditModal";
+import addPhotoIcon from "../../../assets/icons/mypage/ic_camera.svg";
+import AddPhotoModal from "../modal/AddPhotoModal";
 
 export interface myProps {
   name: string;
@@ -16,6 +18,7 @@ export interface myProps {
 
 const MyInfo = (myProps: myProps) => {
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
+  const [addPhotoModal, setIsAddPhotoModal] = useState<boolean>(false);
 
   return (
     <div className="w-[1280px] flex flex-col items-start gap-[62px]">
@@ -40,10 +43,21 @@ const MyInfo = (myProps: myProps) => {
         <div className="flex justify-between items-center ">
           {/* 내 사진 */}
           <div className="w-[241px] flex-col items-center justify-center px-8 ">
-            <img
-              className="flex w-[160px] h-[160px] justify-center items-center rounded-[240px] aspect-square"
-              src={sample}
-            />
+            <div className="relative w-[160px] h-[160px]">
+              <img
+                className="w-full h-full rounded-full object-cover"
+                src={sample}
+                alt="프로필 이미지"
+              />
+              {/* 프로필 사진 등록 버튼 */}
+              <button
+                type="button"
+                className="absolute bottom-0 right-0 w-[56px] h-[56px] rounded-full bg-[#E9DEF8] flex items-center justify-center hover:bg-[#D8CEF0] cursor-pointer"
+                onClick={() => setIsAddPhotoModal(true)}
+              >
+                <img src={addPhotoIcon} />
+              </button>
+            </div>
           </div>
           {/* 내 정보 목록 */}
           <div className="flex flex-col w-[695px] gap-4">
@@ -115,6 +129,10 @@ const MyInfo = (myProps: myProps) => {
           onClose={() => setEditModalOpen(false)}
           myInfo={myProps}
         />
+      )}
+
+      {addPhotoModal && (
+        <AddPhotoModal onClose={() => setIsAddPhotoModal(false)} />
       )}
     </div>
   );
