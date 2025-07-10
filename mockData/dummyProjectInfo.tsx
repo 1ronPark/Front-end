@@ -53,7 +53,7 @@ export const dummyProjectInfo: ProjectCardProps[] = [
   {
     id: 8,
     user: "한백엔드",
-    name: "NestJS 백엔드 개발자 긴급 모집",
+    name: "NestJS 백엔드 개발자 긴급 모집중입니다",
     date: "2025-06-30",
     location: "고려대학교",
   },
@@ -67,7 +67,7 @@ export const dummyProjectInfo: ProjectCardProps[] = [
   {
     id: 10,
     user: "노AI",
-    name: "GPT 기반 추천 시스템 프로젝트",
+    name: "GPT 기반 추천 시스템 프로젝트 참여자 모집",
     date: "2025-07-04",
     location: "서울과학기술대학교",
   },
@@ -88,14 +88,14 @@ export const dummyProjectInfo: ProjectCardProps[] = [
   {
     id: 13,
     user: "김분석가",
-    name: "데이터 기반 마케팅 분석 프로젝트",
+    name: "데이터 기반 마케팅 분석 프로젝트 팀원 모집",
     date: "2025-07-05",
     location: "숭실대학교",
   },
   {
     id: 14,
     user: "이QA",
-    name: "QA 자동화 도입을 위한 협업 인원",
+    name: "QA 자동화 도입을 위한 협업 인원 모집중",
     date: "2025-07-03",
     location: "세종대학교",
   },
@@ -109,7 +109,7 @@ export const dummyProjectInfo: ProjectCardProps[] = [
   {
     id: 16,
     user: "정PM",
-    name: "일정관리/운영 지원 PM 구합니다",
+    name: "일정관리/운영 지원 가능한 PM 구합니다",
     date: "2025-06-25",
     location: "건국대학교",
   },
