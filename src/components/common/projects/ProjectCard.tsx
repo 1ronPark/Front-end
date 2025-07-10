@@ -1,9 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { Eye, Heart, MessageSquare } from "lucide-react";
+import { Eye, Heart, MessageSquareText } from "lucide-react";
 import mediaImage from "../../../assets/icons/project/Media.png";
 import Avatar from "../../../assets/ic_myprofile.svg";
-//import { Eye } from "lucide-react";
-//import { Comment } from "lucide-react";
+import { getRelativeDate } from "../../../utils/date"; // 날짜를 상대적인 형식으로 표시하는 유틸리티 함수
 
 // types/project.ts
 export type ProjectCardProps = {
@@ -51,7 +50,7 @@ const ProjectCard = ({ id, user, name, date, location }: ProjectCardProps) => {
         <span className="text-sm body-medium text-gray-500">{location}</span>
       </div>
 
-<div className="flex items-center mt-4 justify-end gap-6">
+<div className="flex items-center mt-4 justify-end gap-4">{/*gap-6에서 수정*/}
   {/* 조회수 */}
   <div className="flex items-center gap-1">
     <Eye className="w-5 h-5 text-[#49454E]" />
@@ -60,12 +59,14 @@ const ProjectCard = ({ id, user, name, date, location }: ProjectCardProps) => {
 
   {/* 댓글 수 */}
   <div className="flex items-center gap-1">
-    <MessageSquare className="w-5 h-m text-[#49454E]" />
+    <MessageSquareText className="w-5 h-m text-[#49454E]" />
     <span className="text-xs label-medium text-[#49454E]">5</span>
   </div>
 
   {/* 날짜 */}
-  <span className="text-xs label-medium text-[#49454E]">{date}</span>
+  <span className="text-xs label-medium text-[#49454E]">
+  {getRelativeDate(date)}
+</span>
 </div>
     </div>
     </div>
