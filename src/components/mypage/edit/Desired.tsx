@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { CheckSquare, Square, Plus, Minus } from 'lucide-react';
 import { locationData } from '../../../data/locationData';
 import SplitButton from '../../common/buttons/SplitButton';
-import CustomDropdown from '../../common/CustomDropdown';
+import CustomDropdown from '../../common/dropdowns/CustomDropdown';
 
 const Desired = () => {
   const [locations, setLocations] = useState([{ city: '', district: '' }]);
@@ -91,6 +91,7 @@ const Desired = () => {
                   isOpen={districtDropdownOpen[index] || false}
                   setIsOpen={(isOpen) => setDistrictDropdownOpen((prev) => ({ ...prev, [index]: isOpen }))}
                   selectedValue={location.district}
+                  searchable={true}
                 />
               </div>
               {index === locations.length - 1 && locations.length < 3 ? (
