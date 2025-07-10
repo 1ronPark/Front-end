@@ -1,8 +1,12 @@
-import { Plus } from 'lucide-react';
-import PortfolioCard from './PortfolioCard';
-import githubIcon from '../../../assets/GitHub.svg';
+import { Plus } from "lucide-react";
+import PortfolioCard from "./PortfolioCard";
+import githubIcon from "../../../assets/GitHub.svg";
+import { useState } from "react";
+import PortfolioModal from "../modal/PortfolioModal";
 
 const Portfolio = () => {
+  const [portfolioModal, setPortfolioModal] = useState<boolean>(false);
+
   return (
     <div className="space-y-8">
       <div>
@@ -15,12 +19,18 @@ const Portfolio = () => {
 
         {/* 포트폴리오 추가 카드 */}
         <div className="flex h-63 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50">
-          <button className="flex flex-col items-center justify-center gap-2 text-gray-500">
+          <button
+            onClick={() => setPortfolioModal(true)}
+            className="flex w-full h-full flex-col items-center justify-center gap-2 text-gray-500 hover:cursor-pointer"
+          >
             <Plus size={48} />
-            
           </button>
         </div>
       </div>
+
+      {portfolioModal && (
+        <PortfolioModal onClose={() => setPortfolioModal(false)} />
+      )}
     </div>
   );
 };
