@@ -1,5 +1,5 @@
 import { X } from "lucide-react";
-import type { myProps } from "./MyInfo";
+import type { myProps } from "../myInfo/MyInfo";
 import { useState } from "react";
 
 interface EditModalProps {
@@ -24,7 +24,7 @@ const MyInfoEditModal = ({ onClose, myInfo }: EditModalProps) => {
 
       {/* 모달 박스 */}
       <div
-        className="relative z-10 w-[520px] max-h-[90vh] overflow-y-scroll overflow-x-hidden bg-[#FFF] rounded-xl py-8 flex flex-col gap-12"
+        className="relative z-10 w-[520px] max-h-[90vh] overflow-y-scroll overflow-x-hidden bg-[#FFF] rounded-xl py-8 flex flex-col gap-12 shadow-sm"
         onClick={(e) => e.stopPropagation()}
       >
         {/* 헤더 */}
@@ -32,7 +32,7 @@ const MyInfoEditModal = ({ onClose, myInfo }: EditModalProps) => {
           <p className="headline-small-emphasis text-[#1D1B20]">내 정보 수정</p>
           <button
             onClick={onClose}
-            className="w-[32px] h-[32px] aspect-square justify-center items-center"
+            className="w-[32px] h-[32px] aspect-square justify-center items-center hover:cursor-pointer"
           >
             <X className="w-[32px] h-[32px] aspect-square" />
           </button>
@@ -65,8 +65,10 @@ const MyInfoEditModal = ({ onClose, myInfo }: EditModalProps) => {
                 />
               </div>
               <button
-                onClick={onClose}
-                className="w-[123px] h-[56px] flex justify-center items-center rounded-xl bg-[#F2ECF4] hover:cursor-pointer"
+                onClick={onClose} //일단 임의로 누르면 창 닫게 설정
+                className="w-[123px] h-[56px] flex justify-center items-center rounded-xl 
+                bg-[#F2ECF4] hover:cursor-pointer 
+                title-medium text-[#49454E]"
               >
                 중복체크
               </button>
@@ -169,7 +171,7 @@ const MyInfoEditModal = ({ onClose, myInfo }: EditModalProps) => {
         {/* 저장 버튼 */}
         <div className="flex w-[520px] justify-end items-center px-8 gap-3">
           <button
-            onClick={onClose}
+            onClick={onClose} // 일단 임의로 누르면 모달 창 닫게 설정
             className="flex w-[123px] h-[56px] justify-center items-center rounded-xl bg-[#68548E] hover:cursor-pointer"
           >
             <p className="flex justify-center items-center px-6 py-4 gap-2 text-white">
