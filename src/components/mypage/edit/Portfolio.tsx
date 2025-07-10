@@ -15,10 +15,10 @@ const Portfolio = () => {
       </div>
 
       <div className="grid grid-cols-3 gap-4">
-        <PortfolioCard title="일론박님의 Github" imageUrl={githubIcon} />
+        <PortfolioCard title="홍길동님의 Github" imageUrl={githubIcon} />
 
         {/* 포트폴리오 추가 카드 */}
-        <div className="flex h-63 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50">
+        <div className="flex h-63 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 hover:scale-105">
           <button
             onClick={() => setPortfolioModal(true)}
             className="flex w-full h-full flex-col items-center justify-center gap-2 text-gray-500 hover:cursor-pointer"

@@ -5,7 +5,7 @@ interface PortfolioCardProps {
 
 const PortfolioCard = ({ title, imageUrl }: PortfolioCardProps) => {
   return (
-    <div className="rounded-lg border border-gray-300 bg-white shadow">
+    <div className="rounded-lg border border-gray-300 bg-white shadow hover:scale-105 hover:cursor-pointer">
       <div className="h-48 w-full rounded-t-lg bg-gray-200 overflow-hidden">
         <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
       </div>
