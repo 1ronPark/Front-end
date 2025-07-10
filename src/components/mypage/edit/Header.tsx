@@ -1,6 +1,18 @@
-import { FilePenLine, Camera } from 'lucide-react';
+import { useState } from 'react';
+import editIcon from '../../../assets/icons/mypage/ic_edit.svg';
+import type { MyInfoProps } from '../../../types/MyInfoProps';
+import MyInfoEditModal from "../modal/MyInfoEditModal";
+import AddPhotoModal from "../modal/AddPhotoModal";
+import sample from "../../../assets/icons/mypage/sample_profile.png";
+import addPhotoIcon from "../../../assets/icons/mypage/ic_camera.svg";
 
-const Header = () => {
+
+
+const Header = (myProps: MyInfoProps) => {
+
+const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
+const [addPhotoModal, setIsAddPhotoModal] = useState<boolean>(false);
+
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
@@ -10,18 +22,31 @@ const Header = () => {
       <div className="rounded-lg bg-white p-8 shadow shawdow-md">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-xl font-semibold">기술과 디자인을 넘나들며 방향을 설계하는 실전형 디자이너</h2>
-          <button className="flex items-center text-sm gap-1 text-gray-500 hover:underline">
-            <FilePenLine size={15} />
-            <span>수정하기</span>
+          <button
+            className="flex flex-row justify-center px-1.5 py-3 gap-1 hover:cursor-pointer"
+            onClick={() => setEditModalOpen(true)}
+          >
+            <img src={editIcon} />
+            <p className="label-large text-[#49454E]">수정하기</p>
           </button>
         </div>
         <hr className="my-4 border-[#EAE9EA]" />
         <div className="flex items-start gap-8">
           <div className="relative h-40 w-40 rounded-full bg-gray-200 flex items-center justify-center">
             {/* 프로필 이미지 영역 */}
-            <button className="absolute bottom-2 right-2 rounded-full bg-[#E9DEF8] p-2 text-black">
-              <Camera size={20} />
-            </button>
+            <img
+                className="w-full h-full rounded-full object-cover"
+                src={sample}
+                alt="프로필 이미지"
+              />
+              {/* 프로필 사진 등록 버튼 */}
+              <button
+                type="button"
+                className="absolute bottom-0 right-0 w-[56px] h-[56px] rounded-full bg-[#E9DEF8] flex items-center justify-center hover:bg-[#D8CEF0] cursor-pointer"
+                onClick={() => setIsAddPhotoModal(true)}
+              >
+                <img src={addPhotoIcon} />
+              </button>
           </div>
           <div className="flex-1 mt-3 space-y-8">
             <div className="flex items-center gap-4 ">
@@ -55,8 +80,19 @@ const Header = () => {
           </div>
         </div>
       </div>
+      {editModalOpen && (
+        <MyInfoEditModal
+          onClose={() => setEditModalOpen(false)}
+          myInfo={myProps}
+        />
+      )}
+
+      {addPhotoModal && (
+        <AddPhotoModal onClose={() => setIsAddPhotoModal(false)} />
+      )}
     </div>
   );
 };
+
 
 export default Header;

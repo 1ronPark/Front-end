@@ -1,11 +1,11 @@
 import { X } from "lucide-react";
-import type { myProps } from "../myInfo/MyInfo";
 import { useState } from "react";
+import type { MyInfoProps } from '../../../types/MyInfoProps';
 
 interface EditModalProps {
   onClose: () => void;
   //내 정보 전달 Props
-  myInfo: myProps;
+  myInfo: MyInfoProps;
 }
 
 const MyInfoEditModal = ({ onClose, myInfo }: EditModalProps) => {
