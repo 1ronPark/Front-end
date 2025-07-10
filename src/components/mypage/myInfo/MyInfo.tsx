@@ -2,9 +2,9 @@ import { ChevronLeft, DoorOpen } from "lucide-react";
 import editIcon from "../../../assets/icons/mypage/ic_edit.svg";
 import sample from "../../../assets/icons/mypage/sample_profile.png";
 import { useState } from "react";
-import MyInfoEditModal from "./MyInfoEditModal";
+import MyInfoEditModal from "../modal/MyInfoEditModal";
 import addPhotoIcon from "../../../assets/icons/mypage/ic_camera.svg";
-import AddPhotoModal from "./AddPhotoModal";
+import AddPhotoModal from "../modal/AddPhotoModal";
 
 export interface myProps {
   name: string;
@@ -52,7 +52,7 @@ const MyInfo = (myProps: myProps) => {
               {/* 프로필 사진 등록 버튼 */}
               <button
                 type="button"
-                className="absolute bottom-0 right-0 w-[56px] h-[56px] rounded-full bg-[#E9DEF8] flex items-center justify-center hover:bg-[#D8CEF0]"
+                className="absolute bottom-0 right-0 w-[56px] h-[56px] rounded-full bg-[#E9DEF8] flex items-center justify-center hover:bg-[#D8CEF0] cursor-pointer"
                 onClick={() => setIsAddPhotoModal(true)}
               >
                 <img src={addPhotoIcon} />

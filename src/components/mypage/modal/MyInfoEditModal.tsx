@@ -1,5 +1,5 @@
 import { X } from "lucide-react";
-import type { myProps } from "./MyInfo";
+import type { myProps } from "../myInfo/MyInfo";
 import { useState } from "react";
 
 interface EditModalProps {
@@ -24,7 +24,7 @@ const MyInfoEditModal = ({ onClose, myInfo }: EditModalProps) => {
 
       {/* 모달 박스 */}
       <div
-        className="relative z-10 w-[520px] max-h-[90vh] overflow-y-scroll overflow-x-hidden bg-[#FFF] rounded-xl py-8 flex flex-col gap-12"
+        className="relative z-10 w-[520px] max-h-[90vh] overflow-y-scroll overflow-x-hidden bg-[#FFF] rounded-xl py-8 flex flex-col gap-12 shadow-sm"
         onClick={(e) => e.stopPropagation()}
       >
         {/* 헤더 */}
