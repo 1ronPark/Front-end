@@ -10,6 +10,7 @@ import { Projects } from "./pages/Projects";
 import { Members } from "./pages/member/Members";
 import { LightTalk } from "./pages/LightTalk";
 import { MyProfile } from "./pages/MyProfile";
+import MemberDetail from "./pages/member/MemberDetail";
 import { FormEdit } from "./pages/FormEdit";
 
 function App() {
@@ -19,10 +20,11 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route path="/projects" element={<Projects />} />
           <Route path="/members" element={<Members />} />
+          <Route path="/members/:memberId" element={<MemberDetail />} />
           <Route path="/lighttalk" element={<LightTalk />} />
           <Route path="/myprofile" element={<MyProfile />} />
         </Route>
-
+        
         <Route path="/myprofile/edit" element={<FormLayout />}>
           <Route index element={<FormEdit />} />
         </Route>

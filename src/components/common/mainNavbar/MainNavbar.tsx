@@ -7,9 +7,10 @@ import { SearchInput } from "./SearchInput";
 type MainNavbarProps = {
   isLoggedIn: boolean;
   userName: string;
+  bgColor?: string;
 };
 
-export const MainNavbar = ({ isLoggedIn, userName }: MainNavbarProps) => {
+export const MainNavbar = ({ isLoggedIn, userName, bgColor = "white" }: MainNavbarProps) => {
   const MainNavItems = [
     // 임시 루트
     { label: "프로젝트", to: "/projects" },
@@ -18,7 +19,7 @@ export const MainNavbar = ({ isLoggedIn, userName }: MainNavbarProps) => {
     { label: "마이페이지", to: "/myprofile" },
   ];
   return (
-    <div className="flex w-full bg-white px-8 py-4 justify-between items-center">
+    <div className={`flex w-full bg-[${bgColor}] px-8 py-4 justify-between items-center`}>
       {/* 로고 + 메뉴 + 검색창 */}
       <div className="flex items-center gap-10">
         <img

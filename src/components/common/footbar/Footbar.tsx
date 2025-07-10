@@ -1,6 +1,10 @@
-export const Footbar = () => {
+type FootbarProps = {
+  bgColor?: string;
+};
+
+export const Footbar = ({ bgColor = "white" }: FootbarProps) => {
   return (
-    <footer className="w-full h-[125px] py-6 flex flex-col justify-end items-center gap-[24px]">
+    <footer className={`w-full bg-[${bgColor}] pt-[24px] pb-[150px] flex flex-col justify-center items-center gap-[24px]`}>
       {/* 상단 링크 */}
       <div className="flex flex-wrap justify-center items-center opacity-60">
         {[
