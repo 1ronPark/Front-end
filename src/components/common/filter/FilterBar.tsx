@@ -59,10 +59,10 @@ const FilterBar: React.FC = () => {
 
   return (
     <div className="flex flex-col justify-center h-[72px] bg-white rounded-full ml-33">
-      <div className="flex flex-col gap-1 px-4">
+      <div className="flex flex-col gap-1">
         <h2 className="text-sm font-semibold text-gray-800">어떤 파트에 관심이 있으신가요?</h2>
       </div>
-      <div className="flex items-center self-stretch gap-10 px-4">
+      <div className="flex items-center self-stretch gap-10">
         <div className="flex flex-wrap items-center gap-2 py-2">
           {chips.map((chip) => (
             <button
