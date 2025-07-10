@@ -7,7 +7,7 @@ export const Members = () => {
             <div className="w-full mt-[64px]">
                 <FilterBar />
 
-                <div className="max-w-[1440px] mx-[132px]">
+                <div className="max-w-[1440px] mx-[132px] mb-[27px]">
                     <MemberList />
                 </div>
                 
