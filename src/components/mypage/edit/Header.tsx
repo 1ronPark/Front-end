@@ -21,7 +21,7 @@ const [addPhotoModal, setIsAddPhotoModal] = useState<boolean>(false);
 
       <div className="rounded-lg bg-white p-8 shadow shawdow-md">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-xl font-semibold">기술과 디자인을 넘나들며 방향을 설계하는 실전형 디자이너</h2>
+          <h2 className="text-xl font-semibold">{myProps.intro}</h2>
           <button
             className="flex flex-row justify-center px-1.5 py-3 gap-1 hover:cursor-pointer"
             onClick={() => setEditModalOpen(true)}
@@ -50,30 +50,30 @@ const [addPhotoModal, setIsAddPhotoModal] = useState<boolean>(false);
           </div>
           <div className="flex-1 mt-3 space-y-8">
             <div className="flex items-center gap-4 ">
-              <span className="text-xl">강혜준</span>
-              <span className="text-gray-600">23세</span>
-              <span className="text-gray-600">남</span>
-              <span className="text-gray-600">ISFJ</span>
+              <span className="text-xl">{myProps.name}</span>
+              <span className="text-gray-600">{myProps.nickname}</span>
+              <span className="text-gray-600">{myProps.sex}</span>
+              <span className="text-gray-600">{myProps.mbti}</span>
             </div>
             <div className="space-y-6 text-sm text-gray-800">
               <div className="flex gap-6">
                 <div className="flex gap-8 flex-[2]">
                   <p className="text-gray-500 shrink-0">대학교</p>
-                  <p>가천대학교 글로벌 캠퍼스</p>
+                  <p>{myProps.univ}</p>
                 </div>
                 <div className="flex gap-8 flex-[2]">
                   <p className="text-gray-500 shrink-0">이메일</p>
-                  <p>harrysjun@gachon.ac.kr</p>
+                  <p>{myProps.email}</p>
                 </div>
               </div>
               <div className="flex gap-6">
                 <div className="flex gap-8 flex-[2]">
                   <p className="text-gray-500 shrink-0">블로그</p>
-                  <p>깃허브 링크 임베드,<br/>블로그 링크 임베드 최대 2개</p>
+                  <p>{myProps.blog}</p>
                 </div>
                 <div className="flex gap-8 flex-[2]">
                   <p className="text-gray-500 shrink-0">휴대폰</p>
-                  <p>010 - 4076 - 6631</p>
+                  <p>{myProps.phone}</p>
                 </div>
               </div>
             </div>
