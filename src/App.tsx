@@ -6,7 +6,8 @@ import "./App.css";
 // 주디: 최상단 Navbar 표시를 위해 임의로 경로를 설정하였습니다!
 //      논의 후 수정하는 방향으로 해봐요!
 
-import { Projects } from "./pages/Projects";
+import { Projects } from "./pages/project/Projects";
+import { ProjectDetail } from "./pages/project/ProjectDetails";
 import { Members } from "./pages/member/Members";
 import { LightTalk } from "./pages/LightTalk";
 import { MyProfile } from "./pages/MyProfile";
@@ -36,6 +37,8 @@ function App() {
         {/* 임시로 로그인/회원가입 페이지를 최상단에 배치 */}
         <Route path="/" element={<Layout />}>
           <Route path="/projects" element={<Projects />} />
+          <Route path="/projects/:projectId" element={<ProjectDetail />} />
+          {/* 회원 관련 경로 설정 */}
           <Route path="/members" element={<Members />} />
           <Route path="/members/:memberId" element={<MemberDetail />} />
           <Route path="/lighttalk" element={<LightTalk />} />
