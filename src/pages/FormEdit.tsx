@@ -8,8 +8,21 @@ import Reception from '../components/mypage/edit/Reception';
 import History from '../components/mypage/edit/History';
 import Save from '../components/mypage/edit/Save';
 
+const MOCK_USER_DATA = {
+  name: '홍길동',
+  nickname: '홍',
+  age: 23,
+  sex: '남',
+  phone: '010-1234-5678',
+  email: 'hong@hong.ac.kr',
+  univ: '길동대학교',
+  mbti: 'INTJ',
+  intro: '기술과 디자인을 넘나들며 방향을 설계하는 실전형 디자이너',
+  blog: 'https://velog.io/@honggildong',
+};
+
 const SECTIONS = [
-  { id: 'basic-info', component: <Header /> },
+  { id: 'basic-info', component: <Header {...MOCK_USER_DATA} /> },
   { id: 'desired-conditions', component: <Desired /> },
   { id: 'strengths', component: <Strength /> },
   { id: 'portfolio', component: <Portfolio /> },

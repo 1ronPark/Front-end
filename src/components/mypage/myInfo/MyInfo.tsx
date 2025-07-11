@@ -5,18 +5,9 @@ import { useState } from "react";
 import MyInfoEditModal from "../modal/MyInfoEditModal";
 import addPhotoIcon from "../../../assets/icons/mypage/ic_camera.svg";
 import AddPhotoModal from "../modal/AddPhotoModal";
+import type { MyInfoProps } from '../../../types/MyInfoProps';
 
-export interface myProps {
-  name: string;
-  nickname: string;
-  phone: string;
-  email: string;
-  univ: string;
-  mbti: string;
-  intro: string;
-}
-
-const MyInfo = (myProps: myProps) => {
+const MyInfo = (myProps: MyInfoProps) => {
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [addPhotoModal, setIsAddPhotoModal] = useState<boolean>(false);
 

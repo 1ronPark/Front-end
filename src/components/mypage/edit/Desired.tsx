@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { CheckSquare, Square, Plus, Minus } from 'lucide-react';
 import { locationData } from '../../../data/locationData';
 import SplitButton from '../../common/buttons/SplitButton';
-import CustomDropdown from '../../common/CustomDropdown';
+import CustomDropdown from '../../common/dropdowns/CustomDropdown';
 
 const Desired = () => {
   const [locations, setLocations] = useState([{ city: '', district: '' }]);
@@ -91,11 +91,12 @@ const Desired = () => {
                   isOpen={districtDropdownOpen[index] || false}
                   setIsOpen={(isOpen) => setDistrictDropdownOpen((prev) => ({ ...prev, [index]: isOpen }))}
                   selectedValue={location.district}
+                  searchable={true}
                 />
               </div>
               {index === locations.length - 1 && locations.length < 3 ? (
                 <button
-                  className="flex w-32 items-center justify-center gap-1 rounded-md bg-[#68548E] py-3 text-white"
+                  className="flex w-32 cursor-pointer items-center justify-center gap-1 rounded-md bg-[#68548E] py-3 text-white transition-all hover:scale-105 hover:bg-[#59407e]"
                   onClick={handleAddLocation}
                 >
                   <Plus size={16} />
@@ -104,7 +105,7 @@ const Desired = () => {
               ) : (
                 locations.length > 1 && (
                   <button
-                    className="flex w-32 items-center justify-center gap-1 rounded-md border border-gray-300 bg-white py-3 text-gray-500"
+                    className="flex w-32 cursor-pointer items-center justify-center gap-1 rounded-md border border-gray-300 bg-white py-3 text-gray-500 transition-all hover:scale-105 hover:bg-gray-100"
                     onClick={() => setLocations(locations.filter((_, i) => i !== index))}
                   >
                     <Minus size={16} />
@@ -127,7 +128,7 @@ const Desired = () => {
         <div className="grid grid-cols-5 gap-8 text-sm">
           {[ '프론트엔드', '백엔드', '디자인', '기획', '홍보'].map((part) => (
             <div key={part} className="flex items-center gap-2">
-              <button onClick={() => handlePartChange(part)} className="flex items-center gap-2 text-gray-500">
+              <button onClick={() => handlePartChange(part)} className="flex cursor-pointer items-center gap-2 text-gray-500 transition-all hover:scale-105">
                 {parts.includes(part) ? <CheckSquare /> : <Square />}
                 <span className="whitespace-nowrap">{part}</span>
               </button>
