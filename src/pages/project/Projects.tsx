@@ -1,5 +1,5 @@
-import FilterBar from '../components/common/filter/FilterBar';
-import ProjectList from '../components/common/projects/ProjectList';
+import FilterBar from '../../components/common/filter/FilterBar';
+import ProjectList from '../../components/common/projects/ProjectList';
 
 export const Projects = () => {
     return (

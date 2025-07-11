@@ -1,4 +1,4 @@
-import lightupProject from "/assets/icons/projectDetail/lightupProject.png";
+import lightupProject from "../../../assets/icons/projectDetail/lightupProject.png";
 
 const ProjectOverview = () => (
     <div>

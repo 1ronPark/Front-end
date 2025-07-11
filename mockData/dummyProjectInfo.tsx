@@ -1,18 +1,18 @@
-import type { ProjectCardProps } from "../src/components/common/projects/ProjectCard";
+import type { ProjectData } from "../src/types/ProjectCardProps";
 
-export const dummyProjectInfo: ProjectCardProps[] = [
+export const dummyProjectInfo: ProjectData[] = [
   {
     id: 1,
-    user: "김스타",
-    name: "소셜 네트워크 플랫폼 프론트엔드 모집",
-    date: "2025-07-09",
-    location: "서울대학교",
+    user: "박종인",
+    name: "대학생들을 위한 프로젝트 연계형 창업 도모 서비스, 각 파트별 팀원 모집 중",
+    date: "2025-07-11",
+    location: "한양대학교 ERICA",
   },
   {
     id: 2,
     user: "이코딩",
     name: "스타트업 MVP 팀원 백엔드 개발자 모집",
-    date: "2025-07-07",
+    date: "2025-07-13",
     location: "한양대학교 ERICA",
   },
   {

@@ -3,17 +3,9 @@ import { Eye, Heart, MessageSquareText } from "lucide-react";
 import mediaImage from "../../../assets/icons/project/Media.png";
 import Avatar from "../../../assets/ic_myprofile.svg";
 import { getRelativeDate } from "../../../utils/date"; // 날짜를 상대적인 형식으로 표시하는 유틸리티 함수
+import type { ProjectData } from "../../../types/ProjectCardProps";
 
-// types/project.ts
-export type ProjectCardProps = {
-  id: number;
-  user: string;
-  name: string;
-  date: string;
-  location: string;
-};
-
-const ProjectCard = ({ id, user, name, date, location }: ProjectCardProps) => {
+const ProjectCard = ({ id, user, name, date, location }: ProjectData) => {
   const navigate = useNavigate();
 
   return (
