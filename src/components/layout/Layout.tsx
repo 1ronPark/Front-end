@@ -6,11 +6,15 @@ import { Footbar } from "../common/footbar/Footbar";
 export const Layout = () => {
   const location = useLocation();
   const isMemberDetailPage = location.pathname.includes("/members/");
-  
+
   return (
     <div className="relative flex min-h-screen w-full bg-white">
       <div className="flex flex-1 flex-col pr-[60px]">
-        <MainNavbar isLoggedIn={false} userName="홍길동" bgColor={isMemberDetailPage ? "#EDE6EE" : "white"} />
+        <MainNavbar
+          isLoggedIn={false}
+          userName="홍길동"
+          bgColor={isMemberDetailPage ? "#EDE6EE" : "white"}
+        />
         <main className="flex-1">
           <Outlet />
         </main>

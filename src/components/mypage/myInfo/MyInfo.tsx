@@ -5,18 +5,18 @@ import { useState } from "react";
 import MyInfoEditModal from "../modal/MyInfoEditModal";
 import addPhotoIcon from "../../../assets/icons/mypage/ic_camera.svg";
 import AddPhotoModal from "../modal/AddPhotoModal";
-import type { MyInfoProps } from '../../../types/MyInfoProps';
+import type { MyInfoProps } from "../../../types/MyInfoProps";
 
 const MyInfo = (myProps: MyInfoProps) => {
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [addPhotoModal, setIsAddPhotoModal] = useState<boolean>(false);
 
   return (
-    <div className="w-[1280px] flex flex-col items-start gap-[62px]">
+    <div className="flex flex-col p-6 mx-[100px] gap-12">
       {/* 회원정보 */}
-      <div className="flex flex-col px-[160px] gap-4">
+      <div className="flex flex-col gap-4">
         {/* header */}
-        <div className="flex justify-between items-center w-[960px] h-[32px]">
+        <div className="flex justify-between items-center">
           <p className="headline-small-emphasis">
             {myProps.name} 님의 회원정보
           </p>
@@ -29,29 +29,33 @@ const MyInfo = (myProps: MyInfoProps) => {
           </button>
         </div>
         {/* 구분선 */}
-        <div className="w-full h-px bg-[#CBC4CF]" />
+        <div className=" h-px bg-[#CBC4CF]" />
+
         {/* 내 정보 section */}
         <div className="flex justify-between items-center ">
           {/* 내 사진 */}
-          <div className="w-[241px] flex-col items-center justify-center px-8 ">
+          <div className="flex-col items-center justify-center px-8 mr-8">
             <div className="relative w-[160px] h-[160px]">
               <img
-                className="w-full h-full rounded-full object-cover"
+                className="rounded-full object-cover"
                 src={sample}
                 alt="프로필 이미지"
               />
               {/* 프로필 사진 등록 버튼 */}
               <button
                 type="button"
-                className="absolute bottom-0 right-0 w-[56px] h-[56px] rounded-full bg-[#E9DEF8] flex items-center justify-center hover:bg-[#D8CEF0] cursor-pointer"
+                className="absolute bottom-0 right-0 w-[56px] h-[56px] rounded-full bg-[#E9DEF8] 
+                flex items-center justify-center hover:bg-[#D8CEF0] cursor-pointer"
                 onClick={() => setIsAddPhotoModal(true)}
               >
                 <img src={addPhotoIcon} />
               </button>
             </div>
           </div>
+
           {/* 내 정보 목록 */}
-          <div className="flex flex-col w-[695px] gap-4">
+          <div className="flex flex-col justify-between gap-4 w-full">
+            {/* 각 정보들 나열 */}
             <div className="flex justify-between">
               <p className="label-large text-[#49454E]">이름</p>
               <p className="text-right label-large-emphasis">{myProps.name}</p>
@@ -86,14 +90,14 @@ const MyInfo = (myProps: MyInfoProps) => {
         </div>
       </div>
       {/* 비밀번호 */}
-      <div className="flex flex-col px-[160px] gap-6">
+      <div className="flex flex-col gap-6">
         <div className="flex justify-between h-[32px] items-center">
           <p className="headline-small-emphasis">비밀번호</p>
         </div>
         {/* 구분선 */}
-        <div className="w-full h-px bg-[#CBC4CF]" />
+        <div className="h-px bg-[#CBC4CF]" />
         {/* content */}
-        <div className="flex w-[960px] justify-between">
+        <div className="flex justify-between">
           <p className="label-large text-[#49454E]">
             카카오톡 로그인 사용 중 입니다.
             <br />
@@ -106,8 +110,8 @@ const MyInfo = (myProps: MyInfoProps) => {
         </div>
       </div>
       {/* 회원 탈퇴 */}
-      <div className="flex flex-col  px-[160px] gap-6">
-        <div className="flex justify-between w-[960px]">
+      <div className="flex flex-col gap-6">
+        <div className="flex justify-between ">
           <p className="headline-small-emphasis">회원 탈퇴</p>
           <button className="flex px-3 py-1.5 gap-1 hover:cursor-pointer">
             <DoorOpen className="w-[20px] h-[20px] text-[#49454E]" />
