@@ -5,7 +5,7 @@ import { useState } from "react";
 import MyInfoEditModal from "../modal/MyInfoEditModal";
 import addPhotoIcon from "../../../assets/icons/mypage/ic_camera.svg";
 import AddPhotoModal from "../modal/AddPhotoModal";
-import type { MyInfoProps } from '../../../types/MyInfoProps';
+import type { MyInfoProps } from "../../../types/MyInfoProps";
 
 const MyInfo = (myProps: MyInfoProps) => {
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
@@ -14,7 +14,7 @@ const MyInfo = (myProps: MyInfoProps) => {
   return (
     <div className="w-[1280px] flex flex-col items-start gap-[62px]">
       {/* 회원정보 */}
-      <div className="flex flex-col px-[160px] gap-4">
+      <div className="flex flex-col px-[160px] gap-4 py-6">
         {/* header */}
         <div className="flex justify-between items-center w-[960px] h-[32px]">
           <p className="headline-small-emphasis">
