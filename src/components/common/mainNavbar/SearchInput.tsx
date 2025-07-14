@@ -1,5 +1,3 @@
-import ic_search from "../../../assets/ic_search.svg";
-
 type SearchInputProps = {
   placeholder?: string;
   disabled?: boolean;
@@ -20,11 +18,7 @@ export const SearchInput = ({
         onChange={onChange}
         className="flex-1 bg-transparent outline-none body-large placeholder:opacity-60"
       />
-      <img
-        src={ic_search}
-        alt="Search"
-        className="w-4.5 h-4.5 text-[#49454E]"
-      />
+      
     </div>
   );
 };
