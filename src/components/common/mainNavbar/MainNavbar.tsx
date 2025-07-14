@@ -64,7 +64,7 @@ export const MainNavbar = ({ isLoggedIn, userName, bgColor = "white" }: MainNavb
         <img
           src={ic_search}
           alt="Search"
-          className="w-4.5 h-4.5 text-[#47464F] mr-[23px]"
+          className="w-4.5 h-4.5 text-[#47464F] mr-[23px] cursor-pointer"
           onClick={()=>setIsSearchModalOpen(true)}
         />
         <NavLink
