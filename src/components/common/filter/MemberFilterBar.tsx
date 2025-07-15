@@ -9,7 +9,7 @@ import LocationBox from './dropdowns/LocationBox';
 const MemberFilterBar: React.FC = () => {
   const [selectedChips, setSelectedChips] = useState<string[]>([]);
   const [selectedSort, setSelectedSort] = useState<string>('정렬순');
-  const [selectedMbti, setSelectedMbti] = useState<string>('MBTI');
+  const [selectedMbti, setSelectedMbti] = useState<string[]> ([]);
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
   const [openDropdown, setOpenDropdown] = useState<Record<string, boolean>>({
     정렬순: false,
@@ -45,9 +45,8 @@ const MemberFilterBar: React.FC = () => {
     handleDropdownClick('정렬순');
   };
 
-  const handleMbtiSelect = (mbtiOption: string) => {
-    setSelectedMbti(mbtiOption);
-    handleDropdownClick('MBTI');
+  const handleMbtiSelect = (mbtiList: string[]) => {
+    setSelectedMbti(mbtiList);
   };
 
   const handleLocationToggle = (locationOption: string) => {
@@ -84,7 +83,7 @@ const MemberFilterBar: React.FC = () => {
                     : 'bg-white text-gray-700 border border-gray-300'
                 }`}
               >
-                {selectedChips.includes(chip) && <img src={PinIcon} alt="check" className="w-4 h-4 mr-2" />}
+                {selectedChips.includes(chip) && <img src={PinIcon} alt="pin" className="w-4 h-4 mr-2" />}
                  {chip}
               </button>
             ))}
@@ -94,7 +93,7 @@ const MemberFilterBar: React.FC = () => {
           {/*정렬순 dropdown*/}
           <div className="relative flex">
             <button
-              className={`flex items-center px-4 py-2 text-sm font-medium border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none`}
+              className={`flex items-center px-4 py-2 text-sm font-semimedium border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none`}
               onClick={() => handleDropdownClick('정렬순')}
             >
               {selectedSort}
@@ -115,10 +114,10 @@ const MemberFilterBar: React.FC = () => {
           {/*MBTI dropdown*/}
           <div className="relative flex">
             <button
-              className={`flex items-center px-4 py-2 text-sm font-medium border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none`}
+              className={`flex items-center px-4 py-2 text-sm font-semimedium border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none`}
               onClick={() => handleDropdownClick('MBTI')}
             >
-              {selectedMbti}
+              {selectedMbti.length === 0 ? 'MBTI' : selectedMbti.join(', ')}
               <img
                 src={openDropdown['MBTI'] ? KeyboardArrowUpIcon : KeyboardArrowDownIcon}
                 alt="arrow icon"
@@ -128,7 +127,7 @@ const MemberFilterBar: React.FC = () => {
             {openDropdown['MBTI'] && (
               <div className="absolute top-full mt-2 z-20">
                 <div className="rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                  <MbtiBox onSelect={handleMbtiSelect} />
+                  <MbtiBox selectedMbtis={selectedMbti} onSelect={handleMbtiSelect} />
                 </div>
               </div>
             )}
@@ -136,7 +135,7 @@ const MemberFilterBar: React.FC = () => {
           {/*위치 dropdown*/}
           <div className="relative flex">
             <button
-              className={`flex items-center px-4 py-2 text-sm font-medium border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none`}
+              className={`flex items-center px-4 py-2 text-sm font-semimedium border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none`}
               onClick={() => handleDropdownClick('위치')}
             >
               {getLocationButtonText()}

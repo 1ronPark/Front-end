@@ -59,7 +59,7 @@ const categories = [
 const ProjectFilterBar: React.FC = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedSort, setSelectedSort] = useState<string>('정렬순');
-  const [selectedMbti, setSelectedMbti] = useState<string>('MBTI');
+  const [selectedMbti, setSelectedMbti] = useState<string[]>([]);
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
   const [openDropdown, setOpenDropdown] = useState<Record<string, boolean>>({
     정렬순: false,
@@ -87,9 +87,8 @@ const ProjectFilterBar: React.FC = () => {
     handleDropdownClick('정렬순');
   };
 
-  const handleMbtiSelect = (mbtiOption: string) => {
-    setSelectedMbti(mbtiOption);
-    handleDropdownClick('MBTI');
+  const handleMbtiSelect = (mbtiList: string[]) => {
+    setSelectedMbti(mbtiList);
   };
 
   const handleLocationToggle = (locationOption: string) => {
@@ -134,7 +133,7 @@ const ProjectFilterBar: React.FC = () => {
           {/*정렬순 dropdown*/}
         <div className="relative flex">
           <button
-            className={`flex items-center px-4 py-2 text-sm font-medium border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none`}
+            className={`flex items-center px-4 py-2 text-sm font-semimedium border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none`}
             onClick={() => handleDropdownClick('정렬순')}
           >
             {selectedSort}
@@ -153,10 +152,10 @@ const ProjectFilterBar: React.FC = () => {
         {/*MBTI dropdown*/}
         <div className="relative flex">
           <button
-            className={`flex items-center px-4 py-2 text-sm font-medium rounded-md border border-gray-300 hover:bg-gray-200 focus:outline-none`}
+            className={`flex items-center px-4 py-2 text-sm font-semimedium rounded-md border border-gray-300 hover:bg-gray-200 focus:outline-none`}
             onClick={() => handleDropdownClick('MBTI')}
           >
-            {selectedMbti}
+            {selectedMbti.length === 0 ? 'MBTI' : selectedMbti.join(', ')}
             <img
               src={openDropdown['MBTI'] ? KeyboardArrowUpIcon : KeyboardArrowDownIcon}
               alt="arrow icon"
@@ -165,14 +164,16 @@ const ProjectFilterBar: React.FC = () => {
           </button>
           {openDropdown['MBTI'] && (
             <div className="absolute top-full mt-2 z-10">
-              <MbtiBox onSelect={handleMbtiSelect} />
+              <div className="rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <MbtiBox selectedMbtis={selectedMbti} onSelect={handleMbtiSelect} />
+              </div>
             </div>
           )}
         </div>
         {/*위치 dropdown*/}
         <div className="relative flex">
           <button
-            className={`flex items-center px-4 py-2 text-sm font-medium border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none`}
+            className={`flex items-center px-4 py-2 text-sm font-semimedium border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none`}
             onClick={() => handleDropdownClick('위치')}
           >
             {getLocationButtonText()}
