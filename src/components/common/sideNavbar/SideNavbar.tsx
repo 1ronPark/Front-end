@@ -4,8 +4,11 @@ import favoriteIcon from "../../../assets/sideNavbar/favorite.svg";
 import lightModeIcon from "../../../assets/sideNavbar/light_mode.svg";
 import menuOpenIcon from "../../../assets/sideNavbar/menu_open.svg";
 import { useState } from "react";
-import NotificationPanel from "./notification/NotificationPanel";
-import FavoritePanel from "./favorite/FavoritePanel";
+import BasePanel from "./BasePanel";
+import NotificationList from "./notification/NotificationList";
+import FavoriteList from "./favorite/FavoriteList";
+import NoNotificationList from "./notification/NoNotificationList";
+import NoFavoriteList from "./favorite/NoFavoriteList";
 
 const SideNavbar = () => {
   const [activePanel, setActivePanel] = useState<
@@ -123,8 +126,32 @@ const SideNavbar = () => {
           </div>
         </div>
       </div>
-      {activePanel === "notification" && <NotificationPanel />}
-      {activePanel === "favorite" && <FavoritePanel />}
+
+      <BasePanel
+        isActive={activePanel !== null}
+        hasData={
+          activePanel === "notification"
+            ? true // 알림data 있음
+            : activePanel === "favorite"
+            ? true // 관심data 있음
+            : false
+        }
+        list={
+          activePanel === "notification" ? (
+            <NotificationList />
+          ) : (
+            <FavoriteList />
+          )
+        }
+        empty={
+          activePanel === "notification" ? (
+            <NoNotificationList />
+          ) : (
+            <NoFavoriteList />
+          )
+        }
+        panelKey={activePanel ?? "none"} // "notification" | "favorite" | "none"
+      />
     </div>
   );
 };
