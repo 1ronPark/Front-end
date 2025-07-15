@@ -54,18 +54,18 @@ const MemberFilterBar: React.FC = () => {
     return `${selectedLocations[0]} 외 ${selectedLocations.length - 1}곳`;
   };
 
-  const chips = ['전체', '디자인', '개발자', '프론트엔드', '백엔드', '기획', '마케팅'];
+  const chips = ['전체', '기획', '디자인', '풀스택', '프론트엔드', '백엔드', '마케팅'];
 
   return (
-    <div className="p-4 bg-white rounded-lg font-pretendard ">
+    <div className=" bg-white rounded-lg font-pretendard ">
       <div className="flex items-center justify-between gap-4">
-        <div className="relative flex-1 overflow-hidden">
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 -mb-2">
+        <div className="relative flex-1">
+          <div className="flex items-center gap-2 overflow-auto pt-2 -mt-2 pb-2 -mb-2">
           {chips.map((chip) => (
             <button
               key={chip}
               onClick={() => handleChipClick(chip)}
-              className={`flex-shrink-0 flex items-center px-4 py-2 text-sm font-medium rounded-md ${
+              className={`flex items-center px-4 py-2 text-sm font-medium rounded-md hover cursor-pointer hover:shadow-md transform transition duration-100 hover:scale-105 ${
                 selectedChip === chip
                   ? 'bg-purple-100 text-purple-800'
                   : 'bg-white text-gray-700 border border-gray-300'
