@@ -11,7 +11,7 @@ export const Layout = () => {
     <div className="relative flex min-h-screen w-full bg-white">
       <div className="flex flex-1 flex-col pr-[60px]">
         <MainNavbar
-          isLoggedIn={false}
+          isLoggedIn={true}
           userName="홍길동"
           bgColor={isMemberDetailPage ? "#EDE6EE" : "white"}
         />
