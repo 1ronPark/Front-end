@@ -64,7 +64,7 @@ export const MainNavbar = ({
 
       {/* 프로젝트/팀원 찾아보기/라잇톡 탭 */}
       <div className="flex items-center gap-10">
-        {MainNavItems.map(({ label, to }) => (
+        {MainNavItems.map(({ label, to }) => (            
           <NavLink
             key={to}
             to={to}
@@ -86,7 +86,7 @@ export const MainNavbar = ({
       </div>
 
       {/* 검색, 프로젝트 생성, 로그인버튼 */}
-      <div className="flex items-center gap-5 label-large text-[#47464F]">
+      <div className="flex items-center gap-2 md:gap-5 label-large text-[#47464F]">
         <img
           src={ic_search}
           alt="Search"

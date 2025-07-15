@@ -57,26 +57,26 @@ const MemberFilterBar: React.FC = () => {
   const chips = ['전체', '기획', '디자인', '풀스택', '프론트엔드', '백엔드', '마케팅'];
 
   return (
-    <div className=" bg-white rounded-lg font-pretendard ">
-      <div className="flex flex-shrink-0 items-center justify-between gap-4">
-        <div className="relative flex-1 flex-shrink-0 ">
-          <div className="flex items-center gap-2 overflow-auto pt-2 -mt-2 pb-2 -mb-2">
-          {chips.map((chip) => (
-            <button
-              key={chip}
-              onClick={() => handleChipClick(chip)}
-              className={`flex items-center px-4 py-2 text-sm font-medium rounded-md hover cursor-pointer hover:shadow-md transform transition duration-100 hover:scale-105 ${
-                selectedChip === chip
-                  ? 'bg-purple-100 text-purple-800'
-                  : 'bg-white text-gray-700 border border-gray-300'
-              }`}
-            >
-              {selectedChip === chip && <img src={CheckIcon} alt="check" className="w-4 h-4 mr-2" />}
-              {chip}
-            </button>
-          ))}
+    <div className="bg-white rounded-lg font-pretendard">
+      <div className="flex items-center justify-between whitespace-nowrap gap-4">
+        <div className="flex flex-wrap items-center gap-2 max-w-full">
+          {/* 칩 목록 */}
+          <div className="flex items-center gap-2 w-full">
+            {chips.map((chip) => (
+              <button
+                key={chip}
+                onClick={() => handleChipClick(chip)}
+                className={`flex items-center px-4 py-2 text-sm font-medium rounded-md hover cursor-pointer hover:shadow-md transform transition duration-100 hover:scale-105 ${
+                  selectedChip === chip
+                    ? 'bg-purple-100 text-purple-800'
+                    : 'bg-white text-gray-700 border border-gray-300'
+                }`}
+              >
+                {selectedChip === chip && <img src={CheckIcon} alt="check" className="w-4 h-4 mr-2" />}
+                {chip}
+              </button>
+            ))}
           </div>
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-white" />
         </div>
         <div className="flex flex-shrink-0 items-center gap-2">
           {/*정렬순 dropdown*/}
@@ -93,8 +93,10 @@ const MemberFilterBar: React.FC = () => {
               />
             </button>
             {openDropdown['정렬순'] && (
-              <div className="absolute top-full mt-2 z-10">
-                <ArrayBox onSelect={handleSortSelect} />
+              <div className="absolute top-full mt-2 z-20">
+                <div className="rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <ArrayBox onSelect={handleSortSelect} />
+                </div>
               </div>
             )}
           </div>
@@ -112,8 +114,10 @@ const MemberFilterBar: React.FC = () => {
               />
             </button>
             {openDropdown['MBTI'] && (
-              <div className="absolute top-full mt-2 z-10">
-                <MbtiBox onSelect={handleMbtiSelect} />
+              <div className="absolute top-full mt-2 z-20">
+                <div className="rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <MbtiBox onSelect={handleMbtiSelect} />
+                </div>
               </div>
             )}
           </div>
@@ -131,8 +135,10 @@ const MemberFilterBar: React.FC = () => {
               />
             </button>
             {openDropdown['위치'] && (
-              <div className="absolute top-full mt-2 z-10">
-                <LocationBox selectedLocations={selectedLocations} onToggleSelect={handleLocationToggle} />
+              <div className="absolute top-full mt-2 z-20">
+                <div className="rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <LocationBox selectedLocations={selectedLocations} onToggleSelect={handleLocationToggle} />
+                </div>
               </div>
             )}
           </div>
