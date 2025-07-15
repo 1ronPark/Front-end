@@ -5,7 +5,12 @@ import ic_loginbutton from "../../../assets/ic_loginbutton.svg";
 import ic_myprofile from "../../../assets/ic_myprofile.svg";
 import { Plus } from 'lucide-react';
 import ic_search from "../../../assets/ic_search.svg";
-import { useState } from "react";
+import ic_mainnavbar_idcard from "../../../assets/icons/ic_mainnavbar_idcard.svg";
+import ic_mainnavbar_profile from "../../../assets/icons/ic_mainnavbar_profile.svg";
+import ic_mainnavbar_project from "../../../assets/icons/ic_mainnavbar_project.svg";
+import ic_mainnavbar_logout from "../../../assets/icons/ic_mainnavbar_logout.svg";
+
+import { useEffect, useRef, useState } from "react";
 import SearchModal from "../modals/SearchModal";
 
 type MainNavbarProps = {
@@ -22,6 +27,23 @@ export const MainNavbar = ({ isLoggedIn, userName, bgColor = "white" }: MainNavb
   ];
 
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // 외부 클릭 시 드롭다운 닫기
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
 
   return (
     <div className={`flex w-full bg-[${bgColor}] px-6 py-3.5 justify-between items-center`}>
@@ -76,9 +98,41 @@ export const MainNavbar = ({ isLoggedIn, userName, bgColor = "white" }: MainNavb
         </NavLink>
 
         {isLoggedIn ? (
-          <div className="flex items-center gap-2 px-6 py-4 bg-white">
-            <img src={ic_myprofile} alt="myprofile" className="w-6 h-6" />
-            <span className="text-[#6750A4] title-medium">{userName}</span>
+          <div className="relative" ref={dropdownRef}>
+            <div
+              onClick={() => {
+                console.log("드롭다운 클릭됨");
+                setIsDropdownOpen(prev => !prev)
+              }}
+              className="flex items-center gap-2 px-6 py-4 bg-white cursor-pointer">
+              <img src={ic_myprofile} alt="myprofile" className="w-6 h-6" />
+              <span className="text-[#6750A4] title-medium">{userName}</span>
+            </div>
+
+            {isDropdownOpen && (
+              <div
+                className="absolute top-full right-0 w-[200px] rounded-[12px] bg-[#FEFEFE] z-50 shadow-[0_1px_3px_1px_rgba(0,0,0,0.15),0_1px_2px_0px_rgba(0,0,0,0.3)]"
+              >
+                <ul className="flex flex-col text-sm text-[#1C1B1F] font-medium divide-y divide-[#C8C5D0]">
+                  <li className="flex items-center gap-3.5 px-3.5 py-4 cursor-pointer body-large">
+                    <img src={ic_mainnavbar_idcard} alt="회원정보" />
+                    회원정보
+                  </li>
+                  <li className="flex items-center gap-3.5 px-3.5 py-4 cursor-pointer body-large">
+                    <img src={ic_mainnavbar_profile} alt="프로필 관리" />
+                    프로필 관리
+                  </li>
+                  <li className="flex items-center gap-3.5 px-3.5 py-4 cursor-pointer body-large">
+                    <img src={ic_mainnavbar_project} alt="프로젝트 관리" />
+                    프로젝트 관리
+                  </li>
+                  <li className="flex items-center gap-3.5 px-3.5 py-4 cursor-pointer body-large">
+                    <img src={ic_mainnavbar_logout} alt="로그아웃" />
+                    로그아웃
+                  </li>
+                </ul>
+              </div>
+            )}
           </div>
         ) : (
           <NavLink
