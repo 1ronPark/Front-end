@@ -1,8 +1,9 @@
 import { useState } from "react";
 import MypageSidebar from "../components/mypage/MypageSidebar";
-import MyInfo from "../components/mypage/myInfo/MyInfo";
+
 import MyProfileEdit from "../components/mypage/MyProfileEdit";
 import MyProjects from "../components/mypage/MyProjects";
+import MyPageInfo from "../components/mypage/MyPageInfo";
 
 export const MyProfile = () => {
   const [activeTab, setActiveTab] = useState<"info" | "edit" | "projects">(
@@ -14,7 +15,7 @@ export const MyProfile = () => {
       <MypageSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
       <div className="flex-1 p-6">
         {activeTab === "info" && (
-          <MyInfo
+          <MyPageInfo
             //회원 정보에 필요한 props들
             name="홍길동"
             nickname="홍"
