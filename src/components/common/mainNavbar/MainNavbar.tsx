@@ -25,9 +25,9 @@ export const MainNavbar = ({
   bgColor = "white",
 }: MainNavbarProps) => {
   const MainNavItems = [
+    { label: "라잇톡", to: "/lighttalk" },
     { label: "프로젝트", to: "/projects" },
     { label: "파트너 찾아보기", to: "/members" },
-    { label: "라잇톡", to: "/lighttalk" },
   ];
 
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
