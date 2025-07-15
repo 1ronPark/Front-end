@@ -109,31 +109,32 @@ const ProjectFilterBar: React.FC = () => {
   };
 
   return (
-    <div className="p-4 bg-white rounded-lg font-pretendard shadow-md">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2 overflow-x-auto">
+    <div className="p-4 bg-white rounded-lg font-pretendard ">
+      <div className="flex items-center justify-between gap-4">
+        <div className="relative flex-1 overflow-hidden">
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 -mb-2">
           {categories.map((category) => (
             <button
               key={category.name}
               onClick={() => handleCategoryClick(category.name)}
-              className={`flex-shrink-0 px-4 py-2 text-sm font-medium rounded-full flex items-center gap-2 ${
+              className={`flex-shrink-0 px-3 py-2 text-sm font-medium rounded-lg flex flex-col items-center gap-1 hover cursor-pointer hover:shadow-md hover:size-0.3 ${
                 selectedCategories.includes(category.name)
-                  ? 'bg-purple-100 text-purple-800'
+                  ? 'border border-gray-300 '
                   : 'bg-white text-gray-700'
               }`}
             >
-              <img src={category.icon} alt={category.name} className="w-4 h-4" />
+              <img src={category.icon} alt={category.name} className="w-6 h-6" />
               {category.name}
             </button>
           ))}
+          </div>
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-white" />
         </div>
-        
-      </div>
-      <div className="flex items-center gap-2">
-        {/*정렬순 dropdown*/}
+        <div className="flex flex-shrink-0 items-center gap-2">
+          {/*정렬순 dropdown*/}
         <div className="relative flex">
           <button
-            className={`flex items-center px-4 py-2 text-sm font-medium shadow-md rounded-md hover:bg-gray-200 focus:outline-none"`}
+            className={`flex items-center px-4 py-2 text-sm font-medium border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none`}
             onClick={() => handleDropdownClick('정렬순')}
           >
             {selectedSort}
@@ -152,7 +153,7 @@ const ProjectFilterBar: React.FC = () => {
         {/*MBTI dropdown*/}
         <div className="relative flex">
           <button
-            className={`flex items-center px-4 py-2 text-sm font-medium rounded-md shadow-md hover:bg-gray-200 focus:outline-none"`}
+            className={`flex items-center px-4 py-2 text-sm font-medium rounded-md border border-gray-300 hover:bg-gray-200 focus:outline-none`}
             onClick={() => handleDropdownClick('MBTI')}
           >
             {selectedMbti}
@@ -171,7 +172,7 @@ const ProjectFilterBar: React.FC = () => {
         {/*위치 dropdown*/}
         <div className="relative flex">
           <button
-            className={`flex items-center px-4 py-2 text-sm font-medium shadow-md rounded-md hover:bg-gray-200 focus:outline-none"`}
+            className={`flex items-center px-4 py-2 text-sm font-medium border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none`}
             onClick={() => handleDropdownClick('위치')}
           >
             {getLocationButtonText()}
@@ -186,6 +187,7 @@ const ProjectFilterBar: React.FC = () => {
               <LocationBox selectedLocations={selectedLocations} onToggleSelect={handleLocationToggle} />
             </div>
           )}
+        </div>
         </div>
       </div>
     </div>

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import CheckIcon from '../../../assets/icons/ic_check.svg';
 import KeyboardArrowDownIcon from '../../../assets/icons/ic_keyboard_arrow_down.svg';
 import KeyboardArrowUpIcon from '../../../assets/icons/ic_keyboard_arrow_up.svg';
-import SearchIcon from '../../../assets/icons/ic_search.svg';
 import ArrayBox from './dropdowns/ArrayBox';
 import MbtiBox from './dropdowns/MbtiBox';
 import LocationBox from './dropdowns/LocationBox';
@@ -12,7 +11,6 @@ const MemberFilterBar: React.FC = () => {
   const [selectedSort, setSelectedSort] = useState<string>('정렬순');
   const [selectedMbti, setSelectedMbti] = useState<string>('MBTI');
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
-  const [searchTerm, setSearchTerm] = useState('');
   const [openDropdown, setOpenDropdown] = useState<Record<string, boolean>>({
     정렬순: false,
     MBTI: false,
@@ -59,29 +57,32 @@ const MemberFilterBar: React.FC = () => {
   const chips = ['전체', '디자인', '개발자', '프론트엔드', '백엔드', '기획', '마케팅'];
 
   return (
-    <div className="flex items-center justify-between p-4 bg-white rounded-lg shadow-md">
-      <div className="flex items-center gap-4">
-        <div className="flex flex-wrap items-center gap-2">
+    <div className="p-4 bg-white rounded-lg font-pretendard ">
+      <div className="flex items-center justify-between gap-4">
+        <div className="relative flex-1 overflow-hidden">
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 -mb-2">
           {chips.map((chip) => (
             <button
               key={chip}
               onClick={() => handleChipClick(chip)}
-              className={`flex items-center px-4 py-2 text-sm font-medium rounded-md ${
+              className={`flex-shrink-0 flex items-center px-4 py-2 text-sm font-medium rounded-md ${
                 selectedChip === chip
                   ? 'bg-purple-100 text-purple-800'
-                  : 'bg-gray-100 text-gray-700'
+                  : 'bg-white text-gray-700 border border-gray-300'
               }`}
             >
               {selectedChip === chip && <img src={CheckIcon} alt="check" className="w-4 h-4 mr-2" />}
               {chip}
             </button>
           ))}
+          </div>
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-white" />
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-shrink-0 items-center gap-2">
           {/*정렬순 dropdown*/}
           <div className="relative flex">
             <button
-              className={`flex items-center px-4 py-2 text-sm font-medium bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none"`}
+              className={`flex items-center px-4 py-2 text-sm font-medium border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none`}
               onClick={() => handleDropdownClick('정렬순')}
             >
               {selectedSort}
@@ -100,7 +101,7 @@ const MemberFilterBar: React.FC = () => {
           {/*MBTI dropdown*/}
           <div className="relative flex">
             <button
-              className={`flex items-center px-4 py-2 text-sm font-medium bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none"`}
+              className={`flex items-center px-4 py-2 text-sm font-medium border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none`}
               onClick={() => handleDropdownClick('MBTI')}
             >
               {selectedMbti}
@@ -119,7 +120,7 @@ const MemberFilterBar: React.FC = () => {
           {/*위치 dropdown*/}
           <div className="relative flex">
             <button
-              className={`flex items-center px-4 py-2 text-sm font-medium bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none"`}
+              className={`flex items-center px-4 py-2 text-sm font-medium border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none`}
               onClick={() => handleDropdownClick('위치')}
             >
               {getLocationButtonText()}
@@ -136,20 +137,6 @@ const MemberFilterBar: React.FC = () => {
             )}
           </div>
         </div>
-      </div>
-      <div className="relative flex items-center">
-        <input
-          type="text"
-          placeholder="검색..."
-          value={searchTerm}
-          onChange={e => setSearchTerm(e.target.value)}
-          className="w-full pl-3 pr-10 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-purple-500"
-        />
-        <img
-          src={SearchIcon}
-          alt="검색"
-          className="absolute right-3 w-5 h-5 text-gray-400"
-        />
       </div>
     </div>
   );
