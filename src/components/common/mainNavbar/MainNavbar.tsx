@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import logo_lightup from "../../../assets/logo_lightup.svg";
 import ic_loginbutton from "../../../assets/ic_loginbutton.svg";
@@ -33,6 +33,7 @@ export const MainNavbar = ({
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   // 외부 클릭 시 드롭다운 닫기
   useEffect(() => {
@@ -116,7 +117,14 @@ export const MainNavbar = ({
             {isDropdownOpen && (
               <div className="absolute top-full right-0 w-[200px] rounded-[12px] bg-[#FEFEFE] z-50 shadow-[0_1px_3px_1px_rgba(0,0,0,0.15),0_1px_2px_0px_rgba(0,0,0,0.3)]">
                 <ul className="flex flex-col text-sm text-[#1C1B1F] font-medium divide-y divide-[#C8C5D0]">
-                  <li className="flex items-center gap-3.5 px-3.5 py-4 cursor-pointer body-large">
+                  <li
+                    className="flex items-center gap-3.5 px-3.5 py-4 cursor-pointer body-large"
+                    onClick={() => {
+                      navigate("/myprofile");
+                      console.log("마이페이지 진입");
+                      setIsDropdownOpen(false);
+                    }}
+                  >
                     <img src={ic_mainnavbar_idcard} alt="회원정보" />
                     회원정보
                   </li>
