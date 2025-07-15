@@ -112,18 +112,18 @@ const ProjectFilterBar: React.FC = () => {
     <div className=" bg-white rounded-lg font-pretendard ">
       <div className="flex items-center justify-between gap-4">
         <div className="relative flex-1 overflow-hidden">
-          <div className="flex items-center gap-2 overflow-x-auto pt-3 -mt-2 pb-2 -mb-2">
+          <div className="flex items-center gap-2 overflow-x-auto pt-8 -mt-5 pb-2 -mb-2">
           {categories.map((category) => (
             <button
               key={category.name}
               onClick={() => handleCategoryClick(category.name)}
-              className={`flex-shrink-0 px-3 py-2 text-sm font-medium rounded-lg flex flex-col items-center gap-1 hover cursor-pointer hover:shadow-md transform transition duration-200 hover:scale-105 ${
+              className={`flex-shrink-0 px-2 py-1 text-sm rounded-lg flex flex-col items-center gap-1 hover cursor-pointer hover:shadow-md transform transition duration-200 hover:scale-105 ${
                 selectedCategories.includes(category.name)
                   ? 'border border-gray-300 '
                   : 'bg-white text-gray-700'
               }`}
             >
-              <img src={category.icon} alt={category.name} className="w-6 h-6" />
+              <img src={category.icon} alt={category.name} className="w-4 h-4" />
               {category.name}
             </button>
           ))}

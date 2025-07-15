@@ -58,8 +58,8 @@ const MemberFilterBar: React.FC = () => {
 
   return (
     <div className=" bg-white rounded-lg font-pretendard ">
-      <div className="flex items-center justify-between gap-4">
-        <div className="relative flex-1">
+      <div className="flex flex-shrink-0 items-center justify-between gap-4">
+        <div className="relative flex-1 flex-shrink-0 ">
           <div className="flex items-center gap-2 overflow-auto pt-2 -mt-2 pb-2 -mb-2">
           {chips.map((chip) => (
             <button
