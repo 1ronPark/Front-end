@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import CheckIcon from '../../../assets/icons/ic_check.svg';
+import PinIcon from '../../../assets/pin.svg';
 import KeyboardArrowDownIcon from '../../../assets/icons/ic_keyboard_arrow_down.svg';
 import KeyboardArrowUpIcon from '../../../assets/icons/ic_keyboard_arrow_up.svg';
 import ArrayBox from './dropdowns/ArrayBox';
@@ -7,7 +7,7 @@ import MbtiBox from './dropdowns/MbtiBox';
 import LocationBox from './dropdowns/LocationBox';
 
 const MemberFilterBar: React.FC = () => {
-  const [selectedChip, setSelectedChip] = useState<string>('전체');
+  const [selectedChips, setSelectedChips] = useState<string[]>([]);
   const [selectedSort, setSelectedSort] = useState<string>('정렬순');
   const [selectedMbti, setSelectedMbti] = useState<string>('MBTI');
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
@@ -18,7 +18,19 @@ const MemberFilterBar: React.FC = () => {
   });
 
   const handleChipClick = (chip: string) => {
-    setSelectedChip(chip);
+    if (chip === '전체') {
+      // '전체' 칩을 클릭하면, 이미 선택된 경우 선택 해제하고,
+      // 그렇지 않으면 '전체'만 선택합니다.
+      setSelectedChips(prev => (prev.includes('전체') ? [] : ['전체']));
+    } else {
+      // 다른 칩을 클릭하면 '전체'는 선택 해제하고, 클릭된 칩의 상태를 토글합니다.
+      setSelectedChips(prev => {
+        const otherChips = prev.filter(c => c !== '전체');
+        return otherChips.includes(chip)
+          ? otherChips.filter(c => c !== chip) // 선택 해제
+          : [...otherChips, chip]; // 선택
+      });
+    }
   };
 
   const handleDropdownClick = (dropdownName: string) => {
@@ -54,7 +66,7 @@ const MemberFilterBar: React.FC = () => {
     return `${selectedLocations[0]} 외 ${selectedLocations.length - 1}곳`;
   };
 
-  const chips = ['전체', '기획', '디자인', '풀스택', '프론트엔드', '백엔드', '마케팅'];
+  const chips = [ '전체', '기획', '디자인', '풀스택', '프론트엔드', '백엔드', '마케팅'];
 
   return (
     <div className="bg-white rounded-lg font-pretendard">
@@ -65,15 +77,15 @@ const MemberFilterBar: React.FC = () => {
             {chips.map((chip) => (
               <button
                 key={chip}
-                onClick={() => handleChipClick(chip)}
+                 onClick={() => handleChipClick(chip)}
                 className={`flex items-center px-4 py-2 text-sm font-medium rounded-md hover cursor-pointer hover:shadow-md transform transition duration-100 hover:scale-105 ${
-                  selectedChip === chip
-                    ? 'bg-purple-100 text-purple-800'
+                  selectedChips.includes(chip)
+                    ? 'text-gray-800 border border-gray-800'
                     : 'bg-white text-gray-700 border border-gray-300'
                 }`}
               >
-                {selectedChip === chip && <img src={CheckIcon} alt="check" className="w-4 h-4 mr-2" />}
-                {chip}
+                {selectedChips.includes(chip) && <img src={PinIcon} alt="check" className="w-4 h-4 mr-2" />}
+                 {chip}
               </button>
             ))}
           </div>
