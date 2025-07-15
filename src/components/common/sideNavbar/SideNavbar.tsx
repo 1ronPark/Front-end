@@ -14,7 +14,7 @@ const SideNavbar = () => {
 
   const [lastPanel, setLastPanel] = useState<
     "notification" | "favorite" | null
-  >(null);
+  >("notification");
 
   const togglePanel = (panel: "notification" | "favorite") => {
     setLastPanel(panel); //마지막에 열었던 패널 기록
@@ -30,21 +30,27 @@ const SideNavbar = () => {
   };
 
   return (
-    <>
+    <div>
       <div
-        className="fixed right-0 w-[65px] h-screen py-6 bg-[#FFF]
-    flex flex-col items-center gap-6 border-l border-l-[#CBC4CF] box-border"
+        className="fixed right-0 w-[65px] h-screen py-6 bg-[#EEE] 
+        flex flex-col items-center gap-6 border-l border-l-[#CBC4CF] box-border z-50"
+        // {`fixed right-0 w-[65px] h-screen py-6  flex flex-col items-center gap-6 border-l border-l-[#CBC4CF] box-border
+        //   ${activePanel ? "bg-[#FFF]" : "bg-[#EEE]"}
+        //   `}
       >
         {/* 메뉴 버튼 */}
         <button
-          className="w-[56px] h-[56px] flex justify-center items-center py-1 gap-[10px]"
+          className="w-[56px] h-[56px] flex justify-center items-center py-1 gap-[10px] rounded-full hover:bg-gray-200 cursor-pointer"
           onClick={handleMenuClick}
         >
           {activePanel === null ? (
-            //패널이 없으면 메뉴 아이콘에 화살표있는 버전
-            <img src={menuOpenIcon} className="px-[3px]  py-1.5" />
+            //열린 패널이 없으면 메뉴 아이콘에 화살표있는 버전
+            <img
+              src={menuOpenIcon}
+              className="px-[3px]  py-1.5 opacity-[0.58]"
+            />
           ) : (
-            //패널이 있으면 메뉴 아이콘에 화살표 없는 버전
+            //열린 패널이 있으면 메뉴 아이콘에 화살표 없는 버전
             <img src={menuIcon} className="px-[3px]  py-1.5" />
           )}
         </button>
@@ -54,16 +60,14 @@ const SideNavbar = () => {
           <div className="flex flex-col items-start gap-6 ">
             {/* 알림 버튼 */}
 
-            <button
-              onClick={() => togglePanel("notification")}
-              className="flex flex-col justify-center items-center py-1.5 gap-1"
-            >
-              <div
-                className={`flex flex-col items-center justify-center w-[56px] h-[32px] py-1 gap-2.5 rounded-2xl
+            <div className="flex flex-col justify-center items-center py-1.5 gap-1">
+              <button
+                onClick={() => togglePanel("notification")}
+                className={`flex flex-col items-center justify-center w-[56px] h-[32px] py-1 gap-2.5 rounded-2xl hover:cursor-pointer
                   ${
                     activePanel === "notification"
-                      ? "bg-[#E9DEF8]"
-                      : "hover:bg-[#E9DEF8]"
+                      ? "bg-[#E3E0F9]"
+                      : "hover:bg-gray-200 opacity-[0.58]"
                   }
                   `}
               >
@@ -71,29 +75,45 @@ const SideNavbar = () => {
                   src={notificationIcon}
                   className="flex justify-center items-center py-1 gap-[10px]"
                 />
-              </div>
-              <p className="label-medium text-[#68548E]">알림</p>
-            </button>
+              </button>
+              <p
+                className={`label-medium 
+                ${
+                  activePanel === "notification"
+                    ? "text-[#68548E]"
+                    : " opacity-[0.58]"
+                }`}
+              >
+                알림
+              </p>
+            </div>
             {/* 관심 버튼 */}
-            <button
-              onClick={() => togglePanel("favorite")}
-              className="flex flex-col justify-center items-center py-1.5 gap-1"
-            >
-              <div
-                className={`flex flex-col items-center justify-center w-[56px] h-[32px] py-1 gap-2.5 rounded-2xl hover:bg-[#E9DEF8]
+            <div className="flex flex-col justify-center items-center py-1.5 gap-1">
+              <button
+                onClick={() => togglePanel("favorite")}
+                className={`flex flex-col items-center justify-center w-[56px] h-[32px] py-1 gap-2.5 rounded-2xl hover:cursor-pointer
                   ${
                     activePanel === "favorite"
-                      ? "bg-[#E9DEF8]"
-                      : "hover:bg-[#E9DEF8]"
+                      ? "bg-[#E3E0F9]"
+                      : "hover:bg-gray-200 opacity-[0.58]"
                   }`}
               >
                 <img
                   src={favoriteIcon}
                   className="flex justify-center items-center py-1 gap-[10px]"
                 />
-              </div>
-              <p className="label-medium text-[#68548E]">관심</p>
-            </button>
+              </button>
+              <p
+                className={`label-medium 
+                ${
+                  activePanel === "favorite"
+                    ? "text-[#68548E]"
+                    : " opacity-[0.58]"
+                }`}
+              >
+                관심
+              </p>
+            </div>
           </div>
           {/* 다크/라이트모드 */}
           <div className="flex w-[48px] h-[48px] items-center justify-center gap-2.5">
@@ -105,7 +125,7 @@ const SideNavbar = () => {
       </div>
       {activePanel === "notification" && <NotificationPanel />}
       {activePanel === "favorite" && <FavoritePanel />}
-    </>
+    </div>
   );
 };
 
