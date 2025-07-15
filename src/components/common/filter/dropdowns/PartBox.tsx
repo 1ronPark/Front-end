@@ -1,11 +1,11 @@
 import React from 'react';
 
-interface ArrayBoxProps {
+interface PartBoxProps {
   onSelect: (option: string) => void;
 }
 
-const ArrayBox: React.FC<ArrayBoxProps> = ({ onSelect }) => {
-  const sortOptions = ['조회수순', '추천순', '거리순'];
+const PartBox: React.FC<PartBoxProps> = ({ onSelect }) => {
+  const sortOptions = ['AI', 'Web', 'Server', '기획', '마케팅', '디자인'];
 
   return (
     <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-10">
@@ -24,4 +24,4 @@ const ArrayBox: React.FC<ArrayBoxProps> = ({ onSelect }) => {
   );
 };
 
-export default ArrayBox;
+export default PartBox;

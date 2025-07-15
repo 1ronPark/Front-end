@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import PinIcon from '../../../assets/pin.svg';
 import KeyboardArrowDownIcon from '../../../assets/icons/ic_keyboard_arrow_down.svg';
 import KeyboardArrowUpIcon from '../../../assets/icons/ic_keyboard_arrow_up.svg';
-import ArrayBox from './dropdowns/ArrayBox';
+import PartBox from './dropdowns/PartBox';
 import MbtiBox from './dropdowns/MbtiBox';
 import LocationBox from './dropdowns/LocationBox';
 
 const MemberFilterBar: React.FC = () => {
   const [selectedChips, setSelectedChips] = useState<string[]>([]);
-  const [selectedSort, setSelectedSort] = useState<string>('정렬순');
+  const [selectedSort, setSelectedSort] = useState<string>('파트');
   const [selectedMbti, setSelectedMbti] = useState<string[]> ([]);
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
   const [openDropdown, setOpenDropdown] = useState<Record<string, boolean>>({
-    정렬순: false,
+    파트: false,
     MBTI: false,
     위치: false,
   });
@@ -42,7 +42,7 @@ const MemberFilterBar: React.FC = () => {
 
   const handleSortSelect = (sortOption: string) => {
     setSelectedSort(sortOption);
-    handleDropdownClick('정렬순');
+    handleDropdownClick('파트');
   };
 
   const handleMbtiSelect = (mbtiList: string[]) => {
@@ -63,6 +63,13 @@ const MemberFilterBar: React.FC = () => {
       return selectedLocations[0];
     }
     return `${selectedLocations[0]} 외 ${selectedLocations.length - 1}곳`;
+  };
+
+  const getMbtiButtonText = () => {
+    if (selectedMbti.length === 0) {
+      return 'MBTI';
+    }
+    return `${selectedMbti[0]} 외 ${selectedMbti.length - 1}개`;
   };
 
   const chips = [ '전체', '기획', '디자인', '풀스택', '프론트엔드', '백엔드', '마케팅'];
@@ -90,23 +97,23 @@ const MemberFilterBar: React.FC = () => {
           </div>
         </div>
         <div className="flex flex-shrink-0 items-center gap-2">
-          {/*정렬순 dropdown*/}
-          <div className="relative flex">
+          {/*파트 dropdown*/}
+        <div className="relative flex">
             <button
               className={`flex items-center px-4 py-2 text-sm font-semimedium border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none`}
-              onClick={() => handleDropdownClick('정렬순')}
+              onClick={() => handleDropdownClick('파트')}
             >
               {selectedSort}
               <img
-                src={openDropdown['정렬순'] ? KeyboardArrowUpIcon : KeyboardArrowDownIcon}
-                alt="arrow icon"
-                className="w-4 h-4 ml-2"
+            src={openDropdown['파트'] ? KeyboardArrowUpIcon : KeyboardArrowDownIcon}
+            alt="arrow icon"
+            className="w-4 h-4 ml-2"
               />
-            </button>
-            {openDropdown['정렬순'] && (
+          </button>       
+            {openDropdown['파트'] && (
               <div className="absolute top-full mt-2 z-20">
                 <div className="rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                  <ArrayBox onSelect={handleSortSelect} />
+                  <PartBox onSelect={handleSortSelect} />
                 </div>
               </div>
             )}
@@ -117,7 +124,7 @@ const MemberFilterBar: React.FC = () => {
               className={`flex items-center px-4 py-2 text-sm font-semimedium border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none`}
               onClick={() => handleDropdownClick('MBTI')}
             >
-              {selectedMbti.length === 0 ? 'MBTI' : selectedMbti.join(', ')}
+              {getMbtiButtonText()}
               <img
                 src={openDropdown['MBTI'] ? KeyboardArrowUpIcon : KeyboardArrowDownIcon}
                 alt="arrow icon"
@@ -157,6 +164,6 @@ const MemberFilterBar: React.FC = () => {
       </div>
     </div>
   );
-};
+}
 
 export default MemberFilterBar;

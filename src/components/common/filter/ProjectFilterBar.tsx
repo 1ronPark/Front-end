@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import KeyboardArrowDownIcon from '../../../assets/icons/ic_keyboard_arrow_down.svg';
 import KeyboardArrowUpIcon from '../../../assets/icons/ic_keyboard_arrow_up.svg';
-import ArrayBox from './dropdowns/ArrayBox';
+import PartBox from './dropdowns/PartBox';
 import MbtiBox from './dropdowns/MbtiBox';
 import LocationBox from './dropdowns/LocationBox';
 
@@ -57,12 +57,17 @@ const categories = [
 ];
 
 const ProjectFilterBar: React.FC = () => {
+  const [sortOption, setSortOption] = useState<string | null>(null);
+  const handleSortOptionClick = (option: string) => {
+    setSortOption(prev => (prev === option ? null : option));
+  };
+
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [selectedSort, setSelectedSort] = useState<string>('정렬순');
+  const [selectedSort, setSelectedSort] = useState<string>('파트');
   const [selectedMbti, setSelectedMbti] = useState<string[]>([]);
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
   const [openDropdown, setOpenDropdown] = useState<Record<string, boolean>>({
-    정렬순: false,
+    파트: false,
     MBTI: false,
     위치: false,
   });
@@ -84,7 +89,7 @@ const ProjectFilterBar: React.FC = () => {
 
   const handleSortSelect = (sortOption: string) => {
     setSelectedSort(sortOption);
-    handleDropdownClick('정렬순');
+    handleDropdownClick('파트');
   };
 
   const handleMbtiSelect = (mbtiList: string[]) => {
@@ -107,11 +112,18 @@ const ProjectFilterBar: React.FC = () => {
     return `${selectedLocations[0]} 외 ${selectedLocations.length - 1}곳`;
   };
 
+    const getMbtiButtonText = () => {
+    if (selectedMbti.length === 0) {
+      return 'MBTI';
+    }
+    return `${selectedMbti[0]} 외 ${selectedMbti.length - 1}개`;
+  };
+
   return (
     <div className=" bg-white rounded-lg font-pretendard ">
-      <div className="flex items-center justify-between gap-4">
-        <div className="relative flex-1 overflow-hidden">
-          <div className="flex items-center gap-2 overflow-x-auto pt-8 -mt-5 pb-2 -mb-2">
+      <div className="flex items-center justify-between whitespace-nowrap gap-4">
+        <div className="relative flex-1  ">
+          <div className="flex items-center gap-2 overflow-x-auto pt-8 -mt-5 pb-2 -mb-2 w-180">
           {categories.map((category) => (
             <button
               key={category.name}
@@ -127,25 +139,43 @@ const ProjectFilterBar: React.FC = () => {
             </button>
           ))}
           </div>
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-white" />
+          
         </div>
         <div className="flex flex-shrink-0 items-center gap-2">
-          {/*정렬순 dropdown*/}
+          {/*정렬박스*/}
+          <div className="relative flex hover cursor-pointer">
+            <button
+                className={`flex items-center px-3.5 py-2 text-sm font-semimedium border border-gray-200 rounded-md hover:bg-[#EAE7EF] cursor-pointer focus:outline-none ${sortOption === "인기순" ? 'bg-[#E3E0F9]' : ''}`}
+                onClick={() => handleSortOptionClick("인기순")}
+              >
+                인기순
+            </button>
+          </div>
+          <div className="relative flex hover cursor-pointer">
+            <button
+                className={`flex items-center px-3.5 py-2 text-sm font-semimedium border border-gray-200 rounded-md hover:bg-[#EAE7EF] cursor-pointer focus:outline-none ${sortOption === "최신순" ? 'bg-[#E3E0F9]' : ''}`}
+                onClick={() => handleSortOptionClick("최신순")}
+              >
+                최신순
+            </button>
+          </div>
+
+          {/*파트 dropdown*/}
         <div className="relative flex">
           <button
             className={`flex items-center px-4 py-2 text-sm font-semimedium border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none`}
-            onClick={() => handleDropdownClick('정렬순')}
+            onClick={() => handleDropdownClick('파트')}
           >
             {selectedSort}
             <img
-              src={openDropdown['정렬순'] ? KeyboardArrowUpIcon : KeyboardArrowDownIcon}
+              src={openDropdown['파트'] ? KeyboardArrowUpIcon : KeyboardArrowDownIcon}
               alt="arrow icon"
               className="w-4 h-4 ml-2"
             />
           </button>
-          {openDropdown['정렬순'] && (
-            <div className="absolute top-full mt-2 z-10">
-              <ArrayBox onSelect={handleSortSelect} />
+          {openDropdown['파트'] && (
+            <div className="absolute top-full mt-2 z-50">
+              <PartBox onSelect={handleSortSelect} />
             </div>
           )}
         </div>
@@ -155,7 +185,7 @@ const ProjectFilterBar: React.FC = () => {
             className={`flex items-center px-4 py-2 text-sm font-semimedium rounded-md border border-gray-300 hover:bg-gray-200 focus:outline-none`}
             onClick={() => handleDropdownClick('MBTI')}
           >
-            {selectedMbti.length === 0 ? 'MBTI' : selectedMbti.join(', ')}
+             {getMbtiButtonText()}
             <img
               src={openDropdown['MBTI'] ? KeyboardArrowUpIcon : KeyboardArrowDownIcon}
               alt="arrow icon"
@@ -164,7 +194,7 @@ const ProjectFilterBar: React.FC = () => {
           </button>
           {openDropdown['MBTI'] && (
             <div className="absolute top-full mt-2 z-10">
-              <div className="rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <div className="rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
                 <MbtiBox selectedMbtis={selectedMbti} onSelect={handleMbtiSelect} />
               </div>
             </div>
@@ -184,13 +214,15 @@ const ProjectFilterBar: React.FC = () => {
             />
           </button>
           {openDropdown['위치'] && (
-            <div className="absolute top-full mt-2 z-10">
+            <div className="absolute top-full mt-2 z-50">
               <LocationBox selectedLocations={selectedLocations} onToggleSelect={handleLocationToggle} />
             </div>
           )}
         </div>
         </div>
       </div>
+      {/*{sortOption !== null && <div>선택된 정렬 옵션: {sortOption}</div>}*/}
+
     </div>
   );
 };
