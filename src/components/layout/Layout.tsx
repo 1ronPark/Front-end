@@ -13,12 +13,12 @@ export const Layout = () => {
         <MainNavbar
           isLoggedIn={true}
           userName="홍길동"
-          bgColor={isMemberDetailPage ? "#EDE6EE" : "white"}
+          bgColor={isMemberDetailPage ? "#EEEEEE" : "white"}
         />
         <main className="flex-1">
           <Outlet />
         </main>
-        <Footbar bgColor={isMemberDetailPage ? "#EDE6EE" : "white"} />
+        <Footbar bgColor={isMemberDetailPage ? "#EEEEEE" : "white"} />
       </div>
       <div className="fixed right-0 top-0 z-30 h-screen w-[60px] border-l bg-white shadow-md">
         <SideNavbar />

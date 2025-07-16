@@ -108,7 +108,7 @@ export const MainNavbar = ({
                 console.log("드롭다운 클릭됨");
                 setIsDropdownOpen((prev) => !prev);
               }}
-              className="flex items-center gap-2 px-6 py-4 bg-white cursor-pointer"
+              className="flex items-center gap-2 px-6 py-4 cursor-pointer"
             >
               <img src={ic_myprofile} alt="myprofile" className="w-6 h-6" />
               <span className="text-[#6750A4] title-medium">{userName}</span>
