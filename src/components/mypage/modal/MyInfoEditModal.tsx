@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 import { useState } from "react";
-import type { MyInfoProps } from '../../../types/MyInfoProps';
+import type { MyInfoProps } from "../../../types/MyInfoProps";
 
 interface EditModalProps {
   onClose: () => void;

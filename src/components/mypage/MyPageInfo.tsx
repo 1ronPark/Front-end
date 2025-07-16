@@ -1,20 +1,20 @@
 import { ChevronLeft, DoorOpen } from "lucide-react";
-import editIcon from "../../../assets/icons/mypage/ic_edit.svg";
-import sample from "../../../assets/icons/mypage/sample_profile.png";
+import editIcon from "../../assets/icons/mypage/ic_edit.svg";
+import sample from "../../assets/icons/mypage/sample_profile.png";
 import { useState } from "react";
-import MyInfoEditModal from "../modal/MyInfoEditModal";
-import addPhotoIcon from "../../../assets/icons/mypage/ic_camera.svg";
-import AddPhotoModal from "../modal/AddPhotoModal";
-import type { MyInfoProps } from '../../../types/MyInfoProps';
+import addPhotoIcon from "../../assets/icons/mypage/ic_camera.svg";
+import type { MyInfoProps } from "../../types/MyInfoProps";
+import MyInfoEditModal from "./modal/MyInfoEditModal";
+import AddPhotoModal from "./modal/AddPhotoModal";
 
-const MyInfo = (myProps: MyInfoProps) => {
+const MyPageInfo = (myProps: MyInfoProps) => {
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [addPhotoModal, setIsAddPhotoModal] = useState<boolean>(false);
 
   return (
     <div className="w-[1280px] flex flex-col items-start gap-[62px]">
       {/* 회원정보 */}
-      <div className="flex flex-col px-[160px] gap-4">
+      <div className="flex flex-col px-[160px] gap-4 py-6">
         {/* header */}
         <div className="flex justify-between items-center w-[960px] h-[32px]">
           <p className="headline-small-emphasis">
@@ -129,4 +129,4 @@ const MyInfo = (myProps: MyInfoProps) => {
   );
 };
 
-export default MyInfo;
+export default MyPageInfo;

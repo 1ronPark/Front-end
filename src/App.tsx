@@ -22,6 +22,7 @@ import { LoginPassword } from "./pages/Auth/LoginPassword";
 import { SignupForm } from "./pages/Auth/SignupForm";
 import { SignupPassword } from "./pages/Auth/SignupPassword";
 import { PasswordReset } from "./pages/Auth/PasswordReset";
+
 // Add the correct import for SignupPage or use SignupEmail if that's intended
 
 function App() {
@@ -44,7 +45,7 @@ function App() {
           <Route path="/lighttalk" element={<LightTalk />} />
           <Route path="/myprofile" element={<MyProfile />} />
         </Route>
-        
+
         <Route path="/myprofile/edit" element={<FormLayout />}>
           <Route index element={<FormEdit />} />
         </Route>
