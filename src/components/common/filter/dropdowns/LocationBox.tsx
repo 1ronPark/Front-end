@@ -24,7 +24,7 @@ const LocationBox: React.FC<LocationBoxProps> = ({ selectedLocations, onToggleSe
     : districts;
 
   return (
-    <div className="absolute top-full left-0 mt-2 w-80 bg-white border border-gray-300 rounded-md shadow-lg z-10 flex h-[340px]">
+    <div className="absolute top-full left-0 -translate-x-[200px] mt-2 w-80 bg-white border border-gray-300 rounded-md shadow-lg z-10 flex h-[340px]">
       <div className="w-1/2 border-r border-gray-200 flex flex-col">
         <h3 className="flex-shrink-0 px-4 py-2 bg-gray-100 font-semibold text-sm text-center">시 • 도</h3>
         <ul className="flex-grow py-1 overflow-y-auto">

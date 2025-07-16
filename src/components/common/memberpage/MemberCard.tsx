@@ -34,10 +34,10 @@ const MemberCard = ({
             <div className="flex items-center gap-2">
             <img src={ic_avatar} alt="avatar" className="w-10 h-10 rounded-full bg-[#E9DFF7]" />
             <div className="flex flex-col ml-[16px] gap-[4px]">
-                <div className="flex items-center gap-1">
-                <span className="title-medium">{name}</span>
-                <span className="title-medium">| {nickname}</span>
-                <span className="label-medium">({gender}) {mbti}</span>
+                <div className="flex flex-wrap items-center gap-1"> {/* flex-wrap 추가 */}
+                    <span className="title-medium">{name}</span>
+                    <span className="title-medium">| {nickname}</span>
+                    <span className="label-medium">({gender}) {mbti}</span>
                 </div>
                 <div className="flex items-center body-medium text-[#49454E] gap-[4.17px]">
                     <img src={ic_memberlocation} alt="위치 아이콘" />
