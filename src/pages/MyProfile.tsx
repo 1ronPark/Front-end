@@ -27,7 +27,9 @@ export const MyProfile = () => {
           />
         )}
         {activeTab === "edit" && <MyProfileEdit />}
-        {activeTab === "projects" && <MyProjects />}
+        {/* 내 프로젝트가 존재하냐 안하냐에 따라서 나오는 컴포넌트가 달라짐 
+        해당 부분은 hasData:boolean으로 결정 */}
+        {activeTab === "projects" && <MyProjects hasData={true} />}
       </div>
     </div>
   );
