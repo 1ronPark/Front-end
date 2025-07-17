@@ -51,7 +51,7 @@ export const MainNavbar = ({
 
   return (
     <div
-      className={`flex w-full bg-[${bgColor}] px-6 py-3.5 justify-between items-center`}
+      className={`flex w-full bg-[${bgColor}] px-6 justify-between items-center`}
     >
       {/* 로고 */}
       <Link to="/">
@@ -64,7 +64,7 @@ export const MainNavbar = ({
 
       {/* 프로젝트/팀원 찾아보기/라잇톡 탭 */}
       <div className="flex items-center gap-10">
-        {MainNavItems.map(({ label, to }) => (            
+        {MainNavItems.map(({ label, to }) => (              
           <NavLink
             key={to}
             to={to}
@@ -77,7 +77,7 @@ export const MainNavbar = ({
               <>
                 {label}
                 {isActive && (
-                  <span className="absolute bottom-[-11px] w-full h-[3px] bg-[#5A5891] rounded-tl-[100px] rounded-tr-[100px]" />
+                  <span className="absolute bottom-[-15px] w-full h-[3px] bg-[#5A5891] rounded-tl-[100px] rounded-tr-[100px]" />
                 )}
               </>
             )}
