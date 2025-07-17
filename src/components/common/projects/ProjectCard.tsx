@@ -11,13 +11,13 @@ const ProjectCard = ({ id, user, name, date, location }: ProjectData) => {
   return (
     <div
       onClick={() => navigate(`/projects/${id}`)}
-      className="w-full h-[324px] border border-[#CBC4CF] rounded-lg overflow-hidden flex flex-col cursor-pointer"
+      className="w-full h-[260px] border border-[#CBC4CF] rounded-lg overflow-hidden flex flex-col cursor-pointer"
     >
       {/* 썸네일 이미지 */}
       <img
         src={mediaImage}
         alt="Project Thumbnail"
-        className="w-full h-[160px] object-cover object-center block"
+        className="w-full h-[130px] object-cover object-center block"
       />
       <div className="text-sm scale-[0.95]">
         <div className="px-2 py-1 flex flex-col">
@@ -27,21 +27,21 @@ const ProjectCard = ({ id, user, name, date, location }: ProjectData) => {
               <img
                 src={Avatar}
                 alt="User Avatar"
-                className="w-10 h-10 rounded-full"
+                className="w-8 h-8 rounded-full"
               />
               <div className="flex flex-col">
-                <span className="text-base title-medium">{user}</span>
+                <span className="text-sm title-medium">{user}</span>
               </div>
             </div>
-            <Heart className="w-6 h-6 relative text-gray-600" />
+            <Heart className="w-5 h-5 relative text-gray-600" />
           </div>
 
           {/* 프로젝트 소개 및 위치 */}
           <div className="flex flex-col mt-2">
-            <span className="text-lg title-medium-emphasis line-clamp-2 min-h-[4rem]">
+            <span className="title-medium-emphasis truncate">
               {name}
             </span>
-            <span className="text-sm body-medium text-gray-500">
+            <span className="body-medium text-gray-500">
               {location}
             </span>
           </div>
