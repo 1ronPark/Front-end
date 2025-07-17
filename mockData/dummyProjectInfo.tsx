@@ -4,7 +4,7 @@ export const dummyProjectInfo: ProjectData[] = [
   {
     id: 1,
     user: "박종인",
-    name: "대학생들을 위한 프로젝트 연계형 창업 도모 서비스, 각 파트별 팀원 모집 중",
+    name: "대학생들을 위한 프로젝트 연계형 창업 도모 서비스",
     date: "2025-07-11",
     location: "한양대학교 ERICA",
   },
