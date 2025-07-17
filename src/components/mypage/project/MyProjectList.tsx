@@ -5,7 +5,7 @@ import MyprojectCard from "./MyprojectCard";
 const projectList: MyProjectCardProps[] = dummyProjectCard;
 
 const MyProjectList = () => {
-  //내가 참여한 프로젝트 list
+  //내가
   const managedProjects = projectList.filter((p) =>
     ["참여중", "제안 수락됨", "제안 거절됨"].includes(p.status)
   );
@@ -15,9 +15,9 @@ const MyProjectList = () => {
   );
 
   return (
-    <div className="gap-8">
+    <div className="gap-8 h-full">
       {/* 내 프로젝트 */}
-      <div className="flex flex-col  items-center mt-[48px]">
+      <div className="flex flex-col items-center mt-[48px]">
         <div className="w-full flex flex-col justify-between mb-4">
           <p className="title-medium-emphasis text-[#1C1B21]">내 프로젝트</p>
         </div>

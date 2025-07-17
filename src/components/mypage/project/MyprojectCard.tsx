@@ -1,45 +1,90 @@
+import { ChevronUp, EllipsisVertical } from "lucide-react";
 import logo from "../../../assets/icons/mypage/project_sample_logo.png";
+import hailIcon from "../../../assets/icons/mypage/ic_hail.svg";
+import groupIcon from "../../../assets/icons/mypage/ic_group_search.svg";
+import type { CategoryType } from "../../../types/MyProjectCard";
 
 interface MyProjectCartProps {
   id: number;
-  status: "참여중" | "제안 수락됨" | "제안 거절됨" | "모집중" | "모집마감";
+  categories: CategoryType[];
   title: string;
-  PM_name: string;
-  univ: string;
-  location: string;
+  sub_title: string;
+  status: "모집중" | "모집마감";
+  hasTeammate: boolean;
 }
 
 const MyprojectCard = ({
-  status,
+  categories,
   title,
-  PM_name,
-  univ,
-  location,
+  sub_title,
+  status,
+  hasTeammate,
 }: MyProjectCartProps) => {
   return (
-    <div className="w-[960px] ">
-      <div
-        className="w-full h-[96px] flex  items-center p-2.5
-      border border-solid border-[#C8C5D0] hover:cursor-pointer"
+    <div className="relative w-[960px] flex justify-center items-center rounded-xl shadow-md hover:bg-[rgba(29,27,32,0.08)] mb-2">
+      <button
+        className="w-[56px] h-[56px] absolute flex flex-col justify-center items-center text-black 
+      rounded-[100px] top-0 right-0 hover:bg-[rgba(73,69,79,0.08)]"
       >
-        <img src={logo} className="w-[64px] h-[64px] rounded-[8px] ml-1" />
-        <div
-          className={`text-black mx-[56px] w-[96px] h-[32px] flex justify-center items-center px-2 gap-2.5
-        rounded-[8px]
-        ${status === "참여중" && "bg-[#D6E6FF]"}
-        ${status === "제안 수락됨" && "bg-[#D6FFD6]"}
-        ${status === "제안 거절됨" && "bg-[#FFDAD6]"}
-        ${status === "모집중" && "bg-[#E3DFFF]"}
-        ${status === "모집마감" && "bg-[#FFDAD6]"}
-        `}
-        >
-          <span className="label-medium text-[#1C1B21]">{status}</span>
-        </div>
-        <div className="flex flex-col justify-center items-start gap-1">
-          <span className="title-medium-emphasis text-[#1C1B21]">{title}</span>
-          <span className="label-medium text-[#47464F]">
-            {PM_name} PM, {univ}, {location} 전체
-          </span>
+        <EllipsisVertical />
+      </button>
+      <div className="w-[960px]  flex flex-col justify-center items-center p-4 gap-2.5 shrink-0">
+        <div className="w-[888px] flex justify-center items-center gap-8">
+          <img
+            src={logo}
+            className="w-[80px] h-[80px] flex justify-center items-center shrink-0 aspect-square rounded-xl"
+          />
+          <div className="w-full flex flex-col justify-center items-start gap-2">
+            <p className="label-medium text-[#1C1B21]">
+              {categories.join(", ")}
+              {/* 카테고리 배열이 ,로 구별되어 문자열로 변함 */}
+            </p>
+            <div className="flex items-center gap-6">
+              <p className="title-large-emphasis text-[#1C1B21]">{title}</p>
+              <p className="title-medium text-[#1C1B21]">{sub_title}</p>
+            </div>
+            {/* 상태가 모집중이면 팀원 모집중 코맨트 보여주기 */}
+            {status === "모집중" && hasTeammate && (
+              <div className="flex items-center gap-[14px] text-[#16134A]">
+                <img
+                  src={groupIcon}
+                  className="w-[24px] h-[24px] aspect-square"
+                />
+                <p className="title-small opacity-[0.64] "> 팀원 모집중</p>
+              </div>
+            )}
+            {/* 상태가 모집중이고 지원한 사람이 없는 경우 */}
+            {status === "모집중" && !hasTeammate && (
+              <div className="flex justify-between items-center w-full">
+                <div className="flex items-center gap-[14px] text-[#16134A]">
+                  <img
+                    src={groupIcon}
+                    className="w-[24px] h-[24px] aspect-square"
+                  />
+                  <p className="title-small opacity-[0.64] "> 팀원 모집중</p>
+                </div>
+                <button className="flex justify-center items-center gap-1 px-3 py-1.5 rounded-xl hover:bg-gray-100 cursor-pointer">
+                  <ChevronUp className="w-5 h-5 text-[#6C63FF]" />
+                  <p className="label-large text-[#6C63FF]">보러가기</p>
+                </button>
+              </div>
+            )}
+            {/* 팀메이트가 있으면 밑에 정보들 보여주기 */}
+            {hasTeammate && (
+              <div className="flex justify-between items-center w-full">
+                <div className="flex items-center gap-[14px] text-[#16134A] ">
+                  <img src={hailIcon} />
+                  <p className="title-small opacity-[0.64]">
+                    지원한 사람 있어요
+                  </p>
+                </div>
+                <button className="flex justify-center items-center gap-1 px-3 py-1.5 rounded-xl hover:bg-gray-100 cursor-pointer">
+                  <ChevronUp className="w-5 h-5 text-[#6C63FF]" />
+                  <p className="label-large text-[#6C63FF]">보러가기</p>
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
