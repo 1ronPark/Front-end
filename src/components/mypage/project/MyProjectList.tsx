@@ -1,20 +1,37 @@
+import { dummyProjectCard } from "../../../../mockData/dummyProjectCard";
+import type { MyProjectCardProps } from "../../../types/MyProjectCard";
 import MyprojectCard from "./MyprojectCard";
 
-const MyProjectList = () => {
-  return (
-    <div>
-      {/* 내가 참여중인 프로젝트 */}
-      <MyprojectCard
-        status={"참여중"}
-        title={
-          "Lightup(라이텁) - 대학생들을 위한 프로젝트 연계형 창업 도모 서비스"
-        }
-        PM_name={"박종인"}
-        univ={"한양대학교 ERICA"}
-        location={"안산"}
-      />
+const projectList: MyProjectCardProps[] = dummyProjectCard;
 
+const MyProjectList = () => {
+  //내가 참여한 프로젝트 list
+  const managedProjects = projectList.filter((p) =>
+    ["참여중", "제안 수락됨", "제안 거절됨"].includes(p.status)
+  );
+  //내 프로젝트 list
+  const ownedProjects = projectList.filter((p) =>
+    ["모집중", "모집마감"].includes(p.status)
+  );
+
+  return (
+    <div className="gap-8">
       {/* 내 프로젝트 */}
+      <div className="flex flex-col  items-center mt-[48px]">
+        <div className="w-full flex flex-col justify-between mb-4">
+          <p className="title-medium-emphasis text-[#1C1B21]">내 프로젝트</p>
+        </div>
+        {ownedProjects.map((project, idx) => (
+          <MyprojectCard key={`owned-${idx}`} {...project} />
+        ))}
+      </div>
+
+      {/* 내가 참여중인 프로젝트 */}
+
+      <div className="text-black my-9">지원했던 프로젝트</div>
+      {managedProjects.map((project, idx) => (
+        <MyprojectCard key={`managed-${idx}`} {...project} />
+      ))}
     </div>
   );
 };
