@@ -13,10 +13,16 @@ const MyProjectEmpty = () => {
       </div>
       {/* 밑에 버튼들 */}
       <div className="flex flex-col items-start gap-4">
-        <button className="w-[240px] h-[40px] flex flex-col justify-center items-center rounded-xl bg-[#5A5891]">
+        <button
+          className="w-[240px] h-[40px] flex flex-col justify-center items-center 
+        rounded-xl bg-[#5A5891] hover:cursor-pointer"
+        >
           <p className="text-[#FFF] label-large">둘러보러가기</p>
         </button>
-        <button className="w-[240px] h-[40px] flex flex-col justify-center items-center rounded-xl border border-[#C8C5D0] border-solid">
+        <button
+          className="w-[240px] h-[40px] flex flex-col justify-center items-center 
+        rounded-xl border border-[#C8C5D0] border-solid hover:cursor-pointer"
+        >
           <p className="text-[#47464F] label-large">등록하러가기</p>
         </button>
       </div>
