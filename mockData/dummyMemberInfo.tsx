@@ -9,7 +9,8 @@ export const dummyMemberInfo: MemberCardProps[] = [
     mbti: "ISFJ",
     location: "서울 전체, 경기도 성남",
     role: "백엔드 개발",
-    tags: ["#spring", "#node.js", "#CSS", "#빅데이터분석기사"]
+    skills: ["#spring", "#node.js", "#CSS", "#빅데이터분석기사"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 2,
@@ -19,7 +20,8 @@ export const dummyMemberInfo: MemberCardProps[] = [
     mbti: "ENFP",
     location: "서울 강남구",
     role: "프론트엔드 개발",
-    tags: ["#react", "#typescript", "#UIUX"]
+    skills: ["#react", "#typescript", "#UIUX"],
+    strengths: ["#끈기s", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 3,
@@ -29,7 +31,8 @@ export const dummyMemberInfo: MemberCardProps[] = [
     mbti: "INTP",
     location: "경기 수원시",
     role: "알고리즘 연구",
-    tags: ["#c++", "#python", "#ps"]
+    skills: ["#c++", "#python", "#ps"],
+    strengths: ["#열정", "#파이팅", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 4,
@@ -39,7 +42,8 @@ export const dummyMemberInfo: MemberCardProps[] = [
     mbti: "INFP",
     location: "서울 마포구",
     role: "UI 디자이너",
-    tags: ["#Figma", "#UX", "#프로토타이핑"]
+    skills: ["#Figma", "#UX", "#프로토타이핑"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 5,
@@ -49,7 +53,8 @@ export const dummyMemberInfo: MemberCardProps[] = [
     mbti: "ESTJ",
     location: "경기 고양시",
     role: "데이터베이스 관리자",
-    tags: ["#MySQL", "#MongoDB", "#DBA"]
+    skills: ["#MySQL", "#MongoDB", "#DBA"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 6,
@@ -59,7 +64,8 @@ export const dummyMemberInfo: MemberCardProps[] = [
     mbti: "ENTJ",
     location: "서울 관악구",
     role: "프로덕트 매니저",
-    tags: ["#Agile", "#Jira", "#Notion"]
+    skills: ["#Agile", "#Jira", "#Notion"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 7,
@@ -69,7 +75,8 @@ export const dummyMemberInfo: MemberCardProps[] = [
     mbti: "ISFP",
     location: "서울 종로구",
     role: "QA 엔지니어",
-    tags: ["#Jest", "#Cypress", "#테스트자동화"]
+    skills: ["#Jest", "#Cypress", "#테스트자동화"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 8,
@@ -79,7 +86,8 @@ export const dummyMemberInfo: MemberCardProps[] = [
     mbti: "INTJ",
     location: "서울 동작구",
     role: "AI 엔지니어",
-    tags: ["#PyTorch", "#Tensorflow", "#LLM"]
+    skills: ["#PyTorch", "#Tensorflow", "#LLM"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 9,
@@ -89,7 +97,8 @@ export const dummyMemberInfo: MemberCardProps[] = [
     mbti: "ISTP",
     location: "경기 성남시",
     role: "모바일 개발자",
-    tags: ["#Kotlin", "#Swift", "#ReactNative"]
+    skills: ["#Kotlin", "#Swift", "#ReactNative"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 10,
@@ -99,7 +108,8 @@ export const dummyMemberInfo: MemberCardProps[] = [
     mbti: "ENFJ",
     location: "서울 송파구",
     role: "크로스 플랫폼 개발자",
-    tags: ["#Flutter", "#Ionic", "#ReactNative"]
+    skills: ["#Flutter", "#Ionic", "#ReactNative"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 11,
@@ -109,7 +119,8 @@ export const dummyMemberInfo: MemberCardProps[] = [
     mbti: "INFJ",
     location: "경기 부천시",
     role: "그래픽 디자이너",
-    tags: ["#Photoshop", "#Illustrator", "#Branding"]
+    skills: ["#Photoshop", "#Illustrator", "#Branding"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 12,
@@ -119,7 +130,8 @@ export const dummyMemberInfo: MemberCardProps[] = [
     mbti: "ISTJ",
     location: "서울 중구",
     role: "웹 퍼블리셔",
-    tags: ["#HTML", "#CSS", "#웹접근성"]
+    skills: ["#HTML", "#CSS", "#웹접근성"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 13,
@@ -129,7 +141,8 @@ export const dummyMemberInfo: MemberCardProps[] = [
     mbti: "ENTP",
     location: "경기 의정부시",
     role: "정보보안 담당",
-    tags: ["#OWASP", "#보안테스트", "#해킹방지"]
+    skills: ["#OWASP", "#보안테스트", "#해킹방지"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 14,
@@ -139,7 +152,8 @@ export const dummyMemberInfo: MemberCardProps[] = [
     mbti: "ESFP",
     location: "서울 노원구",
     role: "로보틱스 엔지니어",
-    tags: ["#ROS", "#C++", "#센서"]
+    skills: ["#ROS", "#C++", "#센서"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 15,
@@ -149,7 +163,8 @@ export const dummyMemberInfo: MemberCardProps[] = [
     mbti: "ISTJ",
     location: "서울 성북구",
     role: "데이터 분석가",
-    tags: ["#pandas", "#numpy", "#powerBI"]
+    skills: ["#pandas", "#numpy", "#powerBI"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 16,
@@ -159,7 +174,8 @@ export const dummyMemberInfo: MemberCardProps[] = [
     mbti: "ESTP",
     location: "경기 용인시",
     role: "클라우드 엔지니어",
-    tags: ["#AWS", "#Azure", "#GCP"]
+    skills: ["#AWS", "#Azure", "#GCP"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 17,
@@ -169,7 +185,8 @@ export const dummyMemberInfo: MemberCardProps[] = [
     mbti: "INFP",
     location: "서울 은평구",
     role: "DevOps 엔지니어",
-    tags: ["#Docker", "#Kubernetes", "#CI/CD"]
+    skills: ["#Docker", "#Kubernetes", "#CI/CD"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 18,
@@ -179,7 +196,8 @@ export const dummyMemberInfo: MemberCardProps[] = [
     mbti: "INFJ",
     location: "서울 강동구",
     role: "머신러닝 엔지니어",
-    tags: ["#Scikit-learn", "#MLflow", "#파라미터튜닝"]
+    skills: ["#Scikit-learn", "#MLflow", "#파라미터튜닝"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 19,
@@ -189,7 +207,8 @@ export const dummyMemberInfo: MemberCardProps[] = [
     mbti: "ENTP",
     location: "서울 강서구",
     role: "풀스택 개발자",
-    tags: ["#Node.js", "#React", "#PostgreSQL"]
+    skills: ["#Node.js", "#React", "#PostgreSQL"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 20,
@@ -199,7 +218,8 @@ export const dummyMemberInfo: MemberCardProps[] = [
     mbti: "ESTJ",
     location: "경기 평택시",
     role: "Tech Lead",
-    tags: ["#Architecture", "#CI/CD", "#코드리뷰"]
+    skills: ["#Architecture", "#CI/CD", "#코드리뷰"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   
 ];

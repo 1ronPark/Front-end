@@ -11,7 +11,8 @@ export type MemberCardProps = {
     mbti: string;
     location: string;
     role: string;
-    tags: string[];
+    skills: string[];
+    strengths: string[];
 };
 
 const MemberCard = ({
@@ -22,9 +23,11 @@ const MemberCard = ({
     mbti,
     location,
     role,
-    tags,
+    skills,
+    strengths,
 }: MemberCardProps) => {
     const navigate = useNavigate();
+
     return (
         <div
             onClick={()=>navigate(`/members/${id}`)}
@@ -51,16 +54,16 @@ const MemberCard = ({
         {/* 역할 */}
         <div className="mt-6 body-large">{role}</div>
 
-        {/* 태그 */}
+        {/* 스킬과 강점 두 개씩만 */}
         <div className="flex flex-wrap gap-2 mb-1">
-            {tags.map((tag) => (
-            <span
-                key={tag}
-                className="bg-[#FEF7FF] body-medium px-1 rounded-[4px]"
-            >
-                {tag}
-            </span>
-            ))}
+            {[...skills.slice(0, 2), ...strengths.slice(0, 2)].map((tag, index) => (
+                    <span
+                        key={`${tag}-${index}`}
+                        className="bg-[#FEF7FF] body-medium px-1 rounded-[4px]"
+                    >
+                        {tag}
+                    </span>
+                ))}
         </div>
         </div>
     );

@@ -14,7 +14,8 @@ const MemberList = () => {
                     mbti={member.mbti}
                     location={member.location}
                     role={member.role}
-                    tags={member.tags}
+                    skills={member.skills}
+                    strengths={member.strengths}
                 />
             ))}
         </div>
