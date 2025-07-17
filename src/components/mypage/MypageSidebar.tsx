@@ -1,8 +1,8 @@
 import { User, IdCard, Code } from 'lucide-react';
 
 interface Props {
-  activeTab: 'info' | 'edit' | 'projects';
-  setActiveTab: (tab: 'info' | 'edit' | 'projects') => void;
+  currentTab: 'info' | 'edit' | 'projects';
+  setCurrentTab: (tab: 'info' | 'edit' | 'projects') => void;
 }
 
 const TABS = [
@@ -11,9 +11,9 @@ const TABS = [
   { id: 'projects' as const, label: '프로젝트', Icon: Code },
 ];
 
-const MypageSidebar = ({ activeTab, setActiveTab }: Props) => {
+const MypageSidebar = ({ currentTab, setCurrentTab }: Props) => {
   const getButtonClass = (tabId: 'info' | 'edit' | 'projects') =>
-    activeTab === tabId
+    currentTab === tabId
       ? 'flex items-center gap-3 rounded-full bg-[#E9DEF8] px-4 py-2 text-md font-semibold text-primary-800'
       : 'flex items-center gap-3 rounded-full px-4 py-2 text-md text-gray-600 hover:bg-gray-100';
 
@@ -21,7 +21,7 @@ const MypageSidebar = ({ activeTab, setActiveTab }: Props) => {
     <div className="h-full w-55 rounded-r-2xl p-4">
       <div className="flex flex-col gap-2">
         {TABS.map(({ id, label, Icon }) => (
-          <button key={id} className={getButtonClass(id)} onClick={() => setActiveTab(id)}>
+          <button key={id} className={getButtonClass(id)} onClick={() => setCurrentTab(id)}>
             <Icon className="h-5 w-5" />
             <span>{label}</span>
           </button>
