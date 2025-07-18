@@ -50,8 +50,8 @@ const MyProfileEdit = () => {
             </div>
             <div className="flex items-center gap-2">
               <Wrench className="h-5 w-5 text-gray-600" />
-              <p className="font-semibold w-20 shrink-0">사용 가능 툴</p>
-              <p className="ml-10">Figma, Adobe XD, Notion</p>
+              <p className="font-semibold w-20 shrink-0">스킬</p>
+              <p className="ml-10">React, JavaScript, html, css</p>
             </div>
           </div>
         </div>

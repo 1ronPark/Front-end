@@ -48,12 +48,12 @@ const [addPhotoModal, setIsAddPhotoModal] = useState<boolean>(false);
                 <img src={addPhotoIcon} />
               </button>
           </div>
-          <div className="flex-1 mt-3 space-y-8">
+          <div className="flex-1 mt-3 space-y-4">
             <div className="flex items-center gap-4 ">
               <span className="text-gray-500 text-lg">{myProps.nickname}</span>
 
               {/* 세로 바 추가 */}
-              <div className="h-4 border-l border-gray-300" />
+              <div className="h-10 border-l border-gray-300" />
 
               <span className="text-xl">{myProps.name}</span>
               <span className="text-gray-400">{myProps.sex}</span>
@@ -61,21 +61,23 @@ const [addPhotoModal, setIsAddPhotoModal] = useState<boolean>(false);
               <span className="text-gray-400">{myProps.mbti}</span>
             </div>
             <div className="space-y-6 text-sm text-gray-800">
-              <div className="m-6 flex flex-col gap-6">
-                <div className="flex gap-8 flex-[2]">
+              <div className="m-6 flex flex-col gap-3">
+                <div className="flex items-center gap-8">
                   <p className="text-gray-500 shrink-0 flex items-center gap-1">
                     <GraduationCap className="w-4 h-4 text-gray-500" />
                     대학교
                   </p>
-                  <p className = "ml-8">{myProps.univ}</p>
+                  <p>{myProps.univ}</p>
                 </div>
+
                 <hr className="border-t border-gray-300" />
-                <div className="flex gap-8 flex-[2]">
+
+                <div className="flex items-center gap-8">
                   <p className="text-gray-500 shrink-0 flex items-center gap-1">
                     <AtSign className="w-4 h-4 text-gray-500" />
                     이메일
                   </p>
-                  <p className = "ml-8">{myProps.email}</p>
+                  <p>{myProps.email}</p>
                 </div>
               </div>
             </div>
