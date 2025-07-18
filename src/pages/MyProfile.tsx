@@ -5,10 +5,12 @@ import MyProfileEdit from "../components/mypage/MyProfileEdit";
 import MyProjects from "../components/mypage/MyProjects";
 import MyPageInfo from "../components/mypage/MyPageInfo";
 
-
 export const MyProfile = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const currentTab = (searchParams.get("tab") ?? "info") as "info" | "edit" | "projects";
+  const currentTab = (searchParams.get("tab") ?? "info") as
+    | "info"
+    | "edit"
+    | "projects";
 
   const setCurrentTab = (tab: "info" | "edit" | "projects") => {
     setSearchParams({ tab });
@@ -31,7 +33,7 @@ export const MyProfile = () => {
           />
         )}
         {currentTab === "edit" && <MyProfileEdit />}
-        {currentTab === "projects" && <MyProjects />}
+        {currentTab === "projects" && <MyProjects hasData={true} />}
       </div>
     </div>
   );
