@@ -10,15 +10,15 @@ const ModifyingMenu = ({ activeSection }: ModifyingMenuProps) => {
   const menuItems = [
     { id: 'basic-info', label: '기본 정보' },
     { id: 'desired-conditions', label: '희망 조건' },
-    { id: 'strengths', label: '강점 • 자기소개서' },
-    { id: 'portfolio', label: '포트폴리오' },
-    { id: 'history', label: '수상 • 수료 • 활동 이력' },
-    { id: 'reception-status', label: '제안 수신 여부' },
+    { id: 'strengths', label: '스킬 & 강점' },
+    { id: 'portfolio', label: '자기소개 • 포트폴리오' },
+    { id: 'history', label: '수상 • 활동 이력' },
+    
   ];
 
   const handleMenuClick = (id: string) => {
     const element = document.getElementById(id);
-    element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    element?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   };
 
   return (
@@ -26,7 +26,7 @@ const ModifyingMenu = ({ activeSection }: ModifyingMenuProps) => {
       <Save />
       <div className="text-center text-sm text-gray-500">최종 수정일 : {lastModifiedDate}</div>
       <div className="rounded-lg border border-gray-200 p-4">
-        <h3 className="mb-4 text-lg font-semibold">목록</h3>
+        <h3 className="mb-4 text-lg font-semibold">프로필 관리</h3>
         <div className="flex flex-col gap-2">
           {menuItems.map(item => (
             <button

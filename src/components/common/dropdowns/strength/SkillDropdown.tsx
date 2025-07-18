@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { ChevronDown } from 'lucide-react';
 
 const SKILL_OPTIONS = ['JavaScript', 'React', 'Spring', 'Node.js', 'C#', 'C++', 'Python', 'Java', 'HTML', 'CSS', 'SQL', 'TypeScript', 'Go', 'Ruby', 'PHP', 'Swift', 'Kotlin'];
 
@@ -40,7 +41,7 @@ const SkillDropdown = ({ onSelect }: SkillDropdownProps) => {
         className="flex w-full items-center justify-between rounded-xl border border-gray-200 p-4"
       >
         <span className="text-base text-gray-400">스킬을 선택하세요.</span>
-        {/* 아래 화살표 아이콘 */}
+        <ChevronDown size={24} className="text-gray-500 disabled:text-gray-400" />
       </button>
       {isOpen && (
         <div className="absolute z-10 mt-2 w-full rounded-md border border-gray-300 bg-white shadow-lg">

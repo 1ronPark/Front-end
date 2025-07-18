@@ -27,9 +27,8 @@ const SECTIONS = [
   { id: 'strengths', component: <Strength /> },
   { id: 'portfolio', component: <Portfolio /> },
   { id: 'history', component: <History /> },
-  {/*{ id: 'reception-status', component: <Reception /> },*/}
 ];
-
+{/*{ id: 'reception-status', component: <Reception /> },*/}
 export const FormEdit = () => {
   const [activeSection, setActiveSection] = useState('basic-info');
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -43,7 +42,7 @@ export const FormEdit = () => {
           }
         });
       },
-      { rootMargin: '-40% 0px -60% 0px', threshold: 0 },
+      { rootMargin: '-30% 0px -60% 0px', threshold: 0 },
     );
 
     const refsSnapshot = [...sectionRefs.current];
@@ -64,7 +63,14 @@ export const FormEdit = () => {
       <div className="flex w-full max-w-[1024px] px-6 py-8">
         <div className="flex-1 space-y-20">
           {SECTIONS.map((section, index) => (
-            <div key={section.id} id={section.id} ref={(el) => { sectionRefs.current[index] = el; }}>
+            <div 
+            key={section.id} 
+            id={section.id} 
+            ref={(el) => { 
+              sectionRefs.current[index] = el; 
+              }}
+              className="min-h-[200px]"
+              >
               {section.component}
             </div>
           ))}

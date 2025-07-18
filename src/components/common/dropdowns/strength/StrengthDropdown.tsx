@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { ChevronDown } from 'lucide-react';
 
 const STRENGTH_OPTIONS = ['성실한', '열정있는', '꾸준한', '소통 전문가', '습득이 빠른', '느좋', '문제 해결 능력', '창의적인', '협업 능력', '긍정적인', '적극적인', '리더십 있는', '유연한 사고', '분석적인', '디테일이 뛰어난', '시간 관리 능력', '적응력이 뛰어난'];
 
@@ -40,7 +41,7 @@ const StrengthDropdown = ({ onSelect }: StrengthDropdownProps) => {
         className="flex w-full items-center justify-between rounded-xl border border-gray-200  p-4"
       >
         <span className="text-base text-gray-400">강점을 선택하세요.</span>
-        {/* 아래 화살표 아이콘 */}
+        <ChevronDown size={24} className="text-gray-500 disabled:text-gray-400" />
       </button>
       {isOpen && (
         <div className="absolute z-10 mt-2 w-full rounded-md border border-gray-300 bg-white shadow-lg">
