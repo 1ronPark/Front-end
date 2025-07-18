@@ -36,7 +36,7 @@ const ProjectInfoCard = ({ user, name, date, location }: Props) => {
         </div>
       </div>
 
-      <div className="bg-white rounded-[8px] border border-[rgba(121,116,126,0.08)] px-4 py-8 w-full">
+      <div className="bg-white rounded-[8px] border border-[rgba(121,116,126,0.08)] p-6 w-full">
         <div className="flex justify-start items-center gap-8 mb-4.5">
           {/* 제목 */}
           <h2 className="headline-small-emphasis">{name}</h2>
