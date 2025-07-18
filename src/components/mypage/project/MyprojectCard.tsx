@@ -11,6 +11,8 @@ interface MyProjectCartProps {
   sub_title: string;
   status: "모집중" | "모집마감";
   hasTeammate: boolean;
+  current_project: boolean; //현재 참여하고 있는 프로젝트
+  applied_project: boolean; //지원한 프로젝트인지 여부 이건 current_project가 true이면 false여야 함
 }
 
 const MyprojectCard = ({
@@ -63,7 +65,7 @@ const MyprojectCard = ({
                   />
                   <p className="title-small opacity-[0.64] "> 팀원 모집중</p>
                 </div>
-                <button className="flex justify-center items-center gap-1 px-3 py-1.5 rounded-xl hover:bg-gray-100 cursor-pointer">
+                <button className="flex justify-center items-center gap-1 px-3 py-1.5 rounded-xl hover:bg-[rgba(73,69,79,0.08)] cursor-pointer">
                   <ChevronUp className="w-5 h-5 text-[#6C63FF]" />
                   <p className="label-large text-[#6C63FF]">보러가기</p>
                 </button>
@@ -78,7 +80,7 @@ const MyprojectCard = ({
                     지원한 사람 있어요
                   </p>
                 </div>
-                <button className="flex justify-center items-center gap-1 px-3 py-1.5 rounded-xl hover:bg-gray-100 cursor-pointer">
+                <button className="flex justify-center items-center gap-1 px-3 py-1.5 rounded-xl hover:bg-[rgba(73,69,79,0.08)] cursor-pointer">
                   <ChevronUp className="w-5 h-5 text-[#6C63FF]" />
                   <p className="label-large text-[#6C63FF]">보러가기</p>
                 </button>

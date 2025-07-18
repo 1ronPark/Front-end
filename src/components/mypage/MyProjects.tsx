@@ -21,13 +21,13 @@ const MyProjects = ({ hasData }: MyProjectProps) => {
             className="flex h-[48px] justify-center items-center text-[#47464F] gap-1 
           hover:cursor-pointer"
           >
-            <div
+            <button
               className="flex px-4 py-2.5 justify-center items-center gap-2
-            rounded-xl bg-[#E3E0F9]"
+            rounded-xl bg-[#E3E0F9] hover:bg-[#d3cfed] cursor-pointer"
             >
               <img src={addIcon} />
-              <p className="">프로젝트 등록하기</p>
-            </div>
+              <p className="label-large text-[#464559]">프로젝트 등록하기</p>
+            </button>
           </div>
         )}
       </div>
