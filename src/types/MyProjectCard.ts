@@ -32,5 +32,7 @@ export interface MyProjectCardProps {
   hasTeammate: boolean;
   current_project: boolean; //현재 참여하고 있는 프로젝트
   applied_project: boolean; //지원한 프로젝트인지 여부 이건 current_project가 true이면 false여야 함
+  suggested_project: "suggested" | "applied";
   logo?: string; // Optional logo property
+  date: string;
 }

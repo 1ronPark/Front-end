@@ -23,6 +23,7 @@ export const MyProfile = () => {
         {currentTab === "info" && (
           <MyPageInfo
             //회원 정보에 필요한 props들
+            id={0} //쪼: 우선 임시로 지정해두었습니다!
             name="홍길동"
             nickname="홍"
             phone="010-1234-5678"
@@ -30,6 +31,8 @@ export const MyProfile = () => {
             univ="길동대학교"
             mbti="INTJ"
             intro="나는 홍길동이다"
+            location="서울특별시"
+            role="프론트엔드 개발자"
           />
         )}
         {currentTab === "edit" && <MyProfileEdit />}
