@@ -232,14 +232,14 @@ const ProjectInfoCard = ({
           >
             <img src={ic_send} alt="send icon" className="w-4 h-4" />
             <p className="title-small text-white">
-              {suggested_project === "applied" ? "이미 지원했어요" : "지원하기"}
+              {suggested_project ? "이미 지원했어요" : "지원하기"}
             </p>
           </button>
 
           {/*팝업 말풍선*/}
           {showGuide && (
             <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[280px] bg-white px-4 py-2 rounded-xl shadow-md z-50 text-sm text-[#1D1B20] whitespace-pre-line">
-              {suggested_project === "suggested" ? (
+              {!suggested_project ? (
                 <>
                   <p>히로님에게 제안을 보낸 프로젝트예요</p>
                   <p>지금 바로 지원하고 연락해 보세요!</p>

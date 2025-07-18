@@ -1,3 +1,5 @@
+{/*프로젝트 정보 type*/}
+
 export type CategoryType =
   | "전체"
   | "플랫폼"
@@ -26,13 +28,13 @@ export type CategoryType =
 export interface MyProjectCardProps {
   id: number;
   categories: CategoryType[];
-  title: string;
-  sub_title: string;
+  title: string; //프로젝트 이름
+  sub_title: string; //프로젝트 홍보글 제목
   status: "모집중" | "모집마감";
   hasTeammate: boolean;
   current_project: boolean; //현재 참여하고 있는 프로젝트
   applied_project: boolean; //지원한 프로젝트인지 여부 이건 current_project가 true이면 false여야 함
-  suggested_project: "suggested" | "applied";
+  suggested_project: boolean; //제안 받은 프로젝트인지 여ㅜ부.... 
   logo?: string; // Optional logo property
   date: string;
 }

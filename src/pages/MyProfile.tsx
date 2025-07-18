@@ -33,6 +33,7 @@ export const MyProfile = () => {
             intro="나는 홍길동이다"
             location="서울특별시"
             role="프론트엔드 개발자"
+          
           />
         )}
         {currentTab === "edit" && <MyProfileEdit />}

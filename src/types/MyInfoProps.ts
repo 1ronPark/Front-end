@@ -1,3 +1,4 @@
+{/*회원 정보 type*/}
 export interface MyInfoProps {
   id: number;
   name: string;
@@ -12,5 +13,5 @@ export interface MyInfoProps {
   blog?: string;
   gender?: "남" | "여";
   age?: number;
-  tags?: string[];
+  tags?: string[]; 
 }
