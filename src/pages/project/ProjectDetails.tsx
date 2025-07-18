@@ -1,4 +1,4 @@
-import CommentSection from "../../components/common/projectsdetail/CommentSection";
+import CommentSection from "../../components/common/comment/CommentSection";
 import ProjectOverview from "../../components/common/projectsdetail/ProjectOverview";
 import ProjectInfoCard from "../../components/common/projectsdetail/ProjectInfoCard";
 import { dummyProjectInfo } from "../../../mockData/dummyProjectInfo";
