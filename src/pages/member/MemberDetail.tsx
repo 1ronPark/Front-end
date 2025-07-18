@@ -10,7 +10,7 @@ const MemberDetail = () => {
     return (
         <div className="bg-[#EEEEEE] min-h-screen py-[48px]">
             <div className="mx-auto flex flex-col gap-20 w-auto px-10 md:px-20 lg:px-40">
-                <MemberProfileCard />
+                <MemberProfileCard isApplicantToMyProject={true}/>
                 <MemberStrengths />
                 <MemberPortfolio />
                 <MemberAwards />

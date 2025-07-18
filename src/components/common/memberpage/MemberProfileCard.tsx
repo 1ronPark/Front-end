@@ -6,6 +6,10 @@ import ic_member_email from '../../../assets/icons/ic_member_email.svg';
 import ic_profile from '../../../assets/icons/ic_profile.svg';
 import { Heart } from 'lucide-react';
 
+type MemberProfileCardProps = {
+  isApplicantToMyProject?: boolean;
+};
+
 const profileInfos = [
   { icon: ic_member_part, alt: '파트', label: '파트', value: '디자인' },
   { icon: ic_member_location, alt: '위치', label: '위치', value: '서울 강남구, 성남 전체' },
@@ -13,12 +17,10 @@ const profileInfos = [
   { icon: ic_member_email, alt: '이메일', label: '이메일', value: 'harrysjuns@gachon.ac.kr' },
 ];
 
-const MemberProfileCard = () => {
+const MemberProfileCard = ({ isApplicantToMyProject = false }: MemberProfileCardProps) => {
   return (
     <section>
       <div className="bg-white rounded-[12px] border border-[#79747E]/[0.16] px-6 py-6 w-full">
-        {/* 상단: 마지막 업데이트, 제안 상태 */}
-        
         <div className="flex justify-between items-center mb-4.5">
           {/* 제목 */}
           <h2 className="headline-medium-emphasis">기술과 디자인을 넘나들며 방향을 설계하는 실전형 디자이너</h2>
@@ -71,12 +73,25 @@ const MemberProfileCard = () => {
 
       {/* 하단 버튼 */}
       <div className="flex gap-4 justify-center mt-6 mb-4">
-        <button
+
+        <div className="relative">
+          {/* ✅ 조건부 툴팁 */}
+          {isApplicantToMyProject && (
+            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-10 w-[257px] px-4 py-2 rounded-[16px] bg-white text-[#16134A] shadow text-center body-medium-emphasis">
+              히로님의 프로젝트에 지원한 팀원이에요<br />
+              지금 바로 제안하고 연락해 보세요!
+              <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white rotate-45 shadow-sm"></div>
+            </div>
+          )}
+          <button
           className="w-[200px] h-[56px] flex items-center justify-center gap-2.5 rounded-[16px] bg-[#68548E] text-[#FFFFFF]"
         >
           <img src={ic_send} alt="send icon" className="w-4 h-4 text-white" />
           <p className="title-medium text-[#FFFFFF]">제안 보내기</p>
         </button>
+        </div>
+        
+        
 
         <button
           className="w-[200px] h-[56px] flex items-center justify-center gap-2.5 rounded-[16px] border-[1px] border-[#C8C5D0] text-[#47464F]"
