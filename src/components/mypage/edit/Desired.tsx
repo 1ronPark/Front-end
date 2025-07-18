@@ -62,59 +62,65 @@ const Desired = () => {
         </div>
         <div className="space-y-4 min-w-[550px]">
           <p className="text-sm font-semibold text-gray-600">지역선택 {locations.length} / 3</p>
-          {locations.map((location, index) => (
-            <div key={index} className="flex items-center gap-4">
-              <div className="relative w-[280px]">
-                <SplitButton
-                  labelText={location.city || '시/도'}
-                  onClickLeading={() => toggleCityDropdown(index)}
-                  onClickTrailing={() => toggleCityDropdown(index)}
-                />
-                <CustomDropdown
-                  options={allCities}
-                  onSelect={(value) => handleLocationChange(index, 'city', value)}
-                  isOpen={cityDropdownOpen[index] || false}
-                  setIsOpen={(isOpen) => setCityDropdownOpen((prev) => ({ ...prev, [index]: isOpen }))}
-                  selectedValue={location.city}
-                />
-              </div>
-              <div className="relative w-[280px]">
-                <SplitButton
-                  labelText={location.district || '시/군/구'}
-                  onClickLeading={() => toggleDistrictDropdown(index)}
-                  onClickTrailing={() => toggleDistrictDropdown(index)}
-                  disabled={!location.city}
-                />
-                <CustomDropdown
-                  options={location.city ? locationData[location.city] || [] : []}
-                  onSelect={(value) => handleLocationChange(index, 'district', value)}
-                  isOpen={districtDropdownOpen[index] || false}
-                  setIsOpen={(isOpen) => setDistrictDropdownOpen((prev) => ({ ...prev, [index]: isOpen }))}
-                  selectedValue={location.district}
-                  searchable={true}
-                />
-              </div>
-              {index === locations.length - 1 && locations.length < 3 ? (
-                <button
-                  className="flex w-32 cursor-pointer items-center justify-center gap-1 rounded-md bg-[#68548E] py-3 text-white transition-all hover:scale-105 hover:bg-[#59407e]"
-                  onClick={handleAddLocation}
-                >
-                  <Plus size={16} />
-                  <span>추가</span>
-                </button>
-              ) : (
-                locations.length > 1 && (
-                  <button
-                    className="flex w-32 cursor-pointer items-center justify-center gap-1 rounded-md border border-gray-300 bg-white py-3 text-gray-500 transition-all hover:scale-105 hover:bg-gray-100"
-                    onClick={() => setLocations(locations.filter((_, i) => i !== index))}
-                  >
-                    <Minus size={16} />
-                    <span>삭제</span>
-                  </button>
-                )
-              )}
-            </div>
-          ))}
+          {locations
+            .slice()
+            .reverse()
+            .map((location, reversedIndex) => {
+              const index = locations.length - 1 - reversedIndex;
+              return (
+                <div key={index} className="flex items-center gap-4">
+                  <div className="relative w-[280px]">
+                    <SplitButton
+                      labelText={location.city || '시/도'}
+                      onClickLeading={() => toggleCityDropdown(index)}
+                      onClickTrailing={() => toggleCityDropdown(index)}
+                    />
+                    <CustomDropdown
+                      options={allCities}
+                      onSelect={(value) => handleLocationChange(index, 'city', value)}
+                      isOpen={cityDropdownOpen[index] || false}
+                      setIsOpen={(isOpen) => setCityDropdownOpen((prev) => ({ ...prev, [index]: isOpen }))}
+                      selectedValue={location.city}
+                    />
+                  </div>
+                  <div className="relative w-[280px]">
+                    <SplitButton
+                      labelText={location.district || '시/군/구'}
+                      onClickLeading={() => toggleDistrictDropdown(index)}
+                      onClickTrailing={() => toggleDistrictDropdown(index)}
+                      disabled={!location.city}
+                    />
+                    <CustomDropdown
+                      options={location.city ? locationData[location.city] || [] : []}
+                      onSelect={(value) => handleLocationChange(index, 'district', value)}
+                      isOpen={districtDropdownOpen[index] || false}
+                      setIsOpen={(isOpen) => setDistrictDropdownOpen((prev) => ({ ...prev, [index]: isOpen }))}
+                      selectedValue={location.district}
+                      searchable={true}
+                    />
+                  </div>
+                  {index === locations.length - 1 && locations.length < 3 ? (
+                    <button
+                      className="flex w-32 cursor-pointer items-center justify-center gap-1 rounded-md bg-[#68548E] py-3 text-white transition-all hover:scale-105 hover:bg-[#59407e]"
+                      onClick={handleAddLocation}
+                    >
+                      <Plus size={16} />
+                      <span>추가</span>
+                    </button>
+                  ) : (
+                    locations.length > 1 && (
+                      <button
+                        className="flex w-32 cursor-pointer items-center justify-center gap-1 rounded-md border border-gray-300 bg-white py-3 text-gray-500 transition-all hover:scale-105 hover:bg-gray-100"
+                        onClick={() => setLocations(locations.filter((_, i) => i !== index))}
+                      >
+                        <Minus size={16} />
+                        <span>삭제</span>
+                      </button>
+                    )
+                  )}
+                </div>
+              );
+            })}
         </div>
       </div>
 
