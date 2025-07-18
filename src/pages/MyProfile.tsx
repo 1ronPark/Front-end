@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import MypageSidebar from "../components/mypage/MypageSidebar";
 
 import MyProfileEdit from "../components/mypage/MyProfileEdit";
@@ -6,15 +6,21 @@ import MyProjects from "../components/mypage/MyProjects";
 import MyPageInfo from "../components/mypage/MyPageInfo";
 
 export const MyProfile = () => {
-  const [activeTab, setActiveTab] = useState<"info" | "edit" | "projects">(
-    "info"
-  );
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentTab = (searchParams.get("tab") ?? "info") as
+    | "info"
+    | "edit"
+    | "projects";
+
+  const setCurrentTab = (tab: "info" | "edit" | "projects") => {
+    setSearchParams({ tab });
+  };
 
   return (
     <div className="flex">
-      <MypageSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+      <MypageSidebar currentTab={currentTab} setCurrentTab={setCurrentTab} />
       <div className="flex-1 p-6">
-        {activeTab === "info" && (
+        {currentTab === "info" && (
           <MyPageInfo
             //회원 정보에 필요한 props들
             name="홍길동"
@@ -26,10 +32,8 @@ export const MyProfile = () => {
             intro="나는 홍길동이다"
           />
         )}
-        {activeTab === "edit" && <MyProfileEdit />}
-        {/* 내 프로젝트가 존재하냐 안하냐에 따라서 나오는 컴포넌트가 달라짐 
-        해당 부분은 hasData로 결정 */}
-        {activeTab === "projects" && <MyProjects hasData={true} />}
+        {currentTab === "edit" && <MyProfileEdit />}
+        {currentTab === "projects" && <MyProjects hasData={true} />}
       </div>
     </div>
   );
