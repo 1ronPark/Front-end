@@ -4,7 +4,7 @@ import Desired from '../components/mypage/edit/Desired';
 import ModifyingMenu from '../components/mypage/edit/ModifyingMenu';
 import Strength from '../components/mypage/edit/Strength';
 import Portfolio from '../components/mypage/edit/Portfolio';
-import Reception from '../components/mypage/edit/Reception';
+{/*import Reception from '../components/mypage/edit/Reception';*/}
 import History from '../components/mypage/edit/History';
 import Save from '../components/mypage/edit/Save';
 
@@ -27,7 +27,7 @@ const SECTIONS = [
   { id: 'strengths', component: <Strength /> },
   { id: 'portfolio', component: <Portfolio /> },
   { id: 'history', component: <History /> },
-  { id: 'reception-status', component: <Reception /> },
+  {/*{ id: 'reception-status', component: <Reception /> },*/}
 ];
 
 export const FormEdit = () => {
