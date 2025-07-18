@@ -120,19 +120,30 @@ export const MainNavbar = ({
                   <li
                     className="flex items-center gap-3.5 px-3.5 py-4 cursor-pointer body-large"
                     onClick={() => {
-                      navigate("/myprofile");
-                      console.log("마이페이지 진입");
+                      navigate("/myprofile?tab=info");     // 회원정보
                       setIsDropdownOpen(false);
                     }}
                   >
                     <img src={ic_mainnavbar_idcard} alt="회원정보" />
                     회원정보
                   </li>
-                  <li className="flex items-center gap-3.5 px-3.5 py-4 cursor-pointer body-large">
+                  <li 
+                    className="flex items-center gap-3.5 px-3.5 py-4 cursor-pointer body-large"
+                    onClick={() => {
+                      navigate("/myprofile?tab=edit");  // 프로필 관리
+                      setIsDropdownOpen(false);
+                    }}
+                  >
                     <img src={ic_mainnavbar_profile} alt="프로필 관리" />
                     프로필 관리
                   </li>
-                  <li className="flex items-center gap-3.5 px-3.5 py-4 cursor-pointer body-large">
+                  <li 
+                    className="flex items-center gap-3.5 px-3.5 py-4 cursor-pointer body-large"
+                    onClick={() => {
+                      navigate("/myprofile?tab=projects");  // 프로젝트 관리
+                      setIsDropdownOpen(false);
+                    }}
+                  >
                     <img src={ic_mainnavbar_project} alt="프로젝트 관리" />
                     프로젝트 관리
                   </li>

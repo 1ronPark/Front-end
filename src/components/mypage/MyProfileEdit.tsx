@@ -6,19 +6,19 @@ const MyProfileEdit = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex-1 overflow-y-auto p-6 mx-[100px]">
-      <div className="mb-4">
+    <div className="flex-1 justify-center overflow-y-auto mx-[100px]">
+      <div className="w-[960px] mb-4">
         <h1 className="text-2xl font-semibold">프로필 관리</h1>
         <p className="text-gray-500">
           지원 후 수정한 프로필 내용(회원정보 제외)은 지원한 프로필에 반영 되지
           않아요!
         </p>
       </div>
-      <hr className="mb-16 border-t border-[#CBC4CF]" />
+      <hr className="w-[960px] mb-16 border-t border-[#CBC4CF]" />
 
       <Reception />
 
-      <div>
+      <div className="w-[960px]">
         <div className="mb-2 flex items-center justify-between">
           <div>
             <p className="text-sm text-gray-500">2025. 07. 03 최종 수정됨</p>
