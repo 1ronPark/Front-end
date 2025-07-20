@@ -5,7 +5,7 @@ import MyInfoEditModal from "../modal/MyInfoEditModal";
 import AddPhotoModal from "../modal/AddPhotoModal";
 import sample from "../../../assets/icons/mypage/sample_profile.png";
 import addPhotoIcon from "../../../assets/icons/mypage/ic_camera.svg";
-
+import { AtSign, GraduationCap } from "lucide-react";
 
 
 const Header = (myProps: MyInfoProps) => {
@@ -48,32 +48,36 @@ const [addPhotoModal, setIsAddPhotoModal] = useState<boolean>(false);
                 <img src={addPhotoIcon} />
               </button>
           </div>
-          <div className="flex-1 mt-3 space-y-8">
+          <div className="flex-1 mt-3 space-y-4">
             <div className="flex items-center gap-4 ">
+              <span className="text-gray-500 text-lg">{myProps.nickname}</span>
+
+              {/* 세로 바 추가 */}
+              <div className="h-10 border-l border-gray-300" />
+
               <span className="text-xl">{myProps.name}</span>
-              <span className="text-gray-600">{myProps.nickname}</span>
-              <span className="text-gray-600">{myProps.sex}</span>
-              <span className="text-gray-600">{myProps.mbti}</span>
+              <span className="text-gray-400">{myProps.sex}</span>
+              <span className="text-gray-400">{myProps.age}</span>
+              <span className="text-gray-400">{myProps.mbti}</span>
             </div>
             <div className="space-y-6 text-sm text-gray-800">
-              <div className="flex gap-6">
-                <div className="flex gap-8 flex-[2]">
-                  <p className="text-gray-500 shrink-0">대학교</p>
+              <div className="m-6 flex flex-col gap-3">
+                <div className="flex items-center gap-8">
+                  <p className="text-gray-500 shrink-0 flex items-center gap-1">
+                    <GraduationCap className="w-4 h-4 text-gray-500" />
+                    대학교
+                  </p>
                   <p>{myProps.univ}</p>
                 </div>
-                <div className="flex gap-8 flex-[2]">
-                  <p className="text-gray-500 shrink-0">이메일</p>
+
+                <hr className="border-t border-gray-300" />
+
+                <div className="flex items-center gap-8">
+                  <p className="text-gray-500 shrink-0 flex items-center gap-1">
+                    <AtSign className="w-4 h-4 text-gray-500" />
+                    이메일
+                  </p>
                   <p>{myProps.email}</p>
-                </div>
-              </div>
-              <div className="flex gap-6">
-                <div className="flex gap-8 flex-[2]">
-                  <p className="text-gray-500 shrink-0">블로그</p>
-                  <p>{myProps.blog}</p>
-                </div>
-                <div className="flex gap-8 flex-[2]">
-                  <p className="text-gray-500 shrink-0">휴대폰</p>
-                  <p>{myProps.phone}</p>
                 </div>
               </div>
             </div>
