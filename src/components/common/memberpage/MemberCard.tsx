@@ -2,17 +2,18 @@ import ic_avatar from '../../../assets/icons/ic_avatar.svg';
 import { Heart } from 'lucide-react';
 import ic_memberlocation from '../../../assets/icons/ic_memberlocation.svg';
 import { useNavigate } from 'react-router-dom';
+import type { MyInfoProps } from '../../../types/MyInfoProps';
 
-export type MemberCardProps = {
-    id: number;
-    name: string;
-    nickname: string;
-    gender: '남' | '여';
-    mbti: string;
-    location: string;
-    role: string;
-    tags: string[];
-};
+// export type MemberCardProps = {
+//     id: number;
+//     name: string;
+//     nickname: string;
+//     gender: '남' | '여';
+//     mbti: string;
+//     location: string;
+//     role: string;
+//     tags: string[];
+// };
 
 const MemberCard = ({
     id,
@@ -23,7 +24,7 @@ const MemberCard = ({
     location,
     role,
     tags,
-}: MemberCardProps) => {
+}: MyInfoProps) => {
     const navigate = useNavigate();
     return (
         <div
@@ -53,7 +54,8 @@ const MemberCard = ({
 
         {/* 태그 */}
         <div className="flex flex-wrap gap-2 mb-1">
-            {tags.map((tag) => (
+            {/*쪼: tags가 undefined일 수 있는 오류 때문에 옵셔널 체이닝 걸어두었습니다*/}
+            {tags?.map((tag) => (
             <span
                 key={tag}
                 className="bg-[#FEF7FF] body-medium px-1 rounded-[4px]"
