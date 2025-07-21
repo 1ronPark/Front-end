@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import ic_issuported from "../../assets/icons/ic_issupported.svg";
+import ic_issuported from "../../../assets/icons/ic_issupported.svg";
 
 type SupportAlertProps = {
     isVisible: boolean;
@@ -17,7 +17,7 @@ const SupportAlert = ({ isVisible, onClose }:SupportAlertProps) => {
     if (!isVisible) return null;
 
     return (
-        <div className="absolute inset-0 right-[60px] z-50 flex flex-col items-center justify-center text-center backdrop-blur-lg">
+        <div className="fixed inset-0 top-[56px] right-[65px] z-50 flex flex-col items-center justify-center text-center backdrop-blur-lg">
             <img src={ic_issuported} alt="알림" />
                 <h2 className="headline-large-emphasis py-4">새롭게 지원한 분이 있어요</h2>
                 <p className="body-large-emphasis">지원자를 확인하고 연락해볼까요?</p>

@@ -3,7 +3,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import SideNavbar from "../common/sideNavbar/SideNavbar";
 import { Footbar } from "../common/footbar/Footbar";
 import { useState } from "react";
-import SupportAlert from "./SupportAlert";
+import SupportAlert from "../common/modals/SupportAlert";
 
 export const Layout = () => {
   const location = useLocation();
