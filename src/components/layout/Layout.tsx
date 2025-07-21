@@ -2,10 +2,15 @@ import { MainNavbar } from "../common/mainNavbar/MainNavbar";
 import { Outlet, useLocation } from "react-router-dom";
 import SideNavbar from "../common/sideNavbar/SideNavbar";
 import { Footbar } from "../common/footbar/Footbar";
+import { useState } from "react";
+import SupportAlert from "./SupportAlert";
 
 export const Layout = () => {
   const location = useLocation();
   const isMemberDetailPage = location.pathname.includes("/members/");
+
+  // 지원을 받은 사용자가 진입 시
+  const [showSupportAlert, setShowSupportAlert] = useState(true);
 
   return (
     <div className="relative flex min-h-screen w-full bg-white">
@@ -15,8 +20,17 @@ export const Layout = () => {
           userName="홍길동"
           bgColor={isMemberDetailPage ? "#EEEEEE" : "white"}
         />
-        <main className="flex-1">
-          <Outlet />
+        <main className="flex-1 relative">
+          {/* Outlet만 흐리게 */}
+          <div className={showSupportAlert ? "h-full backdrop-blur-sm" : ""}>
+            <Outlet />
+          </div>
+
+          {/* 알림 모달은 Outlet 위에 */}
+          <SupportAlert
+            isVisible={showSupportAlert}
+            onClose={() => setShowSupportAlert(false)}
+          />
         </main>
         <Footbar bgColor={isMemberDetailPage ? "#EEEEEE" : "white"} />
       </div>
