@@ -10,7 +10,7 @@ export const Layout = () => {
   const isMemberDetailPage = location.pathname.includes("/members/");
 
   // 지원을 받은 사용자가 진입 시
-  const [showSupportAlert, setShowSupportAlert] = useState(true);
+  const [showSupportAlert, setShowSupportAlert] = useState(false);
 
   return (
     <div className="relative flex min-h-screen w-full bg-white">

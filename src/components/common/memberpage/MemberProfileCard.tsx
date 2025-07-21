@@ -87,7 +87,11 @@ const MemberProfileCard = ({ isApplicantToMyProject = false }: MemberProfileCard
           className="w-[200px] h-[56px] flex items-center justify-center gap-2.5 rounded-[16px] bg-[#68548E] text-[#FFFFFF]"
         >
           <img src={ic_send} alt="send icon" className="w-4 h-4 text-white" />
-          <p className="title-medium text-[#FFFFFF]">제안 보내기</p>
+          <p 
+            
+            className="title-medium text-[#FFFFFF]">
+              제안 보내기
+            </p>
         </button>
         </div>
         
