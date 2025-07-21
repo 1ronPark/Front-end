@@ -10,20 +10,20 @@ type FormNavbarProps = {
 
 export const FormNavbar = ({ isLoggedIn, userName }: FormNavbarProps) => {
   return (
-    <div className="flex w-full items-center justify-between bg-white px-8 py-4">
+    <div className="flex w-full items-center justify-between bg-white px-6 py-7">
       {/* 로고 */}
       <NavLink to="/">
         <img
           src={logo_lightup}
           alt="LightUp Logo"
-          className="h-[24px] w-[74px]"
+          className="h-[28px] w-[86px]"
         />
       </NavLink>
 
       {/* 로그인/프로필 버튼 */}
       <div>
         {isLoggedIn ? (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 pr-3">
             <img src={ic_myprofile} alt="myprofile" className="h-6 w-6" />
             <span className="title-medium text-[#6750A4]">{userName}</span>
           </div>

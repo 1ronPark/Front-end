@@ -7,7 +7,10 @@ export const FormLayout = () => {
   return (
     <div className="relative flex min-h-screen w-full bg-white">
       <div className="flex flex-1 flex-col pr-[60px]">
-        <FormNavbar isLoggedIn={true} userName="홍길동" />
+        <FormNavbar 
+        isLoggedIn={true} 
+        userName="홍길동" 
+        />
         <main className="flex-1">
           <Outlet />
         </main>
