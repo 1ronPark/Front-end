@@ -16,6 +16,11 @@ import type { MyInfoProps } from '../../../types/MyInfoProps';
 //     strengths: string[];
 // };
 
+type MemberCardProps = Pick<
+    MyInfoProps,
+    "id" | "name" | "nickname" | "gender" | "mbti" | "location" | "role" | "skills" | "strengths"
+>;
+
 const MemberCard = ({
     id,
     name,
@@ -26,7 +31,7 @@ const MemberCard = ({
     role,
     skills,
     strengths,
-}: MyInfoProps) => {
+}: MemberCardProps) => {
 
     const navigate = useNavigate();
 
