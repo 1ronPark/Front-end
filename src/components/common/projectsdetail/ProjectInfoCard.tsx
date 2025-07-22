@@ -8,10 +8,10 @@ import {
   BellRing,
 } from "lucide-react";
 import ic_send from "../../../assets/icons/ic_send.svg";
+import ic_hail from "../../../assets/icons/projectDetail/ic_hail.svg";
 import Share from "../../../assets/icons/ic_share.svg";
 import Siren from "../../../assets/icons/ic_siren.svg";
 import ProjectLogo from "../../../assets/icons/projectDetail/lightupLogo.png";
-import { useState } from "react";
 import type { ProjectCardWithUserProps } from "../../../types/ProjectCardWithUser";
 
 // 아이콘 import
@@ -80,17 +80,14 @@ const ProjectInfoCard = ({
   date,
   univ,
   suggested_project,
+  applied_project,
   location,
   categories,
 }: Props) => {
-  const [showGuide, setShowGuide] = useState(false);
-
   // 지원하기 클릭 시 팝업 표시
   const handleSupportClick = () => {
-    setShowGuide(true);
-    setTimeout(() => setShowGuide(false), 3000); // 3초 후 팝업 사라짐
+    console.log("지원하기 버튼 클릭됨");
   };
-
   const categoryNames = categories;
 
   return (
@@ -205,7 +202,9 @@ const ProjectInfoCard = ({
               {/* 오른쪽: 카테고리 아이콘+텍스트 목록 */}
               <div className="flex flex-wrap gap-4 ml-6">
                 {mapcategories
-                  .filter((cat) => categoryNames.includes(cat.name as CategoryType)) // 그대로 작동함
+                  .filter((cat) =>
+                    categoryNames.includes(cat.name as CategoryType)
+                  ) // 그대로 작동함
                   .map((cat) => (
                     <div
                       key={cat.name}
@@ -228,28 +227,40 @@ const ProjectInfoCard = ({
         <div className="relative">
           <button
             onClick={handleSupportClick}
-            className="w-[200px] h-[56px] flex items-center justify-center gap-2.5 rounded-[16px] text-white bg-[#5A5891] cursor-pointer"
+            disabled={applied_project}
+            className={`w-[200px] h-[56px] flex items-center justify-center gap-2.5 rounded-[16px] text-white
+      ${
+        applied_project
+          ? "opacity-60 bg-[#5A5891]"
+          : "bg-[#545891] cursor-pointer"
+      }`}
           >
-            <img src={ic_send} alt="send icon" className="w-4 h-4" />
+            <img
+              src={applied_project ? ic_hail : ic_send}
+              alt="send icon"
+              className="w-6 h-6"
+            />
             <p className="title-small text-white">
-              {suggested_project ? "이미 지원했어요" : "지원하기"}
+              {applied_project ? "이미 지원했어요" : "지원하기"}
             </p>
           </button>
 
-          {/*팝업 말풍선*/}
-          {showGuide && (
-            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[280px] bg-white px-4 py-2 rounded-xl shadow-md z-50 text-sm text-[#1D1B20] whitespace-pre-line">
-              {!suggested_project ? (
-                <>
-                  <p>히로님에게 제안을 보낸 프로젝트예요</p>
-                  <p>지금 바로 지원하고 연락해 보세요!</p>
-                </>
-              ) : (
-                <>
-                  <p>제안을 기다리고 있어요</p>
-                  <p>제안이 오면 알림을 보내드릴게요</p>
-                </>
-              )}
+          {/* ✅ 고정 안내창 (suggested_project일 경우) */}
+          {suggested_project && (
+            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 rounded-tl-xl rounded-tr-xl rounded-bl-xl w-max max-w-[280px] bg-white px-4 py-2 shadow-md z-50 text-sm text-[#1D1B20] whitespace-pre-line">
+              <p>히로님에게 제안을 보낸 프로젝트예요</p>
+              <p>지금 바로 지원하고 연락해 보세요!</p>
+            </div>
+          )}
+
+          {applied_project && (
+            <div
+              className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 
+                  bg-white px-4 py-2 rounded-tl-xl rounded-tr-xl rounded-bl-xl 
+                  shadow-md z-50 text-sm text-[#1D1B20] whitespace-pre-line text-center w-max max-w-[280px]"
+            >
+              <p>제안을 기다리고 있어요</p>
+              <p>제안이 오면 알림을 보내드릴게요</p>
             </div>
           )}
         </div>
