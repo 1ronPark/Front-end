@@ -29,6 +29,12 @@ const TalkBox = ({ profileImage }: LightTalkProps) => {
     if (files && files.length > 0) {
       const urls = Array.from(files).map((file) => URL.createObjectURL(file));
       setImagePreviews((prev) => [...urls, ...prev]);
+
+      // 이미지 삽입 마크업 추가
+      const imageTags = urls
+        .map((url) => `\n![uploaded-image](${url})`)
+        .join("");
+      setText((prev) => prev + imageTags);
     }
   };
 

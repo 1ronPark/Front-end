@@ -47,15 +47,23 @@ export const LightTalk = () => {
         name="강혜준"
         role="디자이너"
         createAt={new Date("2025-07-18T13:00:00")}
-        content="   2개월 걸리던 개발을 2주에 끝낸 스타트업 개발자 이야기
-          MVP는 빨리 나왔는데, 다음 기능 추가가 왜 이렇게 느릴까요?
-          저도똑같았어요.
-          버그 하나 고치면 둘이 생기고, 코드 통합에만 일주일.
-          4주간 시스템을 바꿨더니: 
-          - 개발 기간: 2개월 → 2주 
-          - 버그: 주 20개 → 2개 
-          - 매일 야근 → 6시 칼퇴 
-          비결? 읽기 좋은 코드 시스템"
+        content={`2개월 걸리던 개발을 2주에 끝낸 스타트업 개발자 이야기
+        MVP는 빨리 나왔는데, 다음 기능 추가가 왜 이렇게 느릴까요?
+        저도 똑같았어요.
+        버그 하나 고치면 둘이 생기고, 코드 통합에만 일주일.
+        4주간 시스템을 바꿨더니: 
+        - 개발 기간: 2개월 → 2주 
+        - 버그: 주 20개 → 2개 
+        - 매일 야근 → 6시 칼퇴
+        비결? 읽기 좋은 코드 시스템
+
+![uploaded-image](${sampleProfile})
+![uploaded-image](${sampleProfile})
+![uploaded-image](${sampleProfile})
+![uploaded-image](${sampleProfile})
+![uploaded-image](${sampleProfile})
+
+`}
         num_hearts={32}
         num_comments={32}
       />
