@@ -8,7 +8,7 @@ export const Layout = () => {
   const isMemberDetailPage = location.pathname.includes("/members/");
 
   return (
-    <div className="relative flex min-h-screen w-full bg-white">
+    <div className="relative flex min-h-screen w-full bg-[#EEE]">
       <div className="flex flex-1 flex-col pr-[60px]">
         <MainNavbar
           isLoggedIn={true}

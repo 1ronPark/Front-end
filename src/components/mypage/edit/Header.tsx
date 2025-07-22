@@ -1,17 +1,15 @@
-import { useState } from 'react';
-import editIcon from '../../../assets/icons/mypage/ic_edit.svg';
-import type { MyInfoProps } from '../../../types/MyInfoProps';
+import { useState } from "react";
+import editIcon from "../../../assets/icons/mypage/ic_edit.svg";
+import type { MyInfoProps } from "../../../types/MyInfoProps";
 import MyInfoEditModal from "../modal/MyInfoEditModal";
 import AddPhotoModal from "../modal/AddPhotoModal";
 import sample from "../../../assets/icons/mypage/sample_profile.png";
 import addPhotoIcon from "../../../assets/icons/mypage/ic_camera.svg";
 import { AtSign, GraduationCap } from "lucide-react";
 
-
 const Header = (myProps: MyInfoProps) => {
-
-const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
-const [addPhotoModal, setIsAddPhotoModal] = useState<boolean>(false);
+  const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
+  const [addPhotoModal, setIsAddPhotoModal] = useState<boolean>(false);
 
   return (
     <div className="space-y-3">
@@ -35,18 +33,18 @@ const [addPhotoModal, setIsAddPhotoModal] = useState<boolean>(false);
           <div className="relative h-40 w-40 rounded-full bg-gray-200 flex items-center justify-center">
             {/* 프로필 이미지 영역 */}
             <img
-                className="w-full h-full rounded-full object-cover"
-                src={sample}
-                alt="프로필 이미지"
-              />
-              {/* 프로필 사진 등록 버튼 */}
-              <button
-                type="button"
-                className="absolute bottom-0 right-0 w-[56px] h-[56px] rounded-full bg-[#E9DEF8] flex items-center justify-center hover:bg-[#D8CEF0] cursor-pointer"
-                onClick={() => setIsAddPhotoModal(true)}
-              >
-                <img src={addPhotoIcon} />
-              </button>
+              className="w-full h-full rounded-full object-cover"
+              src={sample}
+              alt="프로필 이미지"
+            />
+            {/* 프로필 사진 등록 버튼 */}
+            <button
+              type="button"
+              className="absolute bottom-0 right-0 w-[56px] h-[56px] rounded-full bg-[#E9DEF8] flex items-center justify-center hover:bg-[#D8CEF0] cursor-pointer"
+              onClick={() => setIsAddPhotoModal(true)}
+            >
+              <img src={addPhotoIcon} />
+            </button>
           </div>
           <div className="flex-1 mt-3 space-y-4">
             <div className="flex items-center gap-4 ">
@@ -56,7 +54,7 @@ const [addPhotoModal, setIsAddPhotoModal] = useState<boolean>(false);
               <div className="h-10 border-l border-gray-300" />
 
               <span className="text-xl">{myProps.name}</span>
-              <span className="text-gray-400">{myProps.sex}</span>
+              <span className="text-gray-400">{myProps.gender}</span>
               <span className="text-gray-400">{myProps.age}</span>
               <span className="text-gray-400">{myProps.mbti}</span>
             </div>
@@ -97,6 +95,5 @@ const [addPhotoModal, setIsAddPhotoModal] = useState<boolean>(false);
     </div>
   );
 };
-
 
 export default Header;

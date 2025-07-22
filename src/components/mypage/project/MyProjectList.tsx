@@ -5,7 +5,7 @@ import MyprojectCard from "./MyprojectCard";
 const projectList: MyProjectCardProps[] = dummyProjectCard;
 
 const MyProjectList = () => {
-  //내가
+  //내가 현재 하고 있는 프로젝트 list
   const currentProjects = projectList.filter((p) =>
     [true].includes(p.current_project)
   );
