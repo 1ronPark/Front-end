@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Layout } from "./components/layout/Layout";
 import { FormLayout } from "./components/layout/FormLayout";
 import "./App.css";
@@ -38,6 +38,7 @@ function App() {
         <Route path="/passwordReset" element={<PasswordReset />} />
         {/* 임시로 로그인/회원가입 페이지를 최상단에 배치 */}
         <Route path="/" element={<Layout />}>
+          <Route index element={<Navigate to="/projects" replace />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/projects/:projectId" element={<ProjectDetail />} />
           {/* 회원 관련 경로 설정 */}
