@@ -1,83 +1,111 @@
 import ic_send from '../../../assets/icons/ic_send.svg';
+import ic_member_part from '../../../assets/icons/ic_member_part.svg';
+import ic_member_location from '../../../assets/icons/ic_member_location.svg';
+import ic_member_univ from '../../../assets/icons/ic_member_univ.svg';
+import ic_member_email from '../../../assets/icons/ic_member_email.svg';
+import ic_profile from '../../../assets/icons/ic_profile.svg';
 import { Heart } from 'lucide-react';
 
-const MemberProfileCard = () => (
-    
-  <section>
-    <p className="label-large text-[#49454E] mb-4">마지막 업데이트 : 2025-07-01, 23:00:20</p>
-    <div className="bg-white rounded-[8px] border border-[#CBC4CF] px-4 py-8 w-full">
-      {/* 상단: 마지막 업데이트, 제안 상태 */}
-      
-      <div className="flex justify-between items-center mb-4.5">
+type MemberProfileCardProps = {
+  isApplicantToMyProject?: boolean;
+};
+
+const profileInfos = [
+  { icon: ic_member_part, alt: '파트', label: '파트', value: '디자인' },
+  { icon: ic_member_location, alt: '위치', label: '위치', value: '서울 강남구, 성남 전체' },
+  { icon: ic_member_univ, alt: '대학교', label: '대학교', value: '가천대학교 글로벌 캠퍼스 1년' },
+  { icon: ic_member_email, alt: '이메일', label: '이메일', value: 'harrysjuns@gachon.ac.kr' },
+];
+
+const MemberProfileCard = ({ isApplicantToMyProject = false }: MemberProfileCardProps) => {
+  return (
+    <section>
+      <div className="bg-white rounded-[12px] border border-[#79747E]/[0.16] px-6 py-6 w-full">
+        <div className="flex justify-between items-center mb-4.5">
           {/* 제목 */}
-          <h2 className="headline-medium-emphasis">
-          기술과 디자인을 넘나들며 방향을 설계하는 실전형 디자이너
-          </h2>
-          <span className="label-large text-[#68548E]">제안 받는 중</span>
-      </div>
-      
-      {/* 구분선 */}
-      <hr className="border-t px-4 border-[#CBC4CF] mb-6" />
-
-      {/* 본문: 3단 그리드 */}
-      <div className="grid grid-cols-[auto_1fr_auto] gap-16 min-w-0">
-
-        {/* 왼쪽: 로그인 안내 */}
-        <div className="flex items-center justify-center title-small bg-[#F2ECF4] rounded-lg w-60 h-60 text-center text-[#000000]">
-          로그인 후<br />프로젝트 등록 시<br />열람 가능
+          <h2 className="headline-medium-emphasis">기술과 디자인을 넘나들며 방향을 설계하는 실전형 디자이너</h2>
         </div>
+        
+        {/* 구분선 */}
+        <hr className="border-t border-[rgba(121,116,126,0.16)] px-4 mb-6" /> 
 
-        {/* 가운데: 프로필 정보 */}
-        <div className="flex flex-col gap-6 w-full flex-shrink-0">
-          <div className="flex gap-4 items-center mb-[2px]">
-            <span className="title-medium min-w-[132px]">UXUI Designer</span>
-            <span className="title-large-emphasis ml-2">강**</span>
-            <span className="body-large text-[#49454E]">23세</span>
-            <span className="body-large text-[#49454E]">남</span>
-            <span className="body-large text-[#49454E]">ISFJ</span>
-          </div>
-          <div className="flex w-full">
-            <div className="title-small text-[#49454E] min-w-[132px]">위치</div>
-            <span className="body-medium ml-6">가천대학교 글로벌 캠퍼스, 서울 강남구, 성남 전체</span>
-          </div>
-          <div className="flex">
-            <div className="title-small text-[#49454E] min-w-[132px]">파트</div>
-            <span className="body-medium ml-6">UXUI Design</span>
-          </div>
-          <div className="flex">
-            <div className="title-small text-[#49454E] min-w-[132px]">사용 가능 툴</div>
-            <span className="body-medium ml-6">Figma, Adobe XD, Notion</span>
-          </div>
-          <div className="flex">
-            <div className="title-small text-[#49454E] min-w-[132px]">블로그</div>
-            <span className="body-medium ml-6">깃허브 링크 임베드, 블로그 링크 임베드 최대 2개</span>
-          </div>
-        </div>
+        {/* 본문: 3단 그리드 */}
+        <div className="grid grid-cols-[auto_1fr_auto] gap-8 min-w-0">
 
-        {/* 오른쪽: 연락처 안내 */}
-        <div className="flex items-center justify-center title-small bg-[#FFFBFF] w-[200px] h-[127px] text-center text-[#49454E] mt-[23px]">  
-          <div>제안 수락 시,<br />연락처가 공개됩니다.</div>
+          {/* 왼쪽: 로그인 안내 */}
+          <div className="flex justify-center items-center self-center px-4">
+            <img
+              src={ic_profile}
+              alt="프로필 이미지"
+              className="w-[128px] h-[128px] rounded-full object-cover block"
+            />
+          </div>
+
+          {/* 가운데: 프로필 정보 */} {/* 추후 리팩토링 예정 */}
+          <div className="flex flex-col gap-[11px] w-full flex-shrink-0">
+            <div className="flex gap-4 items-center mb-[13px]">
+              <span className="body-large-emphasis">히로</span>
+              <div className="w-px h-4 bg-[#C8C5D0]" />
+              <span className="body-large-emphasis">강혜준</span>
+              <span className="body-large text-[#47464F]">남</span>
+              <span className="body-large text-[#47464F]">23세</span>
+              <span className="body-large text-[#47464F]">ISFJ</span>
+            </div>
+            {/* 프로필 정보 반복 렌더링 */}
+            {profileInfos.map(({ icon, alt, label, value }, index) => (
+              <div key={label} className="px-4">
+                <div className="flex items-start gap-2 mb-[11px]">
+                  <img src={icon} alt={alt} className="w-4 h-4" />
+                  <div className="body-small min-w-[40px]">{label}</div>
+                  <div className="flex w-full body-small-emphasis ml-[44px]">{value}</div>
+                </div>
+
+                {/* 아래 구분선 (마지막 항목은 제외) */}
+                {index < profileInfos.length - 1 && (
+                  <hr className="border-[#79747E]/[0.08]" />
+                )}
+
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
 
-    {/* 하단 버튼 */}
-    <div className="flex gap-4 justify-center mt-4 mb-4">
-      <button
-        className="w-[200px] h-[56px] flex items-center justify-center gap-2.5 rounded-[16px] bg-[#F8F1FA] shadow-[0px_2px_6px_2px_rgba(0,0,0,0.15),_0px_1px_2px_0px_rgba(0,0,0,0.3)]"
-      >
-        <img src={ic_send} alt="send icon" className="w-4 h-4" />
-        <p className="title-medium text-[#68548E]">제안 보내기</p>
-      </button>
+      {/* 하단 버튼 */}
+      <div className="flex gap-4 justify-center mt-6 mb-4">
 
-      <button
-        className="w-[200px] h-[56px] flex items-center justify-center gap-2.5 rounded-[16px] bg-[#68548E] text-[#FFFFFF]"
-      >
-          <Heart size={20} />
-          <p className="title-medium text-[#FFFFFF]">관심 목록 추가</p>  
-      </button>
-    </div>
-  </section>
-);
+        <div className="relative">
+          {/* ✅ 조건부 툴팁 */}
+          {isApplicantToMyProject && (
+            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-10 w-[257px] px-4 py-2 rounded-[16px] bg-white text-[#16134A] shadow text-center body-medium-emphasis">
+              히로님의 프로젝트에 지원한 팀원이에요<br />
+              지금 바로 제안하고 연락해 보세요!
+              <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white rotate-45 shadow-sm"></div>
+            </div>
+          )}
+          <button
+          className="w-[200px] h-[56px] flex items-center justify-center gap-2.5 rounded-[16px] bg-[#68548E] text-[#FFFFFF]"
+        >
+          <img src={ic_send} alt="send icon" className="w-4 h-4 text-white" />
+          <p 
+            
+            className="title-medium text-[#FFFFFF]">
+              제안 보내기
+            </p>
+        </button>
+        </div>
+        
+        
+
+        <button
+          className="w-[200px] h-[56px] flex items-center justify-center gap-2.5 rounded-[16px] border-[1px] border-[#C8C5D0] text-[#47464F]"
+        >
+            <Heart size={20} />
+            <p className="title-medium text-[#47464F]">관심 목록 추가</p>  
+        </button>
+      </div>
+    </section>
+  );
+};
 
 export default MemberProfileCard;

@@ -16,6 +16,7 @@ export interface MyInfoProps {
   blog?: string; // 블로그 URL
   gender?: "남" | "여";
   age?: number;
-  tags?: string[]; // 관심사 태그 배열
-  profileImage?: string; // URL 형식의 프로필 이미지
+  skills?: string[];
+  strengths?: string[];
+  profileImage?: string; // 프로필 이미지 URL
 }

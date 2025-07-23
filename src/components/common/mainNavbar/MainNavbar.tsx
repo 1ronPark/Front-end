@@ -27,7 +27,7 @@ export const MainNavbar = ({
   const MainNavItems = [
     { label: "라잇톡", to: "/lighttalk" },
     { label: "프로젝트", to: "/projects" },
-    { label: "파트너 찾아보기", to: "/members" },
+    { label: "팀원 찾아보기", to: "/members" },
   ];
 
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
@@ -51,7 +51,7 @@ export const MainNavbar = ({
 
   return (
     <div
-      className={`flex w-full bg-[${bgColor}] px-6 py-3.5 justify-between items-center`}
+      className={`flex w-full bg-[${bgColor}] px-6 justify-between items-center`}
     >
       {/* 로고 */}
       <Link to="/">
@@ -77,7 +77,7 @@ export const MainNavbar = ({
               <>
                 {label}
                 {isActive && (
-                  <span className="absolute bottom-[-11px] w-full h-[3px] bg-[#5A5891] rounded-tl-[100px] rounded-tr-[100px]" />
+                  <span className="absolute bottom-[-15px] w-full h-[3px] bg-[#5A5891] rounded-tl-[100px] rounded-tr-[100px]" />
                 )}
               </>
             )}

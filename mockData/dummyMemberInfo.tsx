@@ -14,7 +14,8 @@ export const dummyMemberInfo: MyInfoProps[] = [
     intro: "나는 홍길동이다",
     gender: "남",
     age: 23,
-    tags: ["#spring", "#node.js", "#CSS", "#빅데이터분석기사"],
+    skills: ["#spring", "#node.js", "#CSS", "#빅데이터분석기사"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 2,
@@ -29,7 +30,8 @@ export const dummyMemberInfo: MyInfoProps[] = [
     intro: "UI 만드는 걸 좋아해요.",
     gender: "여",
     age: 24,
-    tags: ["#react", "#typescript", "#UIUX"],
+    skills: ["#react", "#typescript", "#UIUX"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 3,
@@ -44,7 +46,8 @@ export const dummyMemberInfo: MyInfoProps[] = [
     intro: "PS에 진심인 편.",
     gender: "남",
     age: 22,
-    tags: ["#c++", "#python", "#ps"],
+    skills: ["#c++", "#python", "#ps"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 4,
@@ -59,7 +62,8 @@ export const dummyMemberInfo: MyInfoProps[] = [
     intro: "감성 터지는 디자인을 좋아해요.",
     gender: "여",
     age: 23,
-    tags: ["#Figma", "#UX", "#프로토타이핑"],
+    skills: ["#Figma", "#UX", "#프로토타이핑"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 5,
@@ -74,7 +78,8 @@ export const dummyMemberInfo: MyInfoProps[] = [
     intro: "데이터는 거짓말하지 않는다.",
     gender: "남",
     age: 25,
-    tags: ["#MySQL", "#MongoDB", "#DBA"],
+    skills: ["#MySQL", "#MongoDB", "#DBA"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 6,
@@ -89,7 +94,8 @@ export const dummyMemberInfo: MyInfoProps[] = [
     intro: "일정 관리의 달인.",
     gender: "여",
     age: 24,
-    tags: ["#Agile", "#Jira", "#Notion"],
+    skills: ["#Agile", "#Jira", "#Notion"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 7,
@@ -104,7 +110,8 @@ export const dummyMemberInfo: MyInfoProps[] = [
     intro: "버그는 못 지나친다.",
     gender: "여",
     age: 23,
-    tags: ["#Jest", "#Cypress", "#테스트자동화"],
+    skills: ["#Jest", "#Cypress", "#테스트자동화"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 8,
@@ -119,7 +126,8 @@ export const dummyMemberInfo: MyInfoProps[] = [
     intro: "LLM을 향한 사랑.",
     gender: "남",
     age: 26,
-    tags: ["#PyTorch", "#Tensorflow", "#LLM"],
+    skills: ["#PyTorch", "#Tensorflow", "#LLM"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 9,
@@ -134,7 +142,8 @@ export const dummyMemberInfo: MyInfoProps[] = [
     intro: "모바일 퍼포먼스 최적화 장인.",
     gender: "남",
     age: 25,
-    tags: ["#Kotlin", "#Swift", "#ReactNative"],
+    skills: ["#Kotlin", "#Swift", "#ReactNative"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 10,
@@ -149,7 +158,8 @@ export const dummyMemberInfo: MyInfoProps[] = [
     intro: "Flutter는 내 친구.",
     gender: "여",
     age: 22,
-    tags: ["#Flutter", "#Ionic", "#ReactNative"],
+    skills: ["#Flutter", "#Ionic", "#ReactNative"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 11,
@@ -164,7 +174,8 @@ export const dummyMemberInfo: MyInfoProps[] = [
     intro: "감각적인 브랜드를 만듭니다.",
     gender: "여",
     age: 23,
-    tags: ["#Photoshop", "#Illustrator", "#Branding"],
+    skills: ["#Photoshop", "#Illustrator", "#Branding"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 12,
@@ -179,7 +190,8 @@ export const dummyMemberInfo: MyInfoProps[] = [
     intro: "픽셀 단위에 진심입니다.",
     gender: "남",
     age: 24,
-    tags: ["#HTML", "#CSS", "#웹접근성"],
+    skills: ["#HTML", "#CSS", "#웹접근성"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 13,
@@ -194,7 +206,8 @@ export const dummyMemberInfo: MyInfoProps[] = [
     intro: "보안에 진심인 해커 출신.",
     gender: "남",
     age: 25,
-    tags: ["#OWASP", "#보안테스트", "#해킹방지"],
+    skills: ["#OWASP", "#보안테스트", "#해킹방지"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 14,
@@ -209,7 +222,8 @@ export const dummyMemberInfo: MyInfoProps[] = [
     intro: "센서와 로봇을 연결하는 중.",
     gender: "남",
     age: 26,
-    tags: ["#ROS", "#C++", "#센서"],
+    skills: ["#ROS", "#C++", "#센서"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 15,
@@ -224,7 +238,8 @@ export const dummyMemberInfo: MyInfoProps[] = [
     intro: "숫자에 감정을 담다.",
     gender: "여",
     age: 24,
-    tags: ["#pandas", "#numpy", "#powerBI"],
+    skills: ["#pandas", "#numpy", "#powerBI"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 16,
@@ -239,7 +254,8 @@ export const dummyMemberInfo: MyInfoProps[] = [
     intro: "서버는 클라우드에 있다.",
     gender: "남",
     age: 27,
-    tags: ["#AWS", "#Azure", "#GCP"],
+    skills: ["#AWS", "#Azure", "#GCP"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 17,
@@ -254,7 +270,8 @@ export const dummyMemberInfo: MyInfoProps[] = [
     intro: "배포는 자동화가 답이다.",
     gender: "남",
     age: 25,
-    tags: ["#Docker", "#Kubernetes", "#CI/CD"],
+    skills: ["#Docker", "#Kubernetes", "#CI/CD"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 18,
@@ -269,7 +286,8 @@ export const dummyMemberInfo: MyInfoProps[] = [
     intro: "모델 튜닝에 빠져있어요.",
     gender: "여",
     age: 23,
-    tags: ["#Scikit-learn", "#MLflow", "#파라미터튜닝"],
+    skills: ["#Scikit-learn", "#MLflow", "#파라미터튜닝"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 19,
@@ -284,7 +302,8 @@ export const dummyMemberInfo: MyInfoProps[] = [
     intro: "언젠가 나도 CEO.",
     gender: "남",
     age: 24,
-    tags: ["#Node.js", "#React", "#PostgreSQL"],
+    skills: ["#Node.js", "#React", "#PostgreSQL"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
   {
     id: 20,
@@ -299,6 +318,7 @@ export const dummyMemberInfo: MyInfoProps[] = [
     intro: "팀워크와 아키텍처의 조화.",
     gender: "여",
     age: 27,
-    tags: ["#Architecture", "#CI/CD", "#코드리뷰"],
+    skills: ["#Architecture", "#CI/CD", "#코드리뷰"],
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
   },
 ];
