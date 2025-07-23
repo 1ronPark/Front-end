@@ -5,9 +5,10 @@ interface TalkListProps {
   cards: TalkCardProps[];
   univ: string; // 현재 선택된 학교
   myUniv: string; // 내 학교
+  currentUserId: number; // 현재 로그인 한 유저 ID
 }
 
-const TalkList = ({ cards, univ, myUniv }: TalkListProps) => {
+const TalkList = ({ cards, univ, myUniv, currentUserId }: TalkListProps) => {
   // univ가 주어진 경우, 해당 학교 카드만 필터링
   const filteredCards =
     univ === "다른학교"
@@ -37,7 +38,7 @@ const TalkList = ({ cards, univ, myUniv }: TalkListProps) => {
                 key={card.id}
                 className={`${borderTop} ${borderRadiusClass} bg-[#FEFEFE]`}
               >
-                <TalkCard {...card} />
+                <TalkCard {...card} currentUserId={currentUserId} />
               </div>
             );
           })}

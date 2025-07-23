@@ -56,7 +56,12 @@ export const LightTalk = () => {
       </div>
       {/* 해당 톡박스에 해당하는 유저 이미지와 ID를 props로 넣어줌 */}
       <TalkBox profileImage={myProps.profile_image} />
-      <TalkList cards={talkCards} univ={univ} myUniv={myProps.univ} />
+      <TalkList
+        cards={talkCards}
+        univ={univ}
+        myUniv={myProps.univ}
+        currentUserId={myProps.id}
+      />
     </div>
   );
 };

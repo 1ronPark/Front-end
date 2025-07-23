@@ -5,6 +5,7 @@ import {
   Upload,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import MenuModal from "./talkModal/MenuModal";
 
 interface TalkCardProps {
   id: number;
@@ -17,6 +18,7 @@ interface TalkCardProps {
   createAt: Date; //글이 작성된 날짜
   num_hearts: number; //좋아요 갯수
   num_comments: number; //댓글 갯수
+  currentUserId: number; // 현재 로그인 한 User ID
 }
 
 const getTimeAgo = (date: Date): string => {
@@ -40,6 +42,7 @@ const extractImagesAndText = (content: string) => {
 };
 
 const TalkCard = ({
+  id,
   name,
   role,
   profile_image,
@@ -47,10 +50,16 @@ const TalkCard = ({
   createAt,
   num_hearts,
   num_comments,
+  currentUserId,
 }: TalkCardProps) => {
+  const isMyPost = currentUserId === id;
+
   const [countHeart, setCountHeart] = useState<number>(num_hearts);
   //하트를 눌렀는지 여부 체크
   const [isHeart, setIsHeart] = useState<boolean>(false);
+
+  //카드 메뉴 모달 열기
+  const [openMenu, setOpenMenu] = useState<boolean>(false);
 
   const handleHeartClick = () => {
     if (!isHeart) {
@@ -58,6 +67,10 @@ const TalkCard = ({
       setIsHeart(!isHeart);
     }
     return;
+  };
+
+  const handleMenuClick = () => {
+    setOpenMenu(!openMenu);
   };
 
   useEffect(() => {
@@ -72,10 +85,16 @@ const TalkCard = ({
     "
     >
       <div className="h-12 w-12 absolute top-0 right-2 flex justify-center items-center">
-        <button className="flex h-8 w-8 flex-col justify-center items-center rounded-[100px] hover:bg-[rgba(73,69,79,0.08)]">
+        <button
+          className="flex h-8 w-8 flex-col justify-center items-center rounded-[100px] hover:bg-[rgba(73,69,79,0.08)]"
+          onClick={handleMenuClick}
+        >
           <EllipsisVertical className="w-5 h-5 " />
         </button>
       </div>
+      {openMenu && (
+        <MenuModal isMyPost={isMyPost} onClose={() => setOpenMenu(false)} />
+      )}
       <div className="flex w-12 h-12 justify-center items-center ">
         <img src={profile_image} className="rounded-[240px]" />
       </div>
