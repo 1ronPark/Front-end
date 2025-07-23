@@ -13,7 +13,7 @@ import { LightTalk } from "./pages/LightTalk";
 import { MyProfile } from "./pages/MyProfile";
 import MemberDetail from "./pages/member/MemberDetail";
 import { FormEdit } from "./pages/FormEdit";
-import RegisterProject from "./components/mypage/RegisterProject";
+import {RegisterProject} from "./components/mypage/RegisterProject";
 
 {
   /* 로그인/회원가입 관련 컴포넌트들 */
