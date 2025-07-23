@@ -19,7 +19,7 @@ const TalkList = ({ cards, univ, myUniv }: TalkListProps) => {
   return (
     <div className="flex flex-col">
       {filteredCards.length > 0 && (
-        <div className="flex flex-col border border-[#E0E0E0] rounded-[28px] overflow-hidden">
+        <div className="flex flex-col rounded-t-[28px] overflow-hidden">
           {filteredCards.map((card, index) => {
             const isFirst = index === 0;
             const isLast = index === filteredCards.length - 1;
@@ -30,7 +30,7 @@ const TalkList = ({ cards, univ, myUniv }: TalkListProps) => {
               ? "rounded-b-[28px]"
               : "rounded-none";
 
-            const borderTop = isFirst ? "" : "border-t border-[#E0E0E0]";
+            const borderTop = isFirst ? "border-none" : "";
 
             return (
               <div

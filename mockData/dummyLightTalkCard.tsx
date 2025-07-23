@@ -6,7 +6,7 @@ export const dummyLightTalkCard: TalkCardProps[] = [
   {
     id: 1,
     name: "강혜준",
-    profile_image: `${sampleImage2}`,
+    profile_image: `${sampleImage}`,
     role: "디자이너",
     univ: "길동대학",
     createAt: new Date("2025-07-18T13:00:00"),
@@ -19,10 +19,10 @@ export const dummyLightTalkCard: TalkCardProps[] = [
         - 버그: 주 20개 → 2개 
         - 매일 야근 → 6시 칼퇴
         비결? 읽기 좋은 코드 시스템
-        ![uploaded-image](${sampleImage2})
-        ![uploaded-image](${sampleImage2})
-        ![uploaded-image](${sampleImage2})
-        ![uploaded-image](${sampleImage2})
+        ![uploaded-image](${sampleImage})
+        ![uploaded-image](${sampleImage})
+        ![uploaded-image](${sampleImage})
+        ![uploaded-image](${sampleImage})
     
         `,
     num_hearts: 32,
@@ -30,7 +30,7 @@ export const dummyLightTalkCard: TalkCardProps[] = [
   },
   {
     id: 2,
-    name: "강혜준",
+    name: "user2",
     profile_image: `${sampleImage2}`,
     role: "디자이너",
     univ: "길동대학",
@@ -52,7 +52,7 @@ https://toss.tech/article/toss-bank-interns
   },
   {
     id: 3,
-    name: "강혜준",
+    name: "user3",
     profile_image: `${sampleImage}`,
     role: "디자이너",
     univ: "피식대학",
@@ -78,8 +78,8 @@ https://toss.tech/article/toss-bank-interns
     num_comments: 32,
   },
   {
-    id: 5,
-    name: "강혜준",
+    id: 4,
+    name: "user4",
     profile_image: `${sampleImage}`,
     role: "디자이너",
     univ: "고려대학",
@@ -100,8 +100,8 @@ https://toss.tech/article/toss-bank-interns
     num_comments: 32,
   },
   {
-    id: 6,
-    name: "강혜준",
+    id: 5,
+    name: "user5",
     profile_image: `${sampleImage}`,
     role: "디자이너",
     univ: "연세대학",
@@ -122,8 +122,8 @@ https://toss.tech/article/toss-bank-interns
     num_comments: 32,
   },
   {
-    id: 7,
-    name: "강혜준",
+    id: 6,
+    name: "user6",
     profile_image: `${sampleImage}`,
     role: "디자이너",
     univ: "피식대학",

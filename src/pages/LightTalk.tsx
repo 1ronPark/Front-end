@@ -3,7 +3,6 @@ import cachedIcon from "../assets/icons/ic_cached.svg";
 import TalkBox from "./lightTalk/TalkBox";
 import { useState } from "react";
 import slashUserIcon from "../assets/icons/lightTalk/ic_slash_user.svg";
-import sampleProfile from "../assets/icons/mypage/sample_profile.png";
 import TalkList from "./lightTalk/TalkList";
 import type { TalkCardProps } from "../types/LightTalkProps";
 import { dummyLightTalkCard } from "../../mockData/dummyLightTalkCard";
@@ -32,7 +31,7 @@ export const LightTalk = () => {
   // console.log(univ);
 
   return (
-    <div className="flex flex-col items-center justify-center pt-4 gap-4 ">
+    <div className="flex flex-col items-center justify-center pt-4 gap-4 bg-[#EEE] ">
       <div className="w-[640px] flex justify-center items-center">
         <button
           className={`flex justify-center items-center px-4 py-2 gap-2 rounded-[100px] shadow-lg bg-[#FCF8FF]
@@ -56,7 +55,7 @@ export const LightTalk = () => {
         </button>
       </div>
       {/* 해당 톡박스에 해당하는 유저 이미지와 ID를 props로 넣어줌 */}
-      <TalkBox profileImage={sampleProfile} />
+      <TalkBox profileImage={myProps.profile_image} />
       <TalkList cards={talkCards} univ={univ} myUniv={myProps.univ} />
     </div>
   );

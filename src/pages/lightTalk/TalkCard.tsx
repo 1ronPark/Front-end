@@ -71,7 +71,7 @@ const TalkCard = ({
       className="relative w-[640px] flex items-start px-8 pt-4  gap-4 bg-[#FEFEFE]
     "
     >
-      <div className="h-12 w-12 absolute top-0 right-8 flex justify-center items-center">
+      <div className="h-12 w-12 absolute top-0 right-2 flex justify-center items-center">
         <button className="flex h-8 w-8 flex-col justify-center items-center rounded-[100px] hover:bg-[rgba(73,69,79,0.08)]">
           <EllipsisVertical className="w-5 h-5 " />
         </button>

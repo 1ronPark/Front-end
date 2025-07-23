@@ -1,6 +1,8 @@
 import { Image } from "lucide-react";
 import sampleImg from "../../assets/icons/mypage/sample_profile.png";
 import { useRef, useState } from "react";
+//결과 테스트 하려고 useEffect 사용
+// import { useEffect } from "react";
 
 //내 정보 props
 interface LightTalkProps {
@@ -22,6 +24,9 @@ const TalkBox = ({ profileImage }: LightTalkProps) => {
 
   // 텍스트 입력값 상태
   const [text, setText] = useState("");
+
+  //텍스트 결과 변수
+  const [result, setResult] = useState(""); // ← 상태로 저장
 
   // 이미지 업로드 시 실행되는 함수
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,6 +57,16 @@ const TalkBox = ({ profileImage }: LightTalkProps) => {
         textareaRef.current.scrollHeight + "px"; // 자동 증가
     }
   };
+
+  const handlePost = () => {
+    setResult(text);
+    setText("");
+  };
+
+  // 입력이 되나 테스트 창
+  // useEffect(() => {
+  //   console.log("result:\n", result);
+  // }, [result]);
 
   return (
     <div className="w-[640px] flex flex-col justify-center py-4 gap-2 rounded-[28px] shadow-xs bg-[#FEFEFE]">
@@ -120,6 +135,7 @@ const TalkBox = ({ profileImage }: LightTalkProps) => {
           <button
             className="flex justify-center items-center px-3 py-1.5
               rounded-xl border border-solid border-[#C8C5D0] hover:cursor-pointer hover:bg-[rgba(73,69,79,0.08)]"
+            onClick={handlePost}
           >
             <span>게시하기</span>
           </button>
