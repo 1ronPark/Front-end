@@ -12,7 +12,7 @@ const MOCK_USER_DATA = {
   name: '홍길동',
   nickname: '홍',
   age: 23,
-  sex: '남',
+  gender: '남',
   phone: '010-1234-5678',
   email: 'hong@hong.ac.kr',
   univ: '길동대학교',

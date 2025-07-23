@@ -13,6 +13,7 @@ import { LightTalk } from "./pages/LightTalk";
 import { MyProfile } from "./pages/MyProfile";
 import MemberDetail from "./pages/member/MemberDetail";
 import { FormEdit } from "./pages/FormEdit";
+import RegisterProject from "./components/mypage/RegisterProject";
 
 {
   /* 로그인/회원가입 관련 컴포넌트들 */
@@ -44,6 +45,8 @@ function App() {
           <Route path="/members/:memberId" element={<MemberDetail />} />
           <Route path="/lighttalk" element={<LightTalk />} />
           <Route path="/myprofile" element={<MyProfile />} />
+          {/* 프로젝트 등록 페이지 라우트 추가 */}
+          <Route path="/register-project" element={<RegisterProject />} />
         </Route>
 
         <Route path="/myprofile/edit" element={<FormLayout />}>

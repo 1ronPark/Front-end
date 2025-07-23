@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import addIcon from "../../assets/icons/mypage/ic_project_addsvg.svg";
 import MyProjectEmpty from "./project/MyProjectEmpty";
 import MyProjectList from "./project/MyProjectList";
@@ -17,18 +18,13 @@ const MyProjects = ({ hasData }: MyProjectProps) => {
           </li>
         </div>
         {hasData && (
-          <div
-            className="flex h-[48px] justify-center items-center text-[#47464F] gap-1 
-          hover:cursor-pointer"
+          <NavLink
+            to="/register-project"
+            className="flex h-[48px] items-center justify-center gap-2 rounded-xl bg-[#E3E0F9] px-4 py-2.5 text-[#464559] hover:bg-[#d3cfed] label-large"
           >
-            <button
-              className="flex px-4 py-2.5 justify-center items-center gap-2
-            rounded-xl bg-[#E3E0F9] hover:bg-[#d3cfed] cursor-pointer"
-            >
-              <img src={addIcon} />
-              <p className="label-large text-[#464559]">프로젝트 등록하기</p>
-            </button>
-          </div>
+            <img src={addIcon} alt="프로젝트 추가" />
+            <span>프로젝트 등록하기</span>
+          </NavLink>
         )}
       </div>
       {/* 구분선 */}
