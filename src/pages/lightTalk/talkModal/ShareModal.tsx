@@ -37,7 +37,7 @@ const ShareModal = ({ onClose }: ShareModalProps) => {
     <div className="fixed inset-0 bg-black/30 z-50 flex items-center justify-center">
       <div
         ref={modalRef}
-        className="bg-[#FFF] rounded-xl w-[520px] py-6 shadow-sm flex flex-col  gap-4 relative"
+        className="bg-[#FFF] rounded-xl w-[520px] py-6 shadow-sm flex flex-col items-center gap-4 relative"
       >
         {/* 닫기 버튼 */}
         <button
@@ -62,47 +62,67 @@ const ShareModal = ({ onClose }: ShareModalProps) => {
         <div className="w-full h-px bg-[#E0E0E0]" />
 
         {/* 외부로 공유 */}
-        <div className="h-8 flex gap-4 px-6">
+        {/* <div className="h-8 flex gap-4 px-6">
           <p className="title-medium text-[#1C1B21]">외부로 공유</p>
-        </div>
+        </div> */}
+
         {/* 외부 공유 아이콘 */}
-        <div className="flex justify-center items-center px-6 gap-4 ">
-          {/* 카카오톡 */}
-          <div className="flex flex-col items-center text-sm">
-            <img src={kakaoIcon} alt="kakao" className="w-10 h-10" />
-            <span className="mt-1">카카오톡</span>
+        <div className="w-full flex flex-col justify-center">
+          <div className="h-8 flex items-start gap-4 px-6">
+            <p className="title-medium text-[#1C1B21]">외부로 공유</p>
           </div>
-          {/* 페이스북 */}
-          <div className="flex flex-col items-center text-sm">
-            <img src={facebookIcon} alt="facebook" className="w-10 h-10" />
-            <span className="mt-1">페이스북</span>
-          </div>
-          {/* 인스타그램 */}
-          <div className="flex flex-col items-center text-sm">
-            <img src={instagramIcon} alt="instagram" className="w-10 h-10" />
-            <span className="mt-1">인스타그램</span>
-          </div>
-          {/* 디스코드 */}
-          <div className="flex flex-col items-center text-sm">
-            <img src={discordIcon} alt="discord" className="w-10 h-10" />
-            <span className="mt-1">디스코드</span>
+          <div className="flex justify-center items-center gap-4 px-6">
+            {/* 카카오톡 */}
+            <div className="flex flex-col items-center justify-center p-2 gap-4">
+              <img src={kakaoIcon} alt="kakao" className="w-[56px] h-[56px]" />
+              <span className="label-medium text-[#1C1B21]">카카오톡</span>
+            </div>
+            {/* 페이스북 */}
+            <div className="flex flex-col items-center justify-center p-2 gap-4">
+              <img
+                src={facebookIcon}
+                alt="facebook"
+                className="w-[56px] h-[56px]"
+              />
+              <span className="label-medium text-[#1C1B21]">페이스북</span>
+            </div>
+            {/* 인스타그램 */}
+            <div className="flex flex-col items-center justify-center p-2 gap-4">
+              <img
+                src={instagramIcon}
+                alt="instagram"
+                className="w-[56px] h-[56px]"
+              />
+              <span className="label-medium text-[#1C1B21]">인스타그램</span>
+            </div>
+            {/* 디스코드 */}
+            <div className="flex flex-col items-center justify-center p-2 gap-4">
+              <img
+                src={discordIcon}
+                alt="discord"
+                className="w-[56px] h-[56px]"
+              />
+              <span className="label-medium text-[#1C1B21]">디스코드</span>
+            </div>
           </div>
         </div>
 
         {/* 공유 링크 */}
-        <div className="flex justify-between items-center border rounded-lg px-4 py-2 text-sm">
+        <div className="w-[472px] flex justify-center items-center border rounded-lg px-4 py-2 gap-[30px] text-sm">
           <input
             type="text"
             readOnly
             value={window.location.href}
-            className="flex-1 outline-none text-[#49454F] bg-transparent"
+            className="flex-1 justify-center items-start outline-none body-medium text-[#1C1B21] p-[10px]"
           />
-          <button
-            className="ml-2 px-3 py-1 text-sm border border-[#CAC4D0] rounded-lg text-[#3F2E63] hover:bg-[#F4EFF4]"
-            onClick={handleCopy}
-          >
-            복사
-          </button>
+          <div className="h-12 flex justify-center items-center">
+            <button
+              className="px-4 py-2.5 rounded-[100px] bg-[#E3E0F9] text-[#464559] hover:bg-[#F4EFF4]"
+              onClick={handleCopy}
+            >
+              <p className="label-large">복사</p>
+            </button>
+          </div>
         </div>
       </div>
     </div>
