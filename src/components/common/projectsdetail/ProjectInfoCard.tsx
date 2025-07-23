@@ -240,14 +240,19 @@ const ProjectInfoCard = ({
               alt="send icon"
               className="w-6 h-6"
             />
-            <p className="title-small text-white">
+            <p className="title-medium text-white">
               {applied_project ? "이미 지원했어요" : "지원하기"}
             </p>
           </button>
 
           {/* ✅ 고정 안내창 (suggested_project일 경우) */}
           {suggested_project && (
-            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 rounded-tl-xl rounded-tr-xl rounded-bl-xl w-max max-w-[280px] bg-white px-4 py-2 shadow-md z-50 text-sm text-[#1D1B20] whitespace-pre-line">
+            <div
+              className="absolute left-[-225px] top-[-42px]
+             rounded-tl-xl rounded-tr-xl rounded-bl-xl max-w-[280px]
+             bg-[#FCF8FF] px-4 py-2 shadow-md z-50
+             body-medium-emphasis text-[#16134A]"
+            >
               <p>히로님에게 제안을 보낸 프로젝트예요</p>
               <p>지금 바로 지원하고 연락해 보세요!</p>
             </div>
@@ -255,9 +260,10 @@ const ProjectInfoCard = ({
 
           {applied_project && (
             <div
-              className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 
-                  bg-white px-4 py-2 rounded-tl-xl rounded-tr-xl rounded-bl-xl 
-                  shadow-md z-50 text-sm text-[#1D1B20] whitespace-pre-line text-center w-max max-w-[280px]"
+              className="absolute left-[-212px] top-[-42px]
+             rounded-tl-xl rounded-tr-xl rounded-bl-xlmax-w-[280px]
+             bg-[#FCF8FF] px-4 py-2 shadow-md z-50
+             body-medium-emphasis text-[#16134A]"
             >
               <p>제안을 기다리고 있어요</p>
               <p>제안이 오면 알림을 보내드릴게요</p>
@@ -270,7 +276,7 @@ const ProjectInfoCard = ({
          text-[#49454E] cursor-pointer"
         >
           <Heart size={20} />
-          <p className="title-small text-[#49454E]">관심 목록 추가</p>
+          <p className="title-medium text-[#49454E]">관심 목록 추가</p>
         </button>
       </div>
     </section>
