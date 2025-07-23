@@ -1,11 +1,6 @@
 import type { TalkCardProps } from "../../types/LightTalkProps";
 import TalkCard from "./TalkCard";
 
-interface TalkCardGroup {
-  univ: string;
-  cards: TalkCardProps[];
-}
-
 interface TalkListProps {
   cards: TalkCardProps[];
   univ: string; // 현재 선택된 학교
@@ -20,20 +15,6 @@ const TalkList = ({ cards, univ, myUniv }: TalkListProps) => {
         cards.filter((card) => card.univ !== myUniv)
       : //univ가 다른학교가 아니면 내 학교만 필터링
         cards.filter((card) => card.univ === myUniv);
-
-  // 그룹핑
-  // const grouped = filteredCards.reduce<Record<string, TalkCardProps[]>>(
-  //   (acc, card) => {
-  //     if (!acc[card.univ]) acc[card.univ] = [];
-  //     acc[card.univ].push(card);
-  //     return acc;
-  //   },
-  //   {}
-  // );
-
-  // const groupedArray: TalkCardGroup[] = Object.entries(grouped).map(
-  //   ([univ, cards]) => ({ univ, cards })
-  // );
 
   return (
     <div className="flex flex-col">
