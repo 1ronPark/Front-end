@@ -4,9 +4,15 @@ import TalkBox from "./lightTalk/TalkBox";
 import { useState } from "react";
 import slashUserIcon from "../assets/icons/lightTalk/ic_slash_user.svg";
 import sampleProfile from "../assets/icons/mypage/sample_profile.png";
-import TalkCard from "./lightTalk/TalkCard";
+import TalkList from "./lightTalk/TalkList";
+import type { TalkCardProps } from "../types/LightTalkProps";
+import { dummyLightTalkCard } from "../../mockData/dummyLightTalkCard";
 
 export const LightTalk = () => {
+  const talkCards: TalkCardProps[] = dummyLightTalkCard;
+  //test용으로 로그인 한 유저를 더미데이터의 id:1로 설정.
+  const myProps: TalkCardProps = talkCards[0];
+
   const [univType, setUnivType] = useState<"우리학교" | "다른학교">("우리학교");
   const [isClicked, setIsClicked] = useState(false);
 
@@ -43,30 +49,7 @@ export const LightTalk = () => {
       </div>
       {/* 해당 톡박스에 해당하는 유저 이미지와 ID를 props로 넣어줌 */}
       <TalkBox profileImage={sampleProfile} />
-      <TalkCard
-        name="강혜준"
-        role="디자이너"
-        createAt={new Date("2025-07-18T13:00:00")}
-        content={`2개월 걸리던 개발을 2주에 끝낸 스타트업 개발자 이야기
-        MVP는 빨리 나왔는데, 다음 기능 추가가 왜 이렇게 느릴까요?
-        저도 똑같았어요.
-        버그 하나 고치면 둘이 생기고, 코드 통합에만 일주일.
-        4주간 시스템을 바꿨더니: 
-        - 개발 기간: 2개월 → 2주 
-        - 버그: 주 20개 → 2개 
-        - 매일 야근 → 6시 칼퇴
-        비결? 읽기 좋은 코드 시스템
-
-![uploaded-image](${sampleProfile})
-![uploaded-image](${sampleProfile})
-![uploaded-image](${sampleProfile})
-![uploaded-image](${sampleProfile})
-![uploaded-image](${sampleProfile})
-
-`}
-        num_hearts={32}
-        num_comments={32}
-      />
+      <TalkList cards={talkCards} />
     </div>
   );
 };

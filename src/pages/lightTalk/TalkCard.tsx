@@ -4,12 +4,15 @@ import {
   MessageSquareText,
   Upload,
 } from "lucide-react";
-import sampleProfile from "../../assets/icons/mypage/sample_profile.png";
 import { useEffect, useState } from "react";
 
 interface TalkCardProps {
+  id: number;
   name: string; //이름
-  role?: "디자이너" | "PM" | "Web" | "Android" | "ios" | "Server"; //역할
+  profile_image: string;
+  // role?: "디자이너" | "PM" | "Web" | "Android" | "ios" | "Server";
+  role: string;
+  univ: string;
   content: string; //글내용
   createAt: Date; //글이 작성된 날짜
   num_hearts: number; //좋아요 갯수
@@ -39,6 +42,7 @@ const extractImagesAndText = (content: string) => {
 const TalkCard = ({
   name,
   role,
+  profile_image,
   content,
   createAt,
   num_hearts,
@@ -63,14 +67,17 @@ const TalkCard = ({
   const { images, text } = extractImagesAndText(content);
 
   return (
-    <div className="relative w-[640px] flex items-start px-8 pt-4  gap-4 bg-[#FEFEFE] rounded-t-[28px]">
+    <div
+      className="relative w-[640px] flex items-start px-8 pt-4  gap-4 bg-[#FEFEFE]
+    "
+    >
       <div className="h-12 w-12 absolute top-0 right-8 flex justify-center items-center">
         <button className="flex h-8 w-8 flex-col justify-center items-center rounded-[100px] hover:bg-[rgba(73,69,79,0.08)]">
           <EllipsisVertical className="w-5 h-5 " />
         </button>
       </div>
       <div className="flex w-12 h-12 justify-center items-center ">
-        <img src={sampleProfile} className="rounded-[240px]" />
+        <img src={profile_image} className="rounded-[240px]" />
       </div>
       <div className="w-full flex flex-col items-start gap-2 mb-2">
         {/* 내 정보 컨텐츠 */}
@@ -85,20 +92,6 @@ const TalkCard = ({
         </div>
         {/* 글내용 */}
         <p className="h-auto body-medium text-[#1C1B21]">
-          {/* 2개월 걸리던 개발을 2주에 끝낸 스타트업 개발자 이야기
-          <br />
-          MVP는 빨리 나왔는데, 다음 기능 추가가 왜 이렇게 느릴까요?
-          <br />
-          저도똑같았어요.
-          <br />
-          버그 하나 고치면 둘이 생기고, 코드 통합에만 일주일.
-          <br />
-          4주간 시스템을 바꿨더니: <br />
-          - 개발 기간: 2개월 → 2주 <br />
-          - 버그: 주 20개 → 2개 <br />
-          - 매일 야근 → 6시 칼퇴 <br />
-          비결? "읽기 좋은 코드 시스템" <br /> */}
-          {/* 본문 텍스트 */}
           <p className="body-medium whitespace-pre-line text-[#1C1B21]">
             {text.trim()}
           </p>
@@ -128,9 +121,8 @@ const TalkCard = ({
             <p className="label-large-emphasis">{countHeart}</p>
           </div>
           {/* 댓글 버튼 */}
-          <div className="flex px-3 py-1.5 justify-center items-center gap-1 opacity-[0.58]">
+          <div className="flex px-3 py-1.5 justify-center items-center gap-1 opacity-[0.58] rounded-xl">
             <button className="hover:cursor-pointer">
-              {" "}
               <MessageSquareText />
             </button>
             <p className="label-large-emphasis">{num_comments}</p>

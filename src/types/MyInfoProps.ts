@@ -10,7 +10,8 @@ export interface MyInfoProps {
   univ: string; // 학교 이름
   location?: string; // 지역
   mbti: string;
-  role?: "디자이너" | "PM" | "Web" | "Android" | "ios" | "Server"; //design, pm, web, server, android 등등
+  role?: string; // 역할 (예: PM, 디자이너 등)
+  // role?: "디자이너" | "PM" | "Web" | "Android" | "ios" | "Server"; //design, pm, web, server, android 등등
   intro?: string; // 자기소개
   blog?: string; // 블로그 URL
   gender?: "남" | "여";
