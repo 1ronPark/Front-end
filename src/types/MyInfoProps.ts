@@ -13,5 +13,6 @@ export interface MyInfoProps {
   blog?: string;
   gender?: "남" | "여";
   age?: number;
-  tags?: string[]; 
+  skills?: string[];
+  strengths?: string[];
 }
