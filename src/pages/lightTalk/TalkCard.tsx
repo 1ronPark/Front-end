@@ -22,6 +22,7 @@ interface TalkCardProps {
   currentUserId: number; // 현재 로그인 한 User ID
 }
 
+//시간 계산하는 함수
 const getTimeAgo = (date: Date): string => {
   const now = new Date();
   const diff = (now.getTime() - date.getTime()) / 1000; // 초 단위
@@ -53,23 +54,24 @@ const TalkCard = ({
   num_comments,
   currentUserId,
 }: TalkCardProps) => {
+  // 내 게시물인지 여부
   const isMyPost = currentUserId === id;
-
+  // 하트 개수
   const [countHeart, setCountHeart] = useState<number>(num_hearts);
   //하트를 눌렀는지 여부 체크
-  const [isHeart, setIsHeart] = useState<boolean>(true);
-
+  const [isHeart, setIsHeart] = useState<boolean>(false);
   //카드 메뉴 모달 열기
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   //공유 모달 열기
   const [openShareModal, setOpenShareModal] = useState(false);
-
+  //토글형 좋아요 => 한번누르면 올라가고 한번 더 누르면 내려감
   const handleHeartClick = () => {
-    if (!isHeart) {
+    if (isHeart) {
+      setCountHeart(countHeart - 1);
+    } else {
       setCountHeart(countHeart + 1);
-      setIsHeart(!isHeart);
     }
-    return;
+    setIsHeart(!isHeart); // 상태 반전
   };
 
   //메뉴 모달 열기
@@ -155,27 +157,28 @@ const TalkCard = ({
         </p>
         <div className="flex items-center py-2 gap-4 ">
           {/* 하트버튼 */}
-          <div className="flex px-3 py-1.5 justify-center items-center gap-1 opacity-[0.58]">
+          <div className="flex px-3 py-1.5 justify-center items-center gap-1 opacity-[0.58] rounded-xl hover:bg-gray-100">
             <button className="hover:cursor-pointer" onClick={handleHeartClick}>
               <Heart />
             </button>
             <p className="label-large-emphasis">{countHeart}</p>
           </div>
           {/* 댓글 버튼 */}
-          <div className="flex px-3 py-1.5 justify-center items-center gap-1 opacity-[0.58] rounded-xl">
+          <div className="flex px-3 py-1.5 justify-center items-center gap-1 opacity-[0.58] rounded-xl hover:bg-gray-100">
             <button className="hover:cursor-pointer">
               <MessageSquareText />
             </button>
             <p className="label-large-emphasis">{num_comments}</p>
           </div>
           {/* 공유버튼 */}
-          <div className="flex px-3 py-1.5 justify-center items-center gap-1 opacity-[0.58]">
-            <button className="hover:cursor-pointer">
+          <div className="flex px-3 py-1.5 justify-center items-center gap-1 opacity-[0.58] rounded-xl hover:bg-gray-100">
+            <button className="hover:cursor-pointer" onClick={handleShareClick}>
               <Upload />
             </button>
           </div>
         </div>
       </div>
+      {/* 카드 밑 구분선 */}
       <div className="absolute right-0 bottom-0 w-full h-[1px]  flex flex-col justify-center items-start bg-[#C8C5D0] " />
     </div>
   );
