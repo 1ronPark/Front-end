@@ -61,7 +61,7 @@ const TalkCard = ({
   };
 
   useEffect(() => {
-    console.log("하트 변화");
+    // console.log("하트 변화");
   }, [countHeart]);
 
   const { images, text } = extractImagesAndText(content);

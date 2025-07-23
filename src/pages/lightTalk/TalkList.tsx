@@ -6,37 +6,42 @@ interface TalkCardGroup {
   cards: TalkCardProps[];
 }
 
-interface TalkCardListProps {
+interface TalkListProps {
   cards: TalkCardProps[];
+  univ: string; // 현재 선택된 학교
+  myUniv: string; // 내 학교
 }
 
-const TalkList = ({ cards }: TalkCardListProps) => {
-  // univ 기준으로 그룹핑
-  const grouped = cards.reduce<Record<string, TalkCardProps[]>>((acc, card) => {
-    if (!acc[card.univ]) acc[card.univ] = [];
-    acc[card.univ].push(card);
-    return acc;
-  }, {});
+const TalkList = ({ cards, univ, myUniv }: TalkListProps) => {
+  // univ가 주어진 경우, 해당 학교 카드만 필터링
+  const filteredCards =
+    univ === "다른학교"
+      ? // univ가 다른학교면 내 학교가 아닌 학교들 필터링
+        cards.filter((card) => card.univ !== myUniv)
+      : //univ가 다른학교가 아니면 내 학교만 필터링
+        cards.filter((card) => card.univ === myUniv);
 
-  const groupedArray: TalkCardGroup[] = Object.entries(grouped).map(
-    ([univ, cards]) => ({ univ, cards })
-  );
+  // 그룹핑
+  // const grouped = filteredCards.reduce<Record<string, TalkCardProps[]>>(
+  //   (acc, card) => {
+  //     if (!acc[card.univ]) acc[card.univ] = [];
+  //     acc[card.univ].push(card);
+  //     return acc;
+  //   },
+  //   {}
+  // );
+
+  // const groupedArray: TalkCardGroup[] = Object.entries(grouped).map(
+  //   ([univ, cards]) => ({ univ, cards })
+  // );
 
   return (
     <div className="flex flex-col">
-      {groupedArray.map(({ univ, cards }) => (
-        <div
-          key={univ}
-          className="flex flex-col border border-[#E0E0E0] rounded-[28px] overflow-hidden"
-        >
-          {/* 대학 이름 표시 (필요 시 주석 해제) */}
-          {/* <div className="text-[#49454F] font-semibold text-sm mb-2 px-8">
-            {univ}
-          </div> */}
-
-          {cards.map((card, index) => {
+      {filteredCards.length > 0 && (
+        <div className="flex flex-col border border-[#E0E0E0] rounded-[28px] overflow-hidden">
+          {filteredCards.map((card, index) => {
             const isFirst = index === 0;
-            const isLast = index === cards.length - 1;
+            const isLast = index === filteredCards.length - 1;
 
             const borderRadiusClass = isFirst
               ? "rounded-t-[28px]"
@@ -49,14 +54,14 @@ const TalkList = ({ cards }: TalkCardListProps) => {
             return (
               <div
                 key={card.id}
-                className={`${borderTop} ${borderRadiusClass} rounded-[28px] bg-[#FEFEFE]`}
+                className={`${borderTop} ${borderRadiusClass} bg-[#FEFEFE]`}
               >
                 <TalkCard {...card} />
               </div>
             );
           })}
         </div>
-      ))}
+      )}
     </div>
   );
 };

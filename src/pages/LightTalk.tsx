@@ -15,13 +15,21 @@ export const LightTalk = () => {
 
   const [univType, setUnivType] = useState<"우리학교" | "다른학교">("우리학교");
   const [isClicked, setIsClicked] = useState(false);
+  // 초기 대학 설정
+  const [univ, setUniv] = useState<string | "다른학교">(myProps.univ);
 
   const toggleUnivType = () => {
     setUnivType((prev) => (prev === "우리학교" ? "다른학교" : "우리학교"));
     setIsClicked(true);
+    setUniv((nowUniv) =>
+      nowUniv === myProps.univ ? "다른학교" : myProps.univ
+    );
     // 200ms 후 scale 초기화
     setTimeout(() => setIsClicked(false), 200);
   };
+
+  //대학교 바뀌나 test
+  // console.log(univ);
 
   return (
     <div className="flex flex-col items-center justify-center pt-4 gap-4 ">
@@ -49,7 +57,7 @@ export const LightTalk = () => {
       </div>
       {/* 해당 톡박스에 해당하는 유저 이미지와 ID를 props로 넣어줌 */}
       <TalkBox profileImage={sampleProfile} />
-      <TalkList cards={talkCards} />
+      <TalkList cards={talkCards} univ={univ} myUniv={myProps.univ} />
     </div>
   );
 };
