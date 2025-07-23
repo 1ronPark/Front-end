@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import MenuModal from "./talkModal/MenuModal";
+import ShareModal from "./talkModal/ShareModal";
 
 interface TalkCardProps {
   id: number;
@@ -56,10 +57,12 @@ const TalkCard = ({
 
   const [countHeart, setCountHeart] = useState<number>(num_hearts);
   //하트를 눌렀는지 여부 체크
-  const [isHeart, setIsHeart] = useState<boolean>(false);
+  const [isHeart, setIsHeart] = useState<boolean>(true);
 
   //카드 메뉴 모달 열기
   const [openMenu, setOpenMenu] = useState<boolean>(false);
+  //공유 모달 열기
+  const [openShareModal, setOpenShareModal] = useState(false);
 
   const handleHeartClick = () => {
     if (!isHeart) {
@@ -69,8 +72,18 @@ const TalkCard = ({
     return;
   };
 
-  const handleMenuClick = () => {
-    setOpenMenu(!openMenu);
+  //메뉴 모달 열기
+  const handleMenuClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // 클릭 버블링 방지
+    setTimeout(() => {
+      setOpenMenu(true); // 비동기로 열기
+    }, 0);
+  };
+
+  // 공유 모달 열기 함수
+  const handleShareClick = () => {
+    setOpenShareModal(true);
+    setOpenMenu(false); // 메뉴는 닫기
   };
 
   useEffect(() => {
@@ -93,8 +106,17 @@ const TalkCard = ({
         </button>
       </div>
       {openMenu && (
-        <MenuModal isMyPost={isMyPost} onClose={() => setOpenMenu(false)} />
+        <MenuModal
+          isMyPost={isMyPost}
+          onClose={() => setOpenMenu(false)}
+          onShareClick={handleShareClick}
+        />
       )}
+      {/* 공유 모달 */}
+      {openShareModal && (
+        <ShareModal onClose={() => setOpenShareModal(false)} />
+      )}
+
       <div className="flex w-12 h-12 justify-center items-center ">
         <img src={profile_image} className="rounded-[240px]" />
       </div>

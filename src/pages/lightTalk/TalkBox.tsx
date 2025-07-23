@@ -27,6 +27,8 @@ const TalkBox = ({ profileImage }: LightTalkProps) => {
 
   //텍스트 결과 변수
   const [result, setResult] = useState(""); // ← 상태로 저장
+  //result 때문에 빨간줄 뜨는거 방지코드
+  console.log(result);
 
   // 이미지 업로드 시 실행되는 함수
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
