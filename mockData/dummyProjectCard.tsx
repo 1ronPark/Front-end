@@ -3,7 +3,7 @@ import type { MyProjectCardProps } from "../src/types/MyProjectCard";
 export const dummyProjectCard: MyProjectCardProps[] = [
   {
     id: 1,
-    categories: ["커뮤니티", "인공지능", "세일즈"],
+    categories: ["커뮤니티", "세일즈"],
     title: "Lightup 라잇업",
     sub_title: "대학생들을 위한 프로젝트 연계형 창업도모 서비스",
     status: "모집마감",
