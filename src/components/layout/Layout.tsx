@@ -13,7 +13,7 @@ export const Layout = () => {
   const [showSupportAlert, setShowSupportAlert] = useState(false);
 
   return (
-    <div className="relative flex min-h-screen w-full bg-white">
+    <div className="relative flex min-h-screen w-full bg-[#FEFEFE]">
       <div className="flex flex-1 flex-col pr-[60px]">
         <MainNavbar
           isLoggedIn={true}
