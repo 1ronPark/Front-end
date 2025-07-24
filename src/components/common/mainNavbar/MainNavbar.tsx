@@ -27,7 +27,7 @@ export const MainNavbar = ({
   const MainNavItems = [
     { label: "라잇톡", to: "/lighttalk" },
     { label: "프로젝트", to: "/projects" },
-    { label: "파트너 찾아보기", to: "/members" },
+    { label: "팀원 찾아보기", to: "/members" },
   ];
 
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
@@ -51,7 +51,7 @@ export const MainNavbar = ({
 
   return (
     <div
-      className={`flex w-full bg-[${bgColor}] px-6 py-3.5 justify-between items-center`}
+      className={`flex w-full bg-[${bgColor}] px-6 justify-between items-center`}
     >
       {/* 로고 */}
       <Link to="/">
@@ -64,7 +64,7 @@ export const MainNavbar = ({
 
       {/* 프로젝트/팀원 찾아보기/라잇톡 탭 */}
       <div className="flex items-center gap-10">
-        {MainNavItems.map(({ label, to }) => (            
+        {MainNavItems.map(({ label, to }) => (
           <NavLink
             key={to}
             to={to}
@@ -77,7 +77,7 @@ export const MainNavbar = ({
               <>
                 {label}
                 {isActive && (
-                  <span className="absolute bottom-[-11px] w-full h-[3px] bg-[#5A5891] rounded-tl-[100px] rounded-tr-[100px]" />
+                  <span className="absolute bottom-[-15px] w-full h-[3px] bg-[#5A5891] rounded-tl-[100px] rounded-tr-[100px]" />
                 )}
               </>
             )}
@@ -108,7 +108,7 @@ export const MainNavbar = ({
                 console.log("드롭다운 클릭됨");
                 setIsDropdownOpen((prev) => !prev);
               }}
-              className="flex items-center gap-2 px-6 py-4 bg-white cursor-pointer"
+              className="flex items-center gap-2 px-6 py-4 bg-transparent cursor-pointer"
             >
               <img src={ic_myprofile} alt="myprofile" className="w-6 h-6" />
               <span className="text-[#6750A4] title-medium">{userName}</span>
@@ -120,27 +120,27 @@ export const MainNavbar = ({
                   <li
                     className="flex items-center gap-3.5 px-3.5 py-4 cursor-pointer body-large"
                     onClick={() => {
-                      navigate("/myprofile?tab=info");     // 회원정보
+                      navigate("/myprofile?tab=info"); // 회원정보
                       setIsDropdownOpen(false);
                     }}
                   >
                     <img src={ic_mainnavbar_idcard} alt="회원정보" />
                     회원정보
                   </li>
-                  <li 
+                  <li
                     className="flex items-center gap-3.5 px-3.5 py-4 cursor-pointer body-large"
                     onClick={() => {
-                      navigate("/myprofile?tab=edit");  // 프로필 관리
+                      navigate("/myprofile?tab=edit"); // 프로필 관리
                       setIsDropdownOpen(false);
                     }}
                   >
                     <img src={ic_mainnavbar_profile} alt="프로필 관리" />
                     프로필 관리
                   </li>
-                  <li 
+                  <li
                     className="flex items-center gap-3.5 px-3.5 py-4 cursor-pointer body-large"
                     onClick={() => {
-                      navigate("/myprofile?tab=projects");  // 프로젝트 관리
+                      navigate("/myprofile?tab=projects"); // 프로젝트 관리
                       setIsDropdownOpen(false);
                     }}
                   >

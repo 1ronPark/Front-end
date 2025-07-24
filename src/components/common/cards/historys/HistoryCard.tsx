@@ -1,4 +1,3 @@
-import React from 'react';
 import DeleteIcon from '../../../../assets/icons/ic_delete.svg';
 
 interface HistoryCardProps {

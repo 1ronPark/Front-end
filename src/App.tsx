@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Layout } from "./components/layout/Layout";
 import { FormLayout } from "./components/layout/FormLayout";
 import "./App.css";
@@ -13,6 +13,7 @@ import { LightTalk } from "./pages/LightTalk";
 import { MyProfile } from "./pages/MyProfile";
 import MemberDetail from "./pages/member/MemberDetail";
 import { FormEdit } from "./pages/FormEdit";
+import {RegisterProject} from "./components/mypage/RegisterProject";
 
 {
   /* 로그인/회원가입 관련 컴포넌트들 */
@@ -37,6 +38,7 @@ function App() {
         <Route path="/passwordReset" element={<PasswordReset />} />
         {/* 임시로 로그인/회원가입 페이지를 최상단에 배치 */}
         <Route path="/" element={<Layout />}>
+          <Route index element={<Navigate to="/projects" replace />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/projects/:projectId" element={<ProjectDetail />} />
           {/* 회원 관련 경로 설정 */}
@@ -44,6 +46,8 @@ function App() {
           <Route path="/members/:memberId" element={<MemberDetail />} />
           <Route path="/lighttalk" element={<LightTalk />} />
           <Route path="/myprofile" element={<MyProfile />} />
+          {/* 프로젝트 등록 페이지 라우트 추가 */}
+          <Route path="/register-project" element={<RegisterProject />} />
         </Route>
 
         <Route path="/myprofile/edit" element={<FormLayout />}>
