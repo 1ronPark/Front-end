@@ -31,7 +31,7 @@ export const LightTalk = () => {
   // console.log(univ);
 
   return (
-    <div className="flex flex-col items-center justify-center pt-4 gap-4 bg-[#EEE] ">
+    <div className="flex flex-col items-center justify-center pt-4 gap-4 bg-[#EEE]">
       <div className="w-[640px] flex justify-center items-center">
         <button
           className={`flex justify-center items-center px-4 py-2 gap-2 rounded-[100px] shadow-lg bg-[#FCF8FF]

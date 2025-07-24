@@ -26,9 +26,9 @@ const TalkBox = ({ profileImage }: LightTalkProps) => {
   const [text, setText] = useState("");
 
   //텍스트 결과 변수
-  const [result, setResult] = useState(""); // ← 상태로 저장
+  // const [result, setResult] = useState(""); // ← 상태로 저장
   //result 때문에 빨간줄 뜨는거 방지코드
-  console.log(result);
+  // console.log(result);
 
   // 이미지 업로드 시 실행되는 함수
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,10 +38,10 @@ const TalkBox = ({ profileImage }: LightTalkProps) => {
       setImagePreviews((prev) => [...urls, ...prev]);
 
       // 이미지 삽입 마크업 추가
-      const imageTags = urls
-        .map((url) => `\n![uploaded-image](${url})`)
-        .join("");
-      setText((prev) => prev + imageTags);
+      // const imageTags = urls
+      //   .map((url) => `\n![uploaded-image](${url})`)
+      //   .join("");
+      // setText((prev) => prev + imageTags);
     }
   };
 
@@ -61,8 +61,18 @@ const TalkBox = ({ profileImage }: LightTalkProps) => {
   };
 
   const handlePost = () => {
-    setResult(text);
-    setText("");
+    const postData = {
+      text: text,
+      images: imagePreviews, //이미지 URL 포함
+    };
+    //전송할 데이터가 있으면
+    if (postData.text !== "" || postData.images.length !== 0) {
+      //여기서 서버 전송 로직 추가
+      console.log("전송할 데이터: ", postData);
+      setText(text);
+      setText("");
+      setImagePreviews([]);
+    }
   };
 
   // 입력이 되나 테스트 창

@@ -15,7 +15,9 @@ interface TalkCardProps {
   // role?: "디자이너" | "PM" | "Web" | "Android" | "ios" | "Server";
   role: string;
   univ: string;
-  content: string; //글내용
+  // content: string; //글내용
+  text: string; //글내용
+  images: string[]; //이미지 리스트
   createAt: Date; //글이 작성된 날짜
   num_hearts: number; //좋아요 갯수
   num_comments: number; //댓글 갯수
@@ -36,19 +38,21 @@ const getTimeAgo = (date: Date): string => {
 };
 
 // 이미지와 텍스트 분리 함수
-const extractImagesAndText = (content: string) => {
-  const imageRegex = /!\[.*?\]\((.*?)\)/g;
-  const images = [...content.matchAll(imageRegex)].map((match) => match[1]);
-  const text = content.replace(imageRegex, ""); // 이미지 마크업 제거한 텍스트
-  return { images, text };
-};
+// const extractImagesAndText = (content: string) => {
+//   const imageRegex = /!\[.*?\]\((.*?)\)/g;
+//   const images = [...content.matchAll(imageRegex)].map((match) => match[1]);
+//   const text = content.replace(imageRegex, ""); // 이미지 마크업 제거한 텍스트
+//   return { images, text };
+// };
 
 const TalkCard = ({
   id,
   name,
   role,
   profile_image,
-  content,
+  // content,
+  text,
+  images,
   createAt,
   num_hearts,
   num_comments,
@@ -92,7 +96,7 @@ const TalkCard = ({
     // console.log("하트 변화");
   }, [countHeart]);
 
-  const { images, text } = extractImagesAndText(content);
+  // const { images, text } = extractImagesAndText(content);
 
   return (
     <div
