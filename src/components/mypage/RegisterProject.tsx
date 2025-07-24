@@ -1,35 +1,19 @@
 import { useState, useEffect, useRef } from 'react';
-import Header from '../components/mypage/edit/Header';
-import Desired from '../components/mypage/edit/Desired';
-import ModifyingMenu from '../components/mypage/edit/ModifyingMenu';
-import Strength from '../components/mypage/edit/Strength';
-import Portfolio from '../components/mypage/edit/Portfolio';
-{/*import Reception from '../components/mypage/edit/Reception';*/}
-import History from '../components/mypage/edit/History';
-import Save from '../components/mypage/edit/Save';
+import Header from '../../components/mypage/project/register/Header';
+import ProjectMenu from '../../components/mypage/project/register/ProjectMenu';
+import Save from '../../components/mypage/project/register/Save';
+import Detail from './project/register/Detail';
+import Recruit from './project/register/Recruit';
 
-const MOCK_USER_DATA = {
-  name: '홍길동',
-  nickname: '홍',
-  age: 23,
-  gender: '남',
-  phone: '010-1234-5678',
-  email: 'hong@hong.ac.kr',
-  univ: '길동대학교',
-  mbti: 'INTJ',
-  intro: '기술과 디자인을 넘나들며 방향을 설계하는 실전형 디자이너',
-  blog: 'https://velog.io/@honggildong',
-};
+
 
 const SECTIONS = [
-  { id: 'basic-info', component: <Header {...MOCK_USER_DATA} /> },
-  { id: 'desired-conditions', component: <Desired /> },
-  { id: 'strengths', component: <Strength /> },
-  { id: 'portfolio', component: <Portfolio /> },
-  { id: 'history', component: <History /> },
+  { id: 'basic-info', component: <Header /> },
+  { id: 'project-detail', component: <Detail /> },
+  { id: 'recruitment', component: <Recruit /> },
 ];
 {/*{ id: 'reception-status', component: <Reception /> },*/}
-export const FormEdit = () => {
+export const RegisterProject = () => {
   const [activeSection, setActiveSection] = useState('basic-info');
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -77,7 +61,7 @@ export const FormEdit = () => {
           <Save />
         </div>
         <div className="sticky top-8 ml-8 w-64 flex-shrink-0 self-start">
-          <ModifyingMenu activeSection={activeSection} />
+          <ProjectMenu activeSection={activeSection} />
         </div>
       </div>
     </div>

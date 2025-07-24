@@ -1,3 +1,4 @@
+import React from 'react';
 import DeleteIcon from '../../../../assets/icons/ic_delete.svg';
 
 interface HistoryCardProps {
@@ -19,14 +20,9 @@ const HistoryCard = ({ onDelete }: HistoryCardProps) => {
 
       <div className="space-y-6">
         <div>
-          <div className="mb-2 flex items-center">
-            <label className="mb-2 block text-sm font-semibold text-gray-700">
-              활동명
-            </label>
-            <label className="mb-2 block text-sm font-semibold text-orange-500">
-              *
-            </label>
-          </div>
+          <label className="mb-2 block text-sm font-semibold text-gray-700">
+            활동명*
+          </label>
           <input
             type="text"
             placeholder="활동 명을 입력해 주세요."
@@ -34,14 +30,9 @@ const HistoryCard = ({ onDelete }: HistoryCardProps) => {
           />
         </div>
         <div>
-          <div className="mb-2 flex items-center">
-            <label className="mb-2 block text-sm font-semibold text-gray-700">
-              일시
-            </label>
-            <label className="mb-2 block text-sm font-semibold text-orange-500">
-              *
-            </label>
-          </div>
+          <label className="mb-2 block text-sm font-semibold text-gray-700">
+            일시*
+          </label>
           <input
             type="text"
             placeholder="YYYY / MM"

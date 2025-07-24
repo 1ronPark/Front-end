@@ -3,17 +3,16 @@
 }
 export interface MyInfoProps {
   id: number;
-  name?: string;
-  nickname: string; // 닉네임
-  phone: string; // 전화번호
-  email: string; // 이메일 주소
-  univ: string; // 학교 이름
-  location?: string; // 지역
+  name: string;
+  nickname?: string;
+  phone: string;
+  email: string;
+  univ: string;
+  location: string;
   mbti: string;
-  role?: string; // 역할 (예: PM, 디자이너 등)
-  // role?: "디자이너" | "PM" | "Web" | "Android" | "ios" | "Server"; //design, pm, web, server, android 등등
-  intro?: string; // 자기소개
-  blog?: string; // 블로그 URL
+  role: string;
+  intro?: string;
+  blog?: string;
   gender?: "남" | "여";
   age?: number;
   skills?: string[];
