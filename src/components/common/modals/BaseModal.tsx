@@ -15,24 +15,24 @@ const BaseModal = ({
   visible,
   title,
   description,
-  confirmText = "지원하기",
-  cancelText = "닫기",
+  confirmText,
+  cancelText,
   onConfirm,
   onCancel,
 }: BaseModalProps) => {
   if (!visible) return null;
 
+//디버깅용
+  console.log(document.getElementById("modal-root"));
+
+
   return ReactDOM.createPortal(
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="flex flex-col bg-white rounded-2xl p-8 w-[384px] text-center shadow-lg gap-14">
-        {/* 제목 영역 */}
-        {title && (
-          <h2 className="headline-large-emphasis mb-6">
-            <span className="text-[#5A5891]">{title}</span>
-            {description}
-          </h2>
-        )}
-
+        <div className="headline-large-emphasis">
+          {title && <span className="text-[#6C63EF]">{title}</span>}
+          {description && <span className="text-[#1C1B21] break-keep whitespace-normal"> {description}</span>}
+        </div>
         {/* 설명 영역 or children */}
         <div className="flex flex-col p-4 gap-2">
           {/* 버튼 영역 */}

@@ -7,6 +7,7 @@ export const Projects = () => {
             <div className="w-full mt-[30px] max-w-[1440px] px-[132px] mb-[27px]">
               <ProjectFilterBar />
               <ProjectList />
+              
             </div>
         </div>
     );
