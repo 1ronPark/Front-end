@@ -40,6 +40,7 @@ import SecurityIcon from "../../../assets/icons/ic_security.svg";
 import EsgIcon from "../../../assets/icons/ic_esg.svg";
 import RobotIcon from "../../../assets/icons/ic_robot.svg";
 import type { CategoryType } from "../../../types/MyProjectCard";
+import SupportSuccessModal from "./modal/AppliedSuccessModal";
 
 const mapcategories = [
   { name: "전체", icon: AllIcon },
@@ -85,20 +86,21 @@ const ProjectInfoCard = ({
   location,
   categories,
 }: Props) => {
-  const [showModal, setShowModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [applied, setApplied] = useState(applied_project);
   // 지원하기 클릭 시 팝업 표시
   const handleSupportClick = () => {
-    setShowModal(true);
+    setShowConfirmModal(true);
   };
 
-  const handleModalClose = () => {
-    setShowModal(false);
+  const handleConfirmSupport = () => {
+    setApplied(true); // 실제 지원 처리
+    setShowConfirmModal(false);
+    setShowSuccessModal(true);
   };
 
-  const handleModalSubmit = () => {
-    console.log("진짜 지원 처리 로직");
-    setShowModal(false);
-  };
+
 
   const categoryNames = categories;
 
@@ -244,30 +246,26 @@ const ProjectInfoCard = ({
           <div className="relative">
             <button
               onClick={handleSupportClick}
-              disabled={applied_project}
+              disabled={applied}
               className={`w-[200px] h-[56px] flex items-center justify-center gap-2.5 rounded-[16px] text-white
-      ${
-        applied_project
-          ? "opacity-60 bg-[#5A5891]"
-          : "bg-[#545891] cursor-pointer"
-      }`}
+      ${applied ? "opacity-60 bg-[#5A5891]" : "bg-[#545891] cursor-pointer"}`}
             >
               <img
-                src={applied_project ? ic_hail : ic_send}
+                src={applied ? ic_hail : ic_send}
                 alt="send icon"
                 className="w-6 h-6"
               />
               <p className="title-medium text-white">
-                {applied_project ? "이미 지원했어요" : "지원하기"}
+                {applied ? "이미 지원했어요" : "지원하기"}
               </p>
             </button>
 
-            {/* ✅ 고정 안내창 (suggested_project일 경우) */}
+            {/* 고정 안내창 (suggested_project일 경우) */}
             {suggested_project && (
               <div
                 className="absolute left-[-225px] top-[-42px]
              rounded-tl-xl rounded-tr-xl rounded-bl-xl max-w-[280px]
-             bg-[#FCF8FF] px-4 py-2 shadow-md z-50
+             bg-[#FCF8FF] px-4 py-2 shadow-md z-30
              body-medium-emphasis text-[#16134A]"
               >
                 <p>히로님에게 제안을 보낸 프로젝트예요</p>
@@ -279,7 +277,7 @@ const ProjectInfoCard = ({
               <div
                 className="absolute left-[-212px] top-[-42px]
              rounded-tl-xl rounded-tr-xl rounded-bl-xlmax-w-[280px]
-             bg-[#FCF8FF] px-4 py-2 shadow-md z-50
+             bg-[#FCF8FF] px-4 py-2 shadow-md z-10
              body-medium-emphasis text-[#16134A]"
               >
                 <p>제안을 기다리고 있어요</p>
@@ -299,13 +297,20 @@ const ProjectInfoCard = ({
       </section>
 
       <BaseModal
-        visible={showModal}
+        visible={showConfirmModal}
         title={title}
         description="프로젝트에 지원할까요?"
         confirmText="지원하기"
         cancelText="닫기"
-        onConfirm={handleModalSubmit}
-        onCancel={handleModalClose}
+        onConfirm={handleConfirmSupport}
+        onCancel={() => setShowConfirmModal(false)}
+      />
+
+      <SupportSuccessModal
+        isVisible={showSuccessModal}
+        title={title}
+        onClose={() => setShowSuccessModal(false)}
+
       />
     </div>
   );
