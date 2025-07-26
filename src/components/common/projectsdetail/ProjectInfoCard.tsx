@@ -40,7 +40,7 @@ import SecurityIcon from "../../../assets/icons/ic_security.svg";
 import EsgIcon from "../../../assets/icons/ic_esg.svg";
 import RobotIcon from "../../../assets/icons/ic_robot.svg";
 import type { CategoryType } from "../../../types/MyProjectCard";
-import SupportSuccessModal from "./modal/AppliedSuccessModal";
+import AppliedSuccessModal from "./modal/AppliedSuccessModal";
 
 const mapcategories = [
   { name: "전체", icon: AllIcon },
@@ -90,17 +90,15 @@ const ProjectInfoCard = ({
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [applied, setApplied] = useState(applied_project);
   // 지원하기 클릭 시 팝업 표시
-  const handleSupportClick = () => {
+  const handleApplyClick = () => {
     setShowConfirmModal(true);
   };
 
-  const handleConfirmSupport = () => {
+  const handleConfirmApply = () => {
     setApplied(true); // 실제 지원 처리
     setShowConfirmModal(false);
     setShowSuccessModal(true);
   };
-
-
 
   const categoryNames = categories;
 
@@ -245,7 +243,7 @@ const ProjectInfoCard = ({
         <div className="flex gap-4 justify-center mt-4 mb-4">
           <div className="relative">
             <button
-              onClick={handleSupportClick}
+              onClick={handleApplyClick}
               disabled={applied}
               className={`w-[200px] h-[56px] flex items-center justify-center gap-2.5 rounded-[16px] text-white
       ${applied ? "opacity-60 bg-[#5A5891]" : "bg-[#545891] cursor-pointer"}`}
@@ -302,15 +300,14 @@ const ProjectInfoCard = ({
         description="프로젝트에 지원할까요?"
         confirmText="지원하기"
         cancelText="닫기"
-        onConfirm={handleConfirmSupport}
+        onConfirm={handleConfirmApply}
         onCancel={() => setShowConfirmModal(false)}
       />
 
-      <SupportSuccessModal
+      <AppliedSuccessModal
         isVisible={showSuccessModal}
         title={title}
         onClose={() => setShowSuccessModal(false)}
-
       />
     </div>
   );
