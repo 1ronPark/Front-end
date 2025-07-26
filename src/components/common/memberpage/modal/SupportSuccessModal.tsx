@@ -1,16 +1,16 @@
 import SupportImage from "../../../../assets/icons/projectDetail/SupportImage.png";
 
-type AppliedSuccessModalProps = {
+type SuggestSuccessModalProps = {
   isVisible: boolean;
-  title: string;
+  name: string;
   onClose: () => void;
 };
 
-const AppliedSuccessModal = ({
+const SuggestSuccessModal = ({
   isVisible,
-  title,
+  name,
   onClose,
-}: AppliedSuccessModalProps) => {
+}: SuggestSuccessModalProps) => {
   if (!isVisible) return null;
 
   return (
@@ -24,13 +24,15 @@ const AppliedSuccessModal = ({
         <div className="flex flex-col items-center gap-4 px-6">
           <img
             src={SupportImage}
-            alt="지원 완료"
+            alt="제안 완료"
             className="w-[240px] h-[190px]"
           />
           <h2 className="headline-large-emphasis">
-            {title} 프로젝트에
+            {name} 님께
             <br />
-            지원했어요
+            제안을
+            <br />
+            보냈어요
           </h2>
         </div>
 
@@ -46,4 +48,4 @@ const AppliedSuccessModal = ({
   );
 };
 
-export default AppliedSuccessModal;
+export default SuggestSuccessModal;
