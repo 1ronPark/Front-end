@@ -3,7 +3,8 @@ import { Outlet, useLocation } from "react-router-dom";
 import SideNavbar from "../common/sideNavbar/SideNavbar";
 import { Footbar } from "../common/footbar/Footbar";
 import { useState } from "react";
-import SupportAlert from "../common/modals/SupportAlert";
+import AlertModal from "../common/modals/AlertModal";
+import ic_issuported from "../../assets/icons/ic_issupported.svg";
 
 export const Layout = () => {
   const location = useLocation();
@@ -27,10 +28,29 @@ export const Layout = () => {
           </div>
 
           {/* 알림 모달은 Outlet 위에 */}
-          <SupportAlert
+          {/* 지원자 알림 */} {/* 질문:::: 이거 탭 바꿀 때마다 다르게 보이는 거임?????? */}
+          <AlertModal
+            icon={ic_issuported}
+            title="새롭게 지원한 분이 있어요"
+            content="지원자를 확인하고 연락해볼까요?"
+            subcontent="모든 지원내역은 알림에서 볼 수 있어요"
+            primaryButtonText="지원자 보러가기"
+            primaryButtonPath="/notification"
             isVisible={showSupportAlert}
             onClose={() => setShowSupportAlert(false)}
           />
+
+          {/* 주디: 프로젝트 - 제안을 받은 사용자가 진입 시에 이대로 사용하시면 좋을 것 같습니다! */}
+          {/* <AlertModal
+            icon={ic_issuported}
+            title="새로운 제안을 받았어요"
+            content="프로젝트 리더에게 연락을 해보시겠어요?"
+            subcontent="제안은 알림에서 계속 볼수 있어요"
+            primaryButtonText="지원하고 연락해보기"
+            primaryButtonPath="/notification"
+            isVisible={showSupportAlert}
+            onClose={() => setShowSupportAlert(false)}
+          /> */}
         </main>
         <Footbar bgColor={isMemberDetailPage ? "#EEEEEE" : "white"} />
       </div>

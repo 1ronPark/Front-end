@@ -94,6 +94,7 @@ const MemberProfileCard = ({ isApplicantToMyProject = false }: MemberProfileCard
           )}
           <button
             onClick={()=>setShowProposalModal(true)}
+            disabled={isProposalSent}
             className={`w-[200px] h-[56px] flex items-center justify-center gap-2.5 rounded-[16px] ${
               isProposalSent
                 ? 'bg-[#5A5891] opacity-60 text-[#68548E] cursor-not-allowed' // 제안 보냄
