@@ -13,7 +13,7 @@ import { LightTalk } from "./pages/LightTalk";
 import { MyProfile } from "./pages/MyProfile";
 import MemberDetail from "./pages/member/MemberDetail";
 import { FormEdit } from "./pages/FormEdit";
-import {RegisterProject} from "./components/mypage/RegisterProject";
+import { RegisterProject } from "./components/mypage/RegisterProject";
 
 {
   /* 로그인/회원가입 관련 컴포넌트들 */
@@ -23,6 +23,7 @@ import { LoginPassword } from "./pages/Auth/LoginPassword";
 import { SignupForm } from "./pages/Auth/SignupForm";
 import { SignupPassword } from "./pages/Auth/SignupPassword";
 import { PasswordReset } from "./pages/Auth/PasswordReset";
+import TalkCardDetail from "./pages/lightTalk/TalkCardDetail";
 
 // Add the correct import for SignupPage or use SignupEmail if that's intended
 
@@ -44,7 +45,9 @@ function App() {
           {/* 회원 관련 경로 설정 */}
           <Route path="/members" element={<Members />} />
           <Route path="/members/:memberId" element={<MemberDetail />} />
-          <Route path="/lighttalk" element={<LightTalk />} />
+          {/* 라잇톡 관련 경로 설정 */}
+          <Route path="/lightTalk" element={<LightTalk />} />
+          <Route path="/lightTalk/:lightTalkId" element={<TalkCardDetail />} />
           <Route path="/myprofile" element={<MyProfile />} />
           {/* 프로젝트 등록 페이지 라우트 추가 */}
           <Route path="/register-project" element={<RegisterProject />} />

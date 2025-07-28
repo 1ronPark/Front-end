@@ -12,3 +12,13 @@ export interface TalkCardProps {
   num_hearts: number; //좋아요 갯수
   num_comments: number; //댓글 갯수
 }
+
+export interface TalkCommentProps {
+  id: number;
+  userId: number; // 댓글 작성자 ID
+  userName: string; // 댓글 작성자 이름
+  profile_image: string; // 댓글 작성자 프로필 이미지 URL
+  content: string; // 댓글 내용
+  createdAt: Date; // 댓글 작성 날짜
+  currentUserId: number; // 현재 로그인 한 User ID
+}

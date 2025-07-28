@@ -25,7 +25,7 @@ export const MainNavbar = ({
   bgColor = "white",
 }: MainNavbarProps) => {
   const MainNavItems = [
-    { label: "라잇톡", to: "/lighttalk" },
+    { label: "라잇톡", to: "/lightTalk" },
     { label: "프로젝트", to: "/projects" },
     { label: "팀원 찾아보기", to: "/members" },
   ];
@@ -37,7 +37,7 @@ export const MainNavbar = ({
   //라잇톡일 때 배경색 다르게 하기 위한 변수
   const location = useLocation();
   //라잇톡이 눌러졌을 때
-  const isLightTalk = location.pathname.startsWith("/lighttalk");
+  const isLightTalk = location.pathname.startsWith("/lightTalk");
 
   // 외부 클릭 시 드롭다운 닫기
   useEffect(() => {

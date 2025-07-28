@@ -7,6 +7,7 @@ import {
 import { useEffect, useState } from "react";
 import MenuModal from "./talkModal/MenuModal";
 import ShareModal from "./talkModal/ShareModal";
+import { useNavigate } from "react-router-dom";
 
 interface TalkCardProps {
   id: number;
@@ -58,6 +59,14 @@ const TalkCard = ({
   num_comments,
   currentUserId,
 }: TalkCardProps) => {
+  //해당 카드 detail로 이동하기 위한 변수
+  const navigate = useNavigate();
+
+  //해당 카드를 클릭하면 디테일 페이지로 이동
+  const handleCardClick = () => {
+    navigate(`/lightTalk/${id}`);
+  };
+
   // 내 게시물인지 여부
   const isMyPost = currentUserId === id;
   // 하트 개수
@@ -101,7 +110,8 @@ const TalkCard = ({
   return (
     <div
       className="relative w-[640px] flex items-start px-8 pt-4  gap-4 bg-[#FEFEFE]
-    "
+    rounded-t-[28px]"
+      onClick={handleCardClick}
     >
       <div className="h-12 w-12 absolute top-0 right-2 flex justify-center items-center">
         <button

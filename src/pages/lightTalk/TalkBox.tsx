@@ -1,4 +1,4 @@
-import { Image } from "lucide-react";
+import { Image, X } from "lucide-react";
 import sampleImg from "../../assets/icons/mypage/sample_profile.png";
 import { useRef, useState } from "react";
 //결과 테스트 하려고 useEffect 사용
@@ -104,22 +104,39 @@ const TalkBox = ({ profileImage }: LightTalkProps) => {
           />
 
           {/* 이미지 슬라이드 영역 */}
-          {imagePreviews.length > 0 && (
-            <div className="w-full overflow-x-auto ">
-              <div className="flex gap-2 w-[512px] pr-2">
-                {imagePreviews.map((src, idx) => (
-                  <img
-                    key={idx}
-                    src={src}
-                    alt={`uploaded-${idx}`}
-                    className="w-[240px] h-[240px] rounded-md object-cover"
-                  />
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       </div>
+
+      {imagePreviews.length > 0 && (
+        <div className="flex flex-col items-start px-6 py-4 gap-2.5">
+          <div className="flex flex-wrap gap-4">
+            {imagePreviews.map((src, idx) => (
+              <div
+                key={idx}
+                className="relative flex w-[240px] h-[240px] justify-end items-center aspect-square"
+              >
+                <img
+                  src={src}
+                  alt={`uploaded-${idx}`}
+                  className="w-full h-full object-cover rounded-[12px]"
+                />
+                {/* 삭제 버튼 */}
+                <button
+                  onClick={() =>
+                    setImagePreviews((prev) => prev.filter((_, i) => i !== idx))
+                  }
+                  className="w-8 h-8 p-2.5 flex justify-center items-center absolute top-1 right-1 bg-[#E3E0F9]
+                  rounded-full shadow-sm hover:bg-[#D7D4EC]"
+                >
+                  <div className="flex justify-center items-center w-[20px] h-[20px]">
+                    <X />
+                  </div>
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* 하단 버튼 */}
       <div className="flex justify-between items-center pl-[96px] pr-[32px]">
