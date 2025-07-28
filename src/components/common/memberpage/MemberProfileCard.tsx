@@ -5,6 +5,8 @@ import ic_member_univ from '../../../assets/icons/ic_member_univ.svg';
 import ic_member_email from '../../../assets/icons/ic_member_email.svg';
 import ic_profile from '../../../assets/icons/ic_profile.svg';
 import { Heart } from 'lucide-react';
+import { useState } from 'react';
+import ActionStatusModal from '../modals/ActionStatusModal';
 
 type MemberProfileCardProps = {
   isApplicantToMyProject?: boolean;
@@ -18,6 +20,13 @@ const profileInfos = [
 ];
 
 const MemberProfileCard = ({ isApplicantToMyProject = false }: MemberProfileCardProps) => {
+  const [showProposalModal, setShowProposalModal] = useState(false);
+  const [isProposalSent, setIsProposalSent] = useState(false); // 추가: 제안 보낸 상태
+
+  const handleProposalSent = () => {
+    setIsProposalSent(true); // 제안 보낸 후 상태 업데이트
+  };
+  
   return (
     <section>
       <div className="bg-white rounded-[12px] border border-[#79747E]/[0.16] px-6 py-6 w-full">
@@ -84,13 +93,17 @@ const MemberProfileCard = ({ isApplicantToMyProject = false }: MemberProfileCard
             </div>
           )}
           <button
-          className="w-[200px] h-[56px] flex items-center justify-center gap-2.5 rounded-[16px] bg-[#68548E] text-[#FFFFFF]"
-        >
+            onClick={()=>setShowProposalModal(true)}
+            disabled={isProposalSent}
+            className={`w-[200px] h-[56px] flex items-center justify-center gap-2.5 rounded-[16px] ${
+              isProposalSent
+                ? 'bg-[#5A5891] opacity-60 text-[#68548E] cursor-not-allowed' // 제안 보냄
+                : 'bg-[#5A5891] text-[#FFFFFF]' // 제안 보내기
+              }`}
+        >  
           <img src={ic_send} alt="send icon" className="w-4 h-4 text-white" />
-          <p 
-            
-            className="title-medium text-[#FFFFFF]">
-              제안 보내기
+          <p className="title-medium text-[#FFFFFF]"> 
+              {isProposalSent ? '이미 제안했어요' : '제안 보내기'}
             </p>
         </button>
         </div>
@@ -104,6 +117,17 @@ const MemberProfileCard = ({ isApplicantToMyProject = false }: MemberProfileCard
             <p className="title-medium text-[#47464F]">관심 목록 추가</p>  
         </button>
       </div>
+
+      {showProposalModal && (
+        <ActionStatusModal
+          proposalConfirmTitle={`강혜준님께\n제안을\n보낼까요?`}
+          proposalConfirmButtonText="보내기"
+          proposalSentTitle={`강혜준님께\n제안을\n보냈어요`}
+          proposalSentButtonText="확인"
+          onClose={()=>setShowProposalModal(false)}
+          onProposalSent={handleProposalSent}
+        />
+      )}
     </section>
   );
 };
