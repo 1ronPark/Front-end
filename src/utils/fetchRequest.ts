@@ -1,5 +1,5 @@
-import axios from 'axios';
 import type { AxiosError, AxiosRequestConfig, Method } from 'axios';
+import axiosInstance from '../lib/axios';
 
 type FetchMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
@@ -40,7 +40,7 @@ export const fetchRequest = async <T, B = unknown>({
 			params: method === 'GET' ? body : undefined,
 		};
 
-		const response = await axios.request<T>(config);
+		const response = await axiosInstance.request<T>(config);
 		console.log('axios response:', response);
 
 		return response.data;
