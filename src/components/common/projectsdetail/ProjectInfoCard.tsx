@@ -13,7 +13,6 @@ import Share from "../../../assets/icons/ic_share.svg";
 import Siren from "../../../assets/icons/ic_siren.svg";
 import ProjectLogo from "../../../assets/icons/projectDetail/lightupLogo.png";
 import type { ProjectCardWithUserProps } from "../../../types/ProjectCardWithUser";
-import BaseModal from "../modals/BaseModal";
 import { useState } from "react";
 // 아이콘 import
 import AllIcon from "../../../assets/icons/ic_all.svg";
@@ -40,7 +39,11 @@ import SecurityIcon from "../../../assets/icons/ic_security.svg";
 import EsgIcon from "../../../assets/icons/ic_esg.svg";
 import RobotIcon from "../../../assets/icons/ic_robot.svg";
 import type { CategoryType } from "../../../types/MyProjectCard";
-import AppliedSuccessModal from "./modal/AppliedSuccessModal";
+
+import ActionStatusModal from "../modals/ActionStatusModal";
+import AlertModal from "../modals/AlertModal";
+import ic_sendresume from "../../../assets/icons/ic_sendresume.svg";
+
 
 const mapcategories = [
   { name: "전체", icon: AllIcon },
@@ -86,19 +89,21 @@ const ProjectInfoCard = ({
   location,
   categories,
 }: Props) => {
-  const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [applied, setApplied] = useState(applied_project);
-  // 지원하기 클릭 시 팝업 표시
-  const handleApplyClick = () => {
-    setShowConfirmModal(true);
-  };
+const [showActionModal, setShowActionModal] = useState(false);
+const [showAlertModal, setShowAlertModal] = useState(false);
+const [applied, setApplied] = useState(applied_project);
 
-  const handleConfirmApply = () => {
-    setApplied(true); // 실제 지원 처리
-    setShowConfirmModal(false);
-    setShowSuccessModal(true);
-  };
+// 지원 버튼 클릭
+const handleApplyClick = () => {
+  setShowActionModal(true);
+};
+
+// 지원 처리 완료
+const handleProposalSent = () => {
+  setApplied(true);
+  setShowAlertModal(true);
+};
+
 
   const categoryNames = categories;
 
@@ -294,21 +299,29 @@ const ProjectInfoCard = ({
         </div>
       </section>
 
-      <BaseModal
-        visible={showConfirmModal}
-        title={title}
-        description="프로젝트에 지원할까요?"
-        confirmText="지원하기"
-        cancelText="닫기"
-        onConfirm={handleConfirmApply}
-        onCancel={() => setShowConfirmModal(false)}
-      />
+{/* 1. 제안/지원 확인 → 완료 흐름 */}
+{showActionModal && (
+  <ActionStatusModal
+    proposalConfirmTitle={`${title}\n프로젝트에 지원할까요?`}
+    proposalConfirmButtonText="지원하기"
+    proposalSentTitle={`지원이 완료되었어요`}
+    proposalSentButtonText="확인"
+    onClose={() => setShowActionModal(false)}
+    onProposalSent={handleProposalSent}
+  />
+)}
 
-      <AppliedSuccessModal
-        isVisible={showSuccessModal}
-        title={title}
-        onClose={() => setShowSuccessModal(false)}
-      />
+{/* 2. 완료 후 알림 */}
+<AlertModal
+  icon={ic_sendresume}
+  title="지원 완료"
+  content="지원한 프로젝트의 PM이 확인 후 연락을 드릴 거예요."
+  subcontent="지원 내용을 마이페이지에서 확인할 수 있어요."
+  primaryButtonText="확인"
+  isVisible={showAlertModal}
+  onClose={() => setShowAlertModal(false)}
+/>
+
     </div>
   );
 };
