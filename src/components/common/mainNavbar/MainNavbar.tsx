@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import logo_lightup from "../../../assets/logo_lightup.svg";
 import ic_loginbutton from "../../../assets/ic_loginbutton.svg";
@@ -34,6 +34,10 @@ export const MainNavbar = ({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  //라잇톡일 때 배경색 다르게 하기 위한 변수
+  const location = useLocation();
+  //라잇톡이 눌러졌을 때
+  const isLightTalk = location.pathname.startsWith("/lighttalk");
 
   // 외부 클릭 시 드롭다운 닫기
   useEffect(() => {
@@ -51,7 +55,10 @@ export const MainNavbar = ({
 
   return (
     <div
-      className={`flex w-full bg-[${bgColor}] px-6 justify-between items-center`}
+      className={`flex w-full 
+        bg-[${bgColor}]
+        ${isLightTalk && "bg-[#EEE]"}
+        px-6 justify-between items-center`}
     >
       {/* 로고 */}
       <Link to="/">
