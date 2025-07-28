@@ -22,9 +22,10 @@ const MyInfoEditModal = ({ onClose, onCloseAll, myInfo }: EditModalProps) => {
   //저장할 때 비밀번호 인증 모달 띄우기 위한 usestate
   const [showCheckModal, setShowCheckModal] = useState(false);
 
+
   return (
     <>
-      {/*이후에 정보에 수정된 부분 유무를 체크하고 다음단계로 넘어가는 조건 필요해보임*/}
+      {/*이후에 정보에 수정 유무를 체크하고 다음단계로 넘어가는 조건 필요해보임*/}
       {showCheckModal && (
         <MyInfoEditCheckModal
           onClose={() => setShowCheckModal(false)}
@@ -196,6 +197,8 @@ const MyInfoEditModal = ({ onClose, onCloseAll, myInfo }: EditModalProps) => {
           </div>
         </div>
       </div>
+
+
     </>
   );
 };
