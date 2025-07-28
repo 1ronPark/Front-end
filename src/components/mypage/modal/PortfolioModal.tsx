@@ -30,22 +30,24 @@ const PortfolioModal = ({ onClose }: PortfolioProps) => {
         </div>
 
         {/* 탭 */}
-        <div className="flex h-[48px] px-8">
-          {[
-            { id: "file", label: "파일 첨부" },
-            { id: "url", label: "URL 등록" },
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id as "file" | "url")}
-              className="relative w-full h-full flex flex-col px-4 py-3.5 justify-center items-center flex-1 title-small text-[#1D1B20]"
-            >
-              {tab.label}
-              {activeTab === tab.id && (
-                <span className="absolute left-0 bottom-0 w-full h-[2px] bg-[#68548E]" />
-              )}
-            </button>
-          ))}
+        <div className=" px-8 ">
+          <div className="flex h-[48px] border-b-2 border-[#E0E0E0]">
+            {[
+              { id: "file", label: "파일 첨부" },
+              { id: "url", label: "URL 등록" },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as "file" | "url")}
+                className="relative w-full h-full flex flex-col px-4 py-3.5 justify-center items-center flex-1 title-small text-[#1D1B20]"
+              >
+                {tab.label}
+                {activeTab === tab.id && (
+                  <span className="absolute left-0 bottom-0 w-full h-[2px] bg-[#68548E]" />
+                )}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* 내용 영역 */}
@@ -58,7 +60,7 @@ const PortfolioModal = ({ onClose }: PortfolioProps) => {
                   type="text"
                   disabled
                   placeholder="등록할 파일을 찾아주세요."
-                  className="h-full flex-1 pl-4 py-1 rounded-xl bg-gray-100 text-sm placeholder:text-[#AAA]"
+                  className="h-full flex-1 pl-4 py-1 rounded-xl bg-[rgba(29,27,32,0.08)] title-medium placeholder:text-[#AAA]"
                 />
                 <button className="w-[123px] h-full flex justify-center items-center rounded-xl bg-[#F2ECF4] hover:bg-[#D8CEF0] cursor-pointer">
                   <p className="py-4 px-6 title-medium text-[#49454E]">
@@ -79,7 +81,7 @@ const PortfolioModal = ({ onClose }: PortfolioProps) => {
                   <input
                     type="url"
                     placeholder="URL 을 입력해 주세요"
-                    className="flex-1 h-[56px] px-4 py-1 rounded-xl border border-gray-300 placeholder:text-[#AAA]"
+                    className="flex-1 h-[56px] px-4 py-1 rounded-xl bg-[rgba(29,27,32,0.08)] title-medium placeholder:text-[#AAA]"
                   />
                   <button className="w-[80px] h-[56px] rounded-xl bg-[#F2ECF4] hover:bg-[#D8CEF0] title-medium text-[#49454E]">
                     등록
@@ -96,7 +98,7 @@ const PortfolioModal = ({ onClose }: PortfolioProps) => {
                   <input
                     type="url"
                     placeholder="URL 을 입력해 주세요"
-                    className="flex-1 h-[56px] px-4 py-1 rounded-xl border border-gray-300 placeholder:text-[#AAA]"
+                    className="flex-1 h-[56px] px-4 py-1 rounded-xl bg-[rgba(29,27,32,0.08)] title-medium placeholder:text-[#AAA]"
                   />
                   <button className="w-[80px] h-[56px] rounded-xl bg-[#F2ECF4] hover:bg-[#D8CEF0] title-medium text-[#49454E]">
                     등록
