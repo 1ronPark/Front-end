@@ -5,6 +5,7 @@ import { Footbar } from "../common/footbar/Footbar";
 import { useState } from "react";
 import AlertModal from "../common/modals/AlertModal";
 import ic_issuported from "../../assets/icons/ic_issupported.svg";
+import { useUser } from "../../hooks/apiHooks";
 
 export const Layout = () => {
   const location = useLocation();
@@ -13,12 +14,15 @@ export const Layout = () => {
   // 지원을 받은 사용자가 진입 시
   const [showSupportAlert, setShowSupportAlert] = useState(false);
 
+  const { data: user, isSuccess } = useUser();
+  const isLoggedIn = isSuccess && !!user;
+
   return (
     <div className="relative flex min-h-screen w-full bg-[#FEFEFE]">
       <div className="flex flex-1 flex-col pr-[60px]">
         <MainNavbar
-          isLoggedIn={true}
-          userName="홍길동"
+          isLoggedIn={isLoggedIn}
+          userName={user?.name || ""}
           bgColor={isMemberDetailPage ? "#EEEEEE" : "white"}
         />
         <main className="flex-1 relative">
