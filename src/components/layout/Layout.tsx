@@ -5,7 +5,7 @@ import { Footbar } from "../common/footbar/Footbar";
 import { useState } from "react";
 import AlertModal from "../common/modals/AlertModal";
 import ic_issuported from "../../assets/icons/ic_issupported.svg";
-import { useUser } from "../../hooks/apiHooks";
+import { useUser } from "../../hooks/useUser";
 
 export const Layout = () => {
   const location = useLocation();

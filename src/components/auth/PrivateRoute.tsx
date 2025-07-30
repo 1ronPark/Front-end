@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { useUser } from '../../hooks/apiHooks';
+import { useUser } from '../../hooks/useUser';
 
 const PrivateRoute = () => {
   // useUser 훅으로 현재 사용자 정보를 가져옵니다.

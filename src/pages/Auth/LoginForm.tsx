@@ -1,9 +1,11 @@
+import { useLoginStore } from "../../store/useLoginStore";
 import { AuthHeader } from "../../components/auth/AuthHeader";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 export const LoginForm = () => {
   const navigate = useNavigate();
+  const { email, setEmail, } = useLoginStore();
   const handleContinue = () => {
     // 여기에 이메일 입력 및 유효성 검사 로직을 추가할 수 있습니다!
     navigate("/loginPassword"); // 비밀번호 입력 페이지로 이동
@@ -26,6 +28,8 @@ export const LoginForm = () => {
           <input
             type="email"
             id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="이메일 주소"
             className="w-full h-[48px] body-large px-4 rounded-full border border-[#1D1B20]/10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />

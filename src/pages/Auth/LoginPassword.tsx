@@ -1,12 +1,30 @@
+import { useLogin } from "../../hooks/useLogin";
 import { AuthHeader } from "../../components/auth/AuthHeader";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useLoginStore } from "../../store/useLoginStore";
 
 export const LoginPassword = () => {
   const navigate = useNavigate();
+  const { email, password, setPassword } = useLoginStore();
+  const { login, isPending} = useLogin();
   const handleContinue = () => {
-    // 여기에 비밀번호 유효성검사 로직 등을 추가할 수 있습니다!
-    navigate("/"); // 로그인 완료 후 우선 홈페이지로 이동
+    if (!password) {
+      alert("비밀번호를 입력해주세요.");
+      return;
+    }
+
+    login(
+      { email, password },
+      {
+        onSuccess: () => {
+          navigate("/"); // 로그인 성공 시 홈으로 이동
+        },
+        onError: (error: Error) => {
+          alert("로그인 실패: " + error.message);
+        },
+      }
+    );
   };
 
   return (
@@ -26,12 +44,15 @@ export const LoginPassword = () => {
           <input
             type="email"
             id="email"
-            placeholder="이메일 주소"
-            className="w-full h-[48px] body-large px-4 rounded-full border border-[#1D1B20]/10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            value={email}
+            disabled
+            className="w-full h-[48px] body-large px-4 rounded-full border border-[#1D1B20]/10 bg-gray-100 text-gray-500"
           />
           <input
             type="password"
             id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="비밀번호"
             className="w-full h-[48px] body-large px-4 mt-4 rounded-full border border-[#1D1B20]/10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
@@ -45,10 +66,13 @@ export const LoginPassword = () => {
 
         {/* 계속 버튼 */}
         <button
+          disabled={isPending}
           onClick={handleContinue}
-          className="w-full h-12 bg-[#68548E] text-white rounded-full font-medium hover:bg-[#59407e] transition cursor-pointer"
+          className={`w-full h-12 rounded-full font-medium transition cursor-pointer ${
+            isPending ? "bg-gray-400" : "bg-[#68548E] hover:bg-[#59407e]"
+          } text-white`}
         >
-          계속
+          {isPending ? "로그인 중..." : "계속"}
         </button>
 
         {/* 회원가입 링크 */}
