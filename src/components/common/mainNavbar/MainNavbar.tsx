@@ -13,6 +13,7 @@ import SearchModal from "../modals/SearchModal";
 import { useEffect, useRef, useState } from "react";
 import { useAuthStore } from "../../../store/useAuthStore";
 import { useUserStore } from "../../../store/useUserStore";
+import { useLoginStore } from "../../../store/useLoginStore";
 
 type MainNavbarProps = {
   bgColor?: string;
@@ -35,7 +36,6 @@ export const MainNavbar = ({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-
 
   // 외부 클릭 시 드롭다운 닫기
   useEffect(() => {
@@ -154,6 +154,8 @@ export const MainNavbar = ({
                     onClick={() => {
                       useAuthStore.getState().resetToken();
                       useUserStore.getState().resetUser();
+                      useLoginStore.getState().setEmail("");
+                      useLoginStore.getState().setPassword("");
                       setIsDropdownOpen(false);
                       navigate("/");
                     }}
