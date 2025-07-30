@@ -11,8 +11,6 @@ import ic_mainnavbar_project from "../../../assets/icons/ic_mainnavbar_project.s
 import ic_mainnavbar_logout from "../../../assets/icons/ic_mainnavbar_logout.svg";
 
 import { useEffect, useRef, useState } from "react";
-import { useAuthStore } from "../../../store/useAuthStore";
-import { useUserStore } from "../../../store/useUserStore";
 import SearchModal from "../modals/SearchModal";
 
 type MainNavbarProps = {
@@ -149,15 +147,7 @@ export const MainNavbar = ({
                     <img src={ic_mainnavbar_project} alt="프로젝트 관리" />
                     프로젝트 관리
                   </li>
-                  <li
-                    className="flex items-center gap-3.5 px-3.5 py-4 cursor-pointer body-large"
-                    onClick={() => {
-                      useAuthStore.getState().clearToken();
-                      useUserStore.getState().resetUser();
-                      setIsDropdownOpen(false);
-                      navigate("/login");
-                    }}
-                  >
+                  <li className="flex items-center gap-3.5 px-3.5 py-4 cursor-pointer body-large">
                     <img src={ic_mainnavbar_logout} alt="로그아웃" />
                     로그아웃
                   </li>
