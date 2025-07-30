@@ -22,7 +22,7 @@ export const useUserStore = create<UserStore>()(
       resetUser: () => set({ user: null }),
     }),
     {
-      name: 'user-storage', // localStorage key 이름
+      name: 'user-storage',
     }
   )
 );

@@ -9,19 +9,16 @@ import ic_mainnavbar_idcard from "../../../assets/icons/ic_mainnavbar_idcard.svg
 import ic_mainnavbar_profile from "../../../assets/icons/ic_mainnavbar_profile.svg";
 import ic_mainnavbar_project from "../../../assets/icons/ic_mainnavbar_project.svg";
 import ic_mainnavbar_logout from "../../../assets/icons/ic_mainnavbar_logout.svg";
-
-import { useEffect, useRef, useState } from "react";
 import SearchModal from "../modals/SearchModal";
+import { useEffect, useRef, useState } from "react";
+import { useAuthStore } from "../../../store/useAuthStore";
+import { useUserStore } from "../../../store/useUserStore";
 
 type MainNavbarProps = {
-  isLoggedIn: boolean;
-  userName: string;
   bgColor?: string;
 };
 
 export const MainNavbar = ({
-  isLoggedIn,
-  userName,
   bgColor = "white",
 }: MainNavbarProps) => {
   const MainNavItems = [
@@ -30,10 +27,15 @@ export const MainNavbar = ({
     { label: "팀원 찾아보기", to: "/members" },
   ];
 
+  const token = useAuthStore((state) => state.token);
+  const user = useUserStore((state) => state.user);
+  const isLoggedIn = !!token;
+
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+
 
   // 외부 클릭 시 드롭다운 닫기
   useEffect(() => {
@@ -111,7 +113,7 @@ export const MainNavbar = ({
               className="flex items-center gap-2 px-6 py-4 bg-transparent cursor-pointer"
             >
               <img src={ic_myprofile} alt="myprofile" className="w-6 h-6" />
-              <span className="text-[#6750A4] title-medium">{userName}</span>
+              <span className="text-[#6750A4] title-medium">{user?.nickname}</span>
             </div>
 
             {isDropdownOpen && (
@@ -147,7 +149,15 @@ export const MainNavbar = ({
                     <img src={ic_mainnavbar_project} alt="프로젝트 관리" />
                     프로젝트 관리
                   </li>
-                  <li className="flex items-center gap-3.5 px-3.5 py-4 cursor-pointer body-large">
+                  <li
+                    className="flex items-center gap-3.5 px-3.5 py-4 cursor-pointer body-large"
+                    onClick={() => {
+                      useAuthStore.getState().resetToken();
+                      useUserStore.getState().resetUser();
+                      setIsDropdownOpen(false);
+                      navigate("/");
+                    }}
+                  >
                     <img src={ic_mainnavbar_logout} alt="로그아웃" />
                     로그아웃
                   </li>
