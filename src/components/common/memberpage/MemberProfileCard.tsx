@@ -10,13 +10,29 @@ import ActionStatusModal from '../modals/ActionStatusModal';
 
 type MemberProfileCardProps = {
   isApplicantToMyProject?: boolean;
+  suggested_project?: boolean;
 };
 
 const profileInfos = [
-  { icon: ic_member_part, alt: '파트', label: '파트', value: '디자인' },
-  { icon: ic_member_location, alt: '위치', label: '위치', value: '서울 강남구, 성남 전체' },
-  { icon: ic_member_univ, alt: '대학교', label: '대학교', value: '가천대학교 글로벌 캠퍼스 1년' },
-  { icon: ic_member_email, alt: '이메일', label: '이메일', value: 'harrysjuns@gachon.ac.kr' },
+  { icon: ic_member_part, alt: "파트", label: "파트", value: "디자인" },
+  {
+    icon: ic_member_location,
+    alt: "위치",
+    label: "위치",
+    value: "서울 강남구, 성남 전체",
+  },
+  {
+    icon: ic_member_univ,
+    alt: "대학교",
+    label: "대학교",
+    value: "가천대학교 글로벌 캠퍼스 1년",
+  },
+  {
+    icon: ic_member_email,
+    alt: "이메일",
+    label: "이메일",
+    value: "harrysjuns@gachon.ac.kr",
+  },
 ];
 
 const MemberProfileCard = ({ isApplicantToMyProject = false }: MemberProfileCardProps) => {
@@ -32,15 +48,16 @@ const MemberProfileCard = ({ isApplicantToMyProject = false }: MemberProfileCard
       <div className="bg-white rounded-[12px] border border-[#79747E]/[0.16] px-6 py-6 w-full">
         <div className="flex justify-between items-center mb-4.5">
           {/* 제목 */}
-          <h2 className="headline-medium-emphasis">기술과 디자인을 넘나들며 방향을 설계하는 실전형 디자이너</h2>
+          <h2 className="headline-medium-emphasis">
+            기술과 디자인을 넘나들며 방향을 설계하는 실전형 디자이너
+          </h2>
         </div>
-        
+
         {/* 구분선 */}
-        <hr className="border-t border-[rgba(121,116,126,0.16)] px-4 mb-6" /> 
+        <hr className="border-t border-[rgba(121,116,126,0.16)] px-4 mb-6" />
 
         {/* 본문: 3단 그리드 */}
         <div className="grid grid-cols-[auto_1fr_auto] gap-8 min-w-0">
-
           {/* 왼쪽: 로그인 안내 */}
           <div className="flex justify-center items-center self-center px-4">
             <img
@@ -49,7 +66,6 @@ const MemberProfileCard = ({ isApplicantToMyProject = false }: MemberProfileCard
               className="w-[128px] h-[128px] rounded-full object-cover block"
             />
           </div>
-
           {/* 가운데: 프로필 정보 */} {/* 추후 리팩토링 예정 */}
           <div className="flex flex-col gap-[11px] w-full flex-shrink-0">
             <div className="flex gap-4 items-center mb-[13px]">
@@ -66,14 +82,15 @@ const MemberProfileCard = ({ isApplicantToMyProject = false }: MemberProfileCard
                 <div className="flex items-start gap-2 mb-[11px]">
                   <img src={icon} alt={alt} className="w-4 h-4" />
                   <div className="body-small min-w-[40px]">{label}</div>
-                  <div className="flex w-full body-small-emphasis ml-[44px]">{value}</div>
+                  <div className="flex w-full body-small-emphasis ml-[44px]">
+                    {value}
+                  </div>
                 </div>
 
                 {/* 아래 구분선 (마지막 항목은 제외) */}
                 {index < profileInfos.length - 1 && (
                   <hr className="border-[#79747E]/[0.08]" />
                 )}
-
               </div>
             ))}
           </div>
@@ -82,12 +99,12 @@ const MemberProfileCard = ({ isApplicantToMyProject = false }: MemberProfileCard
 
       {/* 하단 버튼 */}
       <div className="flex gap-4 justify-center mt-6 mb-4">
-
         <div className="relative">
           {/* ✅ 조건부 툴팁 */}
           {isApplicantToMyProject && (
             <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-10 w-[257px] px-4 py-2 rounded-[16px] bg-white text-[#16134A] shadow text-center body-medium-emphasis">
-              히로님의 프로젝트에 지원한 팀원이에요<br />
+              히로님의 프로젝트에 지원한 팀원이에요
+              <br />
               지금 바로 제안하고 연락해 보세요!
               <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white rotate-45 shadow-sm"></div>
             </div>
