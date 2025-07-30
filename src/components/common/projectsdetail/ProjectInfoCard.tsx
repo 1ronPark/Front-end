@@ -96,7 +96,7 @@ const ProjectInfoCard = ({
   };
 
   const handleModalSubmit = () => {
-    console.log("진짜 지원 처리 로직 실행!");
+    console.log("진짜 지원 처리 로직");
     setShowModal(false);
   };
 
@@ -300,7 +300,8 @@ const ProjectInfoCard = ({
 
       <BaseModal
         visible={showModal}
-        description="프로젝트에 지원하시겠어요?"
+        title={title}
+        description="프로젝트에 지원할까요?"
         confirmText="지원하기"
         cancelText="닫기"
         onConfirm={handleModalSubmit}

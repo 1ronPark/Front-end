@@ -1,5 +1,6 @@
 // src/store/useUserStore.tsx
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 interface User {
   memberId: number;
@@ -14,8 +15,15 @@ interface UserStore {
   resetUser: () => void;
 }
 
-export const useUserStore = create<UserStore>((set) => ({
-  user: null,
-  setUser: (user) => set({ user }),
-  resetUser: () => set({ user: null }),
-}));
+export const useUserStore = create<UserStore>()(
+  persist(
+    (set) => ({
+      user: null,
+      setUser: (user) => set({ user }),
+      resetUser: () => set({ user: null }),
+    }),
+    {
+      name: 'user-storage', // localStorage key 이름
+    }
+  )
+);
