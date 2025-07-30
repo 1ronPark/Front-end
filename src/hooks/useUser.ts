@@ -26,7 +26,7 @@ interface User {
 // =================================================================
 const getMe = async (): Promise<User> => {
   // fetchRequest에 제네릭 타입을 명시하여 타입 안정성을 높입니다.
-  const response = await fetchRequest<{ result: User }>({ method: 'GET', endpoint: '/api/v1/members/me' });
+  const response = await fetchRequest<{ result: User }>({ method: 'GET', endpoint: import.meta.env.VITE_API_ME_ENDPOINT });
   // 서버 응답 구조가 예상과 다를 경우를 대비한 방어 코드
   if (!response || !response.result) {
     throw new Error('API 응답에서 유효한 사용자 정보를 받지 못했습니다.');
