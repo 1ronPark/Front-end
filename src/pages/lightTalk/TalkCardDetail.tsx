@@ -75,6 +75,7 @@ const TalkCardDetail = () => {
       currentUserId: 999,
       num_hearts: 0,
       num_comments: 0,
+      parentId,
     };
 
     setComments((prev) => [...prev, newComment]);
@@ -216,6 +217,7 @@ const TalkCardDetail = () => {
           {/* 구분선 */}
           <div className="absolute right-0 bottom-0 w-full h-[1px]  flex flex-col justify-center items-start bg-[#C8C5D0] " />
         </div>
+
         {/* 댓글 입력창 - 여기 위에 위치 */}
         <div className="flex justify-center">
           <CommentInput
@@ -242,24 +244,26 @@ const TalkCardDetail = () => {
         </div>
         {/* 댓글 목록 */}
         <div className="flex flex-col w-[640px] gap-4">
-          {comments.length === 0 ? (
+          {comments.filter((c) => !c.parentId).length === 0 ? (
             <div className="text-center text-lg text-gray-400">
               댓글이 없습니다.
             </div>
           ) : (
-            comments.map((comment) => {
-              const replies = comments.filter(
-                (c) => c.id !== comment.id && c.parentId === comment.id
-              );
-              return (
-                <CommentItem
-                  key={comment.id}
-                  comment={comment}
-                  replies={replies}
-                  onReply={handleReply}
-                />
-              );
-            })
+            comments
+              .filter((comment) => !comment.parentId) // ✅ 최상위 댓글만 필터링
+              .map((comment) => {
+                const replies = comments.filter(
+                  (c) => c.parentId === comment.id
+                );
+                return (
+                  <CommentItem
+                    key={comment.id}
+                    comment={comment}
+                    replies={replies}
+                    onReply={handleReply}
+                  />
+                );
+              })
           )}
         </div>
       </div>
