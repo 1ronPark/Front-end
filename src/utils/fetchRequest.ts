@@ -1,5 +1,8 @@
 import type { AxiosError, AxiosRequestConfig, Method } from 'axios';
 import axiosInstance from '../lib/axios';
+import { useAuthStore } from '../store/useAuthStore';
+
+const getToken = () => useAuthStore.getState().token;
 
 type FetchMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
@@ -16,12 +19,12 @@ export const fetchRequest = async <T, B = unknown>({
 	endpoint,
 	body,
 	errorMessage,
-	// successMessage,
+	// successMessage, /* 디버깅할 때 편하려고 localstorage에 토큰 있긴함, 실제로는 쿠키로 구현 */
 }: FetchRequestParams<B>): Promise<T> => {
 	try {
-		console.log('디버깅 용도 body 출력:', body);
-		const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
-		console.log('디버깅용 token 출력:', token);
+		// console.log('디버깅 용도 body 출력:', body);
+		const token = getToken();
+		// console.log('디버깅용 token 출력:', token);
 
 		const headers: Record<string, string> = {};
 		if (!(body instanceof FormData)) {
@@ -41,7 +44,7 @@ export const fetchRequest = async <T, B = unknown>({
 		};
 
 		const response = await axiosInstance.request<T>(config);
-		console.log('axios response:', response);
+		// console.log('axios response:', response);
 
 		return response.data;
 	} catch (err: unknown) {

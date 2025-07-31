@@ -3,14 +3,14 @@ import type { MyProjectCardProps } from "../src/types/MyProjectCard";
 export const dummyProjectCard: MyProjectCardProps[] = [
   {
     id: 1,
-    categories: ["커뮤니티", "인공지능", "세일즈"],
+    categories: ["커뮤니티", "세일즈"],
     title: "Lightup 라잇업",
     sub_title: "대학생들을 위한 프로젝트 연계형 창업도모 서비스",
     status: "모집마감",
     hasTeammate: true,
     current_project: false,
     applied_project: true,
-    suggested_project: "applied",
+    suggested_project: false,
     date: "2025-07-21",
   },
   {
@@ -20,9 +20,9 @@ export const dummyProjectCard: MyProjectCardProps[] = [
     sub_title: "예약, 여행정보, 피드를 하나로",
     status: "모집중",
     hasTeammate: false,
-    current_project: true,
-    applied_project: true,
-    suggested_project: "suggested",
+    current_project: false,
+    applied_project: false,
+    suggested_project: true,
     date: "2025-07-20",
   },
   {
@@ -33,8 +33,8 @@ export const dummyProjectCard: MyProjectCardProps[] = [
     status: "모집마감",
     hasTeammate: false,
     current_project: false,
-    applied_project: true,
-    suggested_project: "suggested",
+    applied_project: false,
+    suggested_project: false,
     date: "2025-07-19",
   },
   {
@@ -44,9 +44,9 @@ export const dummyProjectCard: MyProjectCardProps[] = [
     sub_title: "운동 루틴 기반 맞춤 영양제 추천 플랫폼",
     status: "모집중",
     hasTeammate: true,
-    current_project: true,
+    current_project: false,
     applied_project: false,
-    suggested_project: "applied",
+    suggested_project: false,
     date: "2025-07-18",
   },
   {
@@ -58,7 +58,7 @@ export const dummyProjectCard: MyProjectCardProps[] = [
     hasTeammate: false,
     current_project: false,
     applied_project: true,
-    suggested_project: "applied",
+    suggested_project: false,
     date: "2025-07-17",
   },
   {
@@ -70,7 +70,7 @@ export const dummyProjectCard: MyProjectCardProps[] = [
     hasTeammate: false,
     current_project: false,
     applied_project: false,
-    suggested_project: "suggested",
+    suggested_project: false,
     date: "2025-07-16",
   },
   {
@@ -80,9 +80,9 @@ export const dummyProjectCard: MyProjectCardProps[] = [
     sub_title: "개발자 워크플로우를 위한 통합 도구",
     status: "모집마감",
     hasTeammate: true,
-    current_project: true,
+    current_project: false,
     applied_project: false,
-    suggested_project: "applied",
+    suggested_project: false,
     date: "2025-07-15",
   },
   {
@@ -94,7 +94,7 @@ export const dummyProjectCard: MyProjectCardProps[] = [
     hasTeammate: false,
     current_project: false,
     applied_project: true,
-    suggested_project: "suggested",
+    suggested_project: false,
     date: "2025-07-14",
   },
   {
@@ -106,7 +106,7 @@ export const dummyProjectCard: MyProjectCardProps[] = [
     hasTeammate: true,
     current_project: false,
     applied_project: false,
-    suggested_project: "suggested",
+    suggested_project: false,
     date: "2025-07-13",
   },
   {
@@ -118,7 +118,7 @@ export const dummyProjectCard: MyProjectCardProps[] = [
     hasTeammate: false,
     current_project: false,
     applied_project: false,
-    suggested_project: "applied",
+    suggested_project: false,
     date: "2025-07-12",
   },
   {
@@ -128,9 +128,9 @@ export const dummyProjectCard: MyProjectCardProps[] = [
     sub_title: "웹 접근성 자동 점검 & 수정 도구",
     status: "모집중",
     hasTeammate: true,
-    current_project: true,
+    current_project: false,
     applied_project: false,
-    suggested_project: "suggested",
+    suggested_project: false,
     date: "2025-07-11",
   },
   {
@@ -142,7 +142,7 @@ export const dummyProjectCard: MyProjectCardProps[] = [
     hasTeammate: false,
     current_project: false,
     applied_project: false,
-    suggested_project: "applied",
+    suggested_project: false,
     date: "2025-07-10",
   },
   {
@@ -152,9 +152,9 @@ export const dummyProjectCard: MyProjectCardProps[] = [
     sub_title: "비즈니스용 데이터 시각화 대시보드",
     status: "모집중",
     hasTeammate: true,
-    current_project: true,
+    current_project: false,
     applied_project: false,
-    suggested_project: "applied",
+    suggested_project: false,
     date: "2025-07-09",
   },
   {
@@ -166,7 +166,7 @@ export const dummyProjectCard: MyProjectCardProps[] = [
     hasTeammate: false,
     current_project: false,
     applied_project: true,
-    suggested_project: "suggested",
+    suggested_project: false,
     date: "2025-07-08",
   },
   {
@@ -178,7 +178,7 @@ export const dummyProjectCard: MyProjectCardProps[] = [
     hasTeammate: true,
     current_project: false,
     applied_project: false,
-    suggested_project: "suggested",
+    suggested_project: false,
     date: "2025-07-07",
   },
   {
@@ -188,9 +188,9 @@ export const dummyProjectCard: MyProjectCardProps[] = [
     sub_title: "모델 성능 최적화를 위한 자동 튜닝 플랫폼",
     status: "모집중",
     hasTeammate: false,
-    current_project: true,
+    current_project: false,
     applied_project: true,
-    suggested_project: "applied",
+    suggested_project: false,
     date: "2025-07-06",
   },
   {
@@ -202,7 +202,7 @@ export const dummyProjectCard: MyProjectCardProps[] = [
     hasTeammate: true,
     current_project: false,
     applied_project: false,
-    suggested_project: "applied",
+    suggested_project: false,
     date: "2025-07-05",
   },
   {
@@ -214,7 +214,7 @@ export const dummyProjectCard: MyProjectCardProps[] = [
     hasTeammate: false,
     current_project: false,
     applied_project: true,
-    suggested_project: "suggested",
+    suggested_project: false,
     date: "2025-07-04",
   },
   {
@@ -226,7 +226,7 @@ export const dummyProjectCard: MyProjectCardProps[] = [
     hasTeammate: true,
     current_project: false,
     applied_project: false,
-    suggested_project: "applied",
+    suggested_project: false,
     date: "2025-07-03",
   },
   {
@@ -236,9 +236,9 @@ export const dummyProjectCard: MyProjectCardProps[] = [
     sub_title: "생체신호 기반 질병 조기 예측 서비스",
     status: "모집중",
     hasTeammate: false,
-    current_project: true,
+    current_project: false,
     applied_project: false,
-    suggested_project: "suggested",
+    suggested_project: false,
     date: "2025-07-02",
   },
 ];

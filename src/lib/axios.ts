@@ -1,8 +1,19 @@
 import axios from 'axios';
+import { useAuthStore } from '../store/useAuthStore';
 
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL, // .env에서 설정한 서버 주소
-  withCredentials: true, // 인증 쿠키 전송 시 필요
+  baseURL: import.meta.env.VITE_API_URL,
+});
+
+axiosInstance.interceptors.request.use((config) => {
+  const token = useAuthStore.getState().token;
+  // console.log('인터셉터 토큰:', token);
+  if (token) {
+    config.headers = config.headers || {};
+    config.headers.Authorization = `Bearer ${token}`;
+    // console.log('최종 Authorization 헤더:', config.headers.Authorization);
+  }
+  return config;
 });
 
 export default axiosInstance;
