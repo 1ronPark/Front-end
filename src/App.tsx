@@ -25,8 +25,9 @@ import { LoginPassword } from "./pages/Auth/LoginPassword";
 import { SignupForm } from "./pages/Auth/SignupForm";
 import { SignupPassword } from "./pages/Auth/SignupPassword";
 import { PasswordReset } from "./pages/Auth/PasswordReset";
-import TalkCardDetail from "./pages/lightTalk/TalkCardDetail";
+
 import PrivateRoute from "./components/auth/PrivateRoute";
+import TalkCardDetail from "./pages/lightTalk/TalkCardDetail";
 
 // Add the correct import for SignupPage or use SignupEmail if that's intended
 
@@ -52,7 +53,8 @@ function App() {
             <Route index element={<Navigate to="/projects" replace />} />
             <Route path="projects" element={<Projects />} />
             <Route path="members" element={<Members />} />
-            <Route path="lighttalk" element={<LightTalk />} />
+            <Route path="lightTalk" element={<LightTalk />} />
+            <Route path="lightTalk/:lightTalkId" element={<TalkCardDetail />} />
 
             {/* 로그인 후에만 접근 가능한 페이지 */}
             <Route element={<PrivateRoute />}>
@@ -60,6 +62,10 @@ function App() {
               <Route path="members/:memberId" element={<MemberDetail />} />
               <Route path="myprofile" element={<MyProfile />} />
               <Route path="register-project" element={<RegisterProject />} />
+              {/* <Route
+                path="lightTalk/:lightTalkId"
+                element={<TalkCardDetail />}
+              /> */}
             </Route>
           </Route>
 

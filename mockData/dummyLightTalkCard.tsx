@@ -19,12 +19,11 @@ export const dummyLightTalkCard: TalkCardProps[] = [
         - 버그: 주 20개 → 2개
         - 매일 야근 → 6시 칼퇴
         비결? 읽기 좋은 코드 시스템
-
         `,
-
     images: [sampleImage, sampleImage, sampleImage],
     num_hearts: 32,
     num_comments: 32,
+    currentUserId: 1,
   },
   {
     id: 2,

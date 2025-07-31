@@ -1,6 +1,7 @@
 {
   /*회원 정보 type*/
 }
+
 export interface MyInfoProps {
   id: number;
   name: string;
@@ -13,7 +14,7 @@ export interface MyInfoProps {
   role: string;
   intro?: string;
   blog?: string;
-  gender?: "남" | "여";
+  gender?: string; // 성별
   age?: number;
   skills?: string[];
   strengths?: string[];

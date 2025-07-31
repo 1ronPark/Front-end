@@ -55,7 +55,7 @@ export const MainNavbar = ({
 
   return (
     <div
-      className={`flex w-full 
+      className={`relative flex w-full 
         bg-[${bgColor}]
         ${isLightTalk && "bg-[#EEE]"}
         px-6 justify-between items-center`}
@@ -70,7 +70,7 @@ export const MainNavbar = ({
       </Link>
 
       {/* 프로젝트/팀원 찾아보기/라잇톡 탭 */}
-      <div className="flex items-center gap-10">
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-10">
         {MainNavItems.map(({ label, to }) => (
           <NavLink
             key={to}
@@ -93,7 +93,7 @@ export const MainNavbar = ({
       </div>
 
       {/* 검색, 프로젝트 생성, 로그인버튼 */}
-      <div className="flex items-center gap-2 md:gap-5 label-large text-[#47464F]">
+      <div className="h-[60px] flex items-center gap-2 md:gap-5 label-large text-[#47464F]">
         <img
           src={ic_search}
           alt="Search"
