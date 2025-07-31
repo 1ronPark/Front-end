@@ -1,6 +1,7 @@
 import { AuthHeader } from "../../components/auth/AuthHeader";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../store/usejoinStore";
 
 export const SignupForm = () => {
   const navigate = useNavigate();
@@ -10,6 +11,13 @@ export const SignupForm = () => {
     // 이메일 유효성 검사, 서버에 이메일 저장 등
     navigate("/signupPassword"); // 회원가입 완료 후 다음 페이지로 이동
   };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  setEmail(e.target.value);
+};
+
+  // 컴포넌트 내
+const { setEmail } = useAuthStore();
 
   return (
     <div className="min-h-screen label-large flex flex-col justify-center items-center pt-4 overflow-hidden bg-[radial-gradient(ellipse_116.75%_116.75%_at_50%_-16.75%,rgba(255,217,225,0.4)_0%,rgba(255,255,255,0.4)_100%),radial-gradient(ellipse_65.2%_65.2%_at_50%_0%,#EBDDFF_0%,white_100%)] ">
@@ -27,6 +35,7 @@ export const SignupForm = () => {
             type="email"
             id="email"
             placeholder="이메일 주소"
+            onChange={handleChange}
             className="w-full h-[48px] body-large px-4 rounded-full border border-[#1D1B20]/10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
         </div>
@@ -34,7 +43,7 @@ export const SignupForm = () => {
         {/* 계속 버튼 */}
         <button
           onClick={handleSubmit}
-          className="w-full h-12 bg-[#68548E] text-white rounded-full font-medium hover:bg-[#59407e] transition cursor-pointer"
+          className="w-full h-12 bg-[#5A5891] text-white rounded-full font-medium hover:bg-[#62609c] transition cursor-pointer"
         >
           계속
         </button>
@@ -44,7 +53,7 @@ export const SignupForm = () => {
           이미 계정이 있으신가요?
           <NavLink
             to="/login"
-            className="text-[#68548E] underline cursor-pointer"
+            className="text-[#5A5891] underline cursor-pointer"
           >
             로그인
           </NavLink>
@@ -84,11 +93,11 @@ export const SignupForm = () => {
 
         {/* 약관 / 개인정보 */}
         <div className="flex label-large items-center gap-3 text-sm mt-2">
-          <span className="text-[#68548E] underline cursor-pointer">
+          <span className="text-[#5A5891] underline cursor-pointer">
             이용약관
           </span>
           <span className="text-[#1D1B20]">|</span>
-          <span className="text-[#68548E] underline cursor-pointer">
+          <span className="text-[#5A5891] underline cursor-pointer">
             개인정보 보호 정책
           </span>
         </div>

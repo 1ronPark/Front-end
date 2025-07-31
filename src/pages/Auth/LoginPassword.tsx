@@ -58,7 +58,7 @@ export const LoginPassword = () => {
           />
           <NavLink
             to="/passwordReset"
-            className="pl-4 mt-2 flex text-sm text-[#68548E] underline cursor-pointer"
+            className="pl-4 mt-2 flex text-sm text-[#5A5891] underline cursor-pointer"
           >
             비밀번호를 잊으셨나요?
           </NavLink>
@@ -69,7 +69,7 @@ export const LoginPassword = () => {
           disabled={isPending}
           onClick={handleContinue}
           className={`w-full h-12 rounded-full font-medium transition cursor-pointer ${
-            isPending ? "bg-gray-400" : "bg-[#68548E] hover:bg-[#59407e]"
+            isPending ? "bg-gray-400" : "bg-[#5A5891] hover:bg-[#62609c] "
           } text-white`}
         >
           {isPending ? "로그인 중..." : "계속"}
@@ -80,7 +80,7 @@ export const LoginPassword = () => {
           아직 라이텁의 회원이 아니신가요?
           <NavLink
             to="/signup"
-            className="text-[#68548E] underline cursor-pointer"
+            className="text-[##5A5891] underline cursor-pointer"
           >
               회원가입 
           </NavLink>
@@ -131,11 +131,11 @@ export const LoginPassword = () => {
 
         {/* 약관 / 개인정보 */}
         <div className="flex label-large items-center gap-3 text-sm mt-2">
-          <span className="text-[#68548E] underline cursor-pointer">
+          <span className="text-[#5A5891] underline cursor-pointer">
             이용약관
           </span>
           <span className="text-[#1D1B20]">|</span>
-          <span className="text-[#68548E] underline cursor-pointer">
+          <span className="text-[#5A5891] underline cursor-pointer">
             개인정보 보호 정책
           </span>
         </div>

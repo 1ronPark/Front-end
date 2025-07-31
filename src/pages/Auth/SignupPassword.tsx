@@ -1,15 +1,40 @@
 import { AuthHeader } from "../../components/auth/AuthHeader";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../store/usejoinStore";
+import { useSignUp } from '../../hooks/useJoin';
 
 export const SignupPassword = () => {
   const navigate = useNavigate();
 
+  const {
+  email,
+  name,
+  nickname,
+  password,
+  setName,
+  setNickname,
+  setPassword,
+  } = useAuthStore();
+
+  const { mutate: signUp } = useSignUp();
+
   const handleSubmit = () => {
-    // 여기에 비밀번호 설정 로직을 추가할 수 있습니다!
-    // ex) 비밀번호 유효성 검사, 서버에 비밀번호 저장 등
-    navigate("/login"); // 회원가입 완료 후 로그인 페이지로 이동
+    signUp(
+      {
+        name,
+        nickname,
+        email, // Zustand에서 가져온 이메일
+        password,
+      },
+      {
+        onSuccess: () => {
+          navigate("/login");
+        },
+      }
+    );
   };
+
 
   return (
     <div className="min-h-screen label-large flex flex-col justify-center items-center pt-4 overflow-hidden bg-[radial-gradient(ellipse_116.75%_116.75%_at_50%_-16.75%,rgba(255,217,225,0.4)_0%,rgba(255,255,255,0.4)_100%),radial-gradient(ellipse_65.2%_65.2%_at_50%_0%,#EBDDFF_0%,white_100%)] ">
@@ -25,37 +50,64 @@ export const SignupPassword = () => {
           </div>
         </div>
 
-        {/* 이메일 입력 */}
-        <div className="w-full">
+        <form className="w-full" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+          {/* 이메일 입력 */}
           <input
             type="email"
             id="email"
-            placeholder="이메일 주소"
-            className="w-full h-[48px] body-large px-4 rounded-full border border-[#1D1B20]/10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            name="email"
+            value={email}
+            disabled
+            className="w-full h-[48px] body-large px-4 rounded-full border border-[#1D1B20]/10 bg-gray-100 text-gray-500"
           />
-
+          {/* 이름 입력 */}
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="이름"
+            value={name}
+            onChange={(e) => {
+              console.log("🔧 이름 입력값:", e.target.value);
+              setName(e.target.value);
+}}
+            className="mt-4 w-full h-[48px] body-large px-4 rounded-full border border-[#1D1B20]/10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+          {/* 닉네임 입력 */}
+          <input
+            type="text"
+            id="nickname"
+            name="nickname"
+            placeholder="닉네임"
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
+            className="mt-4 w-full h-[48px] body-large px-4 rounded-full border border-[#1D1B20]/10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
           {/* 비밀번호 입력 */}
           <input
             type="password"
             id="password"
+            name="password"
             placeholder="비밀번호"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             className="mt-4 w-full h-[48px] body-large px-4 rounded-full border border-[#1D1B20]/10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
           {/* 계속 버튼 */}
           <button
-            onClick={handleSubmit}
-            className="mt-8 w-full h-12 bg-[#68548E] text-white rounded-full font-medium hover:bg-[#59407e] transition cursor-pointer"
+            type="submit"
+            className="mt-8 w-full h-12 bg-[#5A5891] text-white rounded-full font-medium hover:bg-[#62609c] transition cursor-pointer"
           >
             계속
           </button>
-        </div>
+        </form>
 
         {/* 로그인 링크 */}
         <div className="text-sm title-small text-[#1D1B20] flex items-center gap-2">
           이미 계정이 있으신가요?
           <NavLink
             to="/login"
-            className="text-[#68548E] underline cursor-pointer"
+            className="text-[#5A5891] underline cursor-pointer"
           >
             로그인
           </NavLink>
@@ -67,11 +119,11 @@ export const SignupPassword = () => {
 
         {/* 약관 / 개인정보 */}
         <div className="flex label-large items-center gap-3 text-sm mt-2">
-          <span className="text-[#68548E] underline cursor-pointer">
+          <span className="text-[#5A5891] underline cursor-pointer">
             이용약관
           </span>
           <span className="text-[#1D1B20]">|</span>
-          <span className="text-[#68548E] underline cursor-pointer">
+          <span className="text-[#5A5891] underline cursor-pointer">
             개인정보 보호 정책
           </span>
         </div>
