@@ -38,7 +38,7 @@ export const LoginForm = () => {
         {/* 계속 버튼 */}
         <button
           onClick={handleContinue}
-          className="w-full h-12 bg-[#68548E] text-white rounded-full font-medium hover:bg-[#59407e] transition cursor-pointer"
+          className="w-full h-12 bg-[#5A5891] text-white rounded-full font-medium hover:bg-[#62609c] transition cursor-pointer"
         >
           계속
         </button>
@@ -48,7 +48,7 @@ export const LoginForm = () => {
           아직 라이텁의 회원이 아니신가요?
           <NavLink
             to="/signup"
-            className="text-[#68548E] underline cursor-pointer"
+            className="text-[#5A5891] underline cursor-pointer"
           >
             회원가입
           </NavLink>
@@ -99,11 +99,11 @@ export const LoginForm = () => {
 
         {/* 약관 / 개인정보 */}
         <div className="flex label-large items-center gap-3 text-sm mt-2">
-          <span className="text-[#68548E] underline cursor-pointer">
+          <span className="text-[#5A5891] underline cursor-pointer">
             이용약관
           </span>
           <span className="text-[#1D1B20]">|</span>
-          <span className="text-[#68548E] underline cursor-pointer">
+          <span className="text-[#5A5891] underline cursor-pointer">
             개인정보 보호 정책
           </span>
         </div>
