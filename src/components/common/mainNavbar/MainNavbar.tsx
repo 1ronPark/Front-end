@@ -16,12 +16,12 @@ import { useUserStore } from "../../../store/useUserStore";
 import { useLoginStore } from "../../../store/useLoginStore";
 
 type MainNavbarProps = {
+  isLoggedIn: boolean;
+  userName: string;
   bgColor?: string;
 };
 
-export const MainNavbar = ({
-  bgColor = "white",
-}: MainNavbarProps) => {
+export const MainNavbar = ({ bgColor = "white" }: MainNavbarProps) => {
   const MainNavItems = [
     { label: "라잇톡", to: "/lightTalk" },
     { label: "프로젝트", to: "/projects" },
@@ -120,7 +120,9 @@ export const MainNavbar = ({
               className="flex items-center gap-2 px-6 py-4 bg-transparent cursor-pointer"
             >
               <img src={ic_myprofile} alt="myprofile" className="w-6 h-6" />
-              <span className="text-[#6750A4] title-medium">{user?.nickname}</span>
+              <span className="text-[#6750A4] title-medium">
+                {user?.nickname}
+              </span>
             </div>
 
             {isDropdownOpen && (
