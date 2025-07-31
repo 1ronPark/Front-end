@@ -1,4 +1,4 @@
-import { Image } from "lucide-react";
+import { Image, X } from "lucide-react";
 import sampleImg from "../../assets/icons/mypage/sample_profile.png";
 import { useRef, useState } from "react";
 //결과 테스트 하려고 useEffect 사용
@@ -26,9 +26,9 @@ const TalkBox = ({ profileImage }: LightTalkProps) => {
   const [text, setText] = useState("");
 
   //텍스트 결과 변수
-  const [result, setResult] = useState(""); // ← 상태로 저장
+  // const [result, setResult] = useState(""); // ← 상태로 저장
   //result 때문에 빨간줄 뜨는거 방지코드
-  console.log(result);
+  // console.log(result);
 
   // 이미지 업로드 시 실행되는 함수
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,10 +38,10 @@ const TalkBox = ({ profileImage }: LightTalkProps) => {
       setImagePreviews((prev) => [...urls, ...prev]);
 
       // 이미지 삽입 마크업 추가
-      const imageTags = urls
-        .map((url) => `\n![uploaded-image](${url})`)
-        .join("");
-      setText((prev) => prev + imageTags);
+      // const imageTags = urls
+      //   .map((url) => `\n![uploaded-image](${url})`)
+      //   .join("");
+      // setText((prev) => prev + imageTags);
     }
   };
 
@@ -61,8 +61,18 @@ const TalkBox = ({ profileImage }: LightTalkProps) => {
   };
 
   const handlePost = () => {
-    setResult(text);
-    setText("");
+    const postData = {
+      text: text,
+      images: imagePreviews, //이미지 URL 포함
+    };
+    //전송할 데이터가 있으면
+    if (postData.text !== "" || postData.images.length !== 0) {
+      //여기서 서버 전송 로직 추가
+      console.log("전송할 데이터: ", postData);
+      setText(text);
+      setText("");
+      setImagePreviews([]);
+    }
   };
 
   // 입력이 되나 테스트 창
@@ -94,22 +104,39 @@ const TalkBox = ({ profileImage }: LightTalkProps) => {
           />
 
           {/* 이미지 슬라이드 영역 */}
-          {imagePreviews.length > 0 && (
-            <div className="w-full overflow-x-auto ">
-              <div className="flex gap-2 w-[512px] pr-2">
-                {imagePreviews.map((src, idx) => (
-                  <img
-                    key={idx}
-                    src={src}
-                    alt={`uploaded-${idx}`}
-                    className="w-[240px] h-[240px] rounded-md object-cover"
-                  />
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       </div>
+
+      {imagePreviews.length > 0 && (
+        <div className="flex flex-col items-start px-6 py-4 gap-2.5">
+          <div className="flex flex-wrap gap-4">
+            {imagePreviews.map((src, idx) => (
+              <div
+                key={idx}
+                className="relative flex w-[240px] h-[240px] justify-end items-center aspect-square"
+              >
+                <img
+                  src={src}
+                  alt={`uploaded-${idx}`}
+                  className="w-full h-full object-cover rounded-[12px]"
+                />
+                {/* 삭제 버튼 */}
+                <button
+                  onClick={() =>
+                    setImagePreviews((prev) => prev.filter((_, i) => i !== idx))
+                  }
+                  className="w-8 h-8 p-2.5 flex justify-center items-center absolute top-1 right-1 bg-[#E3E0F9]
+                  rounded-full shadow-sm hover:bg-[#D7D4EC]"
+                >
+                  <div className="flex justify-center items-center w-[20px] h-[20px]">
+                    <X />
+                  </div>
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* 하단 버튼 */}
       <div className="flex justify-between items-center pl-[96px] pr-[32px]">

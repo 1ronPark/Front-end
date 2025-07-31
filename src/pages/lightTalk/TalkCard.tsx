@@ -7,20 +7,8 @@ import {
 import { useEffect, useState } from "react";
 import MenuModal from "./talkModal/MenuModal";
 import ShareModal from "./talkModal/ShareModal";
-
-interface TalkCardProps {
-  id: number;
-  name: string; //이름
-  profile_image: string;
-  // role?: "디자이너" | "PM" | "Web" | "Android" | "ios" | "Server";
-  role: string;
-  univ: string;
-  content: string; //글내용
-  createAt: Date; //글이 작성된 날짜
-  num_hearts: number; //좋아요 갯수
-  num_comments: number; //댓글 갯수
-  currentUserId: number; // 현재 로그인 한 User ID
-}
+import { useLocation, useNavigate } from "react-router-dom";
+import type { TalkCardProps } from "../../types/LightTalkProps";
 
 //시간 계산하는 함수
 const getTimeAgo = (date: Date): string => {
@@ -35,35 +23,41 @@ const getTimeAgo = (date: Date): string => {
   return `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`; // 날짜 표시
 };
 
-// 이미지와 텍스트 분리 함수
-const extractImagesAndText = (content: string) => {
-  const imageRegex = /!\[.*?\]\((.*?)\)/g;
-  const images = [...content.matchAll(imageRegex)].map((match) => match[1]);
-  const text = content.replace(imageRegex, ""); // 이미지 마크업 제거한 텍스트
-  return { images, text };
-};
-
 const TalkCard = ({
   id,
   name,
   role,
   profile_image,
-  content,
+  text,
+  images,
   createAt,
   num_hearts,
   num_comments,
   currentUserId,
 }: TalkCardProps) => {
+  //해당 카드 detail로 이동하기 위한 변수
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  //해당 카드를 클릭하면 디테일 페이지로 이동
+  const handleCardClick = () => {
+    const targetPath = `/lightTalk/${id}`;
+    if (location.pathname !== targetPath) {
+      navigate(targetPath);
+    }
+  };
+
   // 내 게시물인지 여부
   const isMyPost = currentUserId === id;
   // 하트 개수
-  const [countHeart, setCountHeart] = useState<number>(num_hearts);
+  const [countHeart, setCountHeart] = useState<number>(num_hearts ?? 0);
   //하트를 눌렀는지 여부 체크
   const [isHeart, setIsHeart] = useState<boolean>(false);
   //카드 메뉴 모달 열기
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   //공유 모달 열기
   const [openShareModal, setOpenShareModal] = useState(false);
+
   //토글형 좋아요 => 한번누르면 올라가고 한번 더 누르면 내려감
   const handleHeartClick = () => {
     if (isHeart) {
@@ -92,12 +86,13 @@ const TalkCard = ({
     // console.log("하트 변화");
   }, [countHeart]);
 
-  const { images, text } = extractImagesAndText(content);
+  // const { images, text } = extractImagesAndText(content);
 
   return (
     <div
       className="relative w-[640px] flex items-start px-8 pt-4  gap-4 bg-[#FEFEFE]
-    "
+    rounded-t-[28px]"
+      onClick={handleCardClick}
     >
       <div className="h-12 w-12 absolute top-0 right-2 flex justify-center items-center">
         <button
@@ -130,7 +125,7 @@ const TalkCard = ({
             {role}
           </p>
           <p className="text-[#47464F] body-medium opacity-[0.58]">
-            {getTimeAgo(new Date(createAt))}
+            {getTimeAgo(createAt)}
           </p>
         </div>
         {/* 글내용 */}
@@ -140,10 +135,10 @@ const TalkCard = ({
           </p>
 
           {/* 이미지 슬라이드 */}
-          {images.length > 0 && (
+          {images?.length > 0 && (
             <div className="w-[512px] overflow-x-auto mt-2">
               <div className="flex gap-2 w-max pr-2">
-                {images.map((src, idx) => (
+                {images?.map((src, idx) => (
                   <img
                     key={idx}
                     src={src}

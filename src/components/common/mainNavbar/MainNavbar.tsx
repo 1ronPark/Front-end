@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Plus } from "lucide-react";
 import logo_lightup from "../../../assets/logo_lightup.svg";
@@ -16,14 +16,14 @@ import { useUserStore } from "../../../store/useUserStore";
 import { useLoginStore } from "../../../store/useLoginStore";
 
 type MainNavbarProps = {
+  isLoggedIn: boolean;
+  userName: string;
   bgColor?: string;
 };
 
-export const MainNavbar = ({
-  bgColor = "white",
-}: MainNavbarProps) => {
+export const MainNavbar = ({ bgColor = "white" }: MainNavbarProps) => {
   const MainNavItems = [
-    { label: "라잇톡", to: "/lighttalk" },
+    { label: "라잇톡", to: "/lightTalk" },
     { label: "프로젝트", to: "/projects" },
     { label: "팀원 찾아보기", to: "/members" },
   ];
@@ -36,6 +36,10 @@ export const MainNavbar = ({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  //라잇톡일 때 배경색 다르게 하기 위한 변수
+  const location = useLocation();
+  //라잇톡이 눌러졌을 때
+  const isLightTalk = location.pathname.startsWith("/lightTalk");
 
   // 외부 클릭 시 드롭다운 닫기
   useEffect(() => {
@@ -53,7 +57,10 @@ export const MainNavbar = ({
 
   return (
     <div
-      className={`flex w-full bg-[${bgColor}] px-6 justify-between items-center`}
+      className={`relative flex w-full 
+        bg-[${bgColor}]
+        ${isLightTalk && "bg-[#EEE]"}
+        px-6 justify-between items-center`}
     >
       {/* 로고 */}
       <Link to="/">
@@ -65,7 +72,7 @@ export const MainNavbar = ({
       </Link>
 
       {/* 프로젝트/팀원 찾아보기/라잇톡 탭 */}
-      <div className="flex items-center gap-10">
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-10">
         {MainNavItems.map(({ label, to }) => (
           <NavLink
             key={to}
@@ -88,7 +95,7 @@ export const MainNavbar = ({
       </div>
 
       {/* 검색, 프로젝트 생성, 로그인버튼 */}
-      <div className="flex items-center gap-2 md:gap-5 label-large text-[#47464F]">
+      <div className="h-[60px] flex items-center gap-2 md:gap-5 label-large text-[#47464F]">
         <img
           src={ic_search}
           alt="Search"
@@ -113,7 +120,9 @@ export const MainNavbar = ({
               className="flex items-center gap-2 px-6 py-4 bg-transparent cursor-pointer"
             >
               <img src={ic_myprofile} alt="myprofile" className="w-6 h-6" />
-              <span className="text-[#6750A4] title-medium">{user?.nickname}</span>
+              <span className="text-[#6750A4] title-medium">
+                {user?.nickname}
+              </span>
             </div>
 
             {isDropdownOpen && (

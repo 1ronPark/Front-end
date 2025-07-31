@@ -34,7 +34,7 @@ const ShareModal = ({ onClose }: ShareModalProps) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/30 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
       <div
         ref={modalRef}
         className="bg-[#FFF] rounded-xl w-[520px] py-6 shadow-sm flex flex-col items-center gap-4 relative"
@@ -117,7 +117,7 @@ const ShareModal = ({ onClose }: ShareModalProps) => {
           />
           <div className="h-12 flex justify-center items-center">
             <button
-              className="px-4 py-2.5 rounded-[100px] bg-[#E3E0F9] text-[#464559] hover:bg-[#F4EFF4]"
+              className="px-4 py-2.5 rounded-[100px] bg-[#E3E0F9] text-[#464559] hover:bg-[rgba(74,68,89,0.08)]"
               onClick={handleCopy}
             >
               <p className="label-large">복사</p>

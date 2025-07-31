@@ -1,10 +1,18 @@
+import { useLocation } from "react-router-dom";
+
 type FootbarProps = {
   bgColor?: string;
 };
 
 export const Footbar = ({ bgColor = "white" }: FootbarProps) => {
+  //라잇톡일 때 푸터 색 조정을 위한 변수
+  const location = useLocation();
+  const isLightTalk = location.pathname.startsWith("/lightTalk");
   return (
-    <footer className={`w-full bg-[${bgColor}] pt-[50px] pb-[30px] flex flex-col justify-center items-center gap-[24px]`}>
+    <footer
+      className={`w-full bg-[${bgColor}] ${isLightTalk && "bg-[#EEE]"}
+      pt-[50px] pb-[30px] flex flex-col justify-center items-center gap-[24px]`}
+    >
       {/* 상단 링크 */}
       <div className="flex flex-wrap justify-center items-center opacity-60">
         {[

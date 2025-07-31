@@ -10,6 +10,8 @@ import { useUser } from "../../hooks/useUser";
 export const Layout = () => {
   const location = useLocation();
   const isMemberDetailPage = location.pathname.includes("/members/");
+  //라잇톡 디테일 페이지 진입 시
+  const isLightTalkDetailPage = location.pathname.includes("/lightTalk/");
 
   // 지원을 받은 사용자가 진입 시
   const [showSupportAlert, setShowSupportAlert] = useState(false);
@@ -18,7 +20,10 @@ export const Layout = () => {
   const isLoggedIn = isSuccess && !!user;
 
   return (
-    <div className="relative flex min-h-screen w-full bg-[#FEFEFE]">
+    <div
+      className={`relative flex min-h-screen w-full 
+    ${isLightTalkDetailPage ? "bg-[#EEE]" : "bg-[#FEFEFE]"}`}
+    >
       <div className="flex flex-1 flex-col pr-[60px]">
         <MainNavbar
           isLoggedIn={isLoggedIn}
@@ -30,9 +35,9 @@ export const Layout = () => {
           <div className={showSupportAlert ? "h-full backdrop-blur-sm" : ""}>
             <Outlet />
           </div>
-
           {/* 알림 모달은 Outlet 위에 */}
-          {/* 지원자 알림 */} {/* 질문:::: 이거 탭 바꿀 때마다 다르게 보이는 거임?????? */}
+          {/* 지원자 알림 */}{" "}
+          {/* 질문:::: 이거 탭 바꿀 때마다 다르게 보이는 거임?????? */}
           <AlertModal
             icon={ic_issuported}
             title="새롭게 지원한 분이 있어요"
@@ -43,7 +48,6 @@ export const Layout = () => {
             isVisible={showSupportAlert}
             onClose={() => setShowSupportAlert(false)}
           />
-
           {/* 주디: 프로젝트 - 제안을 받은 사용자가 진입 시에 이대로 사용하시면 좋을 것 같습니다! */}
           {/* <AlertModal
             icon={ic_issuported}

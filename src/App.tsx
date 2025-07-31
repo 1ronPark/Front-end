@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Layout } from "./components/layout/Layout";
 import { FormLayout } from "./components/layout/FormLayout";
 import "./App.css";
@@ -15,7 +15,7 @@ import { LightTalk } from "./pages/LightTalk";
 import { MyProfile } from "./pages/MyProfile";
 import MemberDetail from "./pages/member/MemberDetail";
 import { FormEdit } from "./pages/FormEdit";
-import {RegisterProject} from "./components/mypage/RegisterProject";
+import { RegisterProject } from "./components/mypage/RegisterProject";
 
 {
   /* 로그인/회원가입 관련 컴포넌트들 */
@@ -25,7 +25,9 @@ import { LoginPassword } from "./pages/Auth/LoginPassword";
 import { SignupForm } from "./pages/Auth/SignupForm";
 import { SignupPassword } from "./pages/Auth/SignupPassword";
 import { PasswordReset } from "./pages/Auth/PasswordReset";
+
 import PrivateRoute from "./components/auth/PrivateRoute";
+import TalkCardDetail from "./pages/lightTalk/TalkCardDetail";
 
 // Add the correct import for SignupPage or use SignupEmail if that's intended
 
@@ -51,7 +53,8 @@ function App() {
             <Route index element={<Navigate to="/projects" replace />} />
             <Route path="projects" element={<Projects />} />
             <Route path="members" element={<Members />} />
-            <Route path="lighttalk" element={<LightTalk />} />
+            <Route path="lightTalk" element={<LightTalk />} />
+            <Route path="lightTalk/:lightTalkId" element={<TalkCardDetail />} />
 
             {/* 로그인 후에만 접근 가능한 페이지 */}
             <Route element={<PrivateRoute />}>
@@ -59,6 +62,10 @@ function App() {
               <Route path="members/:memberId" element={<MemberDetail />} />
               <Route path="myprofile" element={<MyProfile />} />
               <Route path="register-project" element={<RegisterProject />} />
+              {/* <Route
+                path="lightTalk/:lightTalkId"
+                element={<TalkCardDetail />}
+              /> */}
             </Route>
           </Route>
 
