@@ -2,7 +2,7 @@ import { useAuthStore } from '../store/useAuthStore';
 import { useUserStore } from '../store/useUserStore';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import { fetchRequest } from '../utils/fetchRequest';
+import { fetchRequest } from './fetchRequest';
 
 // API가 반환할 데이터 타입 정의 (예시)
 interface User {
