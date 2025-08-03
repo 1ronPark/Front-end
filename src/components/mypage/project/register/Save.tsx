@@ -1,7 +1,7 @@
 import { Upload } from "lucide-react";
 import { useApiMutation } from "../../../../hooks/apiHooks";
 import { useProjectStore } from "../../../../store/useProjectStore"; // zustand 상태 import
-import type { CreateProjectResponse } from "../../../../apis/project/useCreateProject";
+import type { CreateProjectResponse } from "../../../../hooks/useProject";
 import axios from "axios";
 
 const Save = () => {
