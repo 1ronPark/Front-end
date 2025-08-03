@@ -8,6 +8,7 @@ interface ApiQueryOptions {
   enabled?: boolean;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface ApiMutationOptions<TBody = unknown, TResult = unknown> {
   method: 'POST' | 'PUT' | 'DELETE';
   endpoint: string;
