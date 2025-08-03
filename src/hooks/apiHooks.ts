@@ -8,10 +8,10 @@ interface ApiQueryOptions {
   enabled?: boolean;
 }
 
-interface ApiMutationOptions {
+interface ApiMutationOptions<TBody = unknown, TResult = unknown> {
   method: 'POST' | 'PUT' | 'DELETE';
   endpoint: string;
-  onSuccess?: () => void;
+  onSuccess?: (data: TResult) => void;
   onError?: (error: Error) => void;
 }
 
@@ -33,7 +33,7 @@ export const useApiQuery = <T>(options: ApiQueryOptions) => {
 };
 
 export const useApiMutation = <TBody = unknown, TResult = unknown>(
-  options: ApiMutationOptions
+  options: ApiMutationOptions<TBody, TResult>
 ) => {
   const queryClient = useQueryClient();
 
@@ -44,9 +44,9 @@ export const useApiMutation = <TBody = unknown, TResult = unknown>(
         endpoint: options.endpoint,
         body,
       }),
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries(); // 모든 쿼리 무효화 (필요시 queryKey 지정도 가능)
-      options.onSuccess?.();
+      options.onSuccess?.(data); //응답 데이터 전달
     },
     onError: (error) => {
       options.onError?.(error);
