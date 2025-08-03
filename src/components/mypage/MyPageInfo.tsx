@@ -1,15 +1,30 @@
 import { ChevronLeft, DoorOpen } from "lucide-react";
 import editIcon from "../../assets/icons/mypage/ic_edit.svg";
-import sample from "../../assets/icons/mypage/sample_profile.png";
 import { useState } from "react";
 import addPhotoIcon from "../../assets/icons/mypage/ic_camera.svg";
 import type { MyInfoProps } from "../../types/MyInfoProps";
 import MyInfoEditModal from "./modal/MyInfoEditModal";
 import AddPhotoModal from "./modal/AddPhotoModal";
+import { useApiQuery } from "../../hooks/apiHooks";
 
-const MyPageInfo = (myProps: MyInfoProps) => {
+const MyPageInfo = () => {
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [addPhotoModal, setIsAddPhotoModal] = useState<boolean>(false);
+
+  // ✅ API 호출
+  const {
+    data: myProps,
+    isLoading,
+    error,
+  } = useApiQuery<{ result: MyInfoProps }>({
+    method: "GET",
+    // 실제 백엔드 엔드포인트로 대체
+    endpoint: import.meta.env.VITE_API_ME_ENDPOINT,
+  });
+
+  if (isLoading) return <div>불러오는 중...</div>;
+  if (error || !myProps) return <div>에러 발생 또는 데이터 없음</div>;
+  console.log("myProps: ", myProps);
 
   return (
     <div className="w-[1280px] flex flex-col items-start gap-[62px]">
@@ -18,7 +33,7 @@ const MyPageInfo = (myProps: MyInfoProps) => {
         {/* header */}
         <div className="flex justify-between items-center w-[960px] h-[32px]">
           <p className="headline-small-emphasis">
-            {myProps.name} 님의 회원정보
+            {myProps.result.name} 님의 회원정보
           </p>
           <button
             className="flex flex-row justify-center px-1.5 py-3 gap-1 hover:cursor-pointer"
@@ -37,7 +52,7 @@ const MyPageInfo = (myProps: MyInfoProps) => {
             <div className="relative w-[160px] h-[160px]">
               <img
                 className="w-full h-full rounded-full object-cover"
-                src={sample}
+                src={myProps.result.profileImageUrl}
                 alt="프로필 이미지"
               />
               {/* 프로필 사진 등록 버튼 */}
@@ -54,33 +69,45 @@ const MyPageInfo = (myProps: MyInfoProps) => {
           <div className="flex flex-col w-[695px] gap-4">
             <div className="flex justify-between">
               <p className="label-large text-[#49454E]">이름</p>
-              <p className="text-right label-large-emphasis">{myProps.name}</p>
+              <p className="text-right label-large-emphasis">
+                {myProps.result.name}
+              </p>
             </div>
             <div className="flex justify-between">
               <p className="label-large text-[#49454E]">닉네임</p>
               <p className="text-right label-large-emphasis">
-                {myProps.nickname}
+                {myProps.result.nickname}
               </p>
             </div>
             <div className="flex justify-between">
               <p className="label-large text-[#49454E]">휴대폰 번호</p>
-              <p className="text-right label-large-emphasis">{myProps.phone}</p>
+              <p className="text-right label-large-emphasis">
+                {myProps.result.phoneNumber}
+              </p>
             </div>
             <div className="flex justify-between">
               <p className="label-large text-[#49454E]">이메일 주소</p>
-              <p className="text-right label-large-emphasis">{myProps.email}</p>
+              <p className="text-right label-large-emphasis">
+                {myProps.result.email}
+              </p>
             </div>
             <div className="flex justify-between">
               <p className="label-large text-[#49454E]">대학교</p>
-              <p className="text-right label-large-emphasis">{myProps.univ}</p>
+              <p className="text-right label-large-emphasis">
+                {myProps.result.school}
+              </p>
             </div>
             <div className="flex justify-between">
               <p className="label-large text-[#49454E]">MBTI</p>
-              <p className="text-right label-large-emphasis">{myProps.mbti}</p>
+              <p className="text-right label-large-emphasis">
+                {myProps.result.mbti}
+              </p>
             </div>
             <div className="flex justify-between">
               <p className="label-large text-[#49454E]">한줄소개</p>
-              <p className="text-right label-large-emphasis">{myProps.intro}</p>
+              <p className="text-right label-large-emphasis">
+                {myProps.result.career}
+              </p>
             </div>
           </div>
         </div>
@@ -119,6 +146,8 @@ const MyPageInfo = (myProps: MyInfoProps) => {
         <MyInfoEditModal
           onClose={() => setEditModalOpen(false)}
           myInfo={myProps}
+          //일단 오류 없애기 위한 임시 코드 수정필요.
+          onCloseAll={() => setEditModalOpen(false)}
         />
       )}
 

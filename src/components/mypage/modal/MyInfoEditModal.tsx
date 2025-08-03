@@ -13,15 +13,14 @@ interface EditModalProps {
 const MyInfoEditModal = ({ onClose, onCloseAll, myInfo }: EditModalProps) => {
   //MyProfile 페이지에서 전달받은 초기값 설정
   const [nickname, setNickname] = useState(myInfo.nickname);
-  const [phone, setPhone] = useState(myInfo.phone);
+  const [phone, setPhone] = useState(myInfo.phoneNumber);
   const [email, setEmail] = useState(myInfo.email);
-  const [univ, setUniv] = useState(myInfo.univ);
+  const [univ, setUniv] = useState(myInfo.school);
   const [selectedMbti, setSelectedMbti] = useState(myInfo.mbti);
-  const [intro, setIntro] = useState(myInfo.intro);
+  const [intro, setIntro] = useState(myInfo.career);
 
   //저장할 때 비밀번호 인증 모달 띄우기 위한 usestate
   const [showCheckModal, setShowCheckModal] = useState(false);
-
 
   return (
     <>
@@ -197,8 +196,6 @@ const MyInfoEditModal = ({ onClose, onCloseAll, myInfo }: EditModalProps) => {
           </div>
         </div>
       </div>
-
-
     </>
   );
 };
