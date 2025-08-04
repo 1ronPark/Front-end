@@ -55,7 +55,7 @@ const MbtiDropdown = ({ onSelect }: MbtiDropdownProps) => {
           onChange={(e) => setInputValue(e.target.value)}
           autoFocus
           className="w-full rounded-xl border-2 border-[#5A588D] px-4 py-3 text-sm outline-none"
-          placeholder="MBTI를 검색하세요."
+          placeholder="선호하는 MBTI를 검색하세요."
         />
       )}
       {isOpen && (

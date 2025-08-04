@@ -46,7 +46,7 @@ const MbtiDropdown = ({ onSelect }: MbtiDropdownProps) => {
           onClick={() => setIsOpen(true)}
           className="flex w-full items-center justify-between rounded-xl border border-gray-200 p-3"
         >
-          <span className="text-sm text-gray-400">선호하는 MBTI를 선택해주세요.</span>
+          <span className="text-sm text-gray-400">모집 파트를 선택해주세요.</span>
           <ChevronDown size={24} className="text-gray-400 disabled:text-gray-400" />
         </button>
       ) : (
@@ -56,7 +56,7 @@ const MbtiDropdown = ({ onSelect }: MbtiDropdownProps) => {
           onChange={(e) => setInputValue(e.target.value)}
           autoFocus
           className="w-full rounded-xl border-2 border-[#5A588D] px-4 py-3 text-sm outline-none"
-          placeholder="MBTI를 검색하세요."
+          placeholder="모집 파트를 검색하세요."
         />
       )}
       {isOpen && (
