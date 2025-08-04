@@ -145,7 +145,7 @@ const MyPageInfo = () => {
       {editModalOpen && (
         <MyInfoEditModal
           onClose={() => setEditModalOpen(false)}
-          myInfo={myProps}
+          myInfo={myProps.result}
           //일단 오류 없애기 위한 임시 코드 수정필요.
           onCloseAll={() => setEditModalOpen(false)}
         />
