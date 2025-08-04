@@ -38,7 +38,12 @@ const MemberCard = ({
     return (
         <div
             onClick={()=>navigate(`/members/${id}`)}
-            className="flex flex-col justify-between w-full h-auto border border-[#CBC4CF] rounded-[8px]">
+            className="
+                flex flex-col justify-between w-full h-auto border border-[#C8C5D0] rounded-[8px]
+                hover:bg-[#1D1B20]/8 hover:shadow-[0_1px_3px_1px_rgba(0,0,0,0.15),0_1px_2px_1px_rgba(0,0,0,0.30)]
+                active:bg-[#1D1B20]/10 active:shadow-none
+                transition-all duration-150 cursor-pointer
+            ">  
             {/* 프로필, 좋아요 아이콘 */}
             <div className="flex items-start justify-between p-4">
                 <div className="flex items-center gap-2">
@@ -49,8 +54,15 @@ const MemberCard = ({
                         <span className="title-medium">| {nickname}</span>
                         <span className="label-medium">({gender}) {mbti}</span>
                     </div>
-                    <div className="flex items-center body-medium text-[#49454E] gap-[4.17px]">
-                        <img src={ic_memberlocation} alt="위치 아이콘" />
+                    <div className="flex items-center body-medium text-[#47464F]/58 gap-[4.17px]">
+                        <img 
+                            src={ic_memberlocation} 
+                            alt="위치 아이콘" 
+                            style={{ 
+                                filter: 'brightness(0) opacity(0.58)',
+                                color: '#47464F'
+                            }}
+                        />
                         {location}
                     </div>
                 </div>
@@ -62,14 +74,17 @@ const MemberCard = ({
             <div className="w-full px-4 py-2 mb-3">
                 {/* 역할 */}
                 <p className="body-large">{role}</p>
-                {[...(skills ?? []).slice(0, 2), ...(strengths ?? []).slice(0, 2)].map((tag, index) => (
+                <div className="flex flex-wrap gap-[10px]">
+                    {[...(skills ?? []).slice(0, 2), ...(strengths ?? []).slice(0, 2)].map((tag, index) => (
                         <span
                             key={`${tag}-${index}`}
-                            className="bg-[#FCF8FF] h-[28px] body-medium px-1 rounded-[4px]"
+                            className="flex items-center justify-center bg-[#FCF8FF] body-medium p-1 rounded-[4px]"
                         >
                             {tag}
                         </span>
                     ))}
+                </div>
+
             </div>
         </div>
     );
