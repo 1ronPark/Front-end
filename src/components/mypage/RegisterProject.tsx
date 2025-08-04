@@ -4,6 +4,7 @@ import ProjectMenu from '../../components/mypage/project/register/ProjectMenu';
 import Save from '../../components/mypage/project/register/Save';
 import Detail from './project/register/Detail';
 import Recruit from './project/register/Recruit';
+//import { useApiMutation } from '../../hooks/apiHooks';
 
 
 
