@@ -1,9 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { Eye, Heart, MessageSquareText } from "lucide-react";
+import { LikeButton } from "../../common/buttons/LikeButton";
+import { Eye, MessageSquareText } from "lucide-react";
 import mediaImage from "../../../assets/icons/project/Media.png";
 import Avatar from "../../../assets/ic_myprofile.svg";
 import { getRelativeDate } from "../../../utils/date"; // 날짜를 상대적인 형식으로 표시하는 유틸리티 함수
 import type { ProjectCardWithUserProps } from "../../../types/ProjectCardWithUser";
+
 
 const ProjectCard = ({
   id,
@@ -14,6 +16,7 @@ const ProjectCard = ({
 }: ProjectCardWithUserProps) => {
   const navigate = useNavigate();
 
+  
   return (
     <div
       onClick={() => navigate(`/projects/${id}`)}
@@ -39,7 +42,7 @@ const ProjectCard = ({
                 <span className="text-sm title-medium">{name}</span>
               </div>
             </div>
-            <Heart className="w-5 h-5 relative text-gray-600" />
+            <LikeButton itemId={id} />
           </div>
 
           {/* 프로젝트 소개 및 위치 */}
