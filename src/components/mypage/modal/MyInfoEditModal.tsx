@@ -17,7 +17,7 @@ const MyInfoEditModal = ({ onClose, onCloseAll, myInfo }: EditModalProps) => {
   const [email, setEmail] = useState(myInfo.email);
   const [school, setSchool] = useState(myInfo.school);
   const [selectedMbti, setSelectedMbti] = useState(myInfo.mbti);
-  const [intro, setIntro] = useState(myInfo.career);
+  const [career, setCareer] = useState(myInfo.career);
 
   //저장할 때 비밀번호 인증 모달 띄우기 위한 usestate
   const [showCheckModal, setShowCheckModal] = useState(false);
@@ -174,8 +174,8 @@ const MyInfoEditModal = ({ onClose, onCloseAll, myInfo }: EditModalProps) => {
               </span>
               <input
                 type="text"
-                value={intro}
-                onChange={(e) => setIntro(e.target.value)}
+                value={career}
+                onChange={(e) => setCareer(e.target.value)}
                 className="w-full h-[56px] py-1 pl-4 gap-1  border border-gray-200 rounded-xl title-medium text-[#49454E]"
                 placeholder="자기소개를 입력해주세요"
                 maxLength={32}

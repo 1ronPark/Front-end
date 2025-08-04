@@ -6,8 +6,11 @@ import type { MyInfoProps } from "../../types/MyInfoProps";
 import MyInfoEditModal from "./modal/MyInfoEditModal";
 import AddPhotoModal from "./modal/AddPhotoModal";
 import { useApiQuery } from "../../hooks/apiHooks";
+import { useNavigate } from "react-router-dom";
 
 const MyPageInfo = () => {
+  const navigate = useNavigate();
+
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [addPhotoModal, setIsAddPhotoModal] = useState<boolean>(false);
 
@@ -126,7 +129,10 @@ const MyPageInfo = () => {
             <br />
             비밀번호는 카카오톡에서 변경하실 수 있습니다.
           </p>
-          <button className="flex justify-center items-center px-3 py-1.5 gap-1 hover:cursor-pointer">
+          <button
+            className="flex justify-center items-center px-3 py-1.5 gap-1 hover:cursor-pointer"
+            onClick={() => navigate("password")}
+          >
             <ChevronLeft className="w-[20px] h-[20px] text-[#49454E]" />
             <p className="label-large text-[#49454E]">변경 하러 가기</p>
           </button>
