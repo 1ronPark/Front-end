@@ -5,7 +5,7 @@ import type { CreateProjectResponse } from "../../../../hooks/useProject";
 import axios from "axios";
 
 const Save = () => {
-  // zustand 상태에서 프로젝트 정보 가져오기
+  // zustand 전역 상태에서 프로젝트 정보 가져오기
   const {
     projectName: projectName,
     projectSubtitle,
