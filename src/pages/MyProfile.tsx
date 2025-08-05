@@ -21,19 +21,7 @@ export const MyProfile = () => {
       <MypageSidebar currentTab={currentTab} setCurrentTab={setCurrentTab} />
       <div className="flex-1 p-6">
         {currentTab === "info" && (
-          <MyPageInfo
-            //회원 정보에 필요한 props들
-            id={0} //쪼: 우선 임시로 지정해두었습니다!
-            name="홍길동"
-            nickname="홍"
-            phone="010-1234-5678"
-            email="hong@hong.ac.kr"
-            univ="길동대학교"
-            mbti="INTJ"
-            intro="나는 홍길동이다"
-            location="서울특별시"
-            role="Web"
-          />
+          <MyPageInfo/>
         )}
         {currentTab === "edit" && <MyProfileEdit />}
         {currentTab === "projects" && <MyProjects hasData={true} />}
