@@ -2,10 +2,11 @@ import { MainNavbar } from "../common/mainNavbar/MainNavbar";
 import { Outlet, useLocation } from "react-router-dom";
 import SideNavbar from "../common/sideNavbar/SideNavbar";
 import { Footbar } from "../common/footbar/Footbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AlertModal from "../common/modals/AlertModal";
 import ic_issuported from "../../assets/icons/ic_issupported.svg";
 import { useUser } from "../../hooks/useUser";
+
 
 export const Layout = () => {
   const location = useLocation();
@@ -15,9 +16,26 @@ export const Layout = () => {
 
   // 지원을 받은 사용자가 진입 시
   const [showSupportAlert, setShowSupportAlert] = useState(false);
+  const [isBlurring, setIsBlurring] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const { data: user, isSuccess } = useUser();
   const isLoggedIn = isSuccess && !!user;
+
+  // 지원 받은 사용자 진입 시의 애니메이션 효과
+  useEffect(()=>{
+    if (showSupportAlert) {
+      // 바로 블러 처리
+      setIsBlurring(true);
+
+      // 블러 후 모달 표시
+      const timer = setTimeout(()=>{
+        setShowModal(true);
+      }, 700);
+
+      return () => clearTimeout(timer);
+    }
+  }, [showSupportAlert]);
 
   return (
     <div
@@ -32,12 +50,15 @@ export const Layout = () => {
         />
         <main className="flex-1 relative">
           {/* Outlet만 흐리게 */}
-          <div className={showSupportAlert ? "h-full backdrop-blur-sm" : ""}>
+          <div 
+            className={`h-full transition-[filter] duration-[2000ms] ease-[cubic-bezier(0.5,0.1,0.5,1)] ${
+              isBlurring ? "blur-sm" : "blur-0"
+            }`}
+          >
             <Outlet />
           </div>
-          {/* 알림 모달은 Outlet 위에 */}
-          {/* 지원자 알림 */}{" "}
-          {/* 질문:::: 이거 탭 바꿀 때마다 다르게 보이는 거임?????? */}
+
+          {/* 지원자 알림 */}
           <AlertModal
             icon={ic_issuported}
             title="새롭게 지원한 분이 있어요"
@@ -45,7 +66,7 @@ export const Layout = () => {
             subcontent="모든 지원내역은 알림에서 볼 수 있어요"
             primaryButtonText="지원자 보러가기"
             primaryButtonPath="/notification"
-            isVisible={showSupportAlert}
+            isVisible={showModal}
             onClose={() => setShowSupportAlert(false)}
           />
           {/* 주디: 프로젝트 - 제안을 받은 사용자가 진입 시에 이대로 사용하시면 좋을 것 같습니다! */}
