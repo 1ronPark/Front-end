@@ -13,15 +13,14 @@ interface EditModalProps {
 const MyInfoEditModal = ({ onClose, onCloseAll, myInfo }: EditModalProps) => {
   //MyProfile 페이지에서 전달받은 초기값 설정
   const [nickname, setNickname] = useState(myInfo.nickname);
-  const [phone, setPhone] = useState(myInfo.phone);
+  const [phoneNumber, setPhoneNumber] = useState(myInfo.phoneNumber);
   const [email, setEmail] = useState(myInfo.email);
-  const [univ, setUniv] = useState(myInfo.univ);
+  const [school, setSchool] = useState(myInfo.school);
   const [selectedMbti, setSelectedMbti] = useState(myInfo.mbti);
-  const [intro, setIntro] = useState(myInfo.intro);
+  const [career, setCareer] = useState(myInfo.career);
 
   //저장할 때 비밀번호 인증 모달 띄우기 위한 usestate
   const [showCheckModal, setShowCheckModal] = useState(false);
-
 
   return (
     <>
@@ -96,8 +95,8 @@ const MyInfoEditModal = ({ onClose, onCloseAll, myInfo }: EditModalProps) => {
               <span className="body-medium text-[#49454E]">전화 번호</span>
               <input
                 type="text"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
                 placeholder="-도 입력해주세요"
                 className="w-full h-[56px] py-1 pl-4 gap-1  border border-gray-200 rounded-xl title-medium text-[#49454E]"
               />
@@ -120,8 +119,8 @@ const MyInfoEditModal = ({ onClose, onCloseAll, myInfo }: EditModalProps) => {
               <span className="body-medium text-[#49454E]">대학교</span>
               <input
                 type="text"
-                value={univ}
-                onChange={(e) => setUniv(e.target.value)}
+                value={school}
+                onChange={(e) => setSchool(e.target.value)}
                 className="w-full h-[56px] py-1 pl-4 gap-1  border border-gray-200 rounded-xl title-medium text-[#49454E]"
               />
             </div>
@@ -175,8 +174,8 @@ const MyInfoEditModal = ({ onClose, onCloseAll, myInfo }: EditModalProps) => {
               </span>
               <input
                 type="text"
-                value={intro}
-                onChange={(e) => setIntro(e.target.value)}
+                value={career}
+                onChange={(e) => setCareer(e.target.value)}
                 className="w-full h-[56px] py-1 pl-4 gap-1  border border-gray-200 rounded-xl title-medium text-[#49454E]"
                 placeholder="자기소개를 입력해주세요"
                 maxLength={32}
@@ -197,8 +196,6 @@ const MyInfoEditModal = ({ onClose, onCloseAll, myInfo }: EditModalProps) => {
           </div>
         </div>
       </div>
-
-
     </>
   );
 };
