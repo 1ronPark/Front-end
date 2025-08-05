@@ -7,37 +7,24 @@ import ic_profile from '../../../assets/icons/ic_profile.svg';
 import { Heart } from 'lucide-react';
 import { useState } from 'react';
 import ActionStatusModal from '../modals/ActionStatusModal';
+// import type { MemberDetailData } from '../../../types/MemberProps';
 
 type MemberProfileCardProps = {
+  // data: MemberDetailData;
   isApplicantToMyProject?: boolean;
   suggested_project?: boolean;
 };
 
-const profileInfos = [
-  { icon: ic_member_part, alt: "파트", label: "파트", value: "디자인" },
-  {
-    icon: ic_member_location,
-    alt: "위치",
-    label: "위치",
-    value: "서울 강남구, 성남 전체",
-  },
-  {
-    icon: ic_member_univ,
-    alt: "대학교",
-    label: "대학교",
-    value: "가천대학교 글로벌 캠퍼스 1년",
-  },
-  {
-    icon: ic_member_email,
-    alt: "이메일",
-    label: "이메일",
-    value: "harrysjuns@gachon.ac.kr",
-  },
-];
-
 const MemberProfileCard = ({ isApplicantToMyProject = false }: MemberProfileCardProps) => {
   const [showProposalModal, setShowProposalModal] = useState(false);
   const [isProposalSent, setIsProposalSent] = useState(false); // 추가: 제안 보낸 상태
+
+  const profileInfos = [
+    { icon: ic_member_part, alt: "파트", label: "파트", value: '디자인' },
+    { icon: ic_member_location, alt: "위치", label: "위치", value: '지역'/* data.regions.join(', ') */ },
+    { icon: ic_member_univ, alt: "대학교", label: "대학교", value: '가천대학교' /* data.school */ },
+    { icon: ic_member_email, alt: "이메일", label: "이메일", value: '이메일' /*data.email*/ },
+  ];
 
   const handleProposalSent = () => {
     setIsProposalSent(true); // 제안 보낸 후 상태 업데이트
@@ -71,10 +58,10 @@ const MemberProfileCard = ({ isApplicantToMyProject = false }: MemberProfileCard
             <div className="flex gap-4 items-center mb-[13px]">
               <span className="body-large-emphasis">히로</span>
               <div className="w-px h-4 bg-[#C8C5D0]" />
-              <span className="body-large-emphasis">강혜준</span>
+              <span className="body-large-emphasis">강해준</span>
               <span className="body-large text-[#47464F]">남</span>
               <span className="body-large text-[#47464F]">23세</span>
-              <span className="body-large text-[#47464F]">ISFJ</span>
+              <span className="body-large text-[#47464F]">ISTJ</span>
             </div>
             {/* 프로필 정보 반복 렌더링 */}
             {profileInfos.map(({ icon, alt, label, value }, index) => (
@@ -137,9 +124,9 @@ const MemberProfileCard = ({ isApplicantToMyProject = false }: MemberProfileCard
 
       {showProposalModal && (
         <ActionStatusModal
-          proposalConfirmTitle={`강혜준님께\n제안을\n보낼까요?`}
+          proposalConfirmTitle={`강해준님께\n제안을\n보낼까요?`}
           proposalConfirmButtonText="보내기"
-          proposalSentTitle={`강혜준님께\n제안을\n보냈어요`}
+          proposalSentTitle={`강해준님께\n제안을\n보냈어요`}
           proposalSentButtonText="확인"
           onClose={()=>setShowProposalModal(false)}
           onProposalSent={handleProposalSent}
