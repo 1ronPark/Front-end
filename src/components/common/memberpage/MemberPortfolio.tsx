@@ -2,13 +2,19 @@
 import ic_github from '../../../assets/icons/ic_github.svg';
 import { Document, Page, pdfjs } from 'react-pdf';
 import { useEffect, useRef, useState } from 'react';
+// import type { MemberDetailData } from '../../../types/MemberProps';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
+// interface MemberPortfolio {
+//     data: MemberDetailData;
+// }
+
 const MemberPortfolio = () => {
-    const [numPages, setNumPages] = useState<number | null>(null);
-    const [containerWidth, setContainerWidth] = useState<number>(700);
     const containerRef = useRef<HTMLDivElement>(null);
+    const [containerWidth, setContainerWidth] = useState<number>(700);
+    const [numPages, setNumPages] = useState<number | null>(null);
+    // const portfolios = data.portfolios;
 
     const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
         setNumPages(numPages);
