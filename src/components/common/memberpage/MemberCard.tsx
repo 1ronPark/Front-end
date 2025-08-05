@@ -3,6 +3,8 @@ import { Heart } from 'lucide-react';
 import ic_memberlocation from '../../../assets/icons/ic_memberlocation.svg';
 import { useNavigate } from 'react-router-dom';
 import type { MyInfoProps } from '../../../types/MyInfoProps';
+import { useState } from 'react';
+import { useLikeMember, useUnLikeMember } from '../../../hooks/useMember';
 
 // export type MemberCardProps = {
 //     id: number;
@@ -32,6 +34,26 @@ const MemberCard = ({
     skills,
     strengths,
 }: MemberCardProps) => {
+
+    const [isLiked, setIsLiked] = useState(false);
+
+    const likeMutation = useLikeMember(id);
+    const unlikeMutation = useUnLikeMember(id);
+
+    const handleLikeClick = (e: React.MouseEvent) => {
+        e.stopPropagation(); // 카드 클릭 막기
+
+        if (isLiked) {
+            unlikeMutation.mutate(undefined, {
+                onSuccess: () => setIsLiked(false),
+            });
+        } else {
+            likeMutation.mutate(undefined, {
+                onSuccess: () => setIsLiked(true),
+            });
+        }
+    };
+
 
     const navigate = useNavigate();
 
@@ -67,7 +89,11 @@ const MemberCard = ({
                     </div>
                 </div>
                 </div>
-                <Heart className="text-[#49454E] w-5 h-5 mt-[10.65px]" />
+                <Heart 
+                    className={`w-5 h-5 mt-[10.65px] cursor-pointer transition-colors duration-150
+                                `}
+                    fill={isLiked ? '#49454E' : 'none'} 
+                    onClick={handleLikeClick} />
             </div>
 
             {/* 스킬과 강점 두 개씩만 */}
