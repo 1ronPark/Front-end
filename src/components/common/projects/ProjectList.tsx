@@ -12,7 +12,7 @@ const ProjectList = () => {
       name: member?.name ?? "이름 없음",
       nickname: member?.nickname ?? "",
       email: member?.email ?? "",
-      univ: member?.univ ?? "",
+      school: member?.school ?? "",
       age: member?.age ?? 0,
       gender: member?.gender ?? "미정",
       mbti: member?.mbti ?? "",

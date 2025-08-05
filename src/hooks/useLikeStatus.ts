@@ -1,4 +1,3 @@
-// src/apis/useLikedStatus.ts
 import { useApiQuery } from "../hooks/apiHooks";
 
 interface LikedStatusResponse {
