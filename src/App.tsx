@@ -28,6 +28,7 @@ import { PasswordReset } from "./pages/Auth/PasswordReset";
 
 import PrivateRoute from "./components/auth/PrivateRoute";
 import TalkCardDetail from "./pages/lightTalk/TalkCardDetail";
+import PasswordChangeForm from "./components/mypage/passwordChange/PasswordChangeForm";
 
 // Add the correct import for SignupPage or use SignupEmail if that's intended
 
@@ -61,6 +62,11 @@ function App() {
               <Route path="projects/:projectId" element={<ProjectDetail />} />
               <Route path="members/:memberId" element={<MemberDetail />} />
               <Route path="myprofile" element={<MyProfile />} />
+              {/* 비밀번호 변경할 때 나오는 페이지 */}
+              <Route
+                path="myprofile/password"
+                element={<PasswordChangeForm />}
+              />
               <Route path="register-project" element={<RegisterProject />} />
               {/* <Route
                 path="lightTalk/:lightTalkId"

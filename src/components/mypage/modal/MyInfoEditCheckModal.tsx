@@ -11,7 +11,7 @@ const MyInfoEditCheckModal = ({ onClose, onCloseAll }: Props) => {
     <div className="fixed inset-0 z-60 bg-black/10  flex items-center justify-center">
       <div
         className="relative flex flex-col justify-center w-[420px] py-16 gap-16
-       bg-white rounded-2xl shadow-xl text-center"
+      bg-white rounded-2xl shadow-xl text-center"
         onClick={(e) => e.stopPropagation()}
       >
         {/*닫기 버튼*/}
