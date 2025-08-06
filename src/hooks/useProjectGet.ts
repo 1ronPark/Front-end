@@ -20,6 +20,11 @@ export interface ProjectListResponse {
 export const useGetProjects = (page: number = 0) => {
   return useQuery<ProjectListResponse>({
     queryKey: ["projects", page],
-    queryFn: () => fetchRequest(`/api/v1/items/search?page=${page}`),
+    queryFn: () =>
+      fetchRequest({
+        method: 'GET',
+        endpoint: '/api/v1/items/search',
+        body: { page },
+      }),
   });
 };
