@@ -35,16 +35,16 @@ const PortfolioModal = ({ onClose, onConfirm }: PortfolioProps) => {
   const handleConfirm = () => {
     if (activeTab === 'file' && selectedFile) {
       const displayUrl = URL.createObjectURL(selectedFile);
-      onConfirm({ type: 'file', file: selectedFile, displayUrl });
+      onConfirm({ type: 'file', file: selectedFile, displayUrl }); // itemPlanFile로!
     } else if (activeTab === 'url') {
       if (githubUrl) {
-        onConfirm({ type: 'github', url: githubUrl, displayUrl: githubIcon }); // GitHub 아이콘 사용
+        onConfirm({ type: 'github', url: githubUrl, displayUrl: githubIcon }); // extraLink1
       }
       if (blogUrl) {
-        onConfirm({ type: 'blog', url: blogUrl, displayUrl: defaultBlogIcon }); // 임시 블로그 아이콘 사용
+        onConfirm({ type: 'blog', url: blogUrl, displayUrl: defaultBlogIcon }); // extraLink2
       }
     }
-    onClose(); // 모달 닫기
+    onClose();
   };
 
   return (

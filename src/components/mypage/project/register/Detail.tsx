@@ -14,24 +14,45 @@ const Detail = () => {
 
   const handleConfirmPortfolio = (data: PortfolioItemData) => {
     setPortfolioItems((prevItems) => [...prevItems, data]);
+    // type에 따라 각각 저장 (추가)
+    if (data.type === 'file') {
+      setField('itemPlanFile', data.file);      // 파일 첨부 → itemPlanFile
+    }
+    if (data.type === 'github') {
+      setField('extraLink1', data.url);         // github → extraLink1
+    }
+    if (data.type === 'blog') {
+      setField('extraLink2', data.url);         // blog → extraLink2
+    }
   };
 
   useEffect(() => {
-    const item1 = portfolioItems[0];
-    const item2 = portfolioItems[1];
-
-    if (item1) {
-      setField('extraLink1', item1.type === 'file' ? item1.file.name : item1.url);
-    } else {
-      setField('extraLink1', '');
+  // 1. 파일은 itemPlanFile로, 링크는 각각 extraLink1/extraLink2로
+  let planFileSet = false;
+  portfolioItems.forEach(item => {
+    if (item.type === 'file' && !planFileSet) {
+      setField('itemPlanFile', item.file); // 파일 첨부는 딱 한 번만
+      planFileSet = true;
     }
-
-    if (item2) {
-      setField('extraLink2', item2.type === 'file' ? item2.file.name : item2.url);
-    } else {
-      setField('extraLink2', '');
+    if (item.type === 'github') {
+      setField('extraLink1', item.url); // github 링크
     }
-  }, [portfolioItems, setField]);
+    if (item.type === 'blog') {
+      setField('extraLink2', item.url); // blog 링크
+    }
+  });
+
+  // 파일/링크가 빠졌을 경우 초기화
+  if (!portfolioItems.some(item => item.type === 'file')) {
+    setField('itemPlanFile', null);
+  }
+  if (!portfolioItems.some(item => item.type === 'github')) {
+    setField('extraLink1', '');
+  }
+  if (!portfolioItems.some(item => item.type === 'blog')) {
+    setField('extraLink2', '');
+  }
+}, [portfolioItems, setField]);
 
   return (
     <div className="space-y-8">
@@ -61,7 +82,7 @@ const Detail = () => {
             />
           ))}
           {/* 포트폴리오 추가 카드 */}
-          {portfolioItems.length < 2 && (
+          {portfolioItems.length < 3 && (
             <div className="flex h-48 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 hover:scale-105">
               <button
                 onClick={() => setPortfolioModal(true)}

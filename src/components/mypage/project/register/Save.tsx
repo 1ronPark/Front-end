@@ -49,24 +49,60 @@ const Save = () => {
   // 제출 로직
   const handleSubmit = () => {
     // Save.tsx handleSubmit 맨 위
-console.log('[DEBUG] store', useRegisterProjectStore.getState());
-    if (
-      !projectName ||
-      !projectSubtitle ||
-      !itemProfileImage ||
-      !itemPlanFile
-    ) {
-      alert("모든 항목을 입력해주세요.");
-      return;
-    }
+    // console.log('[DEBUG] store', useRegisterProjectStore.getState());
+    const missingFields: string[] = [];
+      if (!projectName) missingFields.push("프로젝트명");
+      if (!projectSubtitle) missingFields.push("프로젝트 소개");
+      if (!itemProfileImage) missingFields.push("프로젝트 썸네일(대표이미지)");
+      if (!itemPlanFile) missingFields.push("기획 파일(첨부 파일)");
 
-    const formData = new FormData();
-    formData.append("itemName", projectName); //서버 명세에 맞는 키로 변경하여 제출
-    formData.append("introduction", projectSubtitle);
-    formData.append("itemProfileImage", itemProfileImage);
-    formData.append("itemPlanFile", itemPlanFile);
+      if (missingFields.length > 0) {
+        alert(`다음 항목을 입력/첨부해주세요:\n- ${missingFields.join('\n- ')}`);
+        return;
+      }
 
-    createProject.mutate(formData);
+      const formData = new FormData();
+
+      const {
+        projectStatus,
+        name,
+        recruitPositions,
+        itemCategories,
+        collaborationRegions,
+        description,
+        introduce,
+        extraLink1,
+        extraLink2,
+      } = useRegisterProjectStore.getState();
+
+      const requestPayload = {
+        extraLink1,
+        extraLink2,
+        projectStatus,
+        name,
+        recruitPositions: recruitPositions.map(pos => ({
+          ...pos,
+          preferMbti: Array.isArray(pos.preferMbti)
+            ? pos.preferMbti.join(',') // preferMbti가 배열이면 string으로 변환
+            : pos.preferMbti || '',
+        })),
+        itemCategories,
+        collaborationRegions,
+        description,
+        introduce,
+      };
+      formData.append("itemProfileImage", itemProfileImage!);
+      formData.append("itemPlanFile", itemPlanFile!);
+      formData.append("request", JSON.stringify(requestPayload));
+
+        // 🔥 FormData 실제 내용 콘솔로 찍기
+      // for (const [key, value] of formData.entries()) {
+      //   console.log('FormData', key, value);
+      // }
+      // console.log('store recruitPositions:', recruitPositions, typeof recruitPositions);
+      // console.log('store itemCategories:', itemCategories, typeof itemCategories);
+      // console.log('store collaborationRegions:', collaborationRegions, typeof collaborationRegions);
+      createProject.mutate(formData);
   };
 
   return (

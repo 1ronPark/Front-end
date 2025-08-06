@@ -1,4 +1,3 @@
-// registerProjectStore.ts 예시 (Zustand)
 import { create } from 'zustand';
 
 import type {
@@ -19,12 +18,15 @@ interface RegisterProjectState {
   description: string;
   introduce: string;
   // 파일
-  itemProfileImage?: File;
-  itemPlanFile?: File;
+  itemProfileImage: File | null;
+  itemPlanFile: File | null;
+  // setter
+  setItemProfileImage: (file: File) => void;
+  setItemPlanFile: (file: File) => void;
   // actions
   setField: <K extends keyof RegisterProjectState>(
-	key: K,
-	value: RegisterProjectState[K]
+    key: K,
+    value: RegisterProjectState[K]
   ) => void;
 }
 
@@ -36,6 +38,10 @@ export const useRegisterProjectStore = create<RegisterProjectState>((set) => ({
   collaborationRegions: [],
   description: '',
   introduce: '',
+  itemProfileImage: null,
+  itemPlanFile: null,
+  setItemProfileImage: (file) => set({ itemProfileImage: file }),
+  setItemPlanFile: (file) => set({ itemPlanFile: file }),
   setField: (key, value) => set({ [key]: value } as Partial<RegisterProjectState>),
 }));
 
