@@ -14,6 +14,7 @@ export interface MyInfoProps {
   location: string;
   mbti: string;
   role: string;
+  intro: string; // 한 줄 소개
   career?: string;
   blog?: string;
   gender?: boolean; // 성별
