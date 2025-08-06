@@ -24,7 +24,7 @@ export const MyProfile = () => {
           <MyPageInfo/>
         )}
         {currentTab === "edit" && <MyProfileEdit />}
-        {currentTab === "projects" && <MyProjects hasData={true} />}
+        {currentTab === "projects" && <MyProjects hasData={false} />}
       </div>
     </div>
   );
