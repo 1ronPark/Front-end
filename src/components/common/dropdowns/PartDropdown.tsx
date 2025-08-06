@@ -1,18 +1,15 @@
 import { useState, useRef, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
 
-const MBTI_OPTIONS = [
-  'INTJ', 'INTP', 'INFJ', 'INFP',
-  'ISTJ', 'ISTP', 'ISFJ', 'ISFP',
-  'ENTJ', 'ENTP', 'ENFJ', 'ENFP',
-  'ESTJ', 'ESTP', 'ESFJ', 'ESFP',
+const PART_OPTIONS = [
+  '기획', '디자인', '풀스택','프론트엔드', '백엔드','마케팅'
 ];
 
-interface MbtiDropdownProps {
-  onSelect: (mbti: string) => void;
+interface PartDropdownProps {
+  onSelect: (part: string) => void;
 }
 
-const MbtiDropdown = ({ onSelect }: MbtiDropdownProps) => {
+const PartDropdown = ({ onSelect }: PartDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -29,13 +26,13 @@ const MbtiDropdown = ({ onSelect }: MbtiDropdownProps) => {
     };
   }, []);
 
-  const handleSelect = (mbti: string) => {
-    onSelect(mbti);
+  const handleSelect = (part: string) => {
+    onSelect(part);
     setIsOpen(false);
     setInputValue('');
   };
 
-  const filteredMbtis = MBTI_OPTIONS.filter(option =>
+  const filteredParts = PART_OPTIONS.filter(option =>
     option.toLowerCase().includes(inputValue.toLowerCase())
   );
 
@@ -62,7 +59,7 @@ const MbtiDropdown = ({ onSelect }: MbtiDropdownProps) => {
       {isOpen && (
         <div className="absolute z-10 mt-2 w-full rounded-md border border-gray-300 bg-white shadow-lg">
           <ul className="max-h-52 overflow-y-auto">
-            {filteredMbtis.map(option => (
+            {filteredParts.map(option => (
               <li
                 key={option}
                 className="cursor-pointer px-4 py-2 text-sm hover:bg-gray-100"
@@ -78,4 +75,4 @@ const MbtiDropdown = ({ onSelect }: MbtiDropdownProps) => {
   );
 };
 
-export default MbtiDropdown;
+export default PartDropdown;
