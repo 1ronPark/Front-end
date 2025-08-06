@@ -1,7 +1,7 @@
 import { Plus } from "lucide-react";
 import PortfolioCard from "../../../common/cards/portfolio/PortfolioCard";
 import githubIcon from "../../../../assets/GitHub.svg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PortfolioModal from "../../modal/PortfolioModal";
 import { useRegisterProjectStore } from "../../../../store/registerProjectStore";
 import type { PortfolioItemData } from "../../modal/PortfolioModal"; // PortfolioItemData 임포트
@@ -15,6 +15,23 @@ const Detail = () => {
   const handleConfirmPortfolio = (data: PortfolioItemData) => {
     setPortfolioItems((prevItems) => [...prevItems, data]);
   };
+
+  useEffect(() => {
+    const item1 = portfolioItems[0];
+    const item2 = portfolioItems[1];
+
+    if (item1) {
+      setField('extraLink1', item1.type === 'file' ? item1.file.name : item1.url);
+    } else {
+      setField('extraLink1', '');
+    }
+
+    if (item2) {
+      setField('extraLink2', item2.type === 'file' ? item2.file.name : item2.url);
+    } else {
+      setField('extraLink2', '');
+    }
+  }, [portfolioItems, setField]);
 
   return (
     <div className="space-y-8">
