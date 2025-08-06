@@ -1,5 +1,5 @@
 import { Plus } from "lucide-react";
-import PortfolioCard from "../../common/cards/portfolio/PortfolioCard";
+import PortfolioCard from "../../../../mockData/portfolio/PortfolioCard";
 import githubIcon from "../../../assets/GitHub.svg";
 import { useState } from "react";
 import type { ChangeEvent } from "react";
