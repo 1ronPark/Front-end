@@ -2,8 +2,8 @@ import { Upload } from "lucide-react";
 import { useApiMutation } from "../../../../hooks/apiHooks";
 import { useRegisterProjectStore } from "../../../../store/registerProjectStore"; // zustand 상태 import
 import type { CreateProjectResponse } from "../../../../hooks/useProject";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Save = () => {
   // zustand 상태에서 프로젝트 정보 가져오기
@@ -28,6 +28,7 @@ const Save = () => {
 
       const { itemName } = res.result;
       alert(`프로젝트 '${itemName}'이(가) 성공적으로 등록되었습니다!`);
+
       navigate("/myprofile?tab=projects");
     },
     onError: (err: unknown) => {
@@ -90,6 +91,19 @@ const Save = () => {
         description,
         introduce,
       };
+      {/* FIX ME */}
+      // const requestPayload = {
+      //   extraLink1,
+      //   extraLink2,
+      //   projectStatus,
+      //   name,
+      //   recruitPositions,
+      //   itemCategories,
+      //   collaborationRegions,
+      //   description,
+      //   introduce,
+      // };
+
       formData.append("itemProfileImage", itemProfileImage!);
       formData.append("itemPlanFile", itemPlanFile!);
       formData.append("request", JSON.stringify(requestPayload));
@@ -105,7 +119,6 @@ const Save = () => {
   };
 
   const navigate = useNavigate();
-
   return (
     <div className="flex justify-center py-6">
       <button
