@@ -13,6 +13,7 @@ interface RecruitCardProps {
 
 const RecruitCard = ({ onDelete }: RecruitCardProps) => {
   const [introText, setIntroText] = useState("");
+  const [preferredSkillsText, setPreferredSkillsText] = useState("");
   const maxLength = 3000;
 
   const [section, setSection] = useState<string | null>(null);
@@ -98,9 +99,9 @@ return (
             className="w-full rounded-lg border border-gray-300 p-3 text-gray-700 focus:border-primary-500 focus:outline-none text-sm"
             rows={1}
             placeholder="우대 사항에 대해 입력해주세요."
-            value={introText}
+            value={preferredSkillsText}
             onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-              setIntroText(e.target.value)
+              setPreferredSkillsText(e.target.value)
             }
             maxLength={maxLength}
           ></textarea>
