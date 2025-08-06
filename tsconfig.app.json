@@ -23,5 +23,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "mockData/portfolio"]
+  "include": ["src", "src/components/common/cards/portfolio"]
 }

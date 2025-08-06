@@ -1,18 +1,27 @@
 import { Plus } from "lucide-react";
+import PortfolioCard from "../../../common/cards/portfolio/PortfolioCard";
+import githubIcon from "../../../../assets/GitHub.svg";
 import { useState } from "react";
 import PortfolioModal from "../../modal/PortfolioModal";
 import { useRegisterProjectStore } from "../../../../store/registerProjectStore";
+import type { PortfolioItemData } from "../../modal/PortfolioModal"; // PortfolioItemData 임포트
 
 const Detail = () => {
   const [portfolioModal, setPortfolioModal] = useState<boolean>(false);
+  const [portfolioItems, setPortfolioItems] = useState<PortfolioItemData[]>([]); // 포트폴리오 항목 상태
   const { description, setField } = useRegisterProjectStore();
   const maxLength = 3000;
+
+  const handleConfirmPortfolio = (data: PortfolioItemData) => {
+    setPortfolioItems((prevItems) => [...prevItems, data]);
+  };
 
   return (
     <div className="space-y-8">
       <div>
         <h2 className="text-2xl font-semibold">프로젝트 상세</h2>
         <hr className="my-4 border-[#EAE9EA]" />
+        </div>
 
       <div className="space-y-4">
         <div className="flex items-center">
@@ -20,16 +29,37 @@ const Detail = () => {
           <p className="text-lg font-semibold text-orange-500">*</p>
         </div>
         <div className="grid grid-cols-3 gap-4">
-            <button
-              onClick={() => setPortfolioModal(true)}
-              className="flex w-full h-60 flex-col rounded-lg items-center justify-center gap-2 border-1 border-dashed border-gray-300 text-gray-500 shadow hover:scale-105 hover:cursor-pointer"
-            >
-              <Plus size={48} />
-            </button>
-          </div>
+          {/* 기존 더미 카드 제거 */}
+          {portfolioItems.map((item, index) => (
+            <PortfolioCard
+              key={index} // 고유한 key 필요
+              title={item.type === 'file' ? item.file.name : item.url} // 파일 이름 또는 URL
+              imageUrl={githubIcon} // displayUrl 사용
+              onDelete={() => {
+                setPortfolioItems((prevItems) =>
+                  prevItems.filter((_, i) => i !== index),
+                );
+              }
+            }
+            />
+          ))}
+          {/* 포트폴리오 추가 카드 */}
+          {portfolioItems.length < 2 && (
+            <div className="flex h-48 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 hover:scale-105">
+              <button
+                onClick={() => setPortfolioModal(true)}
+                className="flex w-full h-full flex-col items-center justify-center gap-2 text-gray-500 hover:cursor-pointer"
+              >
+                <Plus size={48} />
+              </button>
+            </div>
+          )}
         </div>
         {portfolioModal && (
-          <PortfolioModal onClose={() => setPortfolioModal(false)} />
+          <PortfolioModal
+            onClose={() => setPortfolioModal(false)}
+            onConfirm={handleConfirmPortfolio} // onConfirm prop 전달
+          />
         )}
       </div>
 
