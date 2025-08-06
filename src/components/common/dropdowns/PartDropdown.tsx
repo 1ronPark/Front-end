@@ -2,11 +2,16 @@ import { useState, useRef, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
 
 const PART_OPTIONS = [
-  '기획', '디자인', '풀스택','프론트엔드', '백엔드','마케팅'
+  { id: 1, name: '프론트엔드' },
+  { id: 2, name: '백엔드' },
+  { id: 3, name: '디자인' },
+  { id: 4, name: '기획' },
+  { id: 5, name: '홍보' },
 ];
 
 interface PartDropdownProps {
-  onSelect: (part: string) => void;
+  selected: number | null; // 혹은 number | null
+  onSelect: (id: number) => void;
 }
 
 const PartDropdown = ({ onSelect }: PartDropdownProps) => {
@@ -26,14 +31,14 @@ const PartDropdown = ({ onSelect }: PartDropdownProps) => {
     };
   }, []);
 
-  const handleSelect = (part: string) => {
-    onSelect(part);
+  const handleSelect = (part: { id: number; name: string }) => {
+    onSelect(part.id);
     setIsOpen(false);
     setInputValue('');
   };
 
   const filteredParts = PART_OPTIONS.filter(option =>
-    option.toLowerCase().includes(inputValue.toLowerCase())
+    option.name.toLowerCase().includes(inputValue.toLowerCase())
   );
 
   return (
@@ -61,11 +66,11 @@ const PartDropdown = ({ onSelect }: PartDropdownProps) => {
           <ul className="max-h-52 overflow-y-auto">
             {filteredParts.map(option => (
               <li
-                key={option}
+                key={option.id}
                 className="cursor-pointer px-4 py-2 text-sm hover:bg-gray-100"
                 onClick={() => handleSelect(option)}
               >
-                {option}
+                {option.name}
               </li>
             ))}
           </ul>

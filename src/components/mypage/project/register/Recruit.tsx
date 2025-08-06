@@ -70,13 +70,13 @@ const Recruit = () => {
       positionId: Date.now(),
       mainTasks: '',
       preferentialTreatment: '',
-      preferMbti: '',
+      preferMbti: [],
       recruitNumber: 1,
     };
     setField('recruitPositions', [...recruitPositions, newPos]);
   };
 
-  const deleteRecruit = (id: number) => {
+  const deleteRecruit = (id: number | null) => {
     setField(
       'recruitPositions',
       recruitPositions.filter((r) => r.positionId !== id),
@@ -169,7 +169,17 @@ const Recruit = () => {
       {/* 모집파트 추가하기 */}
       <div className="space-y-4">
         {recruitPositions.map(r => (
-          <RecruitCard key={r.positionId} onDelete={() => deleteRecruit(r.positionId)} />
+          <RecruitCard
+            key={r.positionId}
+            recruit={r}
+            onUpdateRecruit={updated => {
+              setField(
+                'recruitPositions',
+                recruitPositions.map(x => x.positionId === r.positionId ? updated : x)
+              );
+            }}
+            onDelete={() => deleteRecruit(r.positionId)}
+          />
         ))}
 
       <button

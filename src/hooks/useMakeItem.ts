@@ -4,10 +4,10 @@ import { useApiMutation } from './apiHooks';
  * 개별 포지션 정의
  */
 export interface RecruitPosition {
-  positionId: number;
+  positionId: number | null;
   mainTasks: string;
   preferentialTreatment: string;
-  preferMbti: string;
+  preferMbti: string[];
   recruitNumber: number;
 }
 

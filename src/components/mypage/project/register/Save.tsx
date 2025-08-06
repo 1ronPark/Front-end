@@ -1,18 +1,18 @@
 import { Upload } from "lucide-react";
 import { useApiMutation } from "../../../../hooks/apiHooks";
-import { useProjectStore } from "../../../../store/useProjectStore"; // zustand 상태 import
+import { useRegisterProjectStore } from "../../../../store/registerProjectStore"; // zustand 상태 import
 import type { CreateProjectResponse } from "../../../../hooks/useProject";
 import axios from "axios";
 
 const Save = () => {
   // zustand 상태에서 프로젝트 정보 가져오기
   const {
-    projectName: projectName,
-    projectSubtitle,
+    name: projectName,
+    introduce: projectSubtitle,
     itemProfileImage,
     itemPlanFile,
     //topics
-  } = useProjectStore();
+  } = useRegisterProjectStore();
 
   // API 호출을 위한 훅 세팅
   const createProject = useApiMutation<FormData, CreateProjectResponse>({
@@ -48,6 +48,8 @@ const Save = () => {
 
   // 제출 로직
   const handleSubmit = () => {
+    // Save.tsx handleSubmit 맨 위
+console.log('[DEBUG] store', useRegisterProjectStore.getState());
     if (
       !projectName ||
       !projectSubtitle ||
