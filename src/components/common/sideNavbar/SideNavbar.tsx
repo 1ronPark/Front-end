@@ -3,23 +3,26 @@ import notificationIcon from "../../../assets/sideNavbar/notifications.svg";
 import favoriteIcon from "../../../assets/sideNavbar/favorite.svg";
 import lightModeIcon from "../../../assets/sideNavbar/light_mode.svg";
 import menuOpenIcon from "../../../assets/sideNavbar/menu_open.svg";
+import historyIcon from "../../../assets/sideNavbar/history.svg";
 import { useState } from "react";
 import BasePanel from "./BasePanel";
 import NotificationList from "./notification/NotificationList";
 import FavoriteList from "./favorite/FavoriteList";
 import NoNotificationList from "./notification/NoNotificationList";
 import NoFavoriteList from "./favorite/NoFavoriteList";
+import RecentList from "./recent/RecentList";
+import NoRecentList from "./recent/NoRecentList";
 
 const SideNavbar = () => {
   const [activePanel, setActivePanel] = useState<
-    "notification" | "favorite" | null
+    "notification" | "favorite" | "recent" | null
   >(null);
 
   const [lastPanel, setLastPanel] = useState<
-    "notification" | "favorite" | null
+    "notification" | "favorite" | "recent" | null
   >("notification");
 
-  const togglePanel = (panel: "notification" | "favorite") => {
+  const togglePanel = (panel: "notification" | "favorite" | "recent") => {
     setLastPanel(panel); //마지막에 열었던 패널 기록
     setActivePanel((prev) => (prev === panel ? null : panel));
   };
@@ -58,7 +61,7 @@ const SideNavbar = () => {
           )}
         </button>
 
-        {/* 알림 & 관심 버튼 */}
+        {/* 알림 & 관심 & 최근 본 버튼*/}
         <div className="flex flex-col h-[960px] items-center justify-between">
           <div className="flex flex-col items-start gap-6 ">
             {/* 알림 버튼 */}
@@ -117,6 +120,33 @@ const SideNavbar = () => {
                 관심
               </p>
             </div>
+            {/* 최근 본 버튼 */}
+            <div className="flex flex-col justify-center items-center py-1.5 gap-1">
+              <button
+                onClick={() => togglePanel("recent")}
+                className={`flex flex-col items-center justify-center w-[56px] h-[32px] py-1 gap-2.5 rounded-2xl hover:cursor-pointer
+                  ${
+                    activePanel === "recent"
+                      ? "bg-[#E3E0F9]"
+                      : "hover:bg-gray-200 opacity-[0.58]"
+                  }`}
+              >
+                <img
+                  src={historyIcon}
+                  className="flex justify-center items-center py-1 gap-[10px]"
+                />
+              </button>
+              <p
+                className={`label-medium 
+                ${
+                  activePanel === "recent"
+                    ? "text-[#68548E]"
+                    : " opacity-[0.58]"
+                }`}
+              >
+                최근 본
+              </p>
+            </div>
           </div>
           {/* 다크/라이트모드 */}
           <div className="flex w-[48px] h-[48px] items-center justify-center gap-2.5">
@@ -131,26 +161,32 @@ const SideNavbar = () => {
         isActive={activePanel !== null}
         hasData={
           activePanel === "notification"
-            ? true // 알림data 있음
+            ? true // 알림 data 있음
             : activePanel === "favorite"
-            ? true // 관심data 있음
+            ? true // 관심 data 있음
+            : activePanel === "recent"
+            ? true // 최근 data 있음
             : false
         }
         list={
           activePanel === "notification" ? (
             <NotificationList />
-          ) : (
+          ) : activePanel === "favorite" ? (
             <FavoriteList />
+          ) : (
+            <RecentList />
           )
         }
         empty={
           activePanel === "notification" ? (
             <NoNotificationList />
-          ) : (
+          ) : activePanel === "favorite" ? (
             <NoFavoriteList />
+          ) : (
+            <NoRecentList />
           )
         }
-        panelKey={activePanel ?? "none"} // "notification" | "favorite" | "none"
+        panelKey={activePanel ?? "none"} // "notification" | "favorite" | "recent" | "none"
       />
     </div>
   );
