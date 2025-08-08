@@ -2,15 +2,12 @@ import { NavLink } from "react-router-dom";
 import addIcon from "../../assets/icons/mypage/ic_project_addsvg.svg";
 import MyProjectEmpty from "./project/MyProjectEmpty";
 import MyProjectList from "./project/MyProjectList";
+import type { Project } from "../../hooks/useMyProjects";
 
 interface MyProjectProps {
   hasData: boolean;
   isLoading: boolean;
-  projects: {
-    itemName: string;
-    introduce: string;
-    itemImageUrl: string;
-  }[];
+  projects: Project[];
 }
 
 const MyProjects = ({ hasData, isLoading, projects }: MyProjectProps) => {
