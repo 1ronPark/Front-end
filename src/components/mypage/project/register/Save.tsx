@@ -2,6 +2,7 @@ import { Upload } from "lucide-react";
 import { useApiMutation } from "../../../../hooks/apiHooks";
 import { useRegisterProjectStore } from "../../../../store/registerProjectStore"; // zustand 상태 import
 import type { CreateProjectResponse } from "../../../../hooks/useProject";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Save = () => {
@@ -27,9 +28,7 @@ const Save = () => {
 
       const { itemName } = res.result;
       alert(`프로젝트 '${itemName}'이(가) 성공적으로 등록되었습니다!`);
-
-      // 필요하면 페이지 이동도 가능
-      // navigate(`/mypage/${memberId}`);
+      navigate("/myprofile?tab=projects");
     },
     onError: (err: unknown) => {
       if (axios.isAxiosError(err)) {
@@ -104,6 +103,8 @@ const Save = () => {
       // console.log('store collaborationRegions:', collaborationRegions, typeof collaborationRegions);
       createProject.mutate(formData);
   };
+
+  const navigate = useNavigate();
 
   return (
     <div className="flex justify-center py-6">

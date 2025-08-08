@@ -1,40 +1,31 @@
-import { dummyProjectCard } from "../../../../mockData/dummyProjectCard";
-import type { MyProjectCardProps } from "../../../types/MyProjectCard";
+import type { CategoryType } from "../../../types/MyProjectCard";
 import MyprojectCard from "./MyprojectCard";
+import type { Project } from "../../../hooks/useMyProjects";
 
-const projectList: MyProjectCardProps[] = dummyProjectCard;
+interface MyProjectListProps {
+  projectList: Project[];
+}
 
-const MyProjectList = () => {
-  //내가 현재 하고 있는 프로젝트 list
-  const currentProjects = projectList.filter((p) =>
-    [true].includes(p.current_project)
-  );
-  //내 프로젝트 list
-  const appliedProjects = projectList.filter((p) =>
-    [true, undefined].includes(p.applied_project)
-  );
-
+const MyProjectList = ({ projectList }: MyProjectListProps) => {
   return (
     <div className="gap-8 h-full">
-      {/* 내가 진행하고 있는 프로젝트 */}
       <div className="flex flex-col items-start gap-2">
         <div className="w-full flex flex-col justify-between">
           <p className="title-medium-emphasis text-[#1C1B21]">내 프로젝트</p>
         </div>
-        {currentProjects.map((project, idx) => (
-          <MyprojectCard key={`current-${idx}`} {...project} />
-        ))}
-      </div>
-
-      {/* 내가 지원했던 */}
-      <div className="flex flex-col items-start gap-2 mt-[128px]">
-        <div className="flex justify-between items-center">
-          <p className="title-medium-emphasis text-[#1C1B21]">
-            지원했던 프로젝트
-          </p>
-        </div>
-        {appliedProjects.map((project, idx) => (
-          <MyprojectCard key={`applied-${idx}`} {...project} />
+        {projectList.map((project, idx) => (
+          <MyprojectCard
+            key={`current-${idx}`}
+            id={idx}
+            //서버에서 데이터 넘겨주는 값 수정 필요 
+            categories={["기본"] as CategoryType[]}
+            title={project.itemName}
+            sub_title={project.introduce}
+            status={"모집중"} // 서버에서 구분값 오면 실제로 반영
+            hasTeammate={false} // 서버에서 정보 오면 반영, 기본값 false
+            current_project={true} // 서버에서 구분시 반영
+            applied_project={false} // 서버에서 구분시 반영
+          />
         ))}
       </div>
     </div>
