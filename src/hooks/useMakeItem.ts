@@ -77,7 +77,7 @@ const buildFormData = ({
 export const useMakeItem = () => {
   const mutation = useApiMutation<FormData, unknown>({
     method: 'POST',
-    endpoint: '/api/v1/items',
+    endpoint: `${import.meta.env.VITE_API_ITEMS_ENDPOINT}`,
   });
 
   /**

@@ -9,6 +9,7 @@ interface MyProjectCartProps {
   categories: CategoryType[];
   title: string;
   sub_title: string;
+  itemImageUrl: string; // 프로젝트 썸네일 이미지 URL
   status: "모집중" | "모집마감";
   hasTeammate: boolean;
   current_project: boolean; //현재 참여하고 있는 프로젝트
@@ -17,6 +18,7 @@ interface MyProjectCartProps {
 
 const MyprojectCard = ({
   categories,
+  itemImageUrl,
   title,
   sub_title,
   status,
@@ -33,7 +35,8 @@ const MyprojectCard = ({
       <div className="w-[960px]  flex flex-col justify-center items-center p-4 gap-2.5 shrink-0">
         <div className="w-[888px] flex justify-center items-center gap-8">
           <img
-            src={logo}
+            src= {itemImageUrl || logo} // 프로젝트 썸네일 이미지
+            alt="프로젝트 썸네일"
             className="w-[80px] h-[80px] flex justify-center items-center shrink-0 aspect-square rounded-xl"
           />
           <div className="w-full flex flex-col justify-center items-start gap-2">

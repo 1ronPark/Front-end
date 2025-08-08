@@ -21,6 +21,7 @@ const MyProjectList = ({ projectList }: MyProjectListProps) => {
             categories={["기본"] as CategoryType[]}
             title={project.itemName}
             sub_title={project.introduce}
+            itemImageUrl = {project.itemImageUrl}
             status={"모집중"} // 서버에서 구분값 오면 실제로 반영
             hasTeammate={false} // 서버에서 정보 오면 반영, 기본값 false
             current_project={true} // 서버에서 구분시 반영

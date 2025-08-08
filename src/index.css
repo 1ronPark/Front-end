@@ -1,1 +1,18 @@
 @import "tailwindcss";
+
+.thin-scrollbar::-webkit-scrollbar {
+  height: 5px;
+}
+
+.thin-scrollbar::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.thin-scrollbar::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 2.5px;
+}
+
+.thin-scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+}

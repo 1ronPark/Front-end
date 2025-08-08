@@ -18,7 +18,7 @@ const Save = () => {
   // API 호출을 위한 훅 세팅
   const createProject = useApiMutation<FormData, CreateProjectResponse>({
     method: "POST",
-    endpoint: "/api/v1/items",
+    endpoint: `${import.meta.env.VITE_API_ITEMS_ENDPOINT}`,
     onSuccess: (res: CreateProjectResponse) => {
       // 응답 성공 여부 확인
       if (!res.isSuccess) {
@@ -103,6 +103,8 @@ const Save = () => {
       //   description,
       //   introduce,
       // };
+      // 엔드포인트들 .env파일로 만들어야대
+      // 썸네일, 카테고리 안넘어온다고 말하고 연결 해야대
 
       formData.append("itemProfileImage", itemProfileImage!);
       formData.append("itemPlanFile", itemPlanFile!);

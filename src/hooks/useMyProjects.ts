@@ -19,6 +19,6 @@ interface MyProjectsResponse {
 export const useMyProjects = () => {
   return useApiQuery<MyProjectsResponse>({
     method: "GET",
-    endpoint: "/api/v1/items/me",
+    endpoint: `${import.meta.env.VITE_API_ITEMSME_ENDPOINT}`,
   });
 };
