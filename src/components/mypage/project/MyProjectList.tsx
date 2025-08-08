@@ -17,15 +17,14 @@ const MyProjectList = ({ projectList }: MyProjectListProps) => {
           <MyprojectCard
             key={`current-${idx}`}
             id={idx}
-            //서버에서 데이터 넘겨주는 값 수정 필요 
-            categories={["기본"] as CategoryType[]}
+            categories={project.itemCategories.map(cat => cat.categoryName) as CategoryType[]}
             title={project.itemName}
             sub_title={project.introduce}
-            itemImageUrl = {project.itemImageUrl}
-            status={"모집중"} // 서버에서 구분값 오면 실제로 반영
-            hasTeammate={false} // 서버에서 정보 오면 반영, 기본값 false
-            current_project={true} // 서버에서 구분시 반영
-            applied_project={false} // 서버에서 구분시 반영
+            itemImageUrl={project.itemImageUrl}
+            status={project.recruitStatus ? "모집중" : "모집마감"}
+            hasTeammate={false}
+            current_project={true}
+            applied_project={false}
           />
         ))}
       </div>

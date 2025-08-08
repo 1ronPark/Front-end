@@ -91,20 +91,6 @@ const Save = () => {
         description,
         introduce,
       };
-      {/* FIX ME */}
-      // const requestPayload = {
-      //   extraLink1,
-      //   extraLink2,
-      //   projectStatus,
-      //   name,
-      //   recruitPositions,
-      //   itemCategories,
-      //   collaborationRegions,
-      //   description,
-      //   introduce,
-      // };
-      // 엔드포인트들 .env파일로 만들어야대
-      // 썸네일, 카테고리 안넘어온다고 말하고 연결 해야대
 
       formData.append("itemProfileImage", itemProfileImage!);
       formData.append("itemPlanFile", itemPlanFile!);

@@ -3,6 +3,8 @@ import logo from "../../../assets/icons/mypage/project_sample_logo.png";
 import hailIcon from "../../../assets/icons/mypage/ic_hail.svg";
 import groupIcon from "../../../assets/icons/mypage/ic_group_search.svg";
 import type { CategoryType } from "../../../types/MyProjectCard";
+import { useState } from "react";
+import ProjectEditDeleteModal from "../../common/modals/ProjectEditDeleteModal";
 
 interface MyProjectCartProps {
   id: number;
@@ -17,18 +19,25 @@ interface MyProjectCartProps {
 }
 
 const MyprojectCard = ({
+  //id,
   categories,
-  itemImageUrl,
   title,
   sub_title,
+  itemImageUrl,
   status,
   hasTeammate,
+  current_project,
+  applied_project
 }: MyProjectCartProps) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  // ...
+  
   return (
     <div className="relative w-[960px] flex justify-center items-center rounded-xl shadow-md hover:bg-[rgba(29,27,32,0.08)] mb-2">
       <button
         className="w-[56px] h-[56px] absolute flex flex-col justify-center items-center text-black 
-      rounded-[100px] top-0 right-0 hover:bg-[rgba(73,69,79,0.08)]"
+        rounded-[100px] top-0 right-0 hover:bg-[rgba(73,69,79,0.08)]"
+        onClick={() => setIsModalOpen(true)}
       >
         <EllipsisVertical />
       </button>
@@ -49,7 +58,7 @@ const MyprojectCard = ({
               <p className="title-medium text-[#1C1B21]">{sub_title}</p>
             </div>
             {/* 상태가 모집중이면 팀원 모집중 코맨트 보여주기 */}
-            {status === "모집중" && hasTeammate && (
+            {(status === "모집중" && hasTeammate) && (
               <div className="flex items-center gap-[14px] text-[#16134A]">
                 <img
                   src={groupIcon}
@@ -63,7 +72,7 @@ const MyprojectCard = ({
               <div className="flex justify-between items-center w-full">
                 <div className="flex items-center gap-[14px] text-[#16134A]">
                   <img
-                    src={groupIcon}
+                    src={status === "모집중" ? groupIcon : hailIcon}
                     className="w-[24px] h-[24px] aspect-square"
                   />
                   <p className="title-small opacity-[0.64] "> 팀원 모집중</p>
@@ -80,18 +89,30 @@ const MyprojectCard = ({
                 <div className="flex items-center gap-[14px] text-[#16134A] ">
                   <img src={hailIcon} />
                   <p className="title-small opacity-[0.64]">
-                    지원한 사람 있어요
+                    {status === "모집중" ? "팀원 모집중" : "지원한 사람 있어요"}
                   </p>
                 </div>
+                {(!hasTeammate || applied_project || current_project) && (
                 <button className="flex justify-center items-center gap-1 px-3 py-1.5 rounded-xl hover:bg-[rgba(73,69,79,0.08)] cursor-pointer">
                   <ChevronUp className="w-5 h-5 text-[#6C63FF]" />
                   <p className="label-large text-[#6C63FF]">보러가기</p>
                 </button>
+                )}
               </div>
             )}
           </div>
         </div>
       </div>
+      {isModalOpen && (
+        <ProjectEditDeleteModal
+          onClose={() => setIsModalOpen(false)}
+          onShareClick={() => {
+            // 공유하기 클릭 핸들러
+            console.log("공유하기 클릭됨");
+            setIsModalOpen(false); // 모달 닫기
+            }}
+          // 필요하면 project id 등 props 전달
+        />)}
     </div>
   );
 };
