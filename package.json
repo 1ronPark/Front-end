@@ -22,6 +22,7 @@
     "react-hook-form": "^7.62.0",
     "react-pdf": "^10.0.1",
     "react-router-dom": "^7.6.3",
+    "react-tooltip": "^5.29.1",
     "tailwindcss": "^4.1.11",
     "zod": "^4.0.14",
     "zustand": "^5.0.7"

@@ -7,6 +7,7 @@ import ic_profile from '../../../assets/icons/ic_profile.svg';
 import { Heart } from 'lucide-react';
 import { useState } from 'react';
 import ActionStatusModal from '../modals/ActionStatusModal';
+import ToolTip from '../tooltips/ToolTip';
 // import type { MemberDetailData } from '../../../types/MemberProps';
 
 type MemberProfileCardProps = {
@@ -84,17 +85,19 @@ const MemberProfileCard = ({ isApplicantToMyProject = false }: MemberProfileCard
         </div>
       </div>
 
+      {/* <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-10 w-[257px] px-4 py-2 rounded-[16px] bg-white text-[#16134A] shadow text-center body-medium-emphasis">
+              히로님의 프로젝트에 지원한 팀원이에요
+              <br />
+              지금 바로 제안하고 연락해 보세요!
+              <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white rotate-45 shadow-sm"></div>
+            </div> */}
+
       {/* 하단 버튼 */}
       <div className="flex gap-4 justify-center mt-6 mb-4">
         <div className="relative">
           {/* ✅ 조건부 툴팁 */}
           {isApplicantToMyProject && (
-            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-10 w-[257px] px-4 py-2 rounded-[16px] bg-white text-[#16134A] shadow text-center body-medium-emphasis">
-              히로님의 프로젝트에 지원한 팀원이에요
-              <br />
-              지금 바로 제안하고 연락해 보세요!
-              <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white rotate-45 shadow-sm"></div>
-            </div>
+            <ToolTip content={'히로님의 프로젝트에 지원한 팀원이에요\n지금 바로 제안하고 연락해 보세요!'} />
           )}
           <button
             onClick={()=>setShowProposalModal(true)}
