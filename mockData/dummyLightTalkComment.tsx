@@ -8,7 +8,7 @@ export const dummyComments: TalkCommentProps[] = [
     name: "김정민", //댓글 작성자 이름
     profile_image: "", //댓글 작성자 프로필 이미지
     role: "디자이너",
-    univ: "가천대글로벌",
+    school: "가천대글로벌",
     content: "이 글 좋습니다", //댓글 내용
     createdAt: new Date("2025-07-30T13:00:00"), //댓글 작성 날짜
     currentUserId: 1, //현재 로그인 한 User Id
@@ -21,7 +21,7 @@ export const dummyComments: TalkCommentProps[] = [
     talkCardId: 1,
     name: "이시연",
     role: "개발자",
-    univ: "연세대",
+    school: "연세대",
     profile_image: "",
     content: "이 글 좋습니다",
     createdAt: new Date("2025-07-30T13:00:00"),
@@ -35,7 +35,7 @@ export const dummyComments: TalkCommentProps[] = [
     talkCardId: 2,
     name: "홍길동",
     role: "PM",
-    univ: "고려대",
+    school: "고려대",
     profile_image: "",
     content: "이 글 좋습니다",
     createdAt: new Date("2025-07-30T13:00:00"),
@@ -49,7 +49,7 @@ export const dummyComments: TalkCommentProps[] = [
     talkCardId: 3,
     name: "페이커",
     role: "개발자",
-    univ: "서울대",
+    school: "서울대",
     profile_image: "",
     content: "이 글 좋습니다",
     createdAt: new Date("2025-07-30T13:00:00"),

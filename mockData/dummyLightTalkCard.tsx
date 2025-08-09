@@ -8,7 +8,7 @@ export const dummyLightTalkCard: TalkCardProps[] = [
     name: "강혜준",
     profile_image: `${sampleImage}`,
     role: "디자이너",
-    univ: "길동대학",
+    school: "길동대학",
     createAt: new Date("2025-07-18T13:00:00"),
     text: `2개월 걸리던 개발을 2주에 끝낸 스타트업 개발자 이야기
         MVP는 빨리 나왔는데, 다음 기능 추가가 왜 이렇게 느릴까요?
@@ -30,7 +30,7 @@ export const dummyLightTalkCard: TalkCardProps[] = [
     name: "user2",
     profile_image: `${sampleImage2}`,
     role: "디자이너",
-    univ: "길동대학",
+    school: "길동대학",
     createAt: new Date("2025-07-18T13:00:00"),
     text: `2개월 걸리던 개발을 2주에 끝낸 스타트업 개발자 이야기
         MVP는 빨리 나왔는데, 다음 기능 추가가 왜 이렇게 느릴까요?
@@ -51,7 +51,7 @@ https://toss.tech/article/toss-bank-interns`,
     name: "user3",
     profile_image: `${sampleImage}`,
     role: "디자이너",
-    univ: "피식대학",
+    school: "피식대학",
     createAt: new Date("2025-07-18T13:00:00"),
     text: `
     나는 피식대학
@@ -75,7 +75,7 @@ https://toss.tech/article/toss-bank-interns`,
     name: "user4",
     profile_image: `${sampleImage}`,
     role: "디자이너",
-    univ: "고려대학",
+    school: "고려대학",
     createAt: new Date("2025-07-18T13:00:00"),
     text: `
     나는 고대
@@ -98,7 +98,7 @@ https://toss.tech/article/toss-bank-interns`,
     name: "user5",
     profile_image: `${sampleImage}`,
     role: "디자이너",
-    univ: "연세대학",
+    school: "연세대학",
     createAt: new Date("2025-07-18T13:00:00"),
     text: `
     나는 연대
@@ -121,7 +121,7 @@ https://toss.tech/article/toss-bank-interns`,
     name: "user6",
     profile_image: `${sampleImage}`,
     role: "디자이너",
-    univ: "피식대학",
+    school: "피식대학",
     createAt: new Date("2025-07-18T13:00:00"),
     text: `
     나는 샤대

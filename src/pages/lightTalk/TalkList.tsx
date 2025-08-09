@@ -3,19 +3,19 @@ import TalkCard from "./TalkCard";
 
 interface TalkListProps {
   cards: TalkCardProps[];
-  univ: string; // 현재 선택된 학교
-  myUniv: string; // 내 학교
+  school: string; // 현재 선택된 학교
+  myschool: string; // 내 학교
   currentUserId: number; // 현재 로그인 한 유저 ID
 }
 
-const TalkList = ({ cards, univ, myUniv, currentUserId }: TalkListProps) => {
-  // univ가 주어진 경우, 해당 학교 카드만 필터링
+const TalkList = ({ cards, school, myschool, currentUserId }: TalkListProps) => {
+  // school가 주어진 경우, 해당 학교 카드만 필터링
   const filteredCards =
-    univ === "다른학교"
-      ? // univ가 다른학교면 내 학교가 아닌 학교들 필터링
-        cards.filter((card) => card.univ !== myUniv)
-      : //univ가 다른학교가 아니면 내 학교만 필터링
-        cards.filter((card) => card.univ === myUniv);
+    school === "다른학교"
+      ? // school가 다른학교면 내 학교가 아닌 학교들 필터링
+        cards.filter((card) => card.school !== myschool)
+      : //school가 다른학교가 아니면 내 학교만 필터링
+        cards.filter((card) => card.school === myschool);
 
   return (
     <div className="flex flex-col">

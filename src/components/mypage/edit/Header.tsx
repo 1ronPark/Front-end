@@ -11,6 +11,12 @@ const Header = (myProps: MyInfoProps) => {
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [addPhotoModal, setIsAddPhotoModal] = useState<boolean>(false);
 
+  // 주디: 일단 TS 오류를 위해 임시로 만들어놓았습니다!
+  //       추후에 수정해주세요!
+  const onCloseAll = () => {
+    console.log('수정 완료시 닫기');
+  }
+
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
@@ -65,7 +71,7 @@ const Header = (myProps: MyInfoProps) => {
                     <GraduationCap className="w-4 h-4 text-gray-500" />
                     대학교
                   </p>
-                  <p>{myProps.univ}</p>
+                  <p>{myProps.school}</p>
                 </div>
 
                 <hr className="border-t border-gray-300" />
@@ -85,6 +91,7 @@ const Header = (myProps: MyInfoProps) => {
       {editModalOpen && (
         <MyInfoEditModal
           onClose={() => setEditModalOpen(false)}
+          onCloseAll={onCloseAll}
           myInfo={myProps}
         />
       )}

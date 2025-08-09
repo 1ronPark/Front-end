@@ -83,7 +83,7 @@ const ProjectInfoCard = ({
   mbti,
   email,
   date,
-  univ,
+  school,
   suggested_project,
   applied_project,
   location,
@@ -195,7 +195,7 @@ const handleProposalSent = () => {
                   <GraduationCap className="flex justify-center w-4 h-4" />
                   대학교
                 </div>
-                <span className="body-small ml-6">{univ}</span>
+                <span className="body-small ml-6">{school}</span>
               </div>
 
               <hr className="border-t px-4 border-[rgba(121,116,126,0.08)] py-[2px]" />

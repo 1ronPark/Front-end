@@ -1,7 +1,7 @@
 import ic_send from '../../../assets/icons/ic_send.svg';
 import ic_member_part from '../../../assets/icons/ic_member_part.svg';
 import ic_member_location from '../../../assets/icons/ic_member_location.svg';
-import ic_member_univ from '../../../assets/icons/ic_member_univ.svg';
+import ic_member_school from '../../../assets/icons/ic_member_school.svg';
 import ic_member_email from '../../../assets/icons/ic_member_email.svg';
 import ic_profile from '../../../assets/icons/ic_profile.svg';
 import { Heart } from 'lucide-react';
@@ -22,7 +22,7 @@ const MemberProfileCard = ({ isApplicantToMyProject = false }: MemberProfileCard
   const profileInfos = [
     { icon: ic_member_part, alt: "파트", label: "파트", value: '디자인' },
     { icon: ic_member_location, alt: "위치", label: "위치", value: '지역'/* data.regions.join(', ') */ },
-    { icon: ic_member_univ, alt: "대학교", label: "대학교", value: '가천대학교' /* data.school */ },
+    { icon: ic_member_school, alt: "대학교", label: "대학교", value: '가천대학교' /* data.school */ },
     { icon: ic_member_email, alt: "이메일", label: "이메일", value: '이메일' /*data.email*/ },
   ];
 

@@ -8,7 +8,7 @@ export interface MyInfoProps {
   nickname?: string;
   phoneNumber: string;
   email: string;
-  brith?: string;
+  birth?: string;
   profileImageUrl?: string; // 프로필 이미지 URL
   school: string;
   location: string;
