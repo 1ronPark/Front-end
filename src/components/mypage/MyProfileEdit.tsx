@@ -5,18 +5,22 @@ const MyProfileEdit = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex-1 justify-center overflow-y-auto mx-[100px]">
-      <div className="w-[960px] mb-4">
-        <h1 className="text-2xl font-semibold">프로필 관리</h1>
-        <p className="text-gray-500">
-          프로필을 완성하여 샤로운 제안을 받아보세요!
-        </p>
-      </div>
-      <hr className="w-[960px] mb-16 border-t border-[#CBC4CF]" />
-      <div className="w-[960px]">
-        <div className="mb-2 flex items-center justify-between">
+    <div className="w-full flex justify-center overflow-y-auto">
+      <div className="w-[960px] flex flex-col">
+        <div className="flex flex-col justify-center items-start gap-4 mb-4">
+          <h1 className="text-2xl font-semibold">프로필 관리</h1>
+          <li className="text-gray-500">
+            프로필을 완성하여 샤로운 제안을 받아보세요!
+          </li>
+        </div>
+
+        <hr className="w-[960px] mb-6 border-t border-[#CBC4CF]" />
+
+        <div className="mb-4 flex items-center justify-between">
           <div>
-            <p className="text-sm text-gray-500">2025. 07. 03 최종 수정됨</p>
+            <p className="title-small text-[#47464F]">
+              2025. 07. 03 최종 수정됨
+            </p>
           </div>
           <button
             onClick={() =>
@@ -26,7 +30,7 @@ const MyProfileEdit = () => {
             type="button"
           >
             <FilePenLine size={15} />
-            수정하기
+            <p className="text-[#47464F]">수정하기</p>
           </button>
         </div>
 

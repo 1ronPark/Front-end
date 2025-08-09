@@ -3,7 +3,7 @@ import heartIcon from "../../../../assets/sideNavbar/heart.svg";
 
 const FavoriteItem = () => {
   return (
-    <div className="flex w-[300px] h-[72px] justify-center items-center py-2 px-6 gap-4">
+    <div className="flex w-[300px] h-[72px] justify-center items-center py-2 px-6 gap-4 hover:bg-gray-200  cursor-pointer">
       <div className="flex w-[48px] h-[48px]">
         <img src={profileIcon} />
       </div>
