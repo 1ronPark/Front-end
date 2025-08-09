@@ -1,20 +1,27 @@
 import { useNavigate } from "react-router-dom";
 import { LikeButton } from "../../common/buttons/LikeButton";
 import { Eye, MessageSquareText } from "lucide-react";
-import mediaImage from "../../../assets/icons/project/Media.png";
+//import mediaImage from "../../../assets/icons/project/Media.png";
 import Avatar from "../../../assets/ic_myprofile.svg";
 import { getRelativeDate } from "../../../utils/date"; // 날짜를 상대적인 형식으로 표시하는 유틸리티 함수
-import type { ProjectCardWithUserProps } from "../../../types/ProjectCardWithUser";
+//import type { ProjectCardWithUserProps } from "../../../types/ProjectCardWithUser";'
+import type { ProjectListItem } from "../../../hooks/useProjectGet";
 
 
 const ProjectCard = ({
-  id,
-  name,
-  sub_title,
-  date,
-  school,
-}: ProjectCardWithUserProps) => {
+  itemId: id,
+itemName: sub_title,
+memberName: name,
+itemImageUrl: mediaImage,
+updatedAt: date,
+//school,
+//recruitStatus,
+viewCount,
+commentCount,
+likedByCurrentUser,
+}: ProjectListItem) => {
   const navigate = useNavigate();
+
 
   
   return (
@@ -42,13 +49,14 @@ const ProjectCard = ({
                 <span className="text-sm title-medium">{name}</span>
               </div>
             </div>
-            <LikeButton itemId={id} />
+            <LikeButton itemId={id} likedByCurrentUser={likedByCurrentUser} />
           </div>
 
           {/* 프로젝트 소개 및 위치 */}
           <div className="flex flex-col mt-2">
             <span className="title-medium-emphasis truncate">{sub_title}</span>
-            <span className="body-medium text-gray-500">{school}</span>
+            {/*<span className="body-medium text-gray-500">{school}</span>*/}
+            <span className="body-medium text-gray-500">대학교대학교</span>
           </div>
 
           {/*gap-6에서 수정*/}
@@ -56,13 +64,13 @@ const ProjectCard = ({
           <div className="flex items-center mt-4 justify-end gap-4">
             <div className="flex items-center gap-1">
               <Eye className="w-5 h-5 text-[#49454E]" />
-              <span className="text-xs label-medium text-[#49454E]">13</span>
+              <span className="text-xs label-medium text-[#49454E]">{viewCount}</span>
             </div>
 
             {/* 댓글 수 */}
             <div className="flex items-center gap-1">
               <MessageSquareText className="w-5 h-m text-[#49454E]" />
-              <span className="text-xs label-medium text-[#49454E]">5</span>
+              <span className="text-xs label-medium text-[#49454E]">{commentCount}</span>
             </div>
 
             {/* 날짜 */}

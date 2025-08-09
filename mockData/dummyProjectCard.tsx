@@ -7,11 +7,11 @@ export const dummyProjectCard: MyProjectCardProps[] = [
     title: "Lightup 라잇업",
     sub_title: "대학생들을 위한 프로젝트 연계형 창업도모 서비스",
     status: "모집마감",
-    hasTeammate: true,
-    current_project: false,
-    applied_project: true,
-    suggested_project: false,
-    date: "2025-07-21",
+    hasTeammate: true, // 팀원이 있는지 여부
+    current_project: false,  // 현재 참여 중인 프로젝트인지 여부
+    applied_project: true, // 사용자가 지원한 프로젝트인지 여부
+    suggested_project: false, // 사용자가 제안한 프로젝트인지 여부
+    date: "2025-07-21",   // 프로젝트 시작일
   },
   {
     id: 2,

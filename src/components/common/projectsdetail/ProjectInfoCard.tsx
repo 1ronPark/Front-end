@@ -11,101 +11,63 @@ import ic_send from "../../../assets/icons/ic_send.svg";
 import ic_hail from "../../../assets/icons/projectDetail/ic_hail.svg";
 import Share from "../../../assets/icons/ic_share.svg";
 import Siren from "../../../assets/icons/ic_siren.svg";
-import ProjectLogo from "../../../assets/icons/projectDetail/lightupLogo.png";
-import type { ProjectCardWithUserProps } from "../../../types/ProjectCardWithUser";
-import { useState } from "react";
-// 아이콘 import
-import AllIcon from "../../../assets/icons/ic_all.svg";
-import PlatformIcon from "../../../assets/icons/ic_platform.svg";
-import LifeIcon from "../../../assets/icons/ic_life.svg";
-import FinenceIcon from "../../../assets/icons/ic_finence.svg";
-import CommunityIcon from "../../../assets/icons/ic_community.svg";
-import MediaIcon from "../../../assets/icons/ic_media.svg";
-import EduIcon from "../../../assets/icons/ic_edu.svg";
-import WorkflowIcon from "../../../assets/icons/ic_workflow.svg";
-import BlockchainIcon from "../../../assets/icons/ic_blockchain.svg";
-import NocodeIcon from "../../../assets/icons/ic_nocode.svg";
-import AiIcon from "../../../assets/icons/ic_ai.svg";
-import AnalyticsIcon from "../../../assets/icons/ic_analytics.svg";
-import DesignIcon from "../../../assets/icons/ic_design.svg";
-import MarketingIcon from "../../../assets/icons/ic_marketing.svg";
-import GameIcon from "../../../assets/icons/ic_game.svg";
-import ShoppingIcon from "../../../assets/icons/ic_shopping.svg";
-import HealthIcon from "../../../assets/icons/ic_health.svg";
-import BioIcon from "../../../assets/icons/ic_bio.svg";
-import MetabusIcon from "../../../assets/icons/ic_metabus.svg";
-import SalesIcon from "../../../assets/icons/ic_sales.svg";
-import SecurityIcon from "../../../assets/icons/ic_security.svg";
-import EsgIcon from "../../../assets/icons/ic_esg.svg";
-import RobotIcon from "../../../assets/icons/ic_robot.svg";
-import type { CategoryType } from "../../../types/MyProjectCard";
+import { CATEGORY_ICON_MAP } from "../../../utils/categoryMap";
+import { useState, useMemo } from "react";
+import type { ProjectDetailData } from "../../../types/ProjectDetalProps";
 
 import ActionStatusModal from "../modals/ActionStatusModal";
 import AlertModal from "../modals/AlertModal";
 import ic_sendresume from "../../../assets/icons/ic_sendresume.svg";
 
-
-const mapcategories = [
-  { name: "전체", icon: AllIcon },
-  { name: "플랫폼", icon: PlatformIcon },
-  { name: "라이프스타일", icon: LifeIcon },
-  { name: "금융", icon: FinenceIcon },
-  { name: "커뮤니티", icon: CommunityIcon },
-  { name: "미디어", icon: MediaIcon },
-  { name: "교육", icon: EduIcon },
-  { name: "생산성", icon: WorkflowIcon },
-  { name: "블록체인", icon: BlockchainIcon },
-  { name: "노코드", icon: NocodeIcon },
-  { name: "인공지능", icon: AiIcon },
-  { name: "데이터 분석", icon: AnalyticsIcon },
-  { name: "디자인", icon: DesignIcon },
-  { name: "마케팅", icon: MarketingIcon },
-  { name: "게임", icon: GameIcon },
-  { name: "이커머스", icon: ShoppingIcon },
-  { name: "헬스케어", icon: HealthIcon },
-  { name: "바이오", icon: BioIcon },
-  { name: "메타버스", icon: MetabusIcon },
-  { name: "세일즈", icon: SalesIcon },
-  { name: "보안", icon: SecurityIcon },
-  { name: "ESG", icon: EsgIcon },
-  { name: "로보틱스", icon: RobotIcon },
-];
-
-type Props = ProjectCardWithUserProps;
-
 const ProjectInfoCard = ({
-  name,
-  title,
-  nickname,
-  sub_title,
+  introduce: sub_title,
+  itemName: title,
+  itemProfileImageUrl: profileImage,
+  memberName: name,
+  nickName,
   gender,
   age,
   mbti,
   email,
-  date,
-  univ,
-  suggested_project,
-  applied_project,
-  location,
-  categories,
-}: Props) => {
-const [showActionModal, setShowActionModal] = useState(false);
-const [showAlertModal, setShowAlertModal] = useState(false);
-const [applied, setApplied] = useState(applied_project);
+  school: univ,
+  regions,
+  //description, -> projectOverview에 넘겨줄 형식
+  // likedByCurrentUser: liked,
+  recruitPositions,
+  itemCategories,
+  itemComments,
+  updatedAt: date,
+  likedByCurrentUser,
+  applied_project, 
+suggested_project, 
+}: 
+ProjectDetailData) => {
+  const [showActionModal, setShowActionModal] = useState(false);
+  const [showAlertModal, setShowAlertModal] = useState(false);
+  const [applied, setApplied] = useState(applied_project);
 
-// 지원 버튼 클릭
-const handleApplyClick = () => {
-  setShowActionModal(true);
-};
+  // 카테고리 이름 배열로 변환
+  const categoryNames = useMemo(
+    () => itemCategories.map((c) => c.categoryName),
+    [itemCategories]
+  );
 
-// 지원 처리 완료
-const handleProposalSent = () => {
-  setApplied(true);
-  setShowAlertModal(true);
-};
+  // 지역 문자열
+  const regionText = useMemo(
+    () => regions.map((r) => `${r.siDo} ${r.siGunGu}`).join(", "),
+    [regions]
+  );
 
+  // 지원 버튼 클릭
+  const handleApplyClick = () => {
+    setShowActionModal(true);
+  };
 
-  const categoryNames = categories;
+  // 지원 처리 완료
+  const handleProposalSent = () => {
+    setApplied(true);
+    setShowAlertModal(true);
+  };
 
   return (
     <div>
@@ -147,7 +109,7 @@ const handleProposalSent = () => {
             {/* 왼쪽: 썸네일 */}
             <div className="flex px-4 items-center justify-center">
               <img
-                src={ProjectLogo}
+                src={profileImage}
                 alt="Thumbnail"
                 className="rounded-lg w-[128px] h-[128px] object-cover place-self-center"
               />
@@ -164,7 +126,7 @@ const handleProposalSent = () => {
                   <User className="flex justify-center w-4 h-4" />
                   PM
                 </div>
-                <span className="body-small ml-6 gap-4">{nickname}</span>
+                <span className="body-small ml-6 gap-4">{nickName}</span>
                 <div className=" w-px h-4 ml-6 bg-[#C8C5D0]" />
                 <span className="body-small ml-6 gap-4">{name}</span>
                 <span className="body-small ml-6 gap-4 text-[#47464F]">
@@ -205,7 +167,7 @@ const handleProposalSent = () => {
                   <MapPin className="flex justify-center w-4 h-4" />
                   위치
                 </div>
-                <span className="body-small ml-6">{location}</span>
+                <span className="body-small ml-6">{regionText}</span>
               </div>
 
               <hr className="border-t px-4 border-[rgba(121,116,126,0.08)] py-[2px]" />
@@ -219,23 +181,19 @@ const handleProposalSent = () => {
 
                 {/* 오른쪽: 카테고리 아이콘+텍스트 목록 */}
                 <div className="flex flex-wrap gap-4 ml-6">
-                  {mapcategories
-                    .filter((cat) =>
-                      categoryNames.includes(cat.name as CategoryType)
-                    ) // 그대로 작동함
-                    .map((cat) => (
+                  {categoryNames.map((name) => {
+                    const icon =
+                      CATEGORY_ICON_MAP[name] ?? CATEGORY_ICON_MAP["전체"];
+                    return (
                       <div
-                        key={cat.name}
-                        className="flex items-center gap-1 py-1text-sm text-[#1C1B21]"
+                        key={name}
+                        className="flex items-center gap-1 text-[#1C1B21]"
                       >
-                        <img
-                          src={cat.icon}
-                          alt={cat.name}
-                          className="w-4 h-4"
-                        />
-                        <span className="label-medium">{cat.name}</span>
+                        <img src={icon} alt={name} className="w-4 h-4" />
+                        <span className="label-medium">{name}</span>
                       </div>
-                    ))}
+                    );
+                  })}
                 </div>
               </div>
 
@@ -299,29 +257,28 @@ const handleProposalSent = () => {
         </div>
       </section>
 
-{/* 1. 제안/지원 확인 → 완료 흐름 */}
-{showActionModal && (
-  <ActionStatusModal
-    proposalConfirmTitle={`${title}\n프로젝트에 지원할까요?`}
-    proposalConfirmButtonText="지원하기"
-    proposalSentTitle={`지원이 완료되었어요`}
-    proposalSentButtonText="확인"
-    onClose={() => setShowActionModal(false)}
-    onProposalSent={handleProposalSent}
-  />
-)}
+      {/* 1. 제안/지원 확인 → 완료 흐름 */}
+      {showActionModal && (
+        <ActionStatusModal
+          proposalConfirmTitle={`${title}\n프로젝트에 지원할까요?`}
+          proposalConfirmButtonText="지원하기"
+          proposalSentTitle={`지원이 완료되었어요`}
+          proposalSentButtonText="확인"
+          onClose={() => setShowActionModal(false)}
+          onProposalSent={handleProposalSent}
+        />
+      )}
 
-{/* 2. 완료 후 알림 */}
-<AlertModal
-  icon={ic_sendresume}
-  title="지원 완료"
-  content="지원한 프로젝트의 PM이 확인 후 연락을 드릴 거예요."
-  subcontent="지원 내용을 마이페이지에서 확인할 수 있어요."
-  primaryButtonText="확인"
-  isVisible={showAlertModal}
-  onClose={() => setShowAlertModal(false)}
-/>
-
+      {/* 2. 완료 후 알림 */}
+      <AlertModal
+        icon={ic_sendresume}
+        title="지원 완료"
+        content="지원한 프로젝트의 PM이 확인 후 연락을 드릴 거예요."
+        subcontent="지원 내용을 마이페이지에서 확인할 수 있어요."
+        primaryButtonText="확인"
+        isVisible={showAlertModal}
+        onClose={() => setShowAlertModal(false)}
+      />
     </div>
   );
 };

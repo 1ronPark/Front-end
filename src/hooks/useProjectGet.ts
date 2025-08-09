@@ -1,12 +1,19 @@
 import { useApiQuery, useApiMutation } from './apiHooks';
-import { type ProjectDetailData } from '../types/ProjectProps';
+import type { ProjectDetailData } from '../types/ProjectDetalProps';
 
 // 전체 조회 응답 타입
 export interface ProjectListItem {
+  itemId: number;
   itemName: string;
   memberName: string;
   itemImageUrl: string;
+  updatedAt: string;
+  recruitStatus?: boolean;
+  //school: string; -> 추후 추가 예정
+  viewCount: number;
+  commentCount: number;
   likedByCurrentUser: boolean;
+
 }
 
 export interface ProjectListResponse {

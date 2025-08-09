@@ -32,12 +32,6 @@ export const useLikeProject = (itemId: number) => {
   return useApiMutation<undefined, void>({
     method: 'POST',
     endpoint: `/api/v1/items/${itemId}/like`,
-    onSuccess: () => {
-      alert('좋아요 등록 완료!');
-    },
-    onError: (error) => {
-      alert(error.message || '좋아요 등록 실패');
-    },
   });
 };
 
@@ -46,10 +40,4 @@ export const useUnlikeProject = (itemId: number) =>
   useApiMutation<undefined, void>({
     method: "DELETE",
     endpoint: `/api/v1/items/${itemId}/like`,
-    onSuccess: () => {
-      console.log("좋아요 취소 성공");
-    },
-    onError: (err) => {
-      alert(err.message || "좋아요 취소 실패");
-    },
   });
