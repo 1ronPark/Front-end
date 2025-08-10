@@ -1,4 +1,8 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
+} from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Layout } from "./components/layout/Layout";
@@ -13,6 +17,7 @@ import { ProjectDetail } from "./pages/project/ProjectDetails";
 import { Members } from "./pages/member/Members";
 import { LightTalk } from "./pages/LightTalk";
 import { MyProfile } from "./pages/MyProfile";
+import LoadingPage from "./pages/LoadingPage";
 import MemberDetail from "./pages/member/MemberDetail";
 import { FormEdit } from "./pages/FormEdit";
 import { RegisterProject } from "./components/mypage/RegisterProject";
@@ -29,57 +34,72 @@ import { PasswordReset } from "./pages/Auth/PasswordReset";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import TalkCardDetail from "./pages/lightTalk/TalkCardDetail";
 import PasswordChangeForm from "./components/mypage/passwordChange/PasswordChangeForm";
+import ErrorPage from "./pages/ErrorPage";
 
 // Add the correct import for SignupPage or use SignupEmail if that's intended
 
 // TanStack Query 클라이언트 인스턴스 생성
 const queryClient = new QueryClient();
 
+const router = createBrowserRouter([
+  {
+    path: "/loading",
+    element: <LoadingPage />,
+  },
+  {
+    path: "/",
+    element: <Layout />,
+    errorElement: <ErrorPage />,
+    children: [
+      { index: true, element: <Navigate to="/projects" replace /> },
+      { path: "projects", element: <Projects /> },
+      { path: "members", element: <Members /> },
+      { path: "lightTalk", element: <LightTalk /> },
+      { path: "lightTalk/:lightTalkId", element: <TalkCardDetail /> },
+      {
+        element: <PrivateRoute />,
+        children: [
+          { path: "projects/:projectId", element: <ProjectDetail /> },
+          { path: "members/:memberId", element: <MemberDetail /> },
+          { path: "myprofile", element: <MyProfile /> },
+          { path: "myprofile/password", element: <PasswordChangeForm /> },
+          { path: "register-project", element: <RegisterProject /> },
+        ],
+      },
+    ],
+  },
+  {
+    path: "/login",
+    element: <LoginForm />,
+  },
+  {
+    path: "/loginPassword",
+    element: <LoginPassword />,
+  },
+  {
+    path: "/signup",
+    element: <SignupForm />,
+  },
+  {
+    path: "/signupPassword",
+    element: <SignupPassword />,
+  },
+  {
+    path: "/passwordReset",
+    element: <PasswordReset />,
+  },
+  {
+    path: "/myprofile/edit",
+    element: <FormLayout />,
+    children: [{ index: true, element: <FormEdit /> }],
+  },
+]);
+
 function App() {
   return (
     // 1. QueryClientProvider로 앱 전체를 감쌉니다.
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Routes>
-          {/* 로그인/회원가입 관련 경로는 그대로 둡니다. */}
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/loginPassword" element={<LoginPassword />} />
-          <Route path="/signup" element={<SignupForm />} />
-          <Route path="/signupPassword" element={<SignupPassword />} />
-          <Route path="/passwordReset" element={<PasswordReset />} />
-
-          {/* 메인 레이아웃을 사용하는 페이지 그룹 */}
-          <Route element={<Layout />}>
-            {/* 로그인하지 않아도 보이는 페이지 */}
-            <Route index element={<Navigate to="/projects" replace />} />
-            <Route path="projects" element={<Projects />} />
-            <Route path="members" element={<Members />} />
-            <Route path="lightTalk" element={<LightTalk />} />
-            <Route path="lightTalk/:lightTalkId" element={<TalkCardDetail />} />
-
-            {/* 로그인 후에만 접근 가능한 페이지 */}
-            <Route element={<PrivateRoute />}>
-              <Route path="projects/:projectId" element={<ProjectDetail />} />
-              <Route path="members/:memberId" element={<MemberDetail />} />
-              <Route path="myprofile" element={<MyProfile />} />
-              {/* 비밀번호 변경할 때 나오는 페이지 */}
-              <Route
-                path="myprofile/password"
-                element={<PasswordChangeForm />}
-              />
-              <Route path="register-project" element={<RegisterProject />} />
-              {/* <Route
-                path="lightTalk/:lightTalkId"
-                element={<TalkCardDetail />}
-              /> */}
-            </Route>
-          </Route>
-
-          <Route path="/myprofile/edit" element={<FormLayout />}>
-            <Route index element={<FormEdit />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <RouterProvider router={router} />
       {/* 2. 개발자 도구를 추가하면 디버깅이 매우 편리해집니다. */}
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
