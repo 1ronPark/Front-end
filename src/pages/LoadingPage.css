@@ -1,0 +1,22 @@
+
+.star {
+  position: absolute;
+  background-image: url('../assets/loading/star.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 10px;
+  height: 10px;
+  animation: twinkle 2s infinite;
+}
+
+@keyframes twinkle {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
