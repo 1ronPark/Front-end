@@ -35,6 +35,7 @@ import PrivateRoute from "./components/auth/PrivateRoute";
 import TalkCardDetail from "./pages/lightTalk/TalkCardDetail";
 import PasswordChangeForm from "./components/mypage/passwordChange/PasswordChangeForm";
 import ErrorPage from "./pages/ErrorPage";
+import SocialCallback from "./pages/Auth/SocialCallback";
 
 // Add the correct import for SignupPage or use SignupEmail if that's intended
 
@@ -87,6 +88,10 @@ const router = createBrowserRouter([
   {
     path: "/passwordReset",
     element: <PasswordReset />,
+  },
+  {
+    path: "/auth/social/callback",
+    element: <SocialCallback />,
   },
   {
     path: "/myprofile/edit",
