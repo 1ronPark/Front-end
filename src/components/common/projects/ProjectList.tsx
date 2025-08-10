@@ -1,7 +1,6 @@
 import ProjectCard from "./ProjectCard";
 import { dummyProjectCard } from "../../../../mockData/dummyProjectCard";
 import { dummyMemberInfo } from "../../../../mockData/dummyMemberInfo";
-import type { ProjectCardWithUserProps } from "../../../types/ProjectCardWithUser";
 
 const ProjectList = () => {
   const projectsWithUser: ProjectCardWithUserProps[] = dummyProjectCard.map((project) => {

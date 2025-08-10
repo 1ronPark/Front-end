@@ -12,12 +12,13 @@ import ic_hail from "../../../assets/icons/projectDetail/ic_hail.svg";
 import Share from "../../../assets/icons/ic_share.svg";
 import Siren from "../../../assets/icons/ic_siren.svg";
 import { CATEGORY_ICON_MAP } from "../../../utils/categoryMap";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import type { ProjectDetailData } from "../../../types/ProjectDetalProps";
 
 import ActionStatusModal from "../modals/ActionStatusModal";
 import AlertModal from "../modals/AlertModal";
 import ic_sendresume from "../../../assets/icons/ic_sendresume.svg";
+import { useLikeProject, useUnlikeProject } from "../../../hooks/useProject";
 
 const ProjectInfoCard = ({
   introduce: sub_title,
@@ -33,18 +34,19 @@ const ProjectInfoCard = ({
   regions,
   //description, -> projectOverview에 넘겨줄 형식
   // likedByCurrentUser: liked,
-  recruitPositions,
+ //ecruitPositions,
   itemCategories,
-  itemComments,
+  //emComments,
   updatedAt: date,
   likedByCurrentUser,
-  applied_project, 
-suggested_project, 
+  applied_project = false, 
+suggested_project = false, // 임시
 }: 
 ProjectDetailData) => {
   const [showActionModal, setShowActionModal] = useState(false);
   const [showAlertModal, setShowAlertModal] = useState(false);
   const [applied, setApplied] = useState(applied_project);
+  const [liked, setLiked] = useState(likedByCurrentUser);
 
   // 카테고리 이름 배열로 변환
   const categoryNames = useMemo(
@@ -57,7 +59,29 @@ ProjectDetailData) => {
     () => regions.map((r) => `${r.siDo} ${r.siGunGu}`).join(", "),
     [regions]
   );
+  useEffect(() => {
+    setLiked(likedByCurrentUser);
+  }, [likedByCurrentUser]);
 
+  const likeProject = useLikeProject(itemId);
+  const unlikeProject = useUnlikeProject(itemId);
+
+  const loading = likeProject.isPending || unlikeProject.isPending;
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (loading) return; // 중복 클릭 방지
+
+    const prev = liked;
+    setLiked(!prev); // 낙관적 업데이트
+
+    const revert = () => setLiked(prev); // 실패 시 롤백
+    if (prev) {
+      unlikeProject.mutate(undefined, { onError: revert });
+    } else {
+      likeProject.mutate(undefined, { onError: revert });
+    }
+  };
   // 지원 버튼 클릭
   const handleApplyClick = () => {
     setShowActionModal(true);
@@ -247,13 +271,23 @@ ProjectDetailData) => {
             )}
           </div>
 
-          <button
-            className="w-[200px] h-[56px] flex items-center justify-center gap-2.5 border border-[#CBC6D9] rounded-[16px]
-         text-[#49454E] cursor-pointer"
-          >
-            <Heart size={20} />
-            <p className="title-medium text-[#49454E]">관심 목록 추가</p>
-          </button>
+    <button
+      type="button"
+      onClick={handleClick}
+      disabled={loading}
+      aria-pressed={liked}
+      className="flex items-center gap-2 cursor-pointer"
+    >
+      <Heart
+        className={`w-5 h-5 transition-colors duration-200 ${
+          liked ? "text-pink-600" : "text-gray-600 hover:text-gray-900"
+        }`}
+        fill={liked ? "currentColor" : "none"} // 색 채우기
+      />
+      <p className={liked ? "title-medium text-pink-600" : "title-medium text-[#49454E]"}>
+        {liked ? "관심 해제" : "관심 목록 추가"}
+      </p>
+    </button>
         </div>
       </section>
 

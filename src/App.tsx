@@ -59,7 +59,7 @@ function App() {
 
             {/* 로그인 후에만 접근 가능한 페이지 */}
             <Route element={<PrivateRoute />}>
-              <Route path="projects/:projectId" element={<ProjectDetail />} />
+              <Route path="projects/:ItemId" element={<ProjectDetail />} />
               <Route path="members/:memberId" element={<MemberDetail />} />
               <Route path="myprofile" element={<MyProfile />} />
               {/* 비밀번호 변경할 때 나오는 페이지 */}

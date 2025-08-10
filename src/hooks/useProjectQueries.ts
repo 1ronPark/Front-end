@@ -1,5 +1,5 @@
-import { useApiQuery, useApiMutation } from './apiHooks';
-import type { ProjectDetailData } from '../types/ProjectDetalProps';
+import { useApiQuery } from './apiHooks';
+import type { ProjectDetailData } from '../types/ProjectDetailProps';
 
 // 전체 조회 응답 타입
 export interface ProjectListItem {
@@ -30,7 +30,7 @@ export interface ProjectListResponse {
 export const useProjectList = (page: number = 0) => {
   return useApiQuery<ProjectListResponse>({
     method: `GET`,
-    endpoint: `/api/v1/items/search${page}`, // 페이지네이션을 위한 쿼리 파라미터
+    endpoint: `/api/v1/items/search?page=${page}`, // 페이지네이션을 위한 쿼리 파라미터
   });
 };
 
@@ -53,28 +53,3 @@ export const useProjectDetail = (itemId: number) => {
   });
 };
 
-// 좋아요 응답 타입
-interface ProjectLikeResponse {
-  isSuccess: boolean;
-  code: string;
-  message: string;
-  result: {};
-  success: boolean;
-}
-
-
-// 좋아요 등록
-export const useLikeProject = (itemId: number) => {
-  return useApiMutation<undefined, ProjectLikeResponse>({
-    method: 'POST',
-    endpoint: `/api/v1/items/${itemId}/like`,
-  });
-};
-
-// 좋아요 취소
-export const useUnLikeProject = (itemId: number) => {
-  return useApiMutation<undefined, ProjectLikeResponse>({
-    method: 'DELETE',
-    endpoint: `/api/v1/items/${itemId}/like`,
-  });
-};

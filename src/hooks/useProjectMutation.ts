@@ -1,4 +1,3 @@
-// src/apis/useCreateProject.ts
 import { useApiMutation } from "../hooks/apiHooks";
 
 //프로젝트 생성 API 훅================================================
