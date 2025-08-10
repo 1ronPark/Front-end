@@ -85,7 +85,7 @@ export const useMakeItem = () => {
    */
   const makeItem = (params: CreateItemParams) => {
     const formData = buildFormData(params);
-    mutation.mutate(formData);
+    mutation.mutate({ body: formData });
   };
 
   return { ...mutation, makeItem };

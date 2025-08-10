@@ -103,7 +103,7 @@ const Save = () => {
       // console.log('store recruitPositions:', recruitPositions, typeof recruitPositions);
       // console.log('store itemCategories:', itemCategories, typeof itemCategories);
       // console.log('store collaborationRegions:', collaborationRegions, typeof collaborationRegions);
-      createProject.mutate(formData);
+      createProject.mutate({body:formData});
   };
 
   const navigate = useNavigate();

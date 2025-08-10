@@ -1,6 +1,6 @@
-import { useApiMutation } from './apiHooks';
-import { useAuthStore } from '../store/useAuthStore';
-import { useQueryClient } from '@tanstack/react-query';
+import { useApiMutation } from "./apiHooks";
+import { useAuthStore } from "../store/useAuthStore";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface LoginRequest {
   email: string;
@@ -21,7 +21,7 @@ export const useLogin = () => {
     method: "POST",
     endpoint: import.meta.env.VITE_API_LOGIN_ENDPOINT,
     onError: (err) => {
-      console.error('로그인 실패:', err.message);
+      console.error("로그인 실패:", err.message);
     },
   });
 
@@ -46,16 +46,17 @@ export const useLogin = () => {
             return;
           }
 
-        setToken(token);
-        callbacks?.onSuccess?.();
-        queryClient.invalidateQueries({ queryKey: ['user', 'me'] });
-        // console.log('저장된 token:', token);
-        // console.log('zustand 내부 상태:', useAuthStore.getState().token);
-      },
-      onError: (err) => {
-        callbacks?.onError?.(err);
-      },
-    });
+          setToken(token);
+          callbacks?.onSuccess?.();
+          queryClient.invalidateQueries({ queryKey: ["user", "me"] });
+          // console.log('저장된 token:', token);
+          // console.log('zustand 내부 상태:', useAuthStore.getState().token);
+        },
+        onError: (err) => {
+          callbacks?.onError?.(err);
+        },
+      }
+    );
   };
 
   return {
