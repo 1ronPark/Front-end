@@ -1,6 +1,6 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import type { ChangeEvent } from "react";
-import { useProjectStore } from "../../../../store/useProjectStore";
+import { useRegisterProjectStore } from "../../../../store/registerProjectStore";
 import CloseIcon from "../../../../assets/icons/ic_close.svg";
 import addPhotoIcon from "../../../../assets/icons/mypage/ic_camera.svg";
 import TopicDropdown from "../../../common/dropdowns/strength/TopicDropdown";
@@ -53,40 +53,52 @@ const categories = [
 ];
 
 const Header = () => {
-  const [thumbnail, setThumbnail] = useState<string | null>(null);
   const {
-    projectName,
-    projectSubtitle,
-    topics,
+    name,
+    introduce,
+    itemProfileImage,
+    itemCategories,
+    setField,
+  } = useRegisterProjectStore();
 
-    setProjectName,
-    setProjectSubtitle,
-    setTopics,
-    setItemProfileImage,
-  } = useProjectStore();
+  const [previewUrl, setPreviewUrl] = useState<string | null>(() =>
+    itemProfileImage ? URL.createObjectURL(itemProfileImage) : null,
+  );
+
+  // itemProfileImage가 바뀔 때마다 미리보기 URL 재생성
+  useEffect(() => {
+    if (itemProfileImage) {
+      setPreviewUrl(URL.createObjectURL(itemProfileImage));
+    }
+  }, [itemProfileImage]);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setItemProfileImage(file); // store에 저장
-      const reader = new FileReader();
-      reader.onload = () => {
-        setThumbnail(reader.result as string); // 미리보기용 state
-      };
-      reader.readAsDataURL(file);
+      setField('itemProfileImage', file); // store에 저장
+      setPreviewUrl(URL.createObjectURL(file)); // 미리보기 즉시 반영
     }
   };
 
-  const handleAddTopic = (topic: string) => {
-    if (topics.length < 3 && !topics.includes(topic)) {
-      setTopics([...topics, topic]);
+  const handleAddCategory = (categoryName: string) => {
+    if (
+      itemCategories.length < 3 &&
+      !itemCategories.some((c) => c.itemCategory === categoryName)
+    ) {
+      setField('itemCategories', [
+        ...itemCategories,
+        { itemCategory: categoryName },
+      ]);
     }
   };
 
-  const handleRemoveTopic = (topicToRemove: string) => {
-    setTopics(topics.filter((topic) => topic !== topicToRemove));
+  const handleRemoveCategory = (nameToRemove: string) => {
+    setField(
+      'itemCategories',
+      itemCategories.filter((c) => c.itemCategory !== nameToRemove),
+    );
   };
 
   const handleUploadClick = () => {
@@ -110,9 +122,9 @@ const Header = () => {
             className="hidden"
             ref={fileInputRef}
           />
-          {thumbnail ? (
+          {previewUrl ? (
             <img
-              src={thumbnail}
+              src={previewUrl}
               alt="썸네일"
               className="h-full w-full rounded-lg object-cover"
             />
@@ -158,9 +170,9 @@ const Header = () => {
             className="w-full rounded-lg text-sm border border-gray-300 p-2 text-gray-700 focus:border-primary-500 focus:outline-none"
             rows={1}
             placeholder="프로젝트 명을 입력해주세요."
-            value={projectName}
+            value={name}
             onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-              setProjectName(e.target.value)
+              setField('name', e.target.value)
             }
           ></textarea>
         </div>
@@ -175,9 +187,9 @@ const Header = () => {
             className="w-full rounded-lg text-sm border border-gray-300 p-2 text-gray-700 focus:border-primary-500 focus:outline-none"
             rows={1}
             placeholder="프로젝트에 대한 간단한 설명을 해주세요."
-            value={projectSubtitle}
+            value={introduce}
             onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-              setProjectSubtitle(e.target.value)
+              setField('introduce', e.target.value)
             }
           ></textarea>
         </div>
@@ -187,15 +199,15 @@ const Header = () => {
               <p className="text-sm font-semibold">대표 주제</p>
               <p className="text-lg font-semibold text-orange-500">*</p>
             </div>
-            <span className="text-xs text-gray-500">{topics.length} / 3</span>
+            <span className="text-xs text-gray-500">{itemCategories.length} / 3</span>
           </div>
-          <TopicDropdown onSelect={handleAddTopic} />
+          <TopicDropdown onSelect={handleAddCategory} />
           <div className="flex flex-wrap gap-3">
-            {topics.map((topic) => {
-              const category = categories.find((c) => c.name === topic);
+            {itemCategories.map(({ itemCategory }) => {
+              const category = categories.find((c) => c.name === itemCategory);
               return (
                 <div
-                  key={topic}
+                  key={itemCategory}
                   className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 mt-2"
                 >
                   {category && (
@@ -206,9 +218,9 @@ const Header = () => {
                     />
                   )}
                   <span className="text-sm font-semimedium text-gray-700">
-                    {topic}
+                    {itemCategory}
                   </span>
-                  <button onClick={() => handleRemoveTopic(topic)}>
+                  <button onClick={() => handleRemoveCategory(itemCategory)}>
                     <img src={CloseIcon} alt="삭제" className="h-4 w-4" />
                   </button>
                 </div>

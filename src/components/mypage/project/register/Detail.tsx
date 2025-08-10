@@ -1,14 +1,58 @@
 import { Plus } from "lucide-react";
 import PortfolioCard from "../../../common/cards/portfolio/PortfolioCard";
 import githubIcon from "../../../../assets/GitHub.svg";
-import { useState } from "react";
-import type { ChangeEvent } from "react";
+import { useState, useEffect } from "react";
 import PortfolioModal from "../../modal/PortfolioModal";
+import { useRegisterProjectStore } from "../../../../store/registerProjectStore";
+import type { PortfolioItemData } from "../../modal/PortfolioModal"; // PortfolioItemData 임포트
 
 const Detail = () => {
   const [portfolioModal, setPortfolioModal] = useState<boolean>(false);
-  const [introText, setIntroText] = useState("");
+  const [portfolioItems, setPortfolioItems] = useState<PortfolioItemData[]>([]); // 포트폴리오 항목 상태
+  const { description, setField } = useRegisterProjectStore();
   const maxLength = 3000;
+
+  const handleConfirmPortfolio = (data: PortfolioItemData) => {
+    setPortfolioItems((prevItems) => [...prevItems, data]);
+    // type에 따라 각각 저장 (추가)
+    if (data.type === 'file') {
+      setField('itemPlanFile', data.file);      // 파일 첨부 → itemPlanFile
+    }
+    if (data.type === 'github') {
+      setField('extraLink1', data.url);         // github → extraLink1
+    }
+    if (data.type === 'blog') {
+      setField('extraLink2', data.url);         // blog → extraLink2
+    }
+  };
+
+  useEffect(() => {
+  // 1. 파일은 itemPlanFile로, 링크는 각각 extraLink1/extraLink2로
+  let planFileSet = false;
+  portfolioItems.forEach(item => {
+    if (item.type === 'file' && !planFileSet) {
+      setField('itemPlanFile', item.file); // 파일 첨부는 딱 한 번만
+      planFileSet = true;
+    }
+    if (item.type === 'github') {
+      setField('extraLink1', item.url); // github 링크
+    }
+    if (item.type === 'blog') {
+      setField('extraLink2', item.url); // blog 링크
+    }
+  });
+
+  // 파일/링크가 빠졌을 경우 초기화
+  if (!portfolioItems.some(item => item.type === 'file')) {
+    setField('itemPlanFile', null);
+  }
+  if (!portfolioItems.some(item => item.type === 'github')) {
+    setField('extraLink1', '');
+  }
+  if (!portfolioItems.some(item => item.type === 'blog')) {
+    setField('extraLink2', '');
+  }
+}, [portfolioItems, setField]);
 
   return (
     <div className="space-y-8">
@@ -23,19 +67,37 @@ const Detail = () => {
           <p className="text-lg font-semibold text-orange-500">*</p>
         </div>
         <div className="grid grid-cols-3 gap-4">
-          <PortfolioCard title="홍길동님의 Github" imageUrl={githubIcon} />
+          {/* 기존 더미 카드 제거 */}
+          {portfolioItems.map((item, index) => (
+            <PortfolioCard
+              key={index} // 고유한 key 필요
+              title={item.type === 'file' ? item.file.name : item.url} // 파일 이름 또는 URL
+              imageUrl={githubIcon} // displayUrl 사용
+              onDelete={() => {
+                setPortfolioItems((prevItems) =>
+                  prevItems.filter((_, i) => i !== index),
+                );
+              }
+            }
+            />
+          ))}
           {/* 포트폴리오 추가 카드 */}
-          <div className="flex h-63 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 hover:scale-105">
-            <button
-              onClick={() => setPortfolioModal(true)}
-              className="flex w-full h-full flex-col items-center justify-center gap-2 text-gray-500 hover:cursor-pointer"
-            >
-              <Plus size={48} />
-            </button>
-          </div>
+          {portfolioItems.length < 3 && (
+            <div className="flex h-48 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 hover:scale-105">
+              <button
+                onClick={() => setPortfolioModal(true)}
+                className="flex w-full h-full flex-col items-center justify-center gap-2 text-gray-500 hover:cursor-pointer"
+              >
+                <Plus size={48} />
+              </button>
+            </div>
+          )}
         </div>
         {portfolioModal && (
-          <PortfolioModal onClose={() => setPortfolioModal(false)} />
+          <PortfolioModal
+            onClose={() => setPortfolioModal(false)}
+            onConfirm={handleConfirmPortfolio} // onConfirm prop 전달
+          />
         )}
       </div>
 
@@ -47,16 +109,16 @@ const Detail = () => {
                 <h3 className="text-sm font-semibold text-orange-500">*</h3>
               </div>
               <span className="text-sm text-gray-500">
-                <span className = "text-[#6C63FF]">{introText.length}</span> / {maxLength}
+                <span className = "text-[#6C63FF]">{description?.length ?? 0}</span> / {maxLength}
               </span>
             </div>
             <textarea
               className="w-full rounded-lg border border-gray-300 p-3 text-gray-700 focus:border-primary-500 focus:outline-none text-sm"
               rows={1}
               placeholder="프로젝트에 대해 자세한 설명을 해주세요."
-              value={introText}
-              onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-                setIntroText(e.target.value)
+              value={description}
+              onChange={(e) =>
+                setField('description', e.target.value)
               }
               maxLength={maxLength}
             ></textarea>
