@@ -6,7 +6,12 @@ import PartBox from './dropdowns/PartBox';
 import MbtiBox from './dropdowns/MbtiBox';
 import LocationBox from './dropdowns/LocationBox';
 
-const MemberFilterBar: React.FC = () => {
+// interface MemberFilterBarProps {
+//   selectedChips: string[];
+//   onChipSelection: (chips: string[]) => void;
+// }
+
+const MemberFilterBar: React.FC = () => { 
   const [selectedChips, setSelectedChips] = useState<string[]>([]);
   const [selectedSort, setSelectedSort] = useState<string>('파트');
   const [selectedMbti, setSelectedMbti] = useState<string[]> ([]);
@@ -18,12 +23,17 @@ const MemberFilterBar: React.FC = () => {
   });
 
   const handleChipClick = (chip: string) => {
+    // let newSelectedChips: string[];
+
     if (chip === '전체') {
       // '전체' 칩을 클릭하면, 이미 선택된 경우 선택 해제하고,
       // 그렇지 않으면 '전체'만 선택합니다.
-      setSelectedChips(prev => (prev.includes('전체') ? [] : ['전체']));
+      // newSelectedChips = selectedChips.includes('전체') ? [] : ['전체']; // ?????
     } else {
       // 다른 칩을 클릭하면 '전체'는 선택 해제하고, 클릭된 칩의 상태를 토글합니다.
+      // const otherChips = selectedChips.filter(c => c !== '전체');
+      // newSelectedChips = otherChips.includes(chip)
+      //   ? 
       setSelectedChips(prev => {
         const otherChips = prev.filter(c => c !== '전체');
         return otherChips.includes(chip)

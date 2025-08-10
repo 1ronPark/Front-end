@@ -1,7 +1,14 @@
+// import { useState } from 'react';
 import MemberFilterBar from '../../components/common/filter/MemberFilterBar';
 import MemberList from '../../components/common/memberpage/MemberList';
 
 export const Members = () => {
+    // const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+
+    // const handleChipSelection = (chips: string[]) => {
+    //     setSelectedFilters(chips);
+    // };
+
     return (
         <div className="flex justify-center">
             <div className="
