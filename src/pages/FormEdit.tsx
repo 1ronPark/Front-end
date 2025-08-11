@@ -11,30 +11,30 @@ import Save from "../components/mypage/edit/Save";
 import { useProfileStore } from "../store/useProfileStore";
 import { useDeletePositions, usePostPositions } from "../hooks/usePositions";
 import { useDeleteRegionById, usePostRegion } from "../hooks/useRegion";
-import {
-  usePostStrengths,
-  useDeleteStrengthsById,
-} from "../hooks/useStrengths";
+// import {
+//   usePostStrengths,
+//   useDeleteStrengthsById,
+// } from "../hooks/useStrengths";
 import Reception from "../components/mypage/edit/Reception";
 
-const MOCK_USER_DATA = {
-  id: 1,
-  name: "홍길동",
-  nickname: "홍",
-  age: 23,
-  role: "디자이너",
-  location: "서울",
-  gender: "남",
-  phone: "010-1234-5678",
-  email: "hong@hong.ac.kr",
-  univ: "길동대학교",
-  mbti: "INTJ",
-  intro: "기술과 디자인을 넘나들며 방향을 설계하는 실전형 디자이너",
-  blog: "https://velog.io/@honggildong",
-};
+// const MOCK_USER_DATA = {
+//   id: 1,
+//   name: "홍길동",
+//   nickname: "홍",
+//   age: 23,
+//   role: "디자이너",
+//   location: "서울",
+//   gender: "남",
+//   phone: "010-1234-5678",
+//   email: "hong@hong.ac.kr",
+//   univ: "길동대학교",
+//   mbti: "INTJ",
+//   intro: "기술과 디자인을 넘나들며 방향을 설계하는 실전형 디자이너",
+//   blog: "https://velog.io/@honggildong",
+// };
 
 const SECTIONS = [
-  { id: "basic-info", component: <Header {...MOCK_USER_DATA} /> },
+  { id: "basic-info", component: <Header /> },
   { id: "desired-conditions", component: <Desired /> },
   { id: "strengths", component: <Strength /> },
   { id: "portfolio", component: <Portfolio /> },
@@ -52,8 +52,6 @@ export const FormEdit = () => {
   const initialRegions = useProfileStore((s) => s.initialRegions);
   const regions = useProfileStore((s) => s.regions);
 
-  // 강점(id 기반) — store에 추가되어 있다고 가정
-
   // ===== Hooks =====
   // 포지션
   const { mutateAsync: postPosition, isPending: posting } = usePostPositions();
@@ -64,8 +62,6 @@ export const FormEdit = () => {
   const { mutateAsync: postRegion, isPending: postingRegion } = usePostRegion();
   const { mutateAsync: deleteRegionById, isPending: deletingRegion } =
     useDeleteRegionById();
-
-  // 강점
 
   // ===== Save =====
   const handleSave = async () => {
@@ -117,8 +113,6 @@ export const FormEdit = () => {
         });
       }
 
-      // --- 강점 삭제 (DELETE /api/v1/members/strengths/{id})
-
       // --- 지역 추가 (POST 배열 바디)
       if (regionsToAdd.length > 0) {
         await postRegion({
@@ -139,9 +133,7 @@ export const FormEdit = () => {
           )}`,
         });
       }
-
       alert("프로필이 저장되었습니다.");
-      // useApiMutation에서 invalidateQueries 해두었다면 관련 GET 자동 리패치
     } catch (e) {
       console.error(e);
       alert("저장 중 오류가 발생했습니다. 다시 시도해 주세요.");
