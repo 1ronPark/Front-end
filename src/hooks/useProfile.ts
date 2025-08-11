@@ -52,3 +52,5 @@ export const useGetProfile = () => {
     endpoint: import.meta.env.VITE_API_GET_PROFILE_ENDPOINT,
   });
 };
+
+// export const usePutProfileEdit = ()
