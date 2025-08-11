@@ -17,23 +17,14 @@ export type LoginJoinResult = {
   // 필요 시 서버 스키마에 맞춰 확장
 };
 
-/** 소셜 로그인 (가입된 사용자) */
-export const useSocialLogin = () =>
+/**
+ * 서버가 로그인/미가입을 내부에서 처리하고 토큰을 반환하는 단일 콜백 API 훅
+ * 기본 endpoint는 "/api/v1/members/callback/GOOGLE" 이며,
+ * 실제 호출 시 endpoint를 오버라이드하여 {provider}와 authCode를 붙여 사용합니다.
+ */
+export const useSocialCallback = () =>
   useApiMutation<undefined, ApiEnvelope<LoginJoinResult>>({
     method: "POST",
-    endpoint: "/api/v1/members/login/GOOGLE",
-  });
-
-/** 소셜 회원가입 (최초 로그인 시) */
-export const useSocialJoin = () =>
-  useApiMutation<undefined, ApiEnvelope<LoginJoinResult>>({
-    method: "POST",
-    endpoint: "/api/v1/members/join/GOOGLE",
-  });
-
-/** 계정에 소셜 로그인 방법 추가/연동 (로그인 상태 필요) */
-export const useLinkSocial = () =>
-  useApiMutation<undefined, ApiEnvelope<unknown>>({
-    method: "POST",
-    endpoint: "/api/v1/members/login/path/GOOGLE",
+    endpoint: "/api/v1/members/callback/GOOGLE",
+    options: { retry: 0 },
   });

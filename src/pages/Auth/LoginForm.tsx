@@ -34,6 +34,8 @@ const kakaoAuthorizeUrl = (restKey: string) => {
     redirect_uri: `${FRONT}${import.meta.env.VITE_SOCIAL_CALLBACK}`,
     response_type: "code",
     state: "KAKAO-" + makeState(),
+    scope: "account_email profile_nickname profile_image", // ✅ 필요한 항목 모두
+    prompt: "consent", // ✅ 재동의 창 강제 표시
   });
   return `https://kauth.kakao.com/oauth/authorize?${p.toString()}`;
 };

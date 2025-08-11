@@ -1,66 +1,67 @@
 // src/pages/Auth/SocialCallback.tsx
-import { useEffect } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useEffect, useMemo, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/useAuthStore";
-import { useSocialLogin, useSocialJoin } from "../../queries/auth";
+import { useSocialCallback } from "../../queries/auth";
 import { AxiosError } from "axios";
 
 const SocialCallback = () => {
-  const [sp] = useSearchParams();
+  // const [sp] = useSearchParams(); // removed unused
   const navigate = useNavigate();
   const setToken = useAuthStore((s) => s.setToken);
 
-  const loginMutation = useSocialLogin();
-  const joinMutation  = useSocialJoin();
+  const callbackMutation = useSocialCallback();
   
+  const processingRef = useRef(false);
+
+  // 고정된 URL 파라미터 계산 (초기 1회)
+  const { code, provider } = useMemo(() => {
+    const params = new URLSearchParams(window.location.search);
+    const c = params.get("code") || "";
+    const s = params.get("state") || ""; // "GOOGLE-xxxx" | "KAKAO-xxxx"
+    const p = (s.split("-")[0] || "").toUpperCase() as "GOOGLE" | "KAKAO";
+    return { code: c, provider: p };
+  }, []);
 
   useEffect(() => {
+    // 중복 실행 가드 (StrictMode / 재렌더 방지)
+    if (processingRef.current) return;
+    processingRef.current = true;
+
     const run = async () => {
-      const code  = sp.get("code");
-      const state = sp.get("state"); // "GOOGLE-xxxx" | "KAKAO-xxxx"
-      const provider = state?.split("-")[0]?.toUpperCase() as "GOOGLE" | "KAKAO";
-      const SOCIAL_JOIN_TEMPLATE  = import.meta.env.VITE_API_SOCIAL_JOIN;
-      const SOCIAL_LOGIN_TEMPLATE = import.meta.env.VITE_API_SOCIAL_LOGIN;
+      const SOCIAL_CALLBACK_TEMPLATE = import.meta.env.VITE_API_SOCIAL_CALLBACK;
 
-
-      if (!code || !provider) {
+      if (!code || (provider !== "GOOGLE" && provider !== "KAKAO")) {
         navigate("/login?error=social");
         return;
       }
-      
-      const loginEndpoint = SOCIAL_LOGIN_TEMPLATE
-        .replace("{provider}", provider)
-        + `?authCode=${encodeURIComponent(code)}`;
 
-      const joinEndpoint = SOCIAL_JOIN_TEMPLATE
-        .replace("{provider}", provider)
-        + `?authCode=${encodeURIComponent(code)}`;
+      const endpoint = SOCIAL_CALLBACK_TEMPLATE.replace("{provider}", provider) + `?authCode=${encodeURIComponent(code)}`;
 
       try {
-        const loginRes = await loginMutation.mutateAsync({ endpoint: loginEndpoint });
-        const { accessToken } = loginRes.result;
+        const res = await callbackMutation.mutateAsync({ endpoint });
+        const { accessToken } = res.result;
         setToken(accessToken);
-        navigate("/");
+        navigate("/", { replace: true });
       } catch (error) {
-        const err = error as AxiosError<{ code?: string }>;
-        const codeStr = err.response?.data?.code;
-        if (codeStr === "MEMBER_NOT_FOUND" || codeStr === "NEED_SIGNUP") {
-          try {
-            const joinRes = await joinMutation.mutateAsync({ endpoint: joinEndpoint });
-            const { accessToken } = joinRes.result;
-            setToken(accessToken);
-            navigate("/"); // 또는 온보딩 경로
-            return;
-          } catch {
-            navigate("/login?error=social");
-          }
-        } else {
-          navigate("/login?error=social");
-        }
+        const err = error as AxiosError<{ code?: string; message?: string; result?: string }>; // 타입 안전화
+        const status = err.response?.status;
+        const backendCode = err.response?.data?.code;
+        // 디버깅용 로그 (콘솔에서 백엔드 코드/메시지 확인)
+        console.error("[SOCIAL_CALLBACK_FAIL]", {
+          status,
+          code: backendCode,
+          message: err.response?.data?.message,
+          result: err.response?.data?.result,
+          endpoint,
+        });
+        navigate(`/login?error=${backendCode || status || "social"}`, { replace: true });
       }
     };
-    run();
-  }, [sp, navigate, setToken, loginMutation, joinMutation]);
+
+    void run();
+  // 의존성 비움: code/provider는 useMemo로 고정, 뮤테이션 인스턴스 변경에도 재실행 방지
+  }, []);
 
   return <div>소셜 로그인 처리 중...</div>;
 };

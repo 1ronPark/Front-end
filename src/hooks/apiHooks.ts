@@ -13,6 +13,10 @@ interface ApiMutationOptions<_TBody = unknown, TResult = unknown> {
   endpoint: string;
   onSuccess?: (data: TResult) => void;
   onError?: (error: Error) => void;
+  options?: {
+    retry?: number;
+    // 다른 옵션들 추가 가능
+  };
 }
 
 // =================================================================
@@ -52,5 +56,6 @@ export const useApiMutation = <TBody = unknown, TResult = unknown>(
     onError: (error) => {
       options.onError?.(error);
     },
+    retry: options.options?.retry,
   });
 };
