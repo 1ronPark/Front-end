@@ -26,17 +26,17 @@ export const useCreateProject = () => {
   });
 };
 
-// 프로젝트 좋아요 등록 API 훅================================================
-export const useLikeProject = (itemId: number) => {
-  return useApiMutation<undefined, void>({
-    method: 'POST',
-    endpoint: `/api/v1/items/${itemId}/like`,
-  });
-};
+  // 프로젝트 좋아요 등록 API 훅================================================
+  export const useLikeProject = (itemId: number) => {
+    return useApiMutation<undefined, void>({
+      method: 'POST',
+      endpoint: `/api/v1/items/${itemId}/like`,
+    });
+  };
 
-// 프로젝트 좋아요 취소 API 훅================================================
-export const useUnlikeProject = (itemId: number) =>
-  useApiMutation<undefined, void>({
-    method: "DELETE",
-    endpoint: `/api/v1/items/${itemId}/like`,
-  });
+  // 프로젝트 좋아요 취소 API 훅================================================
+  export const useUnlikeProject = (itemId: number) =>
+    useApiMutation<undefined, void>({
+      method: "DELETE",
+      endpoint: `/api/v1/items/${itemId}/like`,
+    });

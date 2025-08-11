@@ -56,11 +56,16 @@ const categories = [
   { name: "로보틱스", icon: RobotIcon },
 ];
 
-const ProjectFilterBar: React.FC = () => {
-  const [sortOption, setSortOption] = useState<string | null>(null);
-  const handleSortOptionClick = (option: string) => {
-    setSortOption((prev) => (prev === option ? null : option));
-  };
+type SortOption = "인기순" | "최신순" | null;
+type Props = {
+  sortOption: SortOption;
+  onChangeSort: (opt: SortOption) => void;
+};
+
+const ProjectFilterBar: React.FC<Props> = ({ sortOption, onChangeSort }) => {
+const handleSortOptionClick = (option: Exclude<SortOption, null>) => {
+  onChangeSort(sortOption === option ? null : option);
+};
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedSort, setSelectedSort] = useState<string>("파트");

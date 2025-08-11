@@ -1,7 +1,7 @@
 import { X, ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { dummyMemberInfo } from "../../../../mockData/dummyMemberInfo";
-import { dummyProjectCard } from "../../../../mockData/dummyProjectCard";
+import { dummyProjectInfo } from "../../../../mockData/dummyProjectCard";
 import { useNavigate } from "react-router-dom";
 
 export type SearchModalProps = {
@@ -27,7 +27,7 @@ const SearchModal = ({ onClose }: SearchModalProps) => {
       description: item.role,
       source: "member" as const,
     })),
-    ...dummyProjectCard.map((item) => ({
+    ...dummyProjectInfo.map((item) => ({
       id: item.id,
       name: item.title,
       description: item.title,

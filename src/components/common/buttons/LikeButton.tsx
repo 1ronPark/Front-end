@@ -1,6 +1,6 @@
 import { Heart } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useLikeProject, useUnlikeProject,  } from "../../../hooks/useProject";
+import { useLikeProject, useUnlikeProject,  } from "../../../hooks/useProjectMutation";
 
 interface LikeButtonProps {
   itemId: number;

@@ -4,7 +4,7 @@ import ProjectOverview from "../../components/common/projectsdetail/ProjectOverv
 import ProjectInfoCard from "../../components/common/projectsdetail/ProjectInfoCard";
 import RecruitPart from "../../components/common/projectsdetail/RecruitPart";
 
-import { dummyProjectCard } from "../../../mockData/dummyProjectCard";
+import { dummyProjectInfo } from "../../../mockData/dummyProjectCard";
 import { dummyMemberInfo } from "../../../mockData/dummyMemberInfo";
 
 import type { MyProjectCardProps } from "../../types/MyProjectCard";
@@ -13,13 +13,12 @@ import type { ProjectCardWithUserProps } from "../../types/ProjectCardWithUser";
 
 export const ProjectDetail = () => {
   // 1. 추후 라우팅 시 사용할 수 있음
-const { projectId } = useParams<{ projectId: string }>();
-const projectIdNum = parseInt(projectId!); // <- 일단 undefined아님을 명시해두었는데 추후 오류 발생 시 수정 필요
-
+  const { projectId } = useParams<{ projectId: string }>();
+  const projectIdNum = parseInt(projectId!); // <- 일단 undefined아님을 명시해두었는데 추후 오류 발생 시 수정 필요
 
   // 2. id 기준 프로젝트, 작성자(첫 번째 멤버 기준) 찾기
   const project: MyProjectCardProps =
-    dummyProjectCard.find((p) => p.id === projectIdNum) || dummyProjectCard[0]; // -> 추후 에러페이지로 리다이랙션 필요함
+    dummyProjectInfo.find((p) => p.id === projectIdNum) || dummyProjectInfo[0]; // -> 추후 에러페이지로 리다이랙션 필요함
   const member: MyInfoProps =
     dummyMemberInfo.find((m) => m.id === projectIdNum) || dummyMemberInfo[0];
 

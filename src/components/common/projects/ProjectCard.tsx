@@ -1,29 +1,25 @@
 import { useNavigate } from "react-router-dom";
 import { LikeButton } from "../../common/buttons/LikeButton";
 import { Eye, MessageSquareText } from "lucide-react";
-//import mediaImage from "../../../assets/icons/project/Media.png";
+import defaultImage from "../../../assets/icons/project/project_defaultImage.png"; // 기본 이미지
 import Avatar from "../../../assets/ic_myprofile.svg";
 import { getRelativeDate } from "../../../utils/date"; // 날짜를 상대적인 형식으로 표시하는 유틸리티 함수
-//import type { ProjectCardWithUserProps } from "../../../types/ProjectCardWithUser";'
-import type { ProjectListItem } from "../../../hooks/useProjectGet";
-
+//import type { ProjectListItem } from "../../../hooks/useProjectQueries";
+import type { ProjectListItem } from "../../../hooks/useProjectQueries";
 
 const ProjectCard = ({
   itemId: id,
-itemName: sub_title,
-memberName: name,
-itemImageUrl: mediaImage,
-updatedAt: date,
-//school,
-//recruitStatus,
-viewCount,
-commentCount,
-likedByCurrentUser,
+  memberName: name,
+ introduce: sub_title,
+  itemImageUrl: ImageUrl = defaultImage, // 이미지가 없을 경우 기본 이미지
+  updatedAt: date,
+  school,
+  viewCount,
+  commentCount,
+  likedByCurrentUser,
 }: ProjectListItem) => {
   const navigate = useNavigate();
 
-
-  
   return (
     <div
       onClick={() => navigate(`/projects/${id}`)}
@@ -31,7 +27,7 @@ likedByCurrentUser,
     >
       {/* 썸네일 이미지 */}
       <img
-        src={mediaImage}
+        src={ImageUrl || defaultImage} // 이미지가 없을 경우 기본 아바타 이미지 사용
         alt="Project Thumbnail"
         className="w-full h-[130px] object-cover object-center block"
       />
@@ -50,13 +46,12 @@ likedByCurrentUser,
               </div>
             </div>
             <LikeButton itemId={id} likedByCurrentUser={likedByCurrentUser} />
-          </div>
+          </div>  
 
           {/* 프로젝트 소개 및 위치 */}
           <div className="flex flex-col mt-2">
             <span className="title-medium-emphasis truncate">{sub_title}</span>
-            {/*<span className="body-medium text-gray-500">{school}</span>*/}
-            <span className="body-medium text-gray-500">대학교대학교</span>
+            <span className="body-medium text-gray-500">{school}</span>
           </div>
 
           {/*gap-6에서 수정*/}
@@ -64,13 +59,17 @@ likedByCurrentUser,
           <div className="flex items-center mt-4 justify-end gap-4">
             <div className="flex items-center gap-1">
               <Eye className="w-5 h-5 text-[#49454E]" />
-              <span className="text-xs label-medium text-[#49454E]">{viewCount}</span>
+              <span className="text-xs label-medium text-[#49454E]">
+                {viewCount}
+              </span>
             </div>
 
             {/* 댓글 수 */}
             <div className="flex items-center gap-1">
               <MessageSquareText className="w-5 h-m text-[#49454E]" />
-              <span className="text-xs label-medium text-[#49454E]">{commentCount}</span>
+              <span className="text-xs label-medium text-[#49454E]">
+                {commentCount}
+              </span>
             </div>
 
             {/* 날짜 */}

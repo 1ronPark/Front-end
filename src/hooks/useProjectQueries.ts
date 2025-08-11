@@ -6,10 +6,11 @@ export interface ProjectListItem {
   itemId: number;
   itemName: string;
   memberName: string;
-  itemImageUrl: string;
+  itemImageUrl?: string; 
   updatedAt: string;
   recruitStatus?: boolean;
-  //school: string; -> 추후 추가 예정
+  school: string;
+  introduce: string;
   viewCount: number;
   commentCount: number;
   likedByCurrentUser: boolean;
@@ -53,3 +54,20 @@ export const useProjectDetail = (itemId: number) => {
   });
 };
 
+// 좋아요 상태 조회 응답 타입
+interface LikedStatusResponse {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  result: {
+    liked: boolean;
+  };
+  success: boolean;
+}
+
+export const useLikedStatus = (itemId: number) => {
+  return useApiQuery<LikedStatusResponse>({
+    method: "GET",
+    endpoint: `/api/v1/items/${itemId}/like`, 
+  });
+};

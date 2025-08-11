@@ -1,8 +1,8 @@
-import { dummyProjectCard } from "../../../../mockData/dummyProjectCard";
+import { dummyProjectInfo } from "../../../../mockData/dummyProjectCard";
 import type { MyProjectCardProps } from "../../../types/MyProjectCard";
 import MyprojectCard from "./MyprojectCard";
 
-const projectList: MyProjectCardProps[] = dummyProjectCard;
+const projectList: MyProjectCardProps[] = dummyProjectInfo;
 
 const MyProjectList = () => {
   //내가 현재 하고 있는 프로젝트 list

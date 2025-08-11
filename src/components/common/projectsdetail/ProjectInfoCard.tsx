@@ -13,12 +13,12 @@ import Share from "../../../assets/icons/ic_share.svg";
 import Siren from "../../../assets/icons/ic_siren.svg";
 import { CATEGORY_ICON_MAP } from "../../../utils/categoryMap";
 import { useState, useMemo, useEffect } from "react";
-import type { ProjectDetailData } from "../../../types/ProjectDetalProps";
+import type { ProjectDetailData } from "../../../types/ProjectDetailProps";
 
 import ActionStatusModal from "../modals/ActionStatusModal";
 import AlertModal from "../modals/AlertModal";
 import ic_sendresume from "../../../assets/icons/ic_sendresume.svg";
-import { useLikeProject, useUnlikeProject } from "../../../hooks/useProject";
+import { useLikeProject, useUnlikeProject } from "../../../hooks/useProjectMutation";
 
 const ProjectInfoCard = ({
   introduce: sub_title,
@@ -65,7 +65,7 @@ ProjectDetailData) => {
 
   const likeProject = useLikeProject(itemId);
   const unlikeProject = useUnlikeProject(itemId);
-
+  
   const loading = likeProject.isPending || unlikeProject.isPending;
 
   const handleClick = (e: React.MouseEvent) => {
