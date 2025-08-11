@@ -12,21 +12,29 @@ const SocialCallback = () => {
 
   const loginMutation = useSocialLogin();
   const joinMutation  = useSocialJoin();
+  
 
   useEffect(() => {
     const run = async () => {
       const code  = sp.get("code");
       const state = sp.get("state"); // "GOOGLE-xxxx" | "KAKAO-xxxx"
       const provider = state?.split("-")[0]?.toUpperCase() as "GOOGLE" | "KAKAO";
+      const SOCIAL_JOIN_TEMPLATE  = import.meta.env.VITE_API_SOCIAL_JOIN;
+      const SOCIAL_LOGIN_TEMPLATE = import.meta.env.VITE_API_SOCIAL_LOGIN;
+
 
       if (!code || !provider) {
         navigate("/login?error=social");
         return;
       }
+      
+      const loginEndpoint = SOCIAL_LOGIN_TEMPLATE
+        .replace("{provider}", provider)
+        + `?authCode=${encodeURIComponent(code)}`;
 
-      // endpoint 오버라이드 + 쿼리스트링에 authCode 붙이기
-      const loginEndpoint = `/api/v1/members/login/${provider}?authCode=${encodeURIComponent(code)}`;
-      const joinEndpoint  = `/api/v1/members/join/${provider}?authCode=${encodeURIComponent(code)}`;
+      const joinEndpoint = SOCIAL_JOIN_TEMPLATE
+        .replace("{provider}", provider)
+        + `?authCode=${encodeURIComponent(code)}`;
 
       try {
         const loginRes = await loginMutation.mutateAsync({ endpoint: loginEndpoint });
