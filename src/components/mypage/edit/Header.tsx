@@ -1,13 +1,17 @@
 import { useState } from "react";
 import editIcon from "../../../assets/icons/mypage/ic_edit.svg";
-import type { MyInfoProps } from "../../../types/MyInfoProps";
+// import type { MyInfoProps } from "../../../types/MyInfoProps";
 import MyInfoEditModal from "../modal/MyInfoEditModal";
 import AddPhotoModal from "../modal/AddPhotoModal";
 import sample from "../../../assets/icons/mypage/sample_profile.png";
 import addPhotoIcon from "../../../assets/icons/mypage/ic_camera.svg";
 import { AtSign, GraduationCap } from "lucide-react";
+// import { useProfileStore } from "../../../store/useProfileStore";
+import { useUser } from "../../../hooks/useUser";
 
-const Header = (myProps: MyInfoProps) => {
+const Header = () => {
+  const { data } = useUser();
+
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [addPhotoModal, setIsAddPhotoModal] = useState<boolean>(false);
 
@@ -25,7 +29,8 @@ const Header = (myProps: MyInfoProps) => {
 
       <div className="rounded-lg bg-white p-8 shadow shawdow-md">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-xl font-semibold">{myProps.intro}</h2>
+          {/* career부분 profileTitle로 변경될 것 같음 */}
+          <h2 className="title-large-emphasis">{data?.career}</h2>
           <button
             className="flex flex-row justify-center px-1.5 py-3 gap-1 hover:cursor-pointer"
             onClick={() => setEditModalOpen(true)}
@@ -35,7 +40,7 @@ const Header = (myProps: MyInfoProps) => {
           </button>
         </div>
         <hr className="my-4 border-[#EAE9EA]" />
-        <div className="flex items-start gap-8">
+        <div className="flex items-start gap-[64px]">
           <div className="relative h-40 w-40 rounded-full bg-gray-200 flex items-center justify-center">
             {/* 프로필 이미지 영역 */}
             <img
@@ -54,15 +59,22 @@ const Header = (myProps: MyInfoProps) => {
           </div>
           <div className="flex-1 mt-3 space-y-4">
             <div className="flex items-center gap-4 ">
-              <span className="text-gray-500 text-lg">{myProps.nickname}</span>
+              <span className="body-large-emphasis text-[#1C1B21]">
+                {data?.nickname}
+              </span>
 
               {/* 세로 바 추가 */}
               <div className="h-10 border-l border-gray-300" />
 
-              <span className="text-xl">{myProps.name}</span>
-              <span className="text-gray-400">{myProps.gender}</span>
-              <span className="text-gray-400">{myProps.age}</span>
-              <span className="text-gray-400">{myProps.mbti}</span>
+              <span className="body-large-emphasis text-[#1C1B21]">
+                {data?.name}
+              </span>
+              <span className="body-large text-[#47464F]">
+                {" "}
+                {data?.gender ? "남" : "여"}
+              </span>
+              <span className="body-large text-[#47464F]">{data?.age}</span>
+              <span className="body-large text-[#47464F]">{data?.mbti}</span>
             </div>
             <div className="space-y-6 text-sm text-gray-800">
               <div className="m-6 flex flex-col gap-3">
@@ -71,7 +83,7 @@ const Header = (myProps: MyInfoProps) => {
                     <GraduationCap className="w-4 h-4 text-gray-500" />
                     대학교
                   </p>
-                  <p>{myProps.school}</p>
+                  <p>{data?.school}</p>
                 </div>
 
                 <hr className="border-t border-gray-300" />
@@ -81,18 +93,33 @@ const Header = (myProps: MyInfoProps) => {
                     <AtSign className="w-4 h-4 text-gray-500" />
                     이메일
                   </p>
-                  <p>{myProps.email}</p>
+                  <p>{data?.email}</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      {editModalOpen && (
+      {editModalOpen && data && (
         <MyInfoEditModal
           onClose={() => setEditModalOpen(false)}
           onCloseAll={onCloseAll}
-          myInfo={myProps}
+          myInfo={{
+            // MyInfoProps에 맞춰 매핑 (TS 오류 해결을 위해 임시로 빨리 처리)
+            id: data.id,
+            name: data.name,
+            nickname: data.nickname,
+            phoneNumber: data.phoneNumber,
+            gender: data.gender,
+            age: data.age,
+            mbti: data.mbti,
+            role: data.role,
+            school: data.school,
+            email: data.email,
+            profileImageUrl: data.profileImageUrl ?? undefined, // null → undefined 정리
+            location: data.location ?? "",
+            intro: data.intro ?? "",
+          }}
         />
       )}
 

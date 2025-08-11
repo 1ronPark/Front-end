@@ -5,7 +5,9 @@ import { useEffect } from "react";
 import { fetchRequest } from "./fetchRequest";
 
 // API가 반환할 데이터 타입 정의 (예시)
-interface User {
+export interface User {
+  intro: string;
+  location: string;
   id: number;
   name: string;
   nickname: string;
