@@ -19,7 +19,7 @@ export const useLogin = () => {
   const queryClient = useQueryClient();
   const mutation = useApiMutation<LoginRequest, LoginResponse>({
     method: "POST",
-    endpoint: import.meta.env.VITE_API_LOGIN_ENDPOINT,
+    endpoint: "/v1/members/login",
     onError: (err) => {
       console.error("로그인 실패:", err.message);
     },
