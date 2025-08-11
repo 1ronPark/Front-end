@@ -19,7 +19,7 @@ const googleAuthorizeUrl = (clientId: string) => {
   const FRONT = window.location.origin;
   const p = new URLSearchParams({
     client_id: clientId,
-    redirect_uri: `${FRONT}/auth/social/callback`,
+    redirect_uri: `${FRONT}${import.meta.env.VITE_SOCIAL_CALLBACK}`,
     response_type: "code",
     scope: "openid email profile",
     state: "GOOGLE-" + makeState(),
@@ -31,7 +31,7 @@ const kakaoAuthorizeUrl = (restKey: string) => {
   const FRONT = window.location.origin;
   const p = new URLSearchParams({
     client_id: restKey,
-    redirect_uri: `${FRONT}/auth/social/callback`,
+    redirect_uri: `${FRONT}${import.meta.env.VITE_SOCIAL_CALLBACK}`,
     response_type: "code",
     state: "KAKAO-" + makeState(),
   });
