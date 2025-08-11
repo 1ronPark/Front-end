@@ -43,6 +43,7 @@ import type { CategoryType } from "../../../types/MyProjectCard";
 import ActionStatusModal from "../modals/ActionStatusModal";
 import AlertModal from "../modals/AlertModal";
 import ic_sendresume from "../../../assets/icons/ic_sendresume.svg";
+import ToolTip from "../tooltips/ToolTip";
 
 
 const mapcategories = [
@@ -246,37 +247,50 @@ const handleProposalSent = () => {
 
         {/* 하단 버튼 + 팝업*/}
         <div className="flex gap-4 justify-center mt-4 mb-4">
-          <div className="relative">
-            <button
-              onClick={handleApplyClick}
-              disabled={applied}
-              className={`w-[200px] h-[56px] flex items-center justify-center gap-2.5 rounded-[16px] text-white
-      ${applied ? "opacity-60 bg-[#5A5891]" : "bg-[#545891] cursor-pointer"}`}
+          <div className="relative inline-block group">
+            <ToolTip
+              content={
+                applied
+                  ? '제안을 기다리고 있어요\n제안이 오면 알림을 보내드릴게요'
+                  : suggested_project
+                  ? '히로님에게 제안을 보낸 프로젝트예요\n지금 바로 지원하고 연락해 보세요!'
+                  : ''
+              }
             >
-              <img
-                src={applied ? ic_hail : ic_send}
-                alt="send icon"
-                className="w-6 h-6"
-              />
-              <p className="title-medium text-white">
-                {applied ? "이미 지원했어요" : "지원하기"}
-              </p>
+              <button
+                onClick={handleApplyClick}
+                disabled={applied}
+                className={`w-[200px] h-[56px] flex items-center justify-center gap-2.5 rounded-[16px] text-white
+        ${applied ? "opacity-60 bg-[#5A5891]" : "bg-[#545891] cursor-pointer"}`}
+              >
+                <img
+                  src={applied ? ic_hail : ic_send}
+                  alt="send icon"
+                  className="w-6 h-6"
+                />
+                <p className="title-medium text-white">
+                  {applied ? "이미 지원했어요" : "지원하기"}
+                </p>
             </button>
 
-            {/* 고정 안내창 (suggested_project일 경우) */}
-            {suggested_project && (
-              <div
-                className="absolute left-[-225px] top-[-42px]
-             rounded-tl-xl rounded-tr-xl rounded-bl-xl max-w-[280px]
-             bg-[#FCF8FF] px-4 py-2 shadow-md z-30
-             body-medium-emphasis text-[#16134A]"
-              >
-                <p>히로님에게 제안을 보낸 프로젝트예요</p>
-                <p>지금 바로 지원하고 연락해 보세요!</p>
-              </div>
-            )}
+            </ToolTip>
+            
 
-            {applied_project && (
+            {/* 고정 안내창 (suggested_project일 경우) */}
+            {/* {suggested_project && (
+              <ToolTip content={'히로님에게 제안을 보낸 프로젝트예요\n지금 바로 지원하고 연락해 보세요!'} />
+            //   <div
+            //     className="absolute left-[-225px] top-[-42px]
+            //  rounded-tl-xl rounded-tr-xl rounded-bl-xl max-w-[280px]
+            //  bg-[#FCF8FF] px-4 py-2 shadow-md z-30
+            //  body-medium-emphasis text-[#16134A]"
+            //   >
+            //     <p>히로님에게 제안을 보낸 프로젝트예요</p>
+            //     <p>지금 바로 지원하고 연락해 보세요!</p>
+            //   </div>
+            )} */}
+
+            {/* {applied_project && (
               <div
                 className="absolute left-[-212px] top-[-42px]
              rounded-tl-xl rounded-tr-xl rounded-bl-xlmax-w-[280px]
@@ -286,7 +300,7 @@ const handleProposalSent = () => {
                 <p>제안을 기다리고 있어요</p>
                 <p>제안이 오면 알림을 보내드릴게요</p>
               </div>
-            )}
+            )} */}
           </div>
 
           <button

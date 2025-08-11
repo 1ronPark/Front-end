@@ -1,4 +1,5 @@
 import projectEmptyIcon from "../../../assets/icons/mypage/project_empty.png";
+import { NavLink } from "react-router-dom";
 
 const MyProjectEmpty = () => {
   return (
@@ -13,18 +14,20 @@ const MyProjectEmpty = () => {
       </div>
       {/* 밑에 버튼들 */}
       <div className="flex flex-col items-start gap-4">
-        <button
+        <NavLink
+          to="/projects"
           className="w-[240px] h-[40px] flex flex-col justify-center items-center 
         rounded-xl bg-[#5A5891] hover:cursor-pointer"
         >
-          <p className="text-[#FFF] label-large">둘러보러가기</p>
-        </button>
-        <button
+          <p className="text-[#FFF] label-large"> 둘러보러가기 </p>
+        </NavLink>
+        <NavLink
+          to ="/register-project"
           className="w-[240px] h-[40px] flex flex-col justify-center items-center 
         rounded-xl border border-[#C8C5D0] border-solid hover:cursor-pointer"
         >
-          <p className="text-[#47464F] label-large">등록하러가기</p>
-        </button>
+          <p className="text-[#47464F] label-large"> 등록하러가기 </p>
+        </NavLink>
       </div>
     </div>
   );

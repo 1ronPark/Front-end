@@ -9,6 +9,8 @@ import Portfolio from "../components/mypage/edit/Portfolio";
 }
 import History from "../components/mypage/edit/History";
 import Save from "../components/mypage/edit/Save";
+import { useProfileStore } from "../store/useProfileStore";
+import { useDeletePositions, usePostPositions } from "../hooks/usePositions";
 
 const MOCK_USER_DATA = {
   id: 1,
@@ -37,6 +39,46 @@ const SECTIONS = [
   /*{ id: 'reception-status', component: <Reception /> },*/
 }
 export const FormEdit = () => {
+  const positions = useProfileStore((s) => s.positions);
+  const initialPositions = useProfileStore((s) => s.initialPositions);
+
+  const { mutateAsync: postPosition, isPending: posting } = usePostPositions();
+  const { mutateAsync: deletePosition, isPending: deleting } =
+    useDeletePositions();
+
+  const handleSave = async () => {
+    const toAdd = positions.filter((p) => !initialPositions.includes(p));
+    const toRemove = initialPositions.filter((p) => !positions.includes(p));
+
+    if (toAdd.length === 0 && toRemove.length === 0) {
+      alert("변경된 포지션이 없습니다.");
+      return;
+    }
+
+    try {
+      // 안전하게 삭제 → 추가 순서
+      for (const pos of toRemove) {
+        await deletePosition({
+          endpoint: `/api/v1/members/position?positionName=${encodeURIComponent(
+            pos
+          )}`,
+        });
+      }
+      for (const pos of toAdd) {
+        await postPosition({
+          endpoint: `/api/v1/members/position?positionName=${encodeURIComponent(
+            pos
+          )}`,
+        });
+      }
+
+      alert("포지션이 저장되었습니다.");
+      // 다음 렌더 시 Desired에서 useGetProfile이 다시 불리면 자동 복원됨
+      // (리스트 갱신이 필요하면 프로필 GET 쿼리 키를 invalidate하거나 페이지 재진입시 자동으로 됨)
+    } catch {
+      alert("저장 중 오류가 발생했습니다. 다시 시도해 주세요.");
+    }
+  };
   const [activeSection, setActiveSection] = useState("basic-info");
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -81,7 +123,7 @@ export const FormEdit = () => {
               {section.component}
             </div>
           ))}
-          <Save />
+          <Save onClick={handleSave} disabled={posting || deleting} />
         </div>
         <div className="sticky top-8 ml-8 w-64 flex-shrink-0 self-start">
           <ModifyingMenu activeSection={activeSection} />

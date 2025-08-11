@@ -17,7 +17,7 @@ export interface CreateProjectResponse {
 export const useCreateProject = () => {
   return useApiMutation<FormData, CreateProjectResponse>({
     method: "POST",
-    endpoint: "/api/v1/items",
+    endpoint: `${import.meta.env.VITE_API_ITEMS_ENDPOINT}`,
     onSuccess: () => {
       alert("프로젝트 등록 완료!");
     },

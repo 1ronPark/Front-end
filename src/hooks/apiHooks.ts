@@ -1,21 +1,19 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { fetchRequest } from './fetchRequest';
-
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { fetchRequest } from "./fetchRequest";
 
 interface ApiQueryOptions {
-  method: 'GET';
+  method: "GET";
   endpoint: string;
   enabled?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface ApiMutationOptions<_TBody = unknown, TResult = unknown> {
-  method: 'POST' | 'PUT' | 'DELETE';
+  method: "POST" | "PUT" | "DELETE";
   endpoint: string;
   onSuccess?: (data: TResult) => void;
   onError?: (error: Error) => void;
 }
-
 
 // =================================================================
 //  API 요청을 위한 커스텀 훅들
@@ -33,16 +31,18 @@ export const useApiQuery = <T>(options: ApiQueryOptions) => {
   });
 };
 
+
+
 export const useApiMutation = <TBody = unknown, TResult = unknown>(
   options: ApiMutationOptions<TBody, TResult>
 ) => {
   const queryClient = useQueryClient();
 
-  return useMutation<TResult, Error, TBody>({
-    mutationFn: (body: TBody) =>
+  return useMutation<TResult, Error, { body?: TBody; endpoint?: string }>({
+    mutationFn: ({ body, endpoint }) =>
       fetchRequest<TResult>({
         method: options.method,
-        endpoint: options.endpoint,
+        endpoint: endpoint ?? options.endpoint, //호출 시 endpoint 우선
         body,
       }),
     onSuccess: (data) => {

@@ -14,7 +14,7 @@ const TABS = [
 const MypageSidebar = ({ currentTab, setCurrentTab }: Props) => {
   const getButtonClass = (tabId: "info" | "edit" | "projects") =>
     currentTab === tabId
-      ? "flex items-center gap-3 rounded-full bg-[#E9DEF8] px-4 py-2 text-md font-semibold text-primary-800"
+      ? "flex items-center gap-3 rounded-full bg-[#E3E0F9] px-4 py-2 text-md font-semibold text-primary-800"
       : "flex items-center gap-3 rounded-full px-4 py-2 text-md text-gray-600 hover:bg-gray-100";
 
   return (
