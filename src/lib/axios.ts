@@ -4,6 +4,8 @@ import { useAuthStore } from '../store/useAuthStore';
 const axiosInstance = axios.create({
   baseURL: `/api`,
   withCredentials: true,
+  // HTTP 강제 사용 (권장하지 않음)
+  httpsAgent: false
 });
 
 console.log('AXIOS BASE', axiosInstance.defaults.baseURL);
