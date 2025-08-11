@@ -1,4 +1,4 @@
-import { useApiQuery } from "./apiHooks";
+import { useApiMutation, useApiQuery } from "./apiHooks";
 
 interface GetRegionSidoResponse {
   isSuccess: boolean;
@@ -22,6 +22,31 @@ interface GetRegionSigunguResponse {
   success: boolean;
 }
 
+interface PostRegionRegionResponse {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  result: {
+    regions: {
+      siDo: string; // 시/도
+      siGunGu: string; // 시/군/구
+    }[];
+  };
+  success: boolean;
+}
+
+export type MemberRegion = { siDo: string; siGunGu: string };
+
+type PostRegionsBody = { memberRegions: MemberRegion[] };
+
+// interface DeleteRegionByIdResponse {
+//   isSuccess: boolean;
+//   code: string;
+//   message: string;
+//   result: { memberRegionId: number };
+//   success: boolean;
+// }
+
 export const useGetRegionsSido = () => {
   return useApiQuery<GetRegionSidoResponse>({
     method: "GET",
@@ -41,3 +66,27 @@ export const useGetRegionSigungu = (siDo?: string) => {
     enabled: !!siDo, // siDo 값이 있을 때만 요청
   });
 };
+
+export const usePostRegion = () => {
+  return useApiMutation<PostRegionsBody, PostRegionRegionResponse>({
+    method: "POST",
+    endpoint: "/api/v1/members/regions", // 기본값 (호출 시 덮어씀)
+    onSuccess: (data) => {
+      alert(
+        `지역 ${data.result.regions
+          .map((r) => `${r.siDo} ${r.siGunGu}`)
+          .join(", ")}이(가) 등록되었습니다.`
+      );
+    },
+    onError: (error) => {
+      alert(`지역 등록에 실패했습니다: ${error.message}`);
+    },
+  });
+};
+
+// ✅ 삭제: path parameter로 memberRegionId 전달
+export const useDeleteRegionById = () =>
+  useApiMutation<undefined, { result: { memberRegionId: number } }>({
+    method: "DELETE",
+    endpoint: "/api/v1/members/regions", // 호출할 때 /{id} 로 덮어씀
+  });
