@@ -7,9 +7,16 @@ import { useGetPositions } from "../../../hooks/usePositions";
 import { useGetProfile } from "../../../hooks/useProfile";
 import { useProfileStore } from "../../../store/useProfileStore";
 
+type RowMeta = {
+  siDo: string;
+  siGunGu: string;
+  _i: number;
+  _virtual?: boolean;
+};
+
 const Desired = () => {
-  const { data: allPositions } = useGetPositions(); // 포지션 옵션
-  const { data: profile } = useGetProfile(); // 프로필(positions, regions 포함)
+  const { data: allPositions } = useGetPositions();
+  const { data: profile } = useGetProfile();
 
   // 포지션 (단일 선택)
   const positions = useProfileStore((s) => s.positions);
@@ -17,12 +24,12 @@ const Desired = () => {
   const setInitialPositions = useProfileStore((s) => s.setInitialPositions);
   const togglePosition = useProfileStore((s) => s.togglePosition);
 
-  // 지역 (스토어만 사용)
+  // 지역 (스토어)
   const regions = useProfileStore((s) => s.regions); // [{id?, siDo, siGunGu}]
   const setInitialRegions = useProfileStore((s) => s.setInitialRegions);
   const setRegions = useProfileStore((s) => s.setRegions);
 
-  // 드롭다운 open 상태
+  // 드롭다운 open 상태(행의 "실인덱스" 기준 키 사용)
   const [cityDropdownOpen, setCityDropdownOpen] = useState<
     Record<number, boolean>
   >({});
@@ -40,57 +47,87 @@ const Desired = () => {
   // 최초 지역 동기화 (id 포함)
   useEffect(() => {
     const server = profile?.result?.regions ?? []; // [{id, siDo, siGunGu}]
-    setInitialRegions(
-      server.map((r) => ({ id: r.id, siDo: r.siDo, siGunGu: r.siGunGu }))
-    );
-    setRegions(
-      server.map((r) => ({ id: r.id, siDo: r.siDo, siGunGu: r.siGunGu }))
-    );
+    const mapped = server.map((r) => ({
+      id: r.id,
+      siDo: r.siDo,
+      siGunGu: r.siGunGu,
+    }));
+    setInitialRegions(mapped);
+    setRegions(mapped);
   }, [profile, setInitialRegions, setRegions]);
-
-  // 렌더용 행: regions가 비어있으면 1행을 가상으로 보여줌
-  const rows = regions.length > 0 ? regions : [{ siDo: "", siGunGu: "" }];
 
   const allCities = Object.keys(locationData);
 
+  // 완료된 지역만 카운트
+  const completedEntries: RowMeta[] = regions
+    .map((r, i) => ({ siDo: r.siDo, siGunGu: r.siGunGu, _i: i }))
+    .filter((r) => r.siDo && r.siGunGu);
+
+  const completedCount = completedEntries.length;
+
+  // regions 안의 "미완성" 항목 1개(있다면)
+  const firstIncomplete: RowMeta | undefined = regions
+    .map((r, i) => ({ siDo: r.siDo, siGunGu: r.siGunGu, _i: i }))
+    .find((r) => !r.siDo || !r.siGunGu);
+
+  // rows = 완료된 지역 + (미완성 1개 or 가상빈행 1개; 단, 3개 미만일 때만)
+  const rows: RowMeta[] =
+    completedCount < 3
+      ? [
+          ...completedEntries,
+          firstIncomplete ?? {
+            siDo: "",
+            siGunGu: "",
+            _i: regions.length,
+            _virtual: true,
+          },
+        ]
+      : completedEntries;
+
   const handleAddLocation = () => {
-    if (regions.length >= 3) return;
+    // 3개 이상이면 추가 X, 이미 미완성 행이 있으면 또 추가 X
+    if (completedCount >= 3) return;
+    if (regions.some((r) => !r.siDo || !r.siGunGu)) return;
     setRegions([...regions, { siDo: "", siGunGu: "" }]);
   };
 
-  const handleRemoveLocation = (index: number) => {
-    if (regions.length === 0) return; // 가상행일 땐 삭제 없음
-    setRegions(regions.filter((_, i) => i !== index));
+  const handleRemoveLocation = (realIndex: number) => {
+    // 실제 인덱스 기준 삭제
+    if (regions.length === 0) return;
+    setRegions(regions.filter((_, i) => i !== realIndex));
   };
 
   const handleLocationChange = (
-    index: number,
+    realIndex: number,
     field: "city" | "district",
     value: string
   ) => {
     // 빈 배열(가상행) 상태에서 선택되면 실데이터 생성
     const base =
       regions.length > 0 ? [...regions] : [{ siDo: "", siGunGu: "" }];
-    while (base.length <= index) base.push({ siDo: "", siGunGu: "" });
+    while (base.length <= realIndex) base.push({ siDo: "", siGunGu: "" });
 
     if (field === "city") {
-      base[index] = { siDo: value, siGunGu: "" }; // 시/도 변경 시 군구 초기화
-      setCityDropdownOpen((prev) => ({ ...prev, [index]: false }));
+      base[realIndex] = { siDo: value, siGunGu: "" }; // 시/도 변경 시 군구 초기화
+      setCityDropdownOpen((prev) => ({ ...prev, [realIndex]: false }));
     } else {
-      base[index] = { ...base[index], siGunGu: value };
-      setDistrictDropdownOpen((prev) => ({ ...prev, [index]: false }));
+      base[realIndex] = { ...base[realIndex], siGunGu: value };
+      setDistrictDropdownOpen((prev) => ({ ...prev, [realIndex]: false }));
     }
-    setRegions(base.slice(0, 3)); // 즉시 스토어 동기화
+    setRegions(base.slice(0, 3)); // 최대 3개
   };
 
-  const toggleCityDropdown = (index: number) => {
-    setCityDropdownOpen((prev) => ({ ...prev, [index]: !prev[index] }));
-    setDistrictDropdownOpen((prev) => ({ ...prev, [index]: false }));
+  const toggleCityDropdown = (realIndex: number) => {
+    setCityDropdownOpen((prev) => ({ ...prev, [realIndex]: !prev[realIndex] }));
+    setDistrictDropdownOpen((prev) => ({ ...prev, [realIndex]: false }));
   };
 
-  const toggleDistrictDropdown = (index: number) => {
-    setDistrictDropdownOpen((prev) => ({ ...prev, [index]: !prev[index] }));
-    setCityDropdownOpen((prev) => ({ ...prev, [index]: false }));
+  const toggleDistrictDropdown = (realIndex: number) => {
+    setDistrictDropdownOpen((prev) => ({
+      ...prev,
+      [realIndex]: !prev[realIndex],
+    }));
+    setCityDropdownOpen((prev) => ({ ...prev, [realIndex]: false }));
   };
 
   return (
@@ -108,40 +145,46 @@ const Desired = () => {
             선호 하는 지역을 선택해 주세요
           </p>
         </div>
+
         <div className="space-y-4 min-w-[550px]">
           <p className="text-sm font-semibold text-gray-600">
-            지역선택 {regions.length > 0 ? regions.length : 1} / 3
+            지역선택 {Math.max(1, completedCount)} / 3
           </p>
 
           {rows
             .slice()
             .reverse()
             .map((row, reversedIndex) => {
-              const index = rows.length - 1 - reversedIndex; // 실제 index
+              const rowIndex = rows.length - 1 - reversedIndex; // rows 기준 인덱스
+              const isLast = rowIndex === rows.length - 1; // 마지막 행(=추가 행)
+              const realIndex = rows[rowIndex]._i; // 실제 regions 인덱스
               const selectedCity = row.siDo;
               const districtOptions = selectedCity
                 ? locationData[selectedCity] || []
                 : [];
 
               return (
-                <div key={index} className="flex items-center gap-4">
+                <div
+                  key={`${realIndex}-${rowIndex}`}
+                  className="flex items-center gap-4"
+                >
                   {/* 시/도 */}
                   <div className="relative w-[280px]">
                     <SplitButton
                       labelText={row.siDo || "시/도"}
-                      onClickLeading={() => toggleCityDropdown(index)}
-                      onClickTrailing={() => toggleCityDropdown(index)}
+                      onClickLeading={() => toggleCityDropdown(realIndex)}
+                      onClickTrailing={() => toggleCityDropdown(realIndex)}
                     />
                     <CustomDropdown
                       options={allCities}
                       onSelect={(value) =>
-                        handleLocationChange(index, "city", value)
+                        handleLocationChange(realIndex, "city", value)
                       }
-                      isOpen={cityDropdownOpen[index] || false}
+                      isOpen={cityDropdownOpen[realIndex] || false}
                       setIsOpen={(isOpen) =>
                         setCityDropdownOpen((prev) => ({
                           ...prev,
-                          [index]: isOpen,
+                          [realIndex]: isOpen,
                         }))
                       }
                       selectedValue={row.siDo}
@@ -152,20 +195,20 @@ const Desired = () => {
                   <div className="relative w-[280px]">
                     <SplitButton
                       labelText={row.siGunGu || "시/군/구"}
-                      onClickLeading={() => toggleDistrictDropdown(index)}
-                      onClickTrailing={() => toggleDistrictDropdown(index)}
+                      onClickLeading={() => toggleDistrictDropdown(realIndex)}
+                      onClickTrailing={() => toggleDistrictDropdown(realIndex)}
                       disabled={!row.siDo}
                     />
                     <CustomDropdown
                       options={districtOptions}
                       onSelect={(value) =>
-                        handleLocationChange(index, "district", value)
+                        handleLocationChange(realIndex, "district", value)
                       }
-                      isOpen={districtDropdownOpen[index] || false}
+                      isOpen={districtDropdownOpen[realIndex] || false}
                       setIsOpen={(isOpen) =>
                         setDistrictDropdownOpen((prev) => ({
                           ...prev,
-                          [index]: isOpen,
+                          [realIndex]: isOpen,
                         }))
                       }
                       selectedValue={row.siGunGu}
@@ -174,20 +217,19 @@ const Desired = () => {
                   </div>
 
                   {/* 추가/삭제 버튼 */}
-                  {index === rows.length - 1 && regions.length < 3 ? (
+                  {isLast && completedCount < 3 ? (
                     <button
-                      className="flex w-32 cursor-pointer items-center justify-center gap-1 rounded-md bg-[#68548E] py-3 text-white transition-all hover:scale-105 hover:bg-[#59407e]"
+                      className="flex w-32 items-center justify-center gap-1 rounded-md bg-[#68548E] py-3 text-white transition-all hover:scale-105 hover:bg-[#59407e]"
                       onClick={handleAddLocation}
                     >
                       <Plus size={16} />
                       <span>추가</span>
                     </button>
                   ) : (
-                    rows.length > 1 && (
+                    rows.length > 0 && (
                       <button
-                        className="flex w-32 cursor-pointer items-center justify-center gap-1 rounded-md border border-gray-300 bg-white py-3 text-gray-500 transition-all hover:scale-105 hover:bg-gray-100"
-                        onClick={() => handleRemoveLocation(index)}
-                        disabled={regions.length === 0} // 가상행일 땐 삭제 불가
+                        className="flex w-32 items-center justify-center gap-1 rounded-md border border-gray-300 bg-white py-3 text-gray-500 transition-all hover:scale-105 hover:bg-gray-100"
+                        onClick={() => handleRemoveLocation(realIndex)}
                       >
                         <Minus size={16} />
                         <span>삭제</span>

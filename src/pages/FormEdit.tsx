@@ -4,14 +4,18 @@ import Desired from "../components/mypage/edit/Desired";
 import ModifyingMenu from "../components/mypage/edit/ModifyingMenu";
 import Strength from "../components/mypage/edit/Strength";
 import Portfolio from "../components/mypage/edit/Portfolio";
-{
-  /*import Reception from '../components/mypage/edit/Reception';*/
-}
+// import Reception from "../components/mypage/edit/Reception";
 import History from "../components/mypage/edit/History";
 import Save from "../components/mypage/edit/Save";
+
 import { useProfileStore } from "../store/useProfileStore";
 import { useDeletePositions, usePostPositions } from "../hooks/usePositions";
 import { useDeleteRegionById, usePostRegion } from "../hooks/useRegion";
+import {
+  usePostStrengths,
+  useDeleteStrengthsById,
+} from "../hooks/useStrengths";
+import Reception from "../components/mypage/edit/Reception";
 
 const MOCK_USER_DATA = {
   id: 1,
@@ -35,32 +39,41 @@ const SECTIONS = [
   { id: "strengths", component: <Strength /> },
   { id: "portfolio", component: <Portfolio /> },
   { id: "history", component: <History /> },
+  { id: "reception-status", component: <Reception /> },
 ];
-{
-  /*{ id: 'reception-status', component: <Reception /> },*/
-}
+
 export const FormEdit = () => {
+  // ===== Store =====
+  // 포지션
   const positions = useProfileStore((s) => s.positions);
   const initialPositions = useProfileStore((s) => s.initialPositions);
 
+  // 지역
+  const initialRegions = useProfileStore((s) => s.initialRegions);
+  const regions = useProfileStore((s) => s.regions);
+
+  // 강점(id 기반) — store에 추가되어 있다고 가정
+
+  // ===== Hooks =====
+  // 포지션
   const { mutateAsync: postPosition, isPending: posting } = usePostPositions();
   const { mutateAsync: deletePosition, isPending: deleting } =
     useDeletePositions();
 
-  // 훅 사용
+  // 지역
   const { mutateAsync: postRegion, isPending: postingRegion } = usePostRegion();
   const { mutateAsync: deleteRegionById, isPending: deletingRegion } =
     useDeleteRegionById();
 
+  // 강점
+
+  // ===== Save =====
   const handleSave = async () => {
-    // ===== 1) 포지션 diff (기존)
+    // 1) 포지션 diff
     const toAdd = positions.filter((p) => !initialPositions.includes(p));
     const toRemove = initialPositions.filter((p) => !positions.includes(p));
 
-    // ===== 2) 선호지역 diff
-    const initialRegions = useProfileStore.getState().initialRegions; // [{ id?, siDo, siGunGu }]
-    const regions = useProfileStore.getState().regions;
-
+    // 2) 지역 diff
     const sameRegion = (
       a: { siDo: string; siGunGu: string },
       b: { siDo: string; siGunGu: string }
@@ -85,17 +98,17 @@ export const FormEdit = () => {
     }
 
     try {
-      // 권장 순서: 삭제 → 추가 (지역, 포지션 모두)
+      // 권장 순서: 삭제 → 추가
 
-      // ---- 지역 삭제 (DELETE /api/v1/members/regions/{memberRegionId})
+      // --- 지역 삭제 (DELETE /api/v1/members/regions/{memberRegionId})
       for (const ir of regionsToRemove) {
-        if (!ir.id) continue; // 안전장치 (id 없는 건 서버에 없던 신규 항목)
+        if (!ir.id) continue; // id 없으면 서버에 없던 신규 항목
         await deleteRegionById({
           endpoint: `/api/v1/members/regions/${ir.id}`,
         });
       }
 
-      // ---- 포지션 삭제
+      // --- 포지션 삭제 (DELETE /api/v1/members/position?positionName=...)
       for (const pos of toRemove) {
         await deletePosition({
           endpoint: `/api/v1/members/position?positionName=${encodeURIComponent(
@@ -103,7 +116,10 @@ export const FormEdit = () => {
           )}`,
         });
       }
-      // (3) 지역 추가  ✅ 배열로 body 전송
+
+      // --- 강점 삭제 (DELETE /api/v1/members/strengths/{id})
+
+      // --- 지역 추가 (POST 배열 바디)
       if (regionsToAdd.length > 0) {
         await postRegion({
           body: {
@@ -115,7 +131,7 @@ export const FormEdit = () => {
         });
       }
 
-      // ---- 포지션 추가
+      // --- 포지션 추가 (POST /api/v1/members/position?positionName=...)
       for (const pos of toAdd) {
         await postPosition({
           endpoint: `/api/v1/members/position?positionName=${encodeURIComponent(
@@ -125,12 +141,14 @@ export const FormEdit = () => {
       }
 
       alert("프로필이 저장되었습니다.");
-      // useApiMutation에서 invalidateQueries 해두었다면 프로필 GET 자동 리패치됨
-    } catch {
+      // useApiMutation에서 invalidateQueries 해두었다면 관련 GET 자동 리패치
+    } catch (e) {
+      console.error(e);
       alert("저장 중 오류가 발생했습니다. 다시 시도해 주세요.");
     }
   };
 
+  // ===== Side menu active section tracking =====
   const [activeSection, setActiveSection] = useState("basic-info");
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -138,27 +156,18 @@ export const FormEdit = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
+          if (entry.isIntersecting) setActiveSection(entry.target.id);
         });
       },
       { rootMargin: "-30% 0px -60% 0px", threshold: 0 }
     );
 
     const refsSnapshot = [...sectionRefs.current];
-
-    refsSnapshot.forEach((ref) => {
-      if (ref) observer.observe(ref);
-    });
-
-    return () => {
-      refsSnapshot.forEach((ref) => {
-        if (ref) observer.unobserve(ref);
-      });
-    };
+    refsSnapshot.forEach((ref) => ref && observer.observe(ref));
+    return () => refsSnapshot.forEach((ref) => ref && observer.unobserve(ref));
   }, []);
 
+  // ===== Render =====
   return (
     <div className="flex justify-center w-full">
       <div className="flex w-full max-w-[1024px] px-6 py-8">
@@ -180,6 +189,7 @@ export const FormEdit = () => {
             disabled={posting || deleting || postingRegion || deletingRegion}
           />
         </div>
+
         <div className="sticky top-8 ml-8 w-64 flex-shrink-0 self-start">
           <ModifyingMenu activeSection={activeSection} />
         </div>
