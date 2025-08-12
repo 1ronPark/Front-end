@@ -20,9 +20,6 @@ export const LoginPassword = () => {
         onSuccess: () => {
           navigate("/"); // 로그인 성공 시 홈으로 이동
         },
-        onError: (error: Error) => {
-          alert("로그인 실패: " + error.message);
-        },
       }
     );
   };

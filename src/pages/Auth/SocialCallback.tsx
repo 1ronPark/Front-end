@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/useAuthStore";
 import { useSocialCallback } from "../../queries/auth";
 import { AxiosError } from "axios";
+import LoadingPage from "../LoadingPage";
 
 const SocialCallback = () => {
   // const [sp] = useSearchParams(); // removed unused
@@ -42,28 +43,37 @@ const SocialCallback = () => {
         const res = await callbackMutation.mutateAsync({ endpoint });
         const { accessToken } = res.result;
         setToken(accessToken);
-        navigate("/", { replace: true });
+        alert("회원정보를 수정하셔야 LightUp을 사용하실 수 있어요.");
+        navigate("/myprofile?tab=info", { replace: true });
       } catch (error) {
-        const err = error as AxiosError<{ code?: string; message?: string; result?: string }>; // 타입 안전화
-        const status = err.response?.status;
-        const backendCode = err.response?.data?.code;
-        // 디버깅용 로그 (콘솔에서 백엔드 코드/메시지 확인)
-        console.error("[SOCIAL_CALLBACK_FAIL]", {
-          status,
-          code: backendCode,
-          message: err.response?.data?.message,
-          result: err.response?.data?.result,
-          endpoint,
-        });
-        navigate(`/login?error=${backendCode || status || "social"}`, { replace: true });
+      const err = error as AxiosError<{ code?: string; message?: string; result?: string }>;
+      const status = err.response?.status;
+      const backendCode = err.response?.data?.code;
+      const backendMessage = err.response?.data?.message;
+
+      // 디버깅 로그
+      console.error("[SOCIAL_CALLBACK_FAIL]", {
+        status,
+        code: backendCode,
+        message: backendMessage,
+        result: err.response?.data?.result,
+        endpoint,
+      });
+
+      // 특정 에러코드 처리
+      if (backendCode === "CREDENTIAL4001") {
+        alert(backendMessage || "이미 가입된 이메일입니다.");
       }
-    };
 
+      navigate(`/login?error=${backendCode || status || "social"}`, { replace: true });
+    }
+  }
     void run();
+    
   // 의존성 비움: code/provider는 useMemo로 고정, 뮤테이션 인스턴스 변경에도 재실행 방지
-  }, []);
+  }, ) ;
 
-  return <div>소셜 로그인 처리 중...</div>;
+  return <LoadingPage />;
 };
 
 export default SocialCallback;
