@@ -29,9 +29,9 @@ export const LikeButton = ({ itemId, likedByCurrentUser = false }: LikeButtonPro
     const revertOnError = () => setLiked(prev);
 
     if (prev) {
-      unlikeProject.mutate(undefined, { onError: revertOnError });
+      unlikeProject.mutate({body: undefined}, { onError: revertOnError });
     } else {
-      likeProject.mutate(undefined, { onError: revertOnError });
+      likeProject.mutate({body: undefined}, { onError: revertOnError });
     }
     // 필요 시 onSuccess/onSettled에서 react-query invalidateQueries 호출
   };

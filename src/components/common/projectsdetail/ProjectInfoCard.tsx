@@ -1,3 +1,4 @@
+import { useState, useMemo, useEffect } from "react";
 import {
   Heart,
   User,
@@ -11,17 +12,18 @@ import ic_send from "../../../assets/icons/ic_send.svg";
 import ic_hail from "../../../assets/icons/projectDetail/ic_hail.svg";
 import Share from "../../../assets/icons/ic_share.svg";
 import Siren from "../../../assets/icons/ic_siren.svg";
+import ic_sendresume from "../../../assets/icons/ic_sendresume.svg";
+
 import { CATEGORY_ICON_MAP } from "../../../utils/categoryMap";
-import { useState, useMemo, useEffect } from "react";
 import {
   useLikeProject,
   useUnlikeProject,
 } from "../../../hooks/useProjectMutation";
+import { useProjectDetailCtx } from "../../../types/ProjectDetailContext";
 
 import ActionStatusModal from "../modals/ActionStatusModal";
 import AlertModal from "../modals/AlertModal";
-import ic_sendresume from "../../../assets/icons/ic_sendresume.svg";
-import { useProjectDetailCtx } from "../../../types/ProjectDetailContext";
+import ToolTip from "../tooltips/ToolTip";
 
 const ProjectInfoCard = () => {
   const {
@@ -76,13 +78,15 @@ const ProjectInfoCard = () => {
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (loading) return; // 중복 클릭 방지
+
     const prev = liked;
-    setLiked(!prev); // 낙관적 업데이트
+    setLiked(!prev);
     const revert = () => setLiked(prev); // 실패 시 롤백
+
     if (prev) {
-      unlikeProject.mutate(undefined, { onError: revert });
+      unlikeProject.mutate({ body: undefined }, { onError: revert });
     } else {
-      likeProject.mutate(undefined, { onError: revert });
+      likeProject.mutate({ body: undefined }, { onError: revert });
     }
   };
 
@@ -232,47 +236,32 @@ const ProjectInfoCard = () => {
 
         {/* 하단 버튼 + 팝업*/}
         <div className="flex gap-4 justify-center mt-4 mb-4">
-          <div className="relative">
-            <button
-              onClick={handleApplyClick}
-              disabled={applied}
-              className={`w-[200px] h-[56px] flex items-center justify-center gap-2.5 rounded-[16px] text-white
-      ${applied ? "opacity-60 bg-[#5A5891]" : "bg-[#545891] cursor-pointer"}`}
+          <div className="relative inline-block group">
+            <ToolTip
+              content={
+                applied
+                  ? "제안을 기다리고 있어요\n제안이 오면 알림을 보내드릴게요"
+                  : suggested_project
+                  ? "히로님에게 제안을 보낸 프로젝트예요\n지금 바로 지원하고 연락해 보세요!"
+                  : ""
+              }
             >
-              <img
-                src={applied ? ic_hail : ic_send}
-                alt="send icon"
-                className="w-6 h-6"
-              />
-              <p className="title-medium text-white">
-                {applied ? "이미 지원했어요" : "지원하기"}
-              </p>
-            </button>
-
-            {/* 고정 안내창 (suggested_project일 경우) */}
-            {suggested_project && (
-              <div
-                className="absolute left-[-225px] top-[-42px]
-             rounded-tl-xl rounded-tr-xl rounded-bl-xl max-w-[280px]
-             bg-[#FCF8FF] px-4 py-2 shadow-md z-30
-             body-medium-emphasis text-[#16134A]"
+              <button
+                onClick={handleApplyClick}
+                disabled={applied}
+                className={`w-[200px] h-[56px] flex items-center justify-center gap-2.5 rounded-[16px] text-white
+        ${applied ? "opacity-60 bg-[#5A5891]" : "bg-[#545891] cursor-pointer"}`}
               >
-                <p>히로님에게 제안을 보낸 프로젝트예요</p>
-                <p>지금 바로 지원하고 연락해 보세요!</p>
-              </div>
-            )}
-
-            {applied_project && (
-              <div
-                className="absolute left-[-212px] top-[-42px]
-             rounded-tl-xl rounded-tr-xl rounded-bl-xlmax-w-[280px]
-             bg-[#FCF8FF] px-4 py-2 shadow-md z-10
-             body-medium-emphasis text-[#16134A]"
-              >
-                <p>제안을 기다리고 있어요</p>
-                <p>제안이 오면 알림을 보내드릴게요</p>
-              </div>
-            )}
+                <img
+                  src={applied ? ic_hail : ic_send}
+                  alt="send icon"
+                  className="w-6 h-6"
+                />
+                <p className="title-medium text-white">
+                  {applied ? "이미 지원했어요" : "지원하기"}
+                </p>
+              </button>
+            </ToolTip>
           </div>
 
           <button
@@ -284,7 +273,7 @@ const ProjectInfoCard = () => {
             className={`w-[200px] h-[56px] inline-flex items-center justify-center gap-2.5 rounded-[16px] border transition
     ${
       liked
-        ? "bg-[#E3E0F9] border-purple-200 text-[#545891] hover[#E3E0F9]"
+        ? "bg-[#E3E0F9] border-purple-200 text-[#545891] hover:[#E3E0F9]"
         : "bg-transparant border-[#C8C5D0] text-[#47464F] hover:bg-gray-200"
     }
     ${loading ? "opacity-60 cursor-not-allowed" : "cursor-pointer"}

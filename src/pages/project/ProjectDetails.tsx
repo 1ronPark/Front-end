@@ -7,20 +7,23 @@ import CommentSection from "../../components/common/comment/CommentSection";
 import ProjectOverview from "../../components/common/projectsdetail/ProjectOverview";
 import ProjectInfoCard from "../../components/common/projectsdetail/ProjectInfoCard";
 import RecruitPart from "../../components/common/projectsdetail/RecruitPart";
+import LoadingPage from "../LoadingPage";
+import ErrorPage from "../ErrorPage";
 
 export const ProjectDetail = () => {
-  const { itemId } = useParams<{ itemId: string }>();
-  const numericId = Number(itemId ?? NaN);
+  const { projectId } = useParams<{ projectId: string }>();
+  const numericId = Number(projectId ?? NaN);
   const invalid = !Number.isFinite(numericId) || numericId <= 0;
 
-  // 훅은 항상 호출, invalid면 enabled:false로 설정
+  // 훅은 항상 호출, invalid면 enabled:false
   const { data, isLoading, isError } = useProjectDetail(numericId);
 
-  // itemId가 유효하지 않으면 프로젝트 목록으로 리다이렉트
   if (invalid) return <Navigate to="/projects" replace />;
-  if (isLoading) return <div className="p-8">상세 불러오는 중…</div>;
+
+  if (isLoading) return <LoadingPage />;
+
   if (isError || !data?.result)
-    return <div className="p-8">상세를 불러오지 못했습니다.</div>;
+    return <ErrorPage />;
 
   const value: ProjectDetailData = {  ...data.result, itemId: numericId };
 

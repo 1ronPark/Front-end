@@ -4,7 +4,6 @@ import { Eye, MessageSquareText } from "lucide-react";
 import defaultImage from "../../../assets/icons/project/project_defaultImage.png"; // 기본 이미지
 import Avatar from "../../../assets/ic_myprofile.svg";
 import { getRelativeDate } from "../../../utils/date"; // 날짜를 상대적인 형식으로 표시하는 유틸리티 함수
-//import type { ProjectListItem } from "../../../hooks/useProjectQueries";
 import type { ProjectListItem } from "../../../hooks/useProjectQueries";
 import { useState, useEffect } from "react";
 

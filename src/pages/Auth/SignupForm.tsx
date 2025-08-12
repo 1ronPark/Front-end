@@ -19,6 +19,31 @@ export const SignupForm = () => {
   // 컴포넌트 내
 const { setEmail } = useAuthStore();
 
+// SignupForm.tsx 상단 유틸 (이미 있다면 재사용)
+const makeState = () => Math.random().toString(36).slice(2);
+const FRONT = window.location.origin;
+
+const googleAuthorizeUrl = () => {
+  const p = new URLSearchParams({
+    client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+    redirect_uri: `${FRONT}/auth/social/callback`,
+    response_type: "code",
+    scope: "openid email profile",
+    state: "GOOGLE-" + makeState(),
+  });
+  return `https://accounts.google.com/o/oauth2/v2/auth?${p.toString()}`;
+};
+
+const kakaoAuthorizeUrl = () => {
+  const p = new URLSearchParams({
+    client_id: import.meta.env.VITE_KAKAO_REST_KEY,
+    redirect_uri: `${FRONT}/auth/social/callback`,
+    response_type: "code",
+    state: "KAKAO-" + makeState(),
+  });
+  return `https://kauth.kakao.com/oauth/authorize?${p.toString()}`;
+};
+
   return (
     <div className="min-h-screen label-large flex flex-col justify-center items-center pt-4 overflow-hidden bg-[radial-gradient(ellipse_116.75%_116.75%_at_50%_-16.75%,rgba(255,217,225,0.4)_0%,rgba(255,255,255,0.4)_100%),radial-gradient(ellipse_65.2%_65.2%_at_50%_0%,#EBDDFF_0%,white_100%)] ">
       {/* 상단 헤더 */}
@@ -69,7 +94,7 @@ const { setEmail } = useAuthStore();
 
         {/* 소셜 로그인 버튼들 */}
         <div className="w-full flex flex-col gap-4">
-          <button className="w-full h-12 border border-[#CBC4CF] rounded-full flex items-center justify-center gap-3 hover:bg-gray-50 cursor-pointer">
+          <button onClick={() => { window.location.href = googleAuthorizeUrl(); }} className="w-full h-12 border border-[#CBC4CF] rounded-full flex items-center justify-center gap-3 hover:bg-gray-50 cursor-pointer">
             <img
               src="https://www.svgrepo.com/show/475656/google-color.svg"
               alt="Google"
@@ -79,7 +104,8 @@ const { setEmail } = useAuthStore();
               Google 로 계속하기
             </span>
           </button>
-          <button className="w-full h-12 border border-[#CBC4CF] rounded-full flex items-center justify-center gap-3 hover:bg-gray-50 cursor-pointer">
+          <button onClick={() => { window.location.href = kakaoAuthorizeUrl(); }}
+          className="w-full h-12 border border-[#CBC4CF] rounded-full flex items-center justify-center gap-3 hover:bg-gray-50 cursor-pointer">
             <img
               src="https://www.svgrepo.com/show/303176/kakaotalk-logo.svg"
               alt="KakaoTalk"
