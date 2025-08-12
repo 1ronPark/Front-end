@@ -13,23 +13,23 @@ import Share from "../../../assets/icons/ic_share.svg";
 import Siren from "../../../assets/icons/ic_siren.svg";
 import { CATEGORY_ICON_MAP } from "../../../utils/categoryMap";
 import { useState, useMemo, useEffect } from "react";
-import type { ProjectDetailData } from "../../../types/ProjectDetailProps";
+import { useLikeProject, useUnlikeProject } from "../../../hooks/useProjectMutation";
 
 import ActionStatusModal from "../modals/ActionStatusModal";
 import AlertModal from "../modals/AlertModal";
 import ic_sendresume from "../../../assets/icons/ic_sendresume.svg";
-import { useLikeProject, useUnlikeProject } from "../../../hooks/useProjectMutation";
+import { useProjectDetailCtx } from "../../../types/ProjectDetailContext";
 
-const ProjectInfoCard = ({
+
+const ProjectInfoCard = () =>{
+  const {
+  itemId,
   introduce: sub_title,
   itemName: title,
   itemProfileImageUrl: profileImage,
   memberName: name,
   nickName,
-  gender,
-  age,
-  mbti,
-  email,
+  gender, age, mbti, email,
   school: univ,
   regions,
   //description, -> projectOverview에 넘겨줄 형식
@@ -41,8 +41,8 @@ const ProjectInfoCard = ({
   likedByCurrentUser,
   applied_project = false, 
 suggested_project = false, // 임시
-}: 
-ProjectDetailData) => {
+} = useProjectDetailCtx();
+
   const [showActionModal, setShowActionModal] = useState(false);
   const [showAlertModal, setShowAlertModal] = useState(false);
   const [applied, setApplied] = useState(applied_project);
@@ -50,31 +50,29 @@ ProjectDetailData) => {
 
   // 카테고리 이름 배열로 변환
   const categoryNames = useMemo(
-    () => itemCategories.map((c) => c.categoryName),
+    () => itemCategories.map(c => c.categoryName),
     [itemCategories]
   );
 
   // 지역 문자열
   const regionText = useMemo(
-    () => regions.map((r) => `${r.siDo} ${r.siGunGu}`).join(", "),
+    () => regions.map(r => `${r.siDo} ${r.siGunGu}`).join(", "),
     [regions]
   );
+
   useEffect(() => {
     setLiked(likedByCurrentUser);
   }, [likedByCurrentUser]);
 
   const likeProject = useLikeProject(itemId);
   const unlikeProject = useUnlikeProject(itemId);
-  
   const loading = likeProject.isPending || unlikeProject.isPending;
 
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (loading) return; // 중복 클릭 방지
-
     const prev = liked;
     setLiked(!prev); // 낙관적 업데이트
-
     const revert = () => setLiked(prev); // 실패 시 롤백
     if (prev) {
       unlikeProject.mutate(undefined, { onError: revert });
@@ -82,6 +80,7 @@ ProjectDetailData) => {
       likeProject.mutate(undefined, { onError: revert });
     }
   };
+
   // 지원 버튼 클릭
   const handleApplyClick = () => {
     setShowActionModal(true);

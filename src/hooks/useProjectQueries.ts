@@ -51,6 +51,7 @@ export const useProjectDetail = (itemId: number) => {
   return useApiQuery<ProjectDetailResponse>({
     method: 'GET',
     endpoint: `/api/v1/items/${itemId}`,
+    enabled: Number.isFinite(itemId) && itemId > 0,
   });
 };
 

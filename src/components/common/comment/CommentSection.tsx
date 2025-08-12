@@ -1,13 +1,16 @@
 
 import profile2 from "../../../assets/icons/projectDetail/profileExam2.png";
+import { useProjectDetailCtx } from "../../../types/ProjectDetailContext";
 import { RefreshCw } from "lucide-react";
 import CommentItem from "./CommentItem";
 
 const CommentSection = () => {
+  const { itemId, ItemComments, commentCount } = useProjectDetailCtx();
+
   return (
     <div className="w-full flex flex-col gap-4 px-4">
       {/* 댓글 수 */}
-      <p className="title-medium-emphasis text-[#1D1B20]">댓글 12개</p>
+      <p className="title-medium-emphasis text-[#1D1B20]">댓글 {commentCount}개</p>
 
       {/* 댓글 입력 박스 */}
       <div className="w-full flex items-start gap-4 p-4 rounded-xl bg-[rgba(29,27,32,0.08)]">

@@ -1,4 +1,3 @@
-//import type { CategoryType } from "./MyProjectCard";
 
 export type ProjectRegion = { siDo: string; siGunGu: string;};
 
@@ -23,6 +22,7 @@ export type ProjectComment = {
 };
 
 export type ProjectDetailData = {
+  itemId: number; //아직 추가 안됨
   introduce: string;
   itemName: string;
   itemProfileImageUrl: string;
@@ -34,7 +34,7 @@ export type ProjectDetailData = {
   email: string;
   school: string;
   regions: ProjectRegion[];
-  description: string;
+  description?: string;
   recruitPositions: ProjectRecruitPosition[];
   itemCategories: CategoryType[];
   itemComments: ProjectComment[];
