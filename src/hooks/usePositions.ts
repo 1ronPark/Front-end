@@ -35,7 +35,7 @@ interface DeletePositionResponse {
 export const useGetPositions = () => {
   return useApiQuery<GetPositionResponse>({
     method: "GET",
-    endpoint: import.meta.env.VITE_API_GET_POSITIONS_ENDPOINT,
+    endpoint: "/v1/positions",
   });
 };
 
@@ -55,7 +55,7 @@ export const usePostPositions = () => {
 export const useDeletePositions = () => {
   return useApiMutation<undefined, DeletePositionResponse>({
     method: "DELETE",
-    endpoint: "/v1/members/position", // 기본값 (호출 시 덮어씀)
+    endpoint: "/api/v1/members/position", // 기본값 (호출 시 덮어씀)
     onSuccess: (data) => {
       alert(`포지션 ${data.result.deletePositionName}이(가) 삭제되었습니다.`);
     },
