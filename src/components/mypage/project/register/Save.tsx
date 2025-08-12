@@ -18,7 +18,7 @@ const Save = () => {
   // API 호출을 위한 훅 세팅
   const createProject = useApiMutation<FormData, CreateProjectResponse>({
     method: "POST",
-    endpoint: "/v1/items",
+    endpoint: `${import.meta.env.VITE_API_ITEMS_ENDPOINT}`,
     onSuccess: (res: CreateProjectResponse) => {
       // 응답 성공 여부 확인
       if (!res.isSuccess) {
