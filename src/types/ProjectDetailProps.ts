@@ -21,8 +21,8 @@ export type ProjectComment = {
   updatedAt: string; //ISO 8601 형식의 날짜 문자열
 };
 
-export type ProjectDetailData = {
-  itemId: number; //아직 추가 안됨
+export type ProjectDetailDataApi = {
+  // 서버 응답 그대로 (itemId 없음)
   introduce: string;
   itemName: string;
   itemProfileImageUrl: string;
@@ -39,8 +39,10 @@ export type ProjectDetailData = {
   itemCategories: CategoryType[];
   itemComments: ProjectComment[];
   commentCount: number;
-  updatedAt: string;  // "YYYY-MM-DD"
+  updatedAt: string;
   likedByCurrentUser: boolean;
-  applied_project: boolean; // 지원한 프로젝트인지 여부
-  suggested_project: boolean; // 제안받은 프로젝트인지 여부
+  applied_project: boolean;
+  suggested_project: boolean;
 };
+
+export type ProjectDetailData = ProjectDetailDataApi & { itemId: number };

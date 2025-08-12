@@ -6,19 +6,37 @@ import Avatar from "../../../assets/ic_myprofile.svg";
 import { getRelativeDate } from "../../../utils/date"; // 날짜를 상대적인 형식으로 표시하는 유틸리티 함수
 //import type { ProjectListItem } from "../../../hooks/useProjectQueries";
 import type { ProjectListItem } from "../../../hooks/useProjectQueries";
+import { useState, useEffect } from "react";
 
 const ProjectCard = ({
   itemId: id,
   memberName: name,
- introduce: sub_title,
-  itemImageUrl: ImageUrl = defaultImage, // 이미지가 없을 경우 기본 이미지
+ introduce: sub_title = "프로젝트 소개가 없습니다.",
+  itemImageUrl: ImageUrl = defaultImage, // 이미지가 없을 경우 기본 이미지, 에러일 경우 확인 위해 흑백 이미지
   updatedAt: date,
-  school,
+  school = "학교 정보 없음",
   viewCount,
   commentCount,
   likedByCurrentUser,
 }: ProjectListItem) => {
   const navigate = useNavigate();
+
+    // 이미지 src와 에러 여부 상태
+  const [imgSrc, setImgSrc] = useState(ImageUrl || defaultImage);
+  const [imgBroken, setImgBroken] = useState(false);
+
+  // props가 바뀔 때마다 상태 초기화
+  useEffect(() => {
+    setImgSrc(ImageUrl || defaultImage);
+    setImgBroken(false);
+  }, [ImageUrl]);
+
+  const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    // 기본 이미지도 실패하면 무한 onError 방지
+    if ((e.currentTarget as HTMLImageElement).src.includes(defaultImage)) return;
+    setImgSrc(defaultImage);
+    setImgBroken(true); // ✅ 실패 시에만 흑백 처리
+  };
 
   return (
     <div
@@ -27,9 +45,12 @@ const ProjectCard = ({
     >
       {/* 썸네일 이미지 */}
       <img
-        src={ImageUrl || defaultImage} // 이미지가 없을 경우 기본 아바타 이미지 사용
+        src={imgSrc}
+        onError={handleImgError}
         alt="Project Thumbnail"
-        className="w-full h-[130px] object-cover object-center block"
+        className={`w-full h-[130px] object-cover object-center block ${
+          imgBroken ? "grayscale" : "" // 이미지가 깨지면 일단 흑백 처리
+        }`}
       />
       <div className="text-sm scale-[0.95]">
         <div className="px-2 py-1 flex flex-col">

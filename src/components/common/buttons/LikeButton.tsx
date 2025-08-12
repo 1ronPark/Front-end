@@ -4,7 +4,7 @@ import { useLikeProject, useUnlikeProject,  } from "../../../hooks/useProjectMut
 
 interface LikeButtonProps {
   itemId: number;
-  likedByCurrentUser?: boolean; // 초기 상태를 서버에서 받아올 경우 사용
+  likedByCurrentUser?: boolean; 
 }
 
 

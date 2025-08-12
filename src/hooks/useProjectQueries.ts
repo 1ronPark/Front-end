@@ -9,8 +9,8 @@ export interface ProjectListItem {
   itemImageUrl?: string; 
   updatedAt: string;
   recruitStatus?: boolean;
-  school: string;
-  introduce: string;
+  school?: string;
+  introduce?: string;
   viewCount: number;
   commentCount: number;
   likedByCurrentUser: boolean;
@@ -27,11 +27,21 @@ export interface ProjectListResponse {
   success: boolean;
 }
 
+
+
 // 전체 조회 api 훅
-export const useProjectList = (page: number = 0) => {
+export type ListSort = 'latest' | 'popular';
+
+export const useProjectList = (page: number, sort?: ListSort) => {
+  const apiPage = Math.max(1, Math.trunc(page));
+
+  const qs = new URLSearchParams();
+  qs.set('page', String(apiPage));
+  if (sort) qs.set('sort', sort);
+
   return useApiQuery<ProjectListResponse>({
-    method: `GET`,
-    endpoint: `/api/v1/items/search?page=${page}`, // 페이지네이션을 위한 쿼리 파라미터
+    method: 'GET',
+    endpoint: `/api/v1/items/search?${qs.toString()}`,
   });
 };
 
