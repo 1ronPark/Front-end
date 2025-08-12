@@ -41,7 +41,7 @@ export const LikeButton = ({ itemId, likedByCurrentUser = false }: LikeButtonPro
     type="button"
       onClick={handleClick}
       className={`w-5 h-5 cursor-pointer transition-colors duration-200 ${
-        liked ? "text-pink-600" : "text-gray-600 hover:text-gray-900"
+        liked ? "fill-[#5A5891] stroke-[#5A5891]" : "text-gray-600 hover:text-gray-900"
       }`}
     />
   );

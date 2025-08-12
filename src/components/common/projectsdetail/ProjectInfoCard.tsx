@@ -13,35 +13,40 @@ import Share from "../../../assets/icons/ic_share.svg";
 import Siren from "../../../assets/icons/ic_siren.svg";
 import { CATEGORY_ICON_MAP } from "../../../utils/categoryMap";
 import { useState, useMemo, useEffect } from "react";
-import { useLikeProject, useUnlikeProject } from "../../../hooks/useProjectMutation";
+import {
+  useLikeProject,
+  useUnlikeProject,
+} from "../../../hooks/useProjectMutation";
 
 import ActionStatusModal from "../modals/ActionStatusModal";
 import AlertModal from "../modals/AlertModal";
 import ic_sendresume from "../../../assets/icons/ic_sendresume.svg";
 import { useProjectDetailCtx } from "../../../types/ProjectDetailContext";
 
-
-const ProjectInfoCard = () =>{
+const ProjectInfoCard = () => {
   const {
-  itemId,
-  introduce: sub_title,
-  itemName: title,
-  itemProfileImageUrl: profileImage,
-  memberName: name,
-  nickName,
-  gender, age, mbti, email,
-  school: univ,
-  regions,
-  //description, -> projectOverview에 넘겨줄 형식
-  // likedByCurrentUser: liked,
- //ecruitPositions,
-  itemCategories,
-  //emComments,
-  updatedAt: date,
-  likedByCurrentUser,
-  applied_project = false, 
-suggested_project = false, // 임시
-} = useProjectDetailCtx();
+    itemId,
+    introduce: sub_title,
+    itemName: title,
+    itemProfileImageUrl: profileImage,
+    memberName: name,
+    nickName,
+    gender,
+    age,
+    mbti,
+    email,
+    school: univ,
+    regions,
+    //description, -> projectOverview에 넘겨줄 형식
+    // likedByCurrentUser: liked,
+    //ecruitPositions,
+    itemCategories,
+    //emComments,
+    updatedAt: date,
+    likedByCurrentUser,
+    applied_project = false,
+    suggested_project = false, // 임시
+  } = useProjectDetailCtx();
 
   const [showActionModal, setShowActionModal] = useState(false);
   const [showAlertModal, setShowAlertModal] = useState(false);
@@ -50,13 +55,13 @@ suggested_project = false, // 임시
 
   // 카테고리 이름 배열로 변환
   const categoryNames = useMemo(
-    () => itemCategories.map(c => c.categoryName),
+    () => itemCategories.map((c) => c.categoryName),
     [itemCategories]
   );
 
   // 지역 문자열
   const regionText = useMemo(
-    () => regions.map(r => `${r.siDo} ${r.siGunGu}`).join(", "),
+    () => regions.map((r) => `${r.siDo} ${r.siGunGu}`).join(", "),
     [regions]
   );
 
@@ -270,23 +275,26 @@ suggested_project = false, // 임시
             )}
           </div>
 
-    <button
-      type="button"
-      onClick={handleClick}
-      disabled={loading}
-      aria-pressed={liked}
-      className="flex items-center gap-2 cursor-pointer"
-    >
-      <Heart
-        className={`w-5 h-5 transition-colors duration-200 ${
-          liked ? "text-pink-600" : "text-gray-600 hover:text-gray-900"
-        }`}
-        fill={liked ? "currentColor" : "none"} // 색 채우기
-      />
-      <p className={liked ? "title-medium text-pink-600" : "title-medium text-[#49454E]"}>
-        {liked ? "관심 해제" : "관심 목록 추가"}
-      </p>
-    </button>
+          <button
+            type="button"
+            onClick={handleClick}
+            disabled={loading}
+            aria-pressed={liked}
+            aria-busy={loading}
+            className={`w-[200px] h-[56px] inline-flex items-center justify-center gap-2.5 rounded-[16px] border transition
+    ${
+      liked
+        ? "bg-[#E3E0F9] border-purple-200 text-[#545891] hover[#E3E0F9]"
+        : "bg-transparant border-[#C8C5D0] text-[#47464F] hover:bg-gray-200"
+    }
+    ${loading ? "opacity-60 cursor-not-allowed" : "cursor-pointer"}
+    focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-400`}
+          >
+            <Heart className="w-5 h-5" fill={liked ? "currentColor" : "none"} />
+            <span className="title-medium">
+              {liked ? "관심 해제" : "관심 목록 추가"}
+            </span>
+          </button>
         </div>
       </section>
 

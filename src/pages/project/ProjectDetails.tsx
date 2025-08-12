@@ -13,7 +13,7 @@ export const ProjectDetail = () => {
   const numericId = Number(itemId ?? NaN);
   const invalid = !Number.isFinite(numericId) || numericId <= 0;
 
-  
+  // 훅은 항상 호출, invalid면 enabled:false로 설정
   const { data, isLoading, isError } = useProjectDetail(numericId);
 
   // itemId가 유효하지 않으면 프로젝트 목록으로 리다이렉트

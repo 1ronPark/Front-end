@@ -35,7 +35,7 @@ const ProjectCard = ({
     // 기본 이미지도 실패하면 무한 onError 방지
     if ((e.currentTarget as HTMLImageElement).src.includes(defaultImage)) return;
     setImgSrc(defaultImage);
-    setImgBroken(true); // ✅ 실패 시에만 흑백 처리
+    setImgBroken(true); // 실패 시에만 흑백 처리
   };
 
   return (
@@ -49,7 +49,7 @@ const ProjectCard = ({
         onError={handleImgError}
         alt="Project Thumbnail"
         className={`w-full h-[130px] object-cover object-center block ${
-          imgBroken ? "grayscale" : "" // 이미지가 깨지면 일단 흑백 처리
+          imgBroken ? "grayscale" : "" // 흑백 처리
         }`}
       />
       <div className="text-sm scale-[0.95]">
