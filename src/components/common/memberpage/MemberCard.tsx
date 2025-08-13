@@ -3,25 +3,15 @@ import { Heart } from 'lucide-react';
 import ic_memberlocation from '../../../assets/icons/ic_memberlocation.svg';
 import { useNavigate } from 'react-router-dom';
 import type { MyInfoProps } from '../../../types/MyInfoProps';
-// import { useState } from 'react';
-//import { useLikeMember, useUnLikeMember } from '../../../hooks/useMember';
-
-// export type MemberCardProps = {
-//     id: number;
-//     name: string;
-//     nickname: string;
-//     gender: '남' | '여';
-//     mbti: string;
-//     location: string;
-//     role: string;
-//     skills: string[];
-//     strengths: string[];
-// };
+import { useEffect, useState } from 'react';
+import { useLikeMember, useUnLikeMember } from '../../../hooks/useMember';
 
 type MemberCardProps = Pick<
     MyInfoProps,
     "id" | "name" | "nickname" | "gender" | "mbti" | "location" | "role" | "skills" | "strengths"
->;
+> & {
+    liked?: boolean;
+};
 
 const MemberCard = ({
     id,
@@ -33,12 +23,13 @@ const MemberCard = ({
     role,
     skills,
     strengths,
+    liked=false,
 }: MemberCardProps) => {
 
-    // const [isLiked, setIsLiked] = useState(false);
+    const [isLiked, setIsLiked] = useState(liked);
 
-    // const likeMutation = useLikeMember(id);
-    // const unlikeMutation = useUnLikeMember(id);
+    const likeMutation = useLikeMember(id);
+    const unlikeMutation = useUnLikeMember(id);
 
     // const handleLikeClick = (e: React.MouseEvent) => {
     //     e.stopPropagation(); // 카드 클릭 막기
@@ -56,6 +47,23 @@ const MemberCard = ({
 
 
     const navigate = useNavigate();
+
+    useEffect(()=>setIsLiked(!!liked), [liked]);
+
+    const onHeartClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (isLiked) {
+            unlikeMutation.mutate({}, {
+                onSuccess: () => setIsLiked(false),
+                onError: () => setIsLiked(true),
+            });
+        } else {
+            likeMutation.mutate({}, {
+                onSuccess: () => setIsLiked(true),
+                onError: () => setIsLiked(false),
+            });
+        }
+    }
 
     return (
         <div
@@ -89,11 +97,19 @@ const MemberCard = ({
                     </div>
                 </div>
                 </div>
-                <Heart 
-                    className={`w-5 h-5 mt-[10.65px] cursor-pointer transition-colors duration-150
-                                `}
-                
-                />
+                <button
+                    onClick={onHeartClick}
+                    aria-label={isLiked ? '관심 해제' : '관심 추가'}
+                    className="p-1 mt-[10.65px] cursor-pointer transition-colors duration-150"
+                >
+                    {isLiked ? (
+                    // filled
+                    <Heart className="w-5 h-5  " fill="currentColor" stroke="currentColor" />
+                ) : (
+                    // outline
+                    <Heart className="w-5 h-5 " />
+                )}    
+                </button>
             </div>
 
             {/* 스킬과 강점 두 개씩만 */}

@@ -1,5 +1,5 @@
 interface MemberType {
-    memberId: number;
+    id: number;
     name: string;
     nickname: string;
     gender: boolean;
@@ -9,16 +9,14 @@ interface MemberType {
         siDo: string;
         siGunGu: string;
     }>;
-    positions: string[]; // ?
+    positions: string[];
     profileImageUrl: string;
 }
 
 // 전체 조회 목록용
 export interface MemberListItem extends MemberType {
-    id: number;
     // 목록에서 보여줄 기본 정보만 
-    positions: string[];
-    onlyLiked: boolean;
+    liked: boolean;
     skills: string[]; // 2개씩 표시
     strengths: string[];
 }
@@ -46,6 +44,7 @@ export interface MemberDetailData extends MemberType {
     }[];
     email: string;
     phoneNumber: string;
+    liked?: boolean;
 }
 
 // 필터 타입 추가

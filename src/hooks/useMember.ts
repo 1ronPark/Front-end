@@ -24,13 +24,15 @@ interface MemberDetailResponse {
 } 
 
 // 좋아요 응답 정의
-interface MemberLikeResponse {
-    isSuccess: boolean;
-    code: string;
-    message: string;
-    result: {};
-    success: boolean;
-}
+// interface MemberLikeResponse {
+//     isSuccess: boolean;
+//     code: string;
+//     message: string;
+//     result: {
+//         liked: boolean;
+//     };
+//     success: boolean;
+// }
 
 export const useMembers = (filters?: MemberFiltersParams) => {
     return useApiQuery<MemberListResponse>({
@@ -50,16 +52,28 @@ export const useMemberDetail = (memberId: number) => {
 
 // 회원 좋아요 기능
 export const useLikeMember = (memberId: number) => {
-    return useApiMutation<undefined, MemberLikeResponse>({
+    return useApiMutation<undefined, void>({
         method: 'POST',
         endpoint: `/v1/members/${memberId}/like`,
+        onSuccess: () => {
+            alert('좋아요 등록 완료!');
+        },
+        onError: (error) => {
+            alert(error.message || '좋아요 등록 실패');
+        },  
     });
 };
 
 // 회원 좋아요 취소 기능
 export const useUnLikeMember = (memberId: number) => {
-    return useApiMutation<undefined, MemberLikeResponse>({
+    return useApiMutation<undefined, void>({
         method: 'DELETE',
-        endpoint: `/v1/members/${memberId}/like`
+        endpoint: `/v1/members/${memberId}/like`,
+        onSuccess: () => {
+            console.log("좋아요 취소 성공");
+        },
+        onError: (err) => {
+            alert(err.message || "좋아요 취소 실패");
+        },
     })
 }

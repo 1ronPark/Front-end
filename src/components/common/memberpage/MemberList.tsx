@@ -13,6 +13,7 @@ const MemberList: React.FC<MemberListProps> = ({ members }) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6 w-fit min-h-[688px] overflow-y-auto">
             {members.map((member) => (
                 <MemberCard
+                    key={member.id}
                     id={member.id}
                     name={member.name}
                     nickname={member.nickname}
@@ -24,7 +25,8 @@ const MemberList: React.FC<MemberListProps> = ({ members }) => {
                         : '역할 정보 없음'
                     }       
                     skills={member.skills}
-                    strengths={member.strengths}  
+                    strengths={member.strengths}
+                    liked={member.liked}  
                 />
             ))}
             {members.length === 0 && (
