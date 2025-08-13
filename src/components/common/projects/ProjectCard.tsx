@@ -12,7 +12,7 @@ const ProjectCard = ({
   name,
   sub_title,
   date,
-  univ,
+  school,
 }: ProjectCardWithUserProps) => {
   const navigate = useNavigate();
 
@@ -48,7 +48,7 @@ const ProjectCard = ({
           {/* 프로젝트 소개 및 위치 */}
           <div className="flex flex-col mt-2">
             <span className="title-medium-emphasis truncate">{sub_title}</span>
-            <span className="body-medium text-gray-500">{univ}</span>
+            <span className="body-medium text-gray-500">{school}</span>
           </div>
 
           {/*gap-6에서 수정*/}

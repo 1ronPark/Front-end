@@ -21,9 +21,15 @@ const ModifyingMenu = ({ activeSection }: ModifyingMenuProps) => {
     element?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   };
 
+  // 임시 저장 로직
+  const handleSave = () => {
+    // TODO: 저장 로직 (폼 데이터 수집 → API 호출 등)
+    console.log('save clicked');
+  };
+
   return (
     <div className="flex flex-col gap-2 p-4">
-      <Save />
+      <Save onClick={handleSave} />
       <div className="text-center text-sm text-gray-500">최종 수정일 : {lastModifiedDate}</div>
       <div className="rounded-lg border border-gray-200 p-4">
         <h3 className="mb-4 text-lg font-semibold">프로필 관리</h3>

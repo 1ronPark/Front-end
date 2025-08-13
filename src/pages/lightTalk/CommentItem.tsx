@@ -76,7 +76,7 @@ const CommentItem = ({ comment, replies, onReply }: CommentItemProps) => {
               {comment.role}
             </p>
             <p className="text-[#47464F] body-medium opacity-[0.58]">
-              {comment.univ}
+              {comment.school}
             </p>
             <p className="text-[#47464F] body-medium opacity-[0.58]">
               {getTimeAgo(new Date(comment.createdAt))}
@@ -159,7 +159,7 @@ const CommentItem = ({ comment, replies, onReply }: CommentItemProps) => {
                         {reply.role}
                       </span>
                       <span className="body-medium text-[#47464F] opacity-[0.58]">
-                        {reply.univ}
+                        {reply.school}
                       </span>
                       <span className="body-medium text-[#47464F] opacity-[0.58]">
                         {getTimeAgo(reply.createdAt)}

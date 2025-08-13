@@ -22,7 +22,7 @@ const MyPageInfo = () => {
   } = useApiQuery<{ result: MyInfoProps }>({
     method: "GET",
     // 실제 백엔드 엔드포인트로 대체
-    endpoint: import.meta.env.VITE_API_ME_ENDPOINT,
+    endpoint: "/v1/members/me",
   });
 
   if (isLoading) return <div>불러오는 중...</div>;

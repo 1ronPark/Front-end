@@ -5,7 +5,7 @@ type Props = {
   onClose: () => void;
 };
 
-const UnivVerifyModal = ({ onClose }: Props) => {
+const schoolVerifyModal = ({ onClose }: Props) => {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
@@ -116,4 +116,4 @@ const UnivVerifyModal = ({ onClose }: Props) => {
   );
 };
 
-export default UnivVerifyModal;
+export default schoolVerifyModal;

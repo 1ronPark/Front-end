@@ -8,7 +8,7 @@ import { useRef, useState } from "react";
 interface LightTalkProps {
   id?: number;
   profileImage: string;
-  univ?: string;
+  school?: string;
   role?: "디자이너" | "PM" | "Web" | "Android" | "ios" | "Server";
 }
 

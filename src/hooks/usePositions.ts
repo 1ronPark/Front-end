@@ -35,7 +35,7 @@ interface DeletePositionResponse {
 export const useGetPositions = () => {
   return useApiQuery<GetPositionResponse>({
     method: "GET",
-    endpoint: import.meta.env.VITE_API_GET_POSITIONS_ENDPOINT,
+    endpoint: "/v1/positions",
   });
 };
 
