@@ -17,8 +17,18 @@ const MemberList: React.FC<MemberListProps> = ({ members }) => {
                     nickname={member.nickname}
                     gender={member.gender}
                     mbti={member.mbti}
-                    location={member.regions.join(', ')}
-                    role={member.role}
+                    location={member.regions.length > 0 
+        ? member.regions.map(region => 
+            region.siGunGu === "전체" 
+                ? region.siDo 
+                : `${region.siDo} ${region.siGunGu}`
+          ).join(', ')
+        : '위치 정보 없음'
+    }
+    role={member.positions.length > 0 
+        ? member.positions.join(', ') 
+        : '역할 정보 없음'
+    }
                     skills={member.skills}
                     strengths={member.strengths}  
                 />

@@ -22,19 +22,23 @@ const MemberFilterBar: React.FC<MemberFilterBarProps> = ({ onFiltersChange }) =>
     위치: false,
   });
 
-  useEffect(()=>{
-    const filters: MemberFiltersParams = {
-      positions: selectedChips.length > 0 ? selectedChips.join(',') : undefined,
-      regions: selectedLocations.length > 0 ? selectedLocations.join(',') : undefined,
-      mbtiE: selectedMbti.includes('E'),
-      mbtiN: selectedMbti.includes('N'),
-      mbtiF: selectedMbti.includes('F'),
-      mbtiP: selectedMbti.includes('P'),
-      page: 1,
-      Limit: 20,
-    };
-    onFiltersChange(filters);
-  }, [selectedChips, selectedMbti, selectedLocations]);
+  useEffect(() => {
+  const toTri = (pos: 'E'|'N'|'F'|'P'): boolean | undefined =>
+    selectedMbti.includes(pos) ? true : undefined; // 선택 안 하면 undefined
+
+  const filters: MemberFiltersParams = {
+    positions: selectedChips.filter(c => c !== '전체').join(',') || undefined,
+    regions:   selectedLocations.filter(l => l !== '전체').join(',') || undefined,
+    mbtiE: toTri('E'), // false는 보내지 않음(=I 필터하지 않음)
+    mbtiN: toTri('N'),
+    mbtiF: toTri('F'),
+    mbtiP: toTri('P'),
+    page: 1,
+    limit: 20,
+  };
+
+  onFiltersChange(filters);
+}, [selectedChips, selectedMbti, selectedLocations]);
 
   const handleChipClick = (chip: string) => {
     if (chip === '전체') {

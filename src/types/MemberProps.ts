@@ -5,7 +5,10 @@ interface MemberType {
     gender: boolean;
     role: string;
     mbti: string;
-    regions: string[];
+    regions: Array<{
+        siDo: string;
+        siGunGu: string;
+    }>;
     profileImageUrl: string;
 }
 
@@ -13,6 +16,8 @@ interface MemberType {
 export interface MemberListItem extends MemberType {
     id: number;
     // 목록에서 보여줄 기본 정보만 
+    positions: string[];
+    onlyLiked: boolean;
     skills: string[]; // 2개씩 표시
     strengths: string[];
 }
@@ -44,5 +49,5 @@ export type MemberFiltersParams = {
     regions?: string;
     onlyLiked?: boolean;
     page?: number;
-    Limit?: number;
+    limit?: number;
 }

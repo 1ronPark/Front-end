@@ -1,4 +1,5 @@
 import { type MemberDetailData, type MemberFiltersParams, type MemberListItem } from "../types/MemberProps";
+import { buildMemberParams } from "../utils/buildMemberParams";
 import { useApiMutation, useApiQuery } from "./apiHooks";
 
 // 전체 응답 정의
@@ -34,8 +35,8 @@ interface MemberLikeResponse {
 export const useMembers = (filters?: MemberFiltersParams) => {
     return useApiQuery<MemberListResponse>({
         method: 'GET',
-        endpoint: '/api/v1/members/search',
-        params: filters,
+        endpoint: '/v1/members/search',
+        params: buildMemberParams(filters),
     });
 };
 
@@ -43,7 +44,7 @@ export const useMembers = (filters?: MemberFiltersParams) => {
 export const useMemberDetail = (memberId: number) => {
     return useApiQuery<MemberDetailResponse>({
         method: 'GET',
-        endpoint: `/api/v1/members/${memberId}`,
+        endpoint: `/v1/members/${memberId}`,
     });
 };
 
@@ -51,7 +52,7 @@ export const useMemberDetail = (memberId: number) => {
 export const useLikeMember = (memberId: number) => {
     return useApiMutation<undefined, MemberLikeResponse>({
         method: 'POST',
-        endpoint: `/api/v1/members/${memberId}/like`,
+        endpoint: `/v1/members/${memberId}/like`,
     });
 };
 
@@ -59,6 +60,6 @@ export const useLikeMember = (memberId: number) => {
 export const useUnLikeMember = (memberId: number) => {
     return useApiMutation<undefined, MemberLikeResponse>({
         method: 'DELETE',
-        endpoint: `/api/v1/members/${memberId}/like`
+        endpoint: `/v1/members/${memberId}/like`
     })
 }

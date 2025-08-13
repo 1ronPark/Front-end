@@ -9,10 +9,16 @@ import type { MemberFiltersParams } from '../../types/MemberProps';
 export const Members = () => {
     const [filters, setFilters] = useState<MemberFiltersParams>({
         page: 1,
-        Limit: 20
+        limit: 20
     });
 
     const { data, isLoading, isError } = useMembers(filters);
+
+     // 디버깅 로그 추가
+    console.log('API Response:', data);
+    console.log('Members array:', data?.result.members);
+    console.log('Is loading:', isLoading);
+    console.log('Is error:', isError);
 
     const handleFiltersChange = (newFilters: MemberFiltersParams) => {
         setFilters(newFilters);
