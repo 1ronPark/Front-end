@@ -74,7 +74,7 @@ const MemberCard = ({
                     <div className="flex flex-wrap items-center gap-1"> {/* flex-wrap 추가 */}
                         <span className="title-medium">{name}</span>
                         <span className="title-medium">| {nickname}</span>
-                        <span className="label-medium">({gender}) {mbti}</span>
+                        <span className="label-medium">({gender ? '남' : '여'}) {mbti}</span>
                     </div>
                     <div className="flex items-center body-medium text-[#47464F]/58 gap-[4.17px]">
                         <img 

@@ -8,23 +8,25 @@ import { Heart } from 'lucide-react';
 import { useState } from 'react';
 import ActionStatusModal from '../modals/ActionStatusModal';
 import ToolTip from '../tooltips/ToolTip';
+import type { MemberDetailData } from '../../../types/MemberProps';
+import { formatRegions } from '../../../utils/formatRegions';
 // import type { MemberDetailData } from '../../../types/MemberProps';
 
 type MemberProfileCardProps = {
-  // data: MemberDetailData;
+  memberData: MemberDetailData
   isApplicantToMyProject?: boolean; // 다른 멤버 -> 나 (내가 PM) - tooltip
   suggested_project: boolean; // 나 -> 다른 멤버 (내가 지원자) - 제안 보내기 버튼 눌렀을 때 true
 };
 
-const MemberProfileCard = ({ isApplicantToMyProject, suggested_project }: MemberProfileCardProps) => {
+const MemberProfileCard = ({ memberData, isApplicantToMyProject, suggested_project }: MemberProfileCardProps) => {
   const [showProposalModal, setShowProposalModal] = useState(false);
   const [isProposalSent, setIsProposalSent] = useState(suggested_project); // 추가: 제안 보낸 상태 -> tooltip 사라짐
 
   const profileInfos = [
-    { icon: ic_member_part, alt: "파트", label: "파트", value: '디자인' },
-    { icon: ic_member_location, alt: "위치", label: "위치", value: '지역'/* data.regions.join(', ') */ },
-    { icon: ic_member_univ, alt: "대학교", label: "대학교", value: '가천대학교' /* data.school */ },
-    { icon: ic_member_email, alt: "이메일", label: "이메일", value: '이메일' /*data.email*/ },
+    { icon: ic_member_part, alt: "파트", label: "파트", value: memberData.positions.join(', ') },
+    { icon: ic_member_location, alt: "위치", label: "위치", value: formatRegions(memberData.regions) /* data.regions.join(', ') */ },
+    { icon: ic_member_univ, alt: "대학교", label: "대학교", value: memberData.school /* data.school */ },
+    { icon: ic_member_email, alt: "이메일", label: "이메일", value: memberData.email /*data.email*/ },
   ];
 
   const handleProposalSent = () => {
@@ -32,7 +34,7 @@ const MemberProfileCard = ({ isApplicantToMyProject, suggested_project }: Member
   };
 
   const showTooltip = Boolean(isApplicantToMyProject) && !isProposalSent;
-  const tooltipMsg = '히로님의 프로젝트에 지원한 팀원이에요\n지금 바로 제안하고 연락해 보세요!';
+  const tooltipMsg = `${memberData.nickname}님의 프로젝트에 지원한 팀원이에요\n지금 바로 제안하고 연락해 보세요!`;
 
   
   return (
@@ -41,7 +43,7 @@ const MemberProfileCard = ({ isApplicantToMyProject, suggested_project }: Member
         <div className="flex justify-between items-center mb-4.5">
           {/* 제목 */}
           <h2 className="headline-medium-emphasis">
-            기술과 디자인을 넘나들며 방향을 설계하는 실전형 디자이너
+            {memberData.profileTitle}
           </h2>
         </div>
 
@@ -53,7 +55,7 @@ const MemberProfileCard = ({ isApplicantToMyProject, suggested_project }: Member
           {/* 왼쪽: 로그인 안내 */}
           <div className="flex justify-center items-center self-center px-4">
             <img
-              src={ic_profile}
+              src={memberData.profileImageUrl || ic_profile}
               alt="프로필 이미지"
               className="w-[128px] h-[128px] rounded-full object-cover block"
             />
@@ -61,12 +63,12 @@ const MemberProfileCard = ({ isApplicantToMyProject, suggested_project }: Member
           {/* 가운데: 프로필 정보 */} {/* 추후 리팩토링 예정 */}
           <div className="flex flex-col gap-[11px] w-full flex-shrink-0">
             <div className="flex gap-4 items-center mb-[13px]">
-              <span className="body-large-emphasis">히로</span>
+              <span className="body-large-emphasis">{memberData.name}</span>
               <div className="w-px h-4 bg-[#C8C5D0]" />
-              <span className="body-large-emphasis">강해준</span>
-              <span className="body-large text-[#47464F]">남</span>
-              <span className="body-large text-[#47464F]">23세</span>
-              <span className="body-large text-[#47464F]">ISTJ</span>
+              <span className="body-large-emphasis">{memberData.nickname}</span>
+              <span className="body-large text-[#47464F]">{memberData.gender ? '남' : '여'}</span>
+              <span className="body-large text-[#47464F]">{memberData.age}</span>
+              <span className="body-large text-[#47464F]">{memberData.mbti}</span>
             </div>
             {/* 프로필 정보 반복 렌더링 */}
             {profileInfos.map(({ icon, alt, label, value }, index) => (
@@ -130,9 +132,9 @@ const MemberProfileCard = ({ isApplicantToMyProject, suggested_project }: Member
 
       {showProposalModal && (
         <ActionStatusModal
-          proposalConfirmTitle={`강해준님께\n제안을\n보낼까요?`}
+          proposalConfirmTitle={`${memberData.name}님께\n제안을\n보낼까요?`}
           proposalConfirmButtonText="보내기"
-          proposalSentTitle={`강해준님께\n제안을\n보냈어요`}
+          proposalSentTitle={`${memberData.name}님께\n제안을\n보냈어요`}
           proposalSentButtonText="확인"
           onClose={()=>setShowProposalModal(false)}
           onProposalSent={handleProposalSent}

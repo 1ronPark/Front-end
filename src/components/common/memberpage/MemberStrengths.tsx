@@ -1,6 +1,9 @@
-const MemberStrengths = () => {
-    const workSkills = ["SkillrSkillr", "데이터 분석", "기획서 작성", "영상 편집"];
-    const strengths = ["Strength", "일론박적 사고", "친절해요", "꼼꼼해요"];
+type MemberStrengthsProps = {
+    skills: string[];
+    strengths: string[];
+}
+
+const MemberStrengths = ({ skills, strengths }:MemberStrengthsProps) => {
 
     return (
         <section>
@@ -11,7 +14,7 @@ const MemberStrengths = () => {
                     <div className="flex flex-col gap-3">
                         <h5 className="title-medium">스킬</h5>
                         <div className="flex gap-4 flex-wrap">
-                            {workSkills.map((skill, idx) => (
+                            {skills.map((skill, idx) => (
                                 <span
                                     key={idx}
                                     className="label-large bg-[#F2EFFF] text-[#434078] px-4 py-2 rounded-xl"

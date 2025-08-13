@@ -1,6 +1,7 @@
 import MemberCard from "./MemberCard";
 // import { dummyMemberInfo } from "../../../../mockData/dummyMemberInfo";
 import type { MemberListItem } from "../../../types/MemberProps";
+import { formatRegions } from "../../../utils/formatRegions";
 
 interface MemberListProps {
     members: MemberListItem[];
@@ -17,18 +18,11 @@ const MemberList: React.FC<MemberListProps> = ({ members }) => {
                     nickname={member.nickname}
                     gender={member.gender}
                     mbti={member.mbti}
-                    location={member.regions.length > 0 
-        ? member.regions.map(region => 
-            region.siGunGu === "전체" 
-                ? region.siDo 
-                : `${region.siDo} ${region.siGunGu}`
-          ).join(', ')
-        : '위치 정보 없음'
-    }
-    role={member.positions.length > 0 
-        ? member.positions.join(', ') 
-        : '역할 정보 없음'
-    }
+                    location={formatRegions(member.regions)}
+                    role={member.positions.length > 0 
+                        ? member.positions.join(', ') 
+                        : '역할 정보 없음'
+                    }       
                     skills={member.skills}
                     strengths={member.strengths}  
                 />

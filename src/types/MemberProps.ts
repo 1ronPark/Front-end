@@ -9,6 +9,7 @@ interface MemberType {
         siDo: string;
         siGunGu: string;
     }>;
+    positions: string[]; // ?
     profileImageUrl: string;
 }
 
@@ -24,16 +25,24 @@ export interface MemberListItem extends MemberType {
 
 // 상세 조회
 export interface MemberDetailData extends MemberType {
-    // 상세에서만 보여줄 기본 정보 씀
+    // 상세에서만 보여줄 기본 정보 
+    profileTitle: string;
     age: number;
     birth: string;
     career: string;
+    selfIntroduce: string;
     school: string;
     skills: string[]; // 전체 다
-    strengths: string[];
+    strengths: string[]; 
     portfolios: {
         name: string;
         fileUrl: string;
+    }[];
+    activities: {
+        name: string;
+        startDate: string;
+        hasEndDate: boolean;
+        endDate: string;
     }[];
     email: string;
     phoneNumber: string;

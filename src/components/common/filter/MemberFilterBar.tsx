@@ -8,6 +8,7 @@ import LocationBox from './dropdowns/LocationBox';
 import type { MemberFiltersParams } from '../../../types/MemberProps';
 
 interface MemberFilterBarProps {
+  // 부모에게 선택된 필드 알려서 API 호출
   onFiltersChange: (filters: MemberFiltersParams) => void;
 }
 
@@ -68,19 +69,21 @@ const MemberFilterBar: React.FC<MemberFilterBarProps> = ({ onFiltersChange }) =>
     }));
   };
 
-  const handleSortSelect = (sortOption: string) => {
+  const handleSortSelect = (sortOption: string) => { // sort 변경
     setSelectedSort(sortOption);
     handleDropdownClick('파트');
   };
 
   const handleMbtiSelect = (mbtiList: string[]) => {
     setSelectedMbti(mbtiList);
+    handleDropdownClick('MBTI');
   };
 
   const handleLocationToggle = (locationOption: string) => {
     setSelectedLocations((prev) =>
       prev.includes(locationOption) ? prev.filter((loc) => loc !== locationOption) : [...prev, locationOption],
     );
+    handleDropdownClick('위치'); 
   };
 
   const getLocationButtonText = () => {
@@ -126,18 +129,18 @@ const MemberFilterBar: React.FC<MemberFilterBarProps> = ({ onFiltersChange }) =>
         </div>
         <div className="flex flex-shrink-0 items-center gap-2">
           {/*파트 dropdown*/}
-        <div className="relative flex">
+          <div className="relative flex">
             <button
               className={`flex items-center px-4 py-2 text-sm font-semimedium border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none`}
               onClick={() => handleDropdownClick('파트')}
             >
-              {selectedSort}
+              {selectedSort} {/* 수정 */}
               <img
-            src={openDropdown['파트'] ? KeyboardArrowUpIcon : KeyboardArrowDownIcon}
-            alt="arrow icon"
-            className="w-4 h-4 ml-2"
+                src={openDropdown['파트'] ? KeyboardArrowUpIcon : KeyboardArrowDownIcon}
+                alt="arrow icon"
+                className="w-4 h-4 ml-2"
               />
-          </button>       
+            </button>       
             {openDropdown['파트'] && (
               <div className="absolute top-full mt-2 z-20">
                 <div className="rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
