@@ -20,7 +20,7 @@ export const Projects = () => {
   const { data, isLoading, isError } = useProjectList(page, apiSort);
   const items = data?.result?.items ?? [];
 
-  const PAGE_SIZE = 12; // 서버와 합의된 값
+  const PAGE_SIZE = 12; // 서버와 합의 필요?
   const hasPrev = page > 1;
   const hasNext = items.length === PAGE_SIZE;
 

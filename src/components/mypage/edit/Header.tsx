@@ -2,24 +2,30 @@ import { useState } from "react";
 import editIcon from "../../../assets/icons/mypage/ic_edit.svg";
 // import type { MyInfoProps } from "../../../types/MyInfoProps";
 import MyInfoEditModal from "../modal/MyInfoEditModal";
-import AddPhotoModal from "../modal/AddPhotoModal";
-import sample from "../../../assets/icons/mypage/sample_profile.png";
 import addPhotoIcon from "../../../assets/icons/mypage/ic_camera.svg";
 import { AtSign, GraduationCap } from "lucide-react";
 // import { useProfileStore } from "../../../store/useProfileStore";
 import { useUser } from "../../../hooks/useUser";
+import ProfileImageEditModal from "./ProfileImageEditModal";
 
-const Header = () => {
+type HeaderProps = {
+  /** FormEdit에서 내려주는 임시 미리보기 URL (선택됨이 있지만 아직 저장 안 됨) */
+  pendingPreviewUrl?: string | null;
+  /** 모달에서 파일 적용 시 호출 (FormEdit으로 파일 전달) */
+  onPickProfileImage: (file: File) => void;
+};
+
+const Header = ({ pendingPreviewUrl, onPickProfileImage }: HeaderProps) => {
   const { data } = useUser();
 
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [addPhotoModal, setIsAddPhotoModal] = useState<boolean>(false);
-
-  // 주디: 일단 TS 오류를 위해 임시로 만들어놓았습니다!
-  //       추후에 수정해주세요!
+  const imageSrc = pendingPreviewUrl || data?.profileImageUrl || "";
+  
   const onCloseAll = () => {
-    console.log('수정 완료시 닫기');
-  }
+    setEditModalOpen(false);
+    setIsAddPhotoModal(false);
+  };
 
   return (
     <div className="space-y-3">
@@ -45,7 +51,7 @@ const Header = () => {
             {/* 프로필 이미지 영역 */}
             <img
               className="w-full h-full rounded-full object-cover"
-              src={sample}
+              src={imageSrc}
               alt="프로필 이미지"
             />
             {/* 프로필 사진 등록 버튼 */}
@@ -118,13 +124,16 @@ const Header = () => {
             email: data.email,
             profileImageUrl: data.profileImageUrl ?? undefined, // null → undefined 정리
             location: data.location ?? "",
-            intro: data.intro ?? "",
+            selfIntroduce: data.intro ?? "",
           }}
         />
       )}
 
       {addPhotoModal && (
-        <AddPhotoModal onClose={() => setIsAddPhotoModal(false)} />
+        <ProfileImageEditModal
+          onClose={() => setIsAddPhotoModal(false)}
+          onPick={(file) => onPickProfileImage(file)} // ← 파일만 부모로 전달
+        />
       )}
     </div>
   );
