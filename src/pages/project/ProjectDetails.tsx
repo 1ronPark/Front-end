@@ -20,27 +20,12 @@ export const ProjectDetail = () => {
 
   if (invalid) return <Navigate to="/projects" replace />;
 
-<<<<<<< HEAD
   if (isLoading) return <LoadingPage />;
 
   if (isError || !data?.result)
     return <ErrorPage />;
 
   const value: ProjectDetailData = {  ...data.result, itemId: numericId };
-=======
-  // 3. ProjectInfoCard에 넘길 props 구성 (ProjectCardWithUserProps 타입 맞춤)
-  const projectCardWithUser: ProjectCardWithUserProps = {
-    ...project,
-    name: member.name,
-    nickname: member.nickname ?? "", // 혹시 없을 수도 있으니
-    email: member.email,
-    school: member.school,
-    age: member.age ?? 0,
-    gender: member.gender ?? "미정",
-    mbti: member.mbti ?? "미정",
-    location: member.location ?? "위치 비공개",
-  };
->>>>>>> 5de7cb27eafcc94f2f929724632e454fee1f9a8f
 
   return (
     <ProjectDetailProvider value={value}>

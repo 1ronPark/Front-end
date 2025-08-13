@@ -5,9 +5,9 @@ import { RefreshCw } from "lucide-react";
 import CommentItem from "./CommentItem";
 
 const CommentSection = () => {
-  const { itemId, ItemComments, commentCount } = useProjectDetailCtx();
+  const { commentCount } = useProjectDetailCtx();
 
-  return (
+  return ( 
     <div className="w-full flex flex-col gap-4 px-4">
       {/* 댓글 수 */}
       <p className="title-medium-emphasis text-[#1D1B20]">댓글 {commentCount}개</p>

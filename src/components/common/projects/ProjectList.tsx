@@ -2,7 +2,6 @@ import ProjectCard from "./ProjectCard";
 import {type ProjectListItem } from "../../../hooks/useProjectQueries";
 
 
-<<<<<<< HEAD
 type Props = {
   items: ProjectListItem[];
   isLoading?: boolean;
@@ -12,20 +11,6 @@ type Props = {
 const ProjectList: React.FC<Props> = ({ items, isLoading, isError }) => {
   if (isLoading) return <div className="p-8">불러오는 중…</div>;
   if (isError)   return <div className="p-8">목록을 불러오지 못했습니다.</div>;
-=======
-    return {
-      ...project,
-      name: member?.name ?? "이름 없음",
-      nickname: member?.nickname ?? "",
-      email: member?.email ?? "",
-      school: member?.school ?? "",
-      age: member?.age ?? 0,
-      gender: member?.gender ?? "미정",
-      mbti: member?.mbti ?? "",
-      location: member?.location ?? "위치 비공개",
-    };
-  });
->>>>>>> 5de7cb27eafcc94f2f929724632e454fee1f9a8f
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6 w-fit min-h-[688px] overflow-y-auto">

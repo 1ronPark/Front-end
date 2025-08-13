@@ -8,7 +8,6 @@ import type { ProjectListItem } from "../../../hooks/useProjectQueries";
 import { useState, useEffect } from "react";
 
 const ProjectCard = ({
-<<<<<<< HEAD
   itemId: id,
   memberName: name,
  introduce: sub_title = "프로젝트 소개가 없습니다.",
@@ -19,14 +18,6 @@ const ProjectCard = ({
   commentCount,
   likedByCurrentUser,
 }: ProjectListItem) => {
-=======
-  id,
-  name,
-  sub_title,
-  date,
-  school,
-}: ProjectCardWithUserProps) => {
->>>>>>> 5de7cb27eafcc94f2f929724632e454fee1f9a8f
   const navigate = useNavigate();
 
     // 이미지 src와 에러 여부 상태
