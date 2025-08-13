@@ -60,7 +60,7 @@ interface PostProgileImageResponse {
 export const useGetProfile = () => {
   return useApiQuery<GetProfileResponse>({
     method: "GET",
-    endpoint: import.meta.env.VITE_API_GET_PROFILE_ENDPOINT,
+    endpoint: "/v1/members/me/profile",
   });
 };
 

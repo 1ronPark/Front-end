@@ -15,11 +15,11 @@ export const LikeButton = ({ itemId }: LikeButtonProps) => {
     e.stopPropagation(); // 카드 클릭 막기
 
     if (liked) {
-      unlikeProject.mutate(undefined, {
+      unlikeProject.mutate({}, {
         onSuccess: () => setLiked(false),
       });
     } else {
-      likeProject.mutate(undefined, {
+      likeProject.mutate({}, {
         onSuccess: () => setLiked(true),
       });
     }

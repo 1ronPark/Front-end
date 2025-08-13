@@ -35,7 +35,7 @@ export const fetchRequest = async <T, B = unknown>({
 
 		const config: AxiosRequestConfig = {
 			method: method as Method,
-			url: `${import.meta.env.VITE_API_URL}${endpoint}`,
+			url: endpoint,
 			headers,
 			withCredentials: true,
 			data: ['POST', 'PUT', 'PATCH'].includes(method) ? body : undefined,

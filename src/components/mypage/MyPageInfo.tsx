@@ -23,7 +23,7 @@ const MyPageInfo = () => {
   } = useApiQuery<{ result: MyInfoProps }>({
     method: "GET",
     // 실제 백엔드 엔드포인트로 대체
-    endpoint: import.meta.env.VITE_API_ME_ENDPOINT,
+    endpoint: "/v1/members/me",
   });
   // 멀티파트 업로드 뮤테이션 (서버가 profileImageUrl 갱신까지 처리)
   const { mutate: profileChange } = usePostProfileImage();

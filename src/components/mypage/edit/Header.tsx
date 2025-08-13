@@ -2,13 +2,10 @@ import { useState } from "react";
 import editIcon from "../../../assets/icons/mypage/ic_edit.svg";
 // import type { MyInfoProps } from "../../../types/MyInfoProps";
 import MyInfoEditModal from "../modal/MyInfoEditModal";
-import AddPhotoModal from "../modal/AddPhotoModal";
-import sample from "../../../assets/icons/mypage/sample_profile.png";
 import addPhotoIcon from "../../../assets/icons/mypage/ic_camera.svg";
 import { AtSign, GraduationCap } from "lucide-react";
 // import { useProfileStore } from "../../../store/useProfileStore";
 import { useUser } from "../../../hooks/useUser";
-import { usePostProfileImage } from "../../../hooks/useProfile";
 import ProfileImageEditModal from "./ProfileImageEditModal";
 
 type HeaderProps = {
@@ -23,8 +20,12 @@ const Header = ({ pendingPreviewUrl, onPickProfileImage }: HeaderProps) => {
 
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [addPhotoModal, setIsAddPhotoModal] = useState<boolean>(false);
-
   const imageSrc = pendingPreviewUrl || data?.profileImageUrl || "";
+  
+  const onCloseAll = () => {
+    setEditModalOpen(false);
+    setIsAddPhotoModal(false);
+  };
 
   return (
     <div className="space-y-3">
@@ -105,10 +106,26 @@ const Header = ({ pendingPreviewUrl, onPickProfileImage }: HeaderProps) => {
           </div>
         </div>
       </div>
-      {editModalOpen && (
+      {editModalOpen && data && (
         <MyInfoEditModal
           onClose={() => setEditModalOpen(false)}
-          myInfo={data}
+          onCloseAll={onCloseAll}
+          myInfo={{
+            // MyInfoProps에 맞춰 매핑 (TS 오류 해결을 위해 임시로 빨리 처리)
+            id: data.id,
+            name: data.name,
+            nickname: data.nickname,
+            phoneNumber: data.phoneNumber,
+            gender: data.gender,
+            age: data.age,
+            mbti: data.mbti,
+            role: data.role,
+            school: data.school,
+            email: data.email,
+            profileImageUrl: data.profileImageUrl ?? undefined, // null → undefined 정리
+            location: data.location ?? "",
+            selfIntroduce: data.intro ?? "",
+          }}
         />
       )}
 

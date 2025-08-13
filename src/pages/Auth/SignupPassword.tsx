@@ -22,10 +22,12 @@ export const SignupPassword = () => {
   const handleSubmit = () => {
     signUp(
       {
-        name,
-        nickname,
-        email, // Zustand에서 가져온 이메일
-        password,
+        body: {
+          name,
+          nickname,
+          email, // Zustand에서 가져온 이메일
+          password,
+        },
       },
       {
         onSuccess: () => {

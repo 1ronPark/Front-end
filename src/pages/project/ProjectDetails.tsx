@@ -29,7 +29,7 @@ const projectIdNum = parseInt(projectId!); // <- 일단 undefined아님을 명�
     name: member.name,
     nickname: member.nickname ?? "", // 혹시 없을 수도 있으니
     email: member.email,
-    univ: member.univ,
+    school: member.school,
     age: member.age ?? 0,
     gender: member.gender ?? "미정",
     mbti: member.mbti ?? "미정",

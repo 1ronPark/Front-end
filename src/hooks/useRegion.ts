@@ -50,7 +50,7 @@ type PostRegionsBody = { memberRegions: MemberRegion[] };
 export const useGetRegionsSido = () => {
   return useApiQuery<GetRegionSidoResponse>({
     method: "GET",
-    endpoint: import.meta.env.VITE_API_GET_REGION_SIDO_ENDPOINT,
+    endpoint: "/v1/regions/sido",
   });
 };
 
