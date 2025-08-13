@@ -15,6 +15,12 @@ const Header = () => {
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [addPhotoModal, setIsAddPhotoModal] = useState<boolean>(false);
 
+  // 주디: 일단 TS 오류를 위해 임시로 만들어놓았습니다!
+  //       추후에 수정해주세요!
+  const onCloseAll = () => {
+    console.log('수정 완료시 닫기');
+  }
+
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
@@ -94,10 +100,26 @@ const Header = () => {
           </div>
         </div>
       </div>
-      {editModalOpen && (
+      {editModalOpen && data && (
         <MyInfoEditModal
           onClose={() => setEditModalOpen(false)}
-          myInfo={data}
+          onCloseAll={onCloseAll}
+          myInfo={{
+            // MyInfoProps에 맞춰 매핑 (TS 오류 해결을 위해 임시로 빨리 처리)
+            id: data.id,
+            name: data.name,
+            nickname: data.nickname,
+            phoneNumber: data.phoneNumber,
+            gender: data.gender,
+            age: data.age,
+            mbti: data.mbti,
+            role: data.role,
+            school: data.school,
+            email: data.email,
+            profileImageUrl: data.profileImageUrl ?? undefined, // null → undefined 정리
+            location: data.location ?? "",
+            intro: data.intro ?? "",
+          }}
         />
       )}
 

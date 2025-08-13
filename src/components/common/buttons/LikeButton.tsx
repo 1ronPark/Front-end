@@ -22,6 +22,7 @@ export const LikeButton = ({ itemId, likedByCurrentUser = false }: LikeButtonPro
     e.stopPropagation();
     if (loading) return; // 중복 클릭 방지
 
+<<<<<<< HEAD
     // 낙관적 토글
     const prev = liked;
     setLiked(!prev);
@@ -32,6 +33,16 @@ export const LikeButton = ({ itemId, likedByCurrentUser = false }: LikeButtonPro
       unlikeProject.mutate({body: undefined}, { onError: revertOnError });
     } else {
       likeProject.mutate({body: undefined}, { onError: revertOnError });
+=======
+    if (liked) {
+      unlikeProject.mutate({}, {
+        onSuccess: () => setLiked(false),
+      });
+    } else {
+      likeProject.mutate({}, {
+        onSuccess: () => setLiked(true),
+      });
+>>>>>>> 5de7cb27eafcc94f2f929724632e454fee1f9a8f
     }
     // 필요 시 onSuccess/onSettled에서 react-query invalidateQueries 호출
   };

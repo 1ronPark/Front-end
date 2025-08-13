@@ -10,6 +10,13 @@ const Portfolio = () => {
   const [introText, setIntroText] = useState("");
   const maxLength = 3000;
 
+  // 임시 로직
+  const handleConfirm = () => {
+    // TODO: 새 포트폴리오 아이템 저장 로직 (상태에 추가 or API 호출)
+    console.log("confirmed");
+    setPortfolioModal(false);
+  };
+
   return (
     <div className="space-y-8">
       <div>
@@ -55,7 +62,9 @@ const Portfolio = () => {
           </div>
         </div>
         {portfolioModal && (
-          <PortfolioModal onClose={() => setPortfolioModal(false)} />
+          <PortfolioModal 
+            onClose={() => setPortfolioModal(false)}
+            onConfirm={handleConfirm} />
         )}
       </div>
     </div>

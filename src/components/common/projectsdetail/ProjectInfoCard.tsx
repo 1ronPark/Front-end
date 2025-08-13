@@ -61,11 +61,33 @@ const ProjectInfoCard = () => {
     [itemCategories]
   );
 
+<<<<<<< HEAD
   // 지역 문자열
   const regionText = useMemo(
     () => regions.map((r) => `${r.siDo} ${r.siGunGu}`).join(", "),
     [regions]
   );
+=======
+const ProjectInfoCard = ({
+  name,
+  title,
+  nickname,
+  sub_title,
+  gender,
+  age,
+  mbti,
+  email,
+  date,
+  school,
+  suggested_project,
+  applied_project,
+  location,
+  categories,
+}: Props) => {
+const [showActionModal, setShowActionModal] = useState(false);
+const [showAlertModal, setShowAlertModal] = useState(false);
+const [applied, setApplied] = useState(applied_project);
+>>>>>>> 5de7cb27eafcc94f2f929724632e454fee1f9a8f
 
   useEffect(() => {
     setLiked(likedByCurrentUser);
@@ -189,7 +211,7 @@ const ProjectInfoCard = () => {
                   <GraduationCap className="flex justify-center w-4 h-4" />
                   대학교
                 </div>
-                <span className="body-small ml-6">{univ}</span>
+                <span className="body-small ml-6">{school}</span>
               </div>
 
               <hr className="border-t px-4 border-[rgba(121,116,126,0.08)] py-[2px]" />
