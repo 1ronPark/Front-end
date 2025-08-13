@@ -1,45 +1,59 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PinIcon from '../../../assets/pin.svg';
 import KeyboardArrowDownIcon from '../../../assets/icons/ic_keyboard_arrow_down.svg';
 import KeyboardArrowUpIcon from '../../../assets/icons/ic_keyboard_arrow_up.svg';
 import PartBox from './dropdowns/PartBox';
 import MbtiBox from './dropdowns/MbtiBox';
 import LocationBox from './dropdowns/LocationBox';
+import type { MemberFiltersParams } from '../../../types/MemberProps';
 
-// interface MemberFilterBarProps {
-//   selectedChips: string[];
-//   onChipSelection: (chips: string[]) => void;
-// }
+interface MemberFilterBarProps {
+  onFiltersChange: (filters: MemberFiltersParams) => void;
+}
 
-const MemberFilterBar: React.FC = () => { 
-  const [selectedChips, setSelectedChips] = useState<string[]>([]);
+const MemberFilterBar: React.FC<MemberFilterBarProps> = ({ onFiltersChange }) => { 
   const [selectedSort, setSelectedSort] = useState<string>('파트');
   const [selectedMbti, setSelectedMbti] = useState<string[]> ([]);
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
+  const [selectedChips, setSelectedChips] = useState<string[]>([]);
   const [openDropdown, setOpenDropdown] = useState<Record<string, boolean>>({
     파트: false,
     MBTI: false,
     위치: false,
   });
 
-  const handleChipClick = (chip: string) => {
-    // let newSelectedChips: string[];
+  useEffect(()=>{
+    const filters: MemberFiltersParams = {
+      positions: selectedChips.length > 0 ? selectedChips.join(',') : undefined,
+      regions: selectedLocations.length > 0 ? selectedLocations.join(',') : undefined,
+      mbtiE: selectedMbti.includes('E'),
+      mbtiN: selectedMbti.includes('N'),
+      mbtiF: selectedMbti.includes('F'),
+      mbtiP: selectedMbti.includes('P'),
+      page: 1,
+      Limit: 20,
+    };
+    onFiltersChange(filters);
+  }, [selectedChips, selectedMbti, selectedLocations]);
 
+  const handleChipClick = (chip: string) => {
     if (chip === '전체') {
       // '전체' 칩을 클릭하면, 이미 선택된 경우 선택 해제하고,
       // 그렇지 않으면 '전체'만 선택합니다.
-      // newSelectedChips = selectedChips.includes('전체') ? [] : ['전체']; // ?????
+      setSelectedChips(selectedChips.includes('전체') ? [] : ['전체']);
     } else {
       // 다른 칩을 클릭하면 '전체'는 선택 해제하고, 클릭된 칩의 상태를 토글합니다.
-      // const otherChips = selectedChips.filter(c => c !== '전체');
-      // newSelectedChips = otherChips.includes(chip)
-      //   ? 
-      setSelectedChips(prev => {
-        const otherChips = prev.filter(c => c !== '전체');
-        return otherChips.includes(chip)
-          ? otherChips.filter(c => c !== chip) // 선택 해제
+      const otherChips = selectedChips.filter(c => c !== '전체');
+      const newChips = otherChips.includes(chip)
+        ? otherChips.filter(c => c !== chip) // 선택 해제
           : [...otherChips, chip]; // 선택
-      });
+      setSelectedChips(newChips);
+      // setSelectedChips(prev => {
+      //   const otherChips = prev.filter(c => c !== '전체');
+      //   return otherChips.includes(chip)
+      //     ? otherChips.filter(c => c !== chip) // 선택 해제
+      //     : [...otherChips, chip]; // 선택
+      // });
     }
   };
 
@@ -93,7 +107,7 @@ const MemberFilterBar: React.FC = () => {
             {chips.map((chip) => (
               <button
                 key={chip}
-                 onClick={() => handleChipClick(chip)}
+                onClick={() => handleChipClick(chip)}
                 className={`flex items-center px-4 py-2 text-sm font-medium rounded-md hover cursor-pointer hover:shadow-md transform transition duration-100 hover:scale-105 ${
                   selectedChips.includes(chip)
                     ? 'text-gray-800 border border-gray-800'
@@ -101,7 +115,7 @@ const MemberFilterBar: React.FC = () => {
                 }`}
               >
                 {selectedChips.includes(chip) && <img src={PinIcon} alt="pin" className="w-4 h-4 mr-2" />}
-                 {chip}
+                {chip}
               </button>
             ))}
           </div>

@@ -11,6 +11,7 @@ interface MemberType {
 
 // 전체 조회 목록용
 export interface MemberListItem extends MemberType {
+    id: number;
     // 목록에서 보여줄 기본 정보만 
     skills: string[]; // 2개씩 표시
     strengths: string[];
@@ -33,9 +34,15 @@ export interface MemberDetailData extends MemberType {
     phoneNumber: string;
 }
 
-// 필터용
-export interface MemberFilters {
-    role?: string;
-    mbti?: string;
-    regions?: string[];
+// 필터 타입 추가
+export type MemberFiltersParams = {
+    positions?: string;
+    mbtiE?: boolean;
+    mbtiN?: boolean;
+    mbtiF?: boolean;
+    mbtiP?: boolean;
+    regions?: string;
+    onlyLiked?: boolean;
+    page?: number;
+    Limit?: number;
 }

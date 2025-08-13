@@ -1,4 +1,4 @@
-import { type MemberDetailData, type MemberFilters, type MemberListItem } from "../types/MemberProps";
+import { type MemberDetailData, type MemberFiltersParams, type MemberListItem } from "../types/MemberProps";
 import { useApiMutation, useApiQuery } from "./apiHooks";
 
 // 전체 응답 정의
@@ -6,7 +6,10 @@ interface MemberListResponse {
     isSuccess: boolean;
     code: string;
     message: string;
-    result: MemberListItem[];
+    result: {
+        members: MemberListItem[];
+        numOfTotalResults: number;
+    };
     success: boolean;
 }
 
@@ -28,12 +31,11 @@ interface MemberLikeResponse {
     success: boolean;
 }
 
-// 필터링 백엔드가 해주는지에 대한 여부에 따라 달라짐
-export const useMembers = (filters?: MemberFilters) => {
+export const useMembers = (filters?: MemberFiltersParams) => {
     return useApiQuery<MemberListResponse>({
         method: 'GET',
-        endpoint: '/api/v1/members', // 임시
-        // 필터링, 페이징 등 쿼리 파라미터
+        endpoint: '/api/v1/members/search',
+        params: filters,
     });
 };
 
@@ -41,23 +43,22 @@ export const useMembers = (filters?: MemberFilters) => {
 export const useMemberDetail = (memberId: number) => {
     return useApiQuery<MemberDetailResponse>({
         method: 'GET',
-        endpoint: `api/v1/members/${memberId}`,
+        endpoint: `/api/v1/members/${memberId}`,
     });
 };
 
 // 회원 좋아요 기능
-export const useLikeMember = (itemId: number) => {
+export const useLikeMember = (memberId: number) => {
     return useApiMutation<undefined, MemberLikeResponse>({
         method: 'POST',
-        endpoint: `/api/v1/items/${itemId}/like`,
+        endpoint: `/api/v1/members/${memberId}/like`,
     });
 };
 
 // 회원 좋아요 취소 기능
-export const useUnLikeMember = (itemId: number) => {
+export const useUnLikeMember = (memberId: number) => {
     return useApiMutation<undefined, MemberLikeResponse>({
         method: 'DELETE',
-        endpoint: `/api/v1/items/${itemId}/like`
+        endpoint: `/api/v1/members/${memberId}/like`
     })
 }
-
