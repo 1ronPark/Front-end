@@ -8,12 +8,23 @@ import addPhotoIcon from "../../../assets/icons/mypage/ic_camera.svg";
 import { AtSign, GraduationCap } from "lucide-react";
 // import { useProfileStore } from "../../../store/useProfileStore";
 import { useUser } from "../../../hooks/useUser";
+import { usePostProfileImage } from "../../../hooks/useProfile";
+import ProfileImageEditModal from "./ProfileImageEditModal";
 
-const Header = () => {
+type HeaderProps = {
+  /** FormEdit에서 내려주는 임시 미리보기 URL (선택됨이 있지만 아직 저장 안 됨) */
+  pendingPreviewUrl?: string | null;
+  /** 모달에서 파일 적용 시 호출 (FormEdit으로 파일 전달) */
+  onPickProfileImage: (file: File) => void;
+};
+
+const Header = ({ pendingPreviewUrl, onPickProfileImage }: HeaderProps) => {
   const { data } = useUser();
 
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [addPhotoModal, setIsAddPhotoModal] = useState<boolean>(false);
+
+  const imageSrc = pendingPreviewUrl || data?.profileImageUrl || "";
 
   return (
     <div className="space-y-3">
@@ -39,7 +50,7 @@ const Header = () => {
             {/* 프로필 이미지 영역 */}
             <img
               className="w-full h-full rounded-full object-cover"
-              src={sample}
+              src={imageSrc}
               alt="프로필 이미지"
             />
             {/* 프로필 사진 등록 버튼 */}
@@ -102,7 +113,10 @@ const Header = () => {
       )}
 
       {addPhotoModal && (
-        <AddPhotoModal onClose={() => setIsAddPhotoModal(false)} />
+        <ProfileImageEditModal
+          onClose={() => setIsAddPhotoModal(false)}
+          onPick={(file) => onPickProfileImage(file)} // ← 파일만 부모로 전달
+        />
       )}
     </div>
   );

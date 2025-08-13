@@ -16,6 +16,7 @@ import { useDeleteRegionById, usePostRegion } from "../hooks/useRegion";
 //   useDeleteStrengthsById,
 // } from "../hooks/useStrengths";
 import Reception from "../components/mypage/edit/Reception";
+import { usePostProfileImage } from "../hooks/useProfile";
 
 // const MOCK_USER_DATA = {
 //   id: 1,
@@ -34,7 +35,7 @@ import Reception from "../components/mypage/edit/Reception";
 // };
 
 const SECTIONS = [
-  { id: "basic-info", component: <Header /> },
+  // { id: "basic-info", component: <Header /> },
   { id: "desired-conditions", component: <Desired /> },
   { id: "strengths", component: <Strength /> },
   { id: "portfolio", component: <Portfolio /> },
@@ -43,6 +44,22 @@ const SECTIONS = [
 ];
 
 export const FormEdit = () => {
+  // --- 새로 추가: 프로필 이미지 임시 상태 ---
+  const [pendingProfileFile, setPendingProfileFile] = useState<File | null>(
+    null
+  );
+  const [pendingPreviewUrl, setPendingPreviewUrl] = useState<string | null>(
+    null
+  );
+
+  // Header에서 파일 선택 후 적용하면 여기로 올라옴
+  const handlePickProfileImage = (file: File) => {
+    setPendingProfileFile(file);
+    setPendingPreviewUrl(URL.createObjectURL(file)); // 미리보기 반영
+  };
+  // FormData 업로드용
+  const { mutate: uploadProfileImage } = usePostProfileImage();
+
   // ===== Store =====
   // 포지션
   const positions = useProfileStore((s) => s.positions);
@@ -80,27 +97,30 @@ export const FormEdit = () => {
       (ir) => !regions.some((r) => sameRegion(ir, r))
     );
 
-    // 변경 없음 가드
+    // ✅ 이미지 변경도 함께 판단
+    const hasProfileImageChange = !!pendingProfileFile;
+
     if (
       toAdd.length === 0 &&
       toRemove.length === 0 &&
       regionsToAdd.length === 0 &&
-      regionsToRemove.length === 0
+      regionsToRemove.length === 0 &&
+      !hasProfileImageChange
     ) {
       alert("변경된 내용이 없습니다.");
       return;
     }
 
     try {
-      // 권장 순서: 삭제 → 추가
-      // --- 지역 삭제 (DELETE /api/v1/members/regions/{memberRegionId})
+      // --- 지역 삭제
       for (const ir of regionsToRemove) {
-        if (!ir.id) continue; // id 없으면 서버에 없던 신규 항목
+        if (!ir.id) continue;
         await deleteRegionById({
           endpoint: `/api/v1/members/regions/${ir.id}`,
         });
       }
-      // --- 포지션 삭제 (DELETE /api/v1/members/position?positionName=...)
+
+      // --- 포지션 삭제
       for (const pos of toRemove) {
         await deletePosition({
           endpoint: `/api/v1/members/position?positionName=${encodeURIComponent(
@@ -108,7 +128,8 @@ export const FormEdit = () => {
           )}`,
         });
       }
-      // --- 지역 추가 (POST 배열 바디)
+
+      // --- 지역 추가
       if (regionsToAdd.length > 0) {
         await postRegion({
           body: {
@@ -119,7 +140,8 @@ export const FormEdit = () => {
           },
         });
       }
-      // --- 포지션 추가 (POST /api/v1/members/position?positionName=...)
+
+      // --- 포지션 추가
       for (const pos of toAdd) {
         await postPosition({
           endpoint: `/api/v1/members/position?positionName=${encodeURIComponent(
@@ -127,6 +149,21 @@ export const FormEdit = () => {
           )}`,
         });
       }
+
+      // --- 프로필 이미지 업로드 (선택된 경우에만)
+      if (pendingProfileFile) {
+        const fd = new FormData();
+        fd.append("profileImage", pendingProfileFile); // ← 필드명 반드시 스웨거와 일치
+        await new Promise<void>((resolve, reject) => {
+          uploadProfileImage(
+            { body: fd },
+            { onSuccess: () => resolve(), onError: (e) => reject(e) }
+          );
+        });
+        setPendingProfileFile(null);
+        setPendingPreviewUrl(null);
+      }
+
       alert("프로필이 저장되었습니다.");
     } catch (e) {
       console.error(e);
@@ -158,6 +195,13 @@ export const FormEdit = () => {
     <div className="flex justify-center w-full">
       <div className="flex w-full max-w-[1024px] px-6 py-8">
         <div className="flex-1 space-y-20">
+          {/* Header에 미리보기 URL과 파일 선택 콜백을 내려줌 */}
+          <div id="basic-info" className="min-h-[200px]">
+            <Header
+              pendingPreviewUrl={pendingPreviewUrl}
+              onPickProfileImage={handlePickProfileImage}
+            />
+          </div>
           {SECTIONS.map((section, index) => (
             <div
               key={section.id}
