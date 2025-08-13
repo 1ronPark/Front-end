@@ -47,7 +47,6 @@ export const FormEdit = () => {
   // 포지션
   const positions = useProfileStore((s) => s.positions);
   const initialPositions = useProfileStore((s) => s.initialPositions);
-
   // 지역
   const initialRegions = useProfileStore((s) => s.initialRegions);
   const regions = useProfileStore((s) => s.regions);
@@ -57,7 +56,6 @@ export const FormEdit = () => {
   const { mutateAsync: postPosition, isPending: posting } = usePostPositions();
   const { mutateAsync: deletePosition, isPending: deleting } =
     useDeletePositions();
-
   // 지역
   const { mutateAsync: postRegion, isPending: postingRegion } = usePostRegion();
   const { mutateAsync: deleteRegionById, isPending: deletingRegion } =
@@ -95,7 +93,6 @@ export const FormEdit = () => {
 
     try {
       // 권장 순서: 삭제 → 추가
-
       // --- 지역 삭제 (DELETE /api/v1/members/regions/{memberRegionId})
       for (const ir of regionsToRemove) {
         if (!ir.id) continue; // id 없으면 서버에 없던 신규 항목
@@ -103,7 +100,6 @@ export const FormEdit = () => {
           endpoint: `/api/v1/members/regions/${ir.id}`,
         });
       }
-
       // --- 포지션 삭제 (DELETE /api/v1/members/position?positionName=...)
       for (const pos of toRemove) {
         await deletePosition({
@@ -112,7 +108,6 @@ export const FormEdit = () => {
           )}`,
         });
       }
-
       // --- 지역 추가 (POST 배열 바디)
       if (regionsToAdd.length > 0) {
         await postRegion({
@@ -124,7 +119,6 @@ export const FormEdit = () => {
           },
         });
       }
-
       // --- 포지션 추가 (POST /api/v1/members/position?positionName=...)
       for (const pos of toAdd) {
         await postPosition({

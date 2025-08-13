@@ -41,6 +41,7 @@ const getMe = async (): Promise<User> => {
  * 현재 로그인된 사용자 정보를 가져오는 커스텀 훅.
  * 앱 전체에서 사용자의 로그인 상태 및 정보를 관리합니다.
  */
+
 export const useUser = () => {
   const token = useAuthStore((state) => state.token);
   const setUser = useUserStore((state) => state.setUser);

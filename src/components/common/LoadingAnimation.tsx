@@ -1,10 +1,10 @@
-import { motion, type Variants } from 'framer-motion';
-import Star01 from '../../assets/loading/star01.svg';
-import Star02 from '../../assets/loading/star02.svg';
-import Star03 from '../../assets/loading/star03.svg';
-import Star04 from '../../assets/loading/star04.svg';
-import Star05 from '../../assets/loading/star05.svg';
-import Star06 from '../../assets/loading/star06.svg';
+import { motion, type Variants } from "framer-motion";
+import Star01 from "../../assets/loading/star01.svg";
+import Star02 from "../../assets/loading/star02.svg";
+import Star03 from "../../assets/loading/star03.svg";
+import Star04 from "../../assets/loading/star04.svg";
+import Star05 from "../../assets/loading/star05.svg";
+import Star06 from "../../assets/loading/star06.svg";
 
 const stars = [
   { src: Star01, x: 0, y: 550, w: 24, h: 24 },
@@ -32,9 +32,9 @@ const starVariants: Variants = {
     scale: 1,
     transition: {
       duration: 1.5,
-      ease: 'easeInOut',
+      ease: "easeInOut",
       repeat: Infinity,
-      repeatType: 'reverse',
+      repeatType: "reverse",
     },
   },
 };
