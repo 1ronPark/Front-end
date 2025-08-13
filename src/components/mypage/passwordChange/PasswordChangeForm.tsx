@@ -25,7 +25,7 @@ const PasswordChangeForm = () => {
     // }
     try {
       setIsVerifying(true);
-      await checkPassword({ password }); // ✅ 여기서 async 실행
+      await checkPassword({ body: { password } }); // ✅ 여기서 async 실행
       setPrevPassword(password);
       setStep(2); // 성공 시 다음 단계
     } catch {
@@ -47,7 +47,7 @@ const PasswordChangeForm = () => {
     }
 
     mutate(
-      { prevPassword, newPassword },
+      { body: { prevPassword, newPassword } },
       {
         onSuccess: () => {
           alert("비밀번호가 성공적으로 변경되었습니다.");
@@ -81,6 +81,7 @@ const PasswordChangeForm = () => {
               />
               <button
                 type="submit"
+                disabled={isVerifying}
                 className="cursor-pointer bg-[#68548E] title-medium text-[#FFF] py-4 px-8 rounded-lg transition-all hover:scale-105 hover:bg-[#59407e]"
               >
                 다음

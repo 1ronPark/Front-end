@@ -5,7 +5,9 @@ import { useEffect } from "react";
 import { fetchRequest } from "./fetchRequest";
 
 // API가 반환할 데이터 타입 정의 (예시)
-interface User {
+export interface User {
+  intro: string;
+  location: string;
   id: number;
   name: string;
   nickname: string;
@@ -28,7 +30,7 @@ const getMe = async (): Promise<User> => {
   // fetchRequest에 제네릭 타입을 명시하여 타입 안정성을 높입니다.
   const response = await fetchRequest<{ result: User }>({
     method: "GET",
-    endpoint: import.meta.env.VITE_API_ME_ENDPOINT,
+    endpoint: "/v1/members/me/profile",
   });
   // 서버 응답 구조가 예상과 다를 경우를 대비한 방어 코드
   if (!response || !response.result) {

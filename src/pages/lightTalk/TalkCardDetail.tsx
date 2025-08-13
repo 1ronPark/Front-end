@@ -69,7 +69,7 @@ const TalkCardDetail = () => {
       name: "댓글작성자",
       profile_image: "",
       role: "개발자",
-      univ: "테스트대학",
+      school: "테스트대학",
       content: text,
       createdAt: new Date(),
       currentUserId: 999,
@@ -136,7 +136,7 @@ const TalkCardDetail = () => {
                   {card.role}
                 </span>
                 <span className="body-medium text-[#47464F] opacity-[0.58]">
-                  {card.univ}
+                  {card.school}
                 </span>
                 <span className="body-medium text-[#47464F] opacity-[0.58]">
                   {getTimeAgo(card.createAt)}
@@ -231,7 +231,7 @@ const TalkCardDetail = () => {
                 name: "현재 댓글 작성자",
                 profile_image: "/path/to/user.png",
                 role: "개발자",
-                univ: "테스트대",
+                school: "테스트대",
                 content: text,
                 createdAt: new Date(),
                 currentUserId: 999,

@@ -2,8 +2,13 @@ import axios from 'axios';
 import { useAuthStore } from '../store/useAuthStore';
 
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: `/api`,
+  withCredentials: true,
+  // HTTP 강제 사용 (권장하지 않음)
+  httpsAgent: false
 });
+
+console.log('AXIOS BASE', axiosInstance.defaults.baseURL);
 
 axiosInstance.interceptors.request.use((config) => {
   const token = useAuthStore.getState().token;
