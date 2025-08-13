@@ -14,9 +14,17 @@ export const LoginForm = () => {
   // 상단 import 라인 아래 쪽 어딘가에 유틸 함수 추가
 const makeState = () => Math.random().toString(36).slice(2);
 
+// 현재 도메인을 동적으로 가져오기 (배포 환경 대응)
+  const getCurrentDomain = () => {
+    if (typeof window !== 'undefined') {
+      return window.location.origin;
+    }
+    return import.meta.env.VITE_FRONT_ORIGIN; // fallback for SSR
+  };
+
 // 구글/카카오 인가 URL 생성기
 const googleAuthorizeUrl = (clientId: string) => {
-  const FRONT = window.location.origin;
+  const FRONT = getCurrentDomain();
   const p = new URLSearchParams({
     client_id: clientId,
     redirect_uri: `${FRONT}${import.meta.env.VITE_SOCIAL_CALLBACK}`,
@@ -28,7 +36,7 @@ const googleAuthorizeUrl = (clientId: string) => {
 };
 
 const kakaoAuthorizeUrl = (restKey: string) => {
-  const FRONT = window.location.origin;
+  const FRONT = getCurrentDomain();
   const p = new URLSearchParams({
     client_id: restKey,
     redirect_uri: `${FRONT}${import.meta.env.VITE_SOCIAL_CALLBACK}`,
