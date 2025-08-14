@@ -16,7 +16,7 @@ export interface CreateProjectResponse {
 export const useCreateProject = () => {
   return useApiMutation<FormData, CreateProjectResponse>({
     method: "POST",
-    endpoint: "/api/v1/items",
+    endpoint: "/v1/items",
     onSuccess: () => {
       alert("프로젝트 등록 완료!");
     },
@@ -30,7 +30,7 @@ export const useCreateProject = () => {
   export const useLikeProject = (itemId: number) => {
     return useApiMutation<undefined, void>({
       method: 'POST',
-      endpoint: `/api/v1/items/${itemId}/like`,
+      endpoint: `/v1/items/${itemId}/like`,
     });
   };
 
@@ -38,5 +38,5 @@ export const useCreateProject = () => {
   export const useUnlikeProject = (itemId: number) =>
     useApiMutation<undefined, void>({
       method: "DELETE",
-      endpoint: `/api/v1/items/${itemId}/like`,
+      endpoint: `/v1/items/${itemId}/like`,
     });
