@@ -31,13 +31,16 @@ const SocialCallback = () => {
 
     const run = async () => {
       const SOCIAL_CALLBACK_TEMPLATE = import.meta.env.VITE_API_SOCIAL_CALLBACK;
+      const redirectUrl = `${window.location.origin}${window.location.pathname}`;
 
       if (!code || (provider !== "GOOGLE" && provider !== "KAKAO")) {
         navigate("/login?error=social");
         return;
       }
 
-      const endpoint = SOCIAL_CALLBACK_TEMPLATE.replace("{provider}", provider) + `?authCode=${encodeURIComponent(code)}`;
+      const endpoint =
+        SOCIAL_CALLBACK_TEMPLATE.replace("{provider}", provider) +
+        `?authCode=${encodeURIComponent(code)}&redirectUrl=${encodeURIComponent(redirectUrl)}`;
 
       try {
         const res = await callbackMutation.mutateAsync({ endpoint });
