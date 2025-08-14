@@ -15,20 +15,21 @@ const RecruitItem = ({ p }: { p: ProjectRecruitPosition }) => {
 
   return (
     <>
-      {/* 모집 파트 제목 */}
-      <div className="flex items-start justify-center mt-6">
-        <div className="flex items-center">
-          <span className="headline-medium-emphasis text-[#1C1B21]">
-            {p.positionName}
-          </span>
-          <span className="ml-4 title-medium-emphasis text-[#6C63FF]">
-            {p.recruitNumber}명&nbsp;
-          </span>
-          <span className="title-medium-emphasis text-[#1C1B21]">
-            모집 중
-          </span>
-        </div>
-      </div>
+{/* 모집 파트 제목 */}
+<div className="mt-6 w-full">              
+  <div className="flex items-baseline gap-2 text-left">  {/* ← 왼쪽 정렬 */}
+    <span className="headline-medium-emphasis text-[#1C1B21]">
+      {p.positionName}
+    </span>
+    <span className="title-medium-emphasis text-[#6C63FF]">
+      {p.recruitNumber}명
+    </span>
+    <span className="title-medium-emphasis text-[#1C1B21]">
+      모집 중
+    </span>
+  </div>
+</div>
+
 
       {/* 합류하면 함께 할 작업 */}
       <div className="flex flex-col items-start justify-center py-6 gap-4">
@@ -76,7 +77,7 @@ const RecruitPart = () => {
     return (
       <div className="bg-white rounded-lg border border-[rgba(121,116,126,0.08)] p-12">
         <p className="title-large-emphasis">현재 모집 중인 파트</p>
-        <p className="mt-4 body-large text-[#9A98A3]">모집 중인 포지션이 없습니다.</p>
+        <p className="mt-4 body-large text-[#9A98A3]">모집 중인 파트가 없습니다.</p>
       </div>
     );
   }

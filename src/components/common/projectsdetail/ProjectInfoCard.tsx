@@ -18,6 +18,7 @@ import { CATEGORY_ICON_MAP } from "../../../utils/categoryMap";
 import {
   useLikeProject,
   useUnlikeProject,
+  useApplyToProject,
 } from "../../../hooks/useProjectMutation";
 import { useProjectDetailCtx } from "../../../types/ProjectDetailContext";
 
@@ -90,15 +91,12 @@ const ProjectInfoCard = () => {
     }
   };
 
+  // 지원 관련 상태
+  const applyMutation = useApplyToProject(itemId);
+
   // 지원 버튼 클릭
   const handleApplyClick = () => {
     setShowActionModal(true);
-  };
-
-  // 지원 처리 완료
-  const handleProposalSent = () => {
-    setApplied(true);
-    setShowAlertModal(true);
   };
 
   return (
@@ -287,7 +285,6 @@ const ProjectInfoCard = () => {
         </div>
       </section>
 
-      {/* 1. 제안/지원 확인 → 완료 흐름 */}
       {showActionModal && (
         <ActionStatusModal
           proposalConfirmTitle={`${title}\n프로젝트에 지원할까요?`}
@@ -295,7 +292,19 @@ const ProjectInfoCard = () => {
           proposalSentTitle={`지원이 완료되었어요`}
           proposalSentButtonText="확인"
           onClose={() => setShowActionModal(false)}
-          onProposalSent={handleProposalSent}
+          onProposalSent={() => {
+            // 모달 '확인' 클릭 시 실제 서버로 지원 요청 전송
+            applyMutation.mutate(
+              { body: undefined },
+              {
+                onSuccess: () => {
+                  setApplied(true);
+                  setShowAlertModal(true);
+                },
+                onError: () => {},
+              }
+            );
+          }}
         />
       )}
 
