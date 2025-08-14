@@ -12,8 +12,7 @@ export interface MyInfoProps {
   location: string;
   mbti?:string;
   role: string;
-  intro?: string;
-  gender?: boolean;
+  gender?: boolean; // 성별
   age?: number;
   skills?: string[];
   strengths?: string[];
