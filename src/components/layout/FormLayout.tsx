@@ -2,12 +2,16 @@ import { FormNavbar } from "../common/formNavbar/FormNavbar";
 import { Outlet } from "react-router-dom";
 import SideNavbar from "../common/sideNavbar/SideNavbar";
 import { Footbar } from "../common/footbar/Footbar";
+import { useAuthStore } from "../../store/useAuthStore";
 
 export const FormLayout = () => {
+  const token = useAuthStore((state) => state.token);
+  const isLoggedIn = !!token;
+
   return (
     <div className="relative flex min-h-screen w-full bg-white">
       <div className="flex flex-1 flex-col pr-[60px]">
-        <FormNavbar isLoggedIn={true} userName="홍길동" />
+        <FormNavbar isLoggedIn={isLoggedIn} />
         <main className="flex-1">
           <Outlet />
         </main>
