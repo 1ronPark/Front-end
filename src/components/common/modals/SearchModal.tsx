@@ -3,6 +3,11 @@ import { useState } from "react";
 import { dummyMemberInfo } from "../../../../mockData/dummyMemberInfo";
 import { dummyProjectInfo } from "../../../../mockData/dummyProjectCard";
 import { useNavigate } from "react-router-dom";
+import { useDebounce } from "../../../hooks/useDebounce";
+import { useInfiniteQuery } from '@tanstack/react-query'
+import { buildMemberParams } from "../../../utils/buildMemberParams";
+// import { useMembers } from "../../../hooks/useMember";
+// import type { MemberFiltersParams } from "../../../types/MemberProps";
 
 export type SearchModalProps = {
   onClose: () => void;
@@ -17,7 +22,28 @@ type UnifiedItem = {
 
 const SearchModal = ({ onClose }: SearchModalProps) => {
   const [query, setQuery] = useState("");
+  const debouncedQuery = useDebounce(query, 500);
   const navigate = useNavigate();
+
+  // 검색 필터 생성
+  // const searchFilters: MemberFiltersParams = debouncedQuery ? {
+  //   mbtiE: debouncedQuery.toLowerCase().includes('e'),
+  //   mbtiN: debouncedQuery.toLowerCase().includes('n'),
+  //   mbtiF: debouncedQuery.toLowerCase().includes('f'),
+  //   mbtiP: debouncedQuery.toLowerCase().includes('p'),
+  //   positions: debouncedQuery,
+  //   page: 1,
+  //   limit: 20,
+  // } : {
+  //   // 검색어 없으면 전체 조회
+  //   page: 1,
+  //   limit: 20,
+  // }
+
+  // 필터 정리
+  // const cleanedParams = buildMemberParams(searchFilters);
+
+  // const { data, isLoading, isError } = useMembers(searchFilters);
 
   // 프로젝트/멤버 데이터 통합
   const unifiedData: UnifiedItem[] = [

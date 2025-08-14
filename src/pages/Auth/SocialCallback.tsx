@@ -31,18 +31,22 @@ const SocialCallback = () => {
 
     const run = async () => {
       const SOCIAL_CALLBACK_TEMPLATE = import.meta.env.VITE_API_SOCIAL_CALLBACK;
+      const redirectUrl = `${window.location.origin}${window.location.pathname}`;
 
       if (!code || (provider !== "GOOGLE" && provider !== "KAKAO")) {
         navigate("/login?error=social");
         return;
       }
 
-      const endpoint = SOCIAL_CALLBACK_TEMPLATE.replace("{provider}", provider) + `?authCode=${encodeURIComponent(code)}`;
+      const endpoint =
+        SOCIAL_CALLBACK_TEMPLATE.replace("{provider}", provider) +
+        `?authCode=${encodeURIComponent(code)}&redirectUrl=${encodeURIComponent(redirectUrl)}`;
 
       try {
         const res = await callbackMutation.mutateAsync({ endpoint });
         const { accessToken } = res.result;
         setToken(accessToken);
+        alert("LightUp에 오신 것을 환영합니다!");
         alert("회원정보를 수정하셔야 LightUp을 사용하실 수 있어요.");
         navigate("/myprofile?tab=info", { replace: true });
       } catch (error) {
