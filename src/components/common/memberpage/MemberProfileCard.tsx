@@ -5,11 +5,12 @@ import ic_member_univ from '../../../assets/icons/ic_member_univ.svg';
 import ic_member_email from '../../../assets/icons/ic_member_email.svg';
 import ic_profile from '../../../assets/icons/ic_profile.svg';
 import { Heart } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ActionStatusModal from '../modals/ActionStatusModal';
 import ToolTip from '../tooltips/ToolTip';
 import type { MemberDetailData } from '../../../types/MemberProps';
 import { formatRegions } from '../../../utils/formatRegions';
+import { useLikeMember, useUnLikeMember } from '../../../hooks/useMember';
 // import type { MemberDetailData } from '../../../types/MemberProps';
 
 type MemberProfileCardProps = {
@@ -21,6 +22,17 @@ type MemberProfileCardProps = {
 const MemberProfileCard = ({ memberData, isApplicantToMyProject, suggested_project }: MemberProfileCardProps) => {
   const [showProposalModal, setShowProposalModal] = useState(false);
   const [isProposalSent, setIsProposalSent] = useState(suggested_project); // 추가: 제안 보낸 상태 -> tooltip 사라짐
+
+  const [isLiked, setIsLiked] = useState(memberData.liked);
+
+  const likeMutation = useLikeMember(memberData.id);
+  const unlikeMutation = useUnLikeMember(memberData.id);
+
+  useEffect(() => {
+    setIsLiked(!!memberData.liked);
+  }, [memberData.liked]);
+
+  // const isMutating = likeMutation.isPending || unlikeMutation.isPending;
 
   const profileInfos = [
     { icon: ic_member_part, alt: "파트", label: "파트", value: memberData.positions.join(', ') },
@@ -36,6 +48,24 @@ const MemberProfileCard = ({ memberData, isApplicantToMyProject, suggested_proje
   const showTooltip = Boolean(isApplicantToMyProject) && !isProposalSent;
   const tooltipMsg = `${memberData.nickname}님의 프로젝트에 지원한 팀원이에요\n지금 바로 제안하고 연락해 보세요!`;
 
+    useEffect(()=>setIsLiked(!!memberData.liked), [memberData.liked]);
+
+
+    const onHeartClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (isLiked) {
+            unlikeMutation.mutate({}, {
+                onSuccess: () => setIsLiked(false),
+                onError: () => setIsLiked(true),
+            });
+            console.log('좋아요 등록');
+        } else {
+            likeMutation.mutate({}, {
+                onSuccess: () => setIsLiked(true),
+                onError: () => setIsLiked(false),
+            });
+        }
+    }
   
   return (
     <section>
@@ -123,10 +153,25 @@ const MemberProfileCard = ({ memberData, isApplicantToMyProject, suggested_proje
         </div>
         
         <button
+          onClick={onHeartClick}
           className="w-[200px] h-[56px] flex items-center justify-center gap-2.5 rounded-[16px] border-[1px] border-[#C8C5D0] text-[#47464F]"
         >
-            <Heart size={20} />
-            <p className="title-medium text-[#47464F]">관심 목록 추가</p>  
+            {isLiked ? (
+              // 좋아요 상태: 채워진 하트
+              <>
+                <Heart size={20} fill="currentColor" stroke="currentColor" />
+                <p className="title-medium text-[#47464F]">관심 목록 추가됨</p> 
+
+              </>
+              
+            ) : (
+              // 기본 상태: 빈 하트
+              <>
+                <Heart size={20} />
+              <p className="title-medium text-[#47464F]">관심 목록 추가</p> 
+              </>
+              
+            )}
         </button>
       </div>
 

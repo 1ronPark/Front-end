@@ -31,21 +31,6 @@ const MemberCard = ({
     const likeMutation = useLikeMember(id);
     const unlikeMutation = useUnLikeMember(id);
 
-    // const handleLikeClick = (e: React.MouseEvent) => {
-    //     e.stopPropagation(); // 카드 클릭 막기
-
-    //     if (isLiked) {
-    //         unlikeMutation.mutate(undefined, {
-    //             onSuccess: () => setIsLiked(false),
-    //         });
-    //     } else {
-    //         likeMutation.mutate(undefined, {
-    //             onSuccess: () => setIsLiked(true),
-    //         });
-    //     }
-    // };
-
-
     const navigate = useNavigate();
 
     useEffect(()=>setIsLiked(!!liked), [liked]);
