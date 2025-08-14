@@ -69,7 +69,8 @@ const MemberCard = ({
         <div
             onClick={()=>navigate(`/members/${id}`)}
             className="
-                flex flex-col justify-between w-full h-auto border border-[#C8C5D0] rounded-[8px]
+                flex flex-col justify-between w-full h-[200px] overflow-hidden
+                border border-[#C8C5D0] rounded-[8px]
                 hover:bg-[#1D1B20]/8 hover:shadow-[0_1px_3px_1px_rgba(0,0,0,0.15),0_1px_2px_1px_rgba(0,0,0,0.30)]
                 active:bg-[#1D1B20]/10 active:shadow-none
                 transition-all duration-150 cursor-pointer

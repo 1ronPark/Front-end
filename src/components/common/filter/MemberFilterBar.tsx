@@ -62,12 +62,14 @@ const MemberFilterBar: React.FC<MemberFilterBarProps> = ({ onFiltersChange }) =>
     }
   };
 
-  const handleDropdownClick = (dropdownName: string) => {
-    setOpenDropdown((prev) => ({
-      ...prev,
-      [dropdownName]: !prev[dropdownName],
-    }));
-  };
+  
+
+  const handleDropdownClick = (name: '파트' | 'MBTI' | '위치') => {
+      setOpenDropdown(prev => {
+      const isOpen = prev[name];
+      return { 파트: false, MBTI: false, 위치: false, [name]: !isOpen };
+    });
+  }; 
 
   const handleSortSelect = (sortOption: string) => { // sort 변경
     setSelectedSort(sortOption);

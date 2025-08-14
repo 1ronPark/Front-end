@@ -3,8 +3,9 @@ import { useState } from "react";
 import { dummyMemberInfo } from "../../../../mockData/dummyMemberInfo";
 import { dummyProjectCard } from "../../../../mockData/dummyProjectCard";
 import { useNavigate } from "react-router-dom";
-// import { useDebounce } from "../../../hooks/useDebounce";
-// import { buildMemberParams } from "../../../utils/buildMemberParams";
+import { useDebounce } from "../../../hooks/useDebounce";
+import { useInfiniteQuery } from '@tanstack/react-query'
+import { buildMemberParams } from "../../../utils/buildMemberParams";
 // import { useMembers } from "../../../hooks/useMember";
 // import type { MemberFiltersParams } from "../../../types/MemberProps";
 
@@ -21,7 +22,7 @@ type UnifiedItem = {
 
 const SearchModal = ({ onClose }: SearchModalProps) => {
   const [query, setQuery] = useState("");
-  // const debouncedQuery = useDebounce(query, 500);
+  const debouncedQuery = useDebounce(query, 500);
   const navigate = useNavigate();
 
   // 검색 필터 생성

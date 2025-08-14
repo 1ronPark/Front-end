@@ -56,10 +56,10 @@ export const useLikeMember = (memberId: number) => {
         method: 'POST',
         endpoint: `/v1/members/${memberId}/like`,
         onSuccess: () => {
-            alert('좋아요 등록 완료!');
+            console.log('좋아요 등록 완료!');
         },
         onError: (error) => {
-            alert(error.message || '좋아요 등록 실패');
+            console.error(error.message || '좋아요 등록 실패');
         },  
     });
 };
@@ -73,7 +73,7 @@ export const useUnLikeMember = (memberId: number) => {
             console.log("좋아요 취소 성공");
         },
         onError: (err) => {
-            alert(err.message || "좋아요 취소 실패");
+            console.error(err.message || "좋아요 취소 실패");
         },
     })
 }
