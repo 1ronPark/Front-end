@@ -48,8 +48,7 @@ const MemberProfileCard = ({ memberData, isApplicantToMyProject, suggested_proje
   const showTooltip = Boolean(isApplicantToMyProject) && !isProposalSent;
   const tooltipMsg = `${memberData.nickname}님의 프로젝트에 지원한 팀원이에요\n지금 바로 제안하고 연락해 보세요!`;
 
-    useEffect(()=>setIsLiked(!!memberData.liked), [memberData.liked]);
-
+  useEffect(()=>setIsLiked(!!memberData.liked), [memberData.liked]);
 
     const onHeartClick = (e: React.MouseEvent) => {
         e.stopPropagation();
