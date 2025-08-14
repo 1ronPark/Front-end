@@ -221,7 +221,10 @@ export const FormEdit = () => {
         </div>
 
         <div className="sticky top-8 ml-8 w-64 flex-shrink-0 self-start">
-          <ModifyingMenu activeSection={activeSection} />
+          <ModifyingMenu
+            activeSection={activeSection}
+            onSave={handleSave} // ← 저장 함수 전달
+          />
         </div>
       </div>
     </div>
