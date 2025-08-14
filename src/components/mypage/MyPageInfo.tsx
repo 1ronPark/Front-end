@@ -7,6 +7,7 @@ import MyInfoEditModal from "./modal/MyInfoEditModal";
 import AddPhotoModal from "./modal/AddPhotoModal";
 import { useApiQuery } from "../../hooks/apiHooks";
 import { useNavigate } from "react-router-dom";
+import { usePostProfileImage } from "../../hooks/useProfile";
 
 const MyPageInfo = () => {
   const navigate = useNavigate();
@@ -24,6 +25,29 @@ const MyPageInfo = () => {
     // 실제 백엔드 엔드포인트로 대체
     endpoint: "/v1/members/me",
   });
+  // 멀티파트 업로드 뮤테이션 (서버가 profileImageUrl 갱신까지 처리)
+  const { mutate: profileChange } = usePostProfileImage();
+
+  // 적용 시 업로드 수행
+  const onUpload = async (file: File) => {
+    const fd = new FormData();
+    // ⚠️ 서버 스웨거에 맞는 필드명으로 변경 (예: "image" | "profileImage" | "file")
+    fd.append("profileImage", file);
+
+    // useApiMutation은 기본적으로 mutate(비동기X)지만,
+    // 여기선 모달에서 로딩 표시를 위해 Promise로 래핑
+    await new Promise<void>((resolve, reject) => {
+      profileChange(
+        { body: fd },
+        {
+          onSuccess: () => resolve(),
+          onError: () => reject(new Error("upload failed")),
+        }
+      );
+    });
+    // 성공 시: 쿼리 무효화는 useApiMutation 내부(onSuccess)에서 처리되도록
+    // 만들어져 있으면 그대로 사용. 없다면 훅 구현에서 invalidate 추가해줘.
+  };
 
   if (isLoading) return <div>불러오는 중...</div>;
   if (error || !myProps) return <div>에러 발생 또는 데이터 없음</div>;
@@ -166,7 +190,10 @@ const MyPageInfo = () => {
         )}
 
         {addPhotoModal && (
-          <AddPhotoModal onClose={() => setIsAddPhotoModal(false)} />
+          <AddPhotoModal
+            onClose={() => setIsAddPhotoModal(false)}
+            onUpload={onUpload} // ← 적용 시 업로드 수행
+          />
         )}
       </div>
     </div>

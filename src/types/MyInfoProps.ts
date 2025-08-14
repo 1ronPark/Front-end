@@ -8,17 +8,17 @@ export interface MyInfoProps {
   nickname?: string;
   phoneNumber: string;
   email: string;
-  birth?: string;
-  profileImageUrl?: string; // 프로필 이미지 URL
   school: string;
   location: string;
-  mbti: string;
+  mbti?:string;
   role: string;
-  selfIntroduce: string; // 한 줄 소개
-  career?: string;
-  blog?: string;
   gender?: boolean; // 성별
   age?: number;
   skills?: string[];
   strengths?: string[];
+  brith?: string;
+  profileImageUrl?: string; // 프로필 이미지 URL
+  selfIntroduce?: string;
+  career?: string;
+  blog?: string;
 }

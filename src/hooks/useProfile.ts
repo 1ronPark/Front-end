@@ -1,4 +1,4 @@
-import { useApiQuery } from "./apiHooks";
+import { useApiMutation, useApiQuery } from "./apiHooks";
 
 interface GetProfileResponse {
   isSuccess: boolean;
@@ -46,6 +46,17 @@ interface GetProfileResponse {
   success: boolean;
 }
 
+interface PostProgileImageResponse {
+  isSuccess: true;
+  code: string;
+  message: string;
+  result: {
+    profileImageUrl: string;
+  };
+  success: boolean;
+}
+
+// 커스텀 훅: 프로필 정보를 가져오는 함수
 export const useGetProfile = () => {
   return useApiQuery<GetProfileResponse>({
     method: "GET",
@@ -53,4 +64,22 @@ export const useGetProfile = () => {
   });
 };
 
+// 커스텀 훅: 프로필 정보를 변경하는 함수
 // export const usePutProfileEdit = ()
+
+// 커스텀 훅: 프로필 사진을 변경하는 함수
+export const usePostProfileImage = () => {
+  return useApiMutation<FormData, PostProgileImageResponse>({
+    method: "POST",
+    endpoint: import.meta.env.VITE_API_POST_PROFILE_CHANGE_ENDPOINT,
+
+    onSuccess: () => {
+      // 성공 시 추가 작업이 필요하면 여기에 작성
+      alert("프로필 사진 변경 성공:");
+    },
+    onError: () => {
+      // 에러 처리 로직
+      alert("프로필 사진 변경 실패:");
+    },
+  });
+};
