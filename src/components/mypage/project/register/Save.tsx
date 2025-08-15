@@ -6,7 +6,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Save = () => {
-  // zustand 상태에서 프로젝트 정보 가져오기
+  // zustand 전역 상태에서 프로젝트 정보 가져오기
   const {
     name: projectName,
     introduce: projectSubtitle,

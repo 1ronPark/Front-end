@@ -1,33 +1,39 @@
 import ProjectCard from "./ProjectCard";
-import { dummyProjectCard } from "../../../../mockData/dummyProjectCard";
-import { dummyMemberInfo } from "../../../../mockData/dummyMemberInfo";
-import type { ProjectCardWithUserProps } from "../../../types/ProjectCardWithUser";
+import {type ProjectListItem } from "../../../hooks/useProjectQueries";
 
-const ProjectList = () => {
-  const projectsWithUser: ProjectCardWithUserProps[] = dummyProjectCard.map((project) => {
-    const member = dummyMemberInfo.find((m) => m.id === project.id);
 
-    return {
-      ...project,
-      name: member?.name ?? "이름 없음",
-      nickname: member?.nickname ?? "",
-      email: member?.email ?? "",
-      school: member?.school ?? "",
-      age: member?.age ?? 0,
-      gender: member?.gender ?? "미정",
-      mbti: member?.mbti ?? "",
-      location: member?.location ?? "위치 비공개",
-    };
-  });
+type Props = {
+  items: ProjectListItem[];
+  isLoading?: boolean;
+  isError?: boolean;
+};
+
+const ProjectList: React.FC<Props> = ({ items, isLoading, isError }) => {
+  if (isLoading) return <div className="p-8">불러오는 중…</div>;
+  if (isError)   return <div className="p-8">목록을 불러오지 못했습니다.</div>;
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6 w-fit min-h-[688px] overflow-y-auto">
-      {projectsWithUser.map((project, index) => (
+      {items.map((project) => (
         <ProjectCard
-          key={`project-${index}`}
-          {...project}
+          key={project.itemId}
+          itemId={project.itemId}
+          itemName={project.itemName}
+          memberName={project.memberName}
+          itemImageUrl={project.itemImageUrl}
+          updatedAt={project.updatedAt}
+          recruitStatus={project.recruitStatus}
+          viewCount={project.viewCount}
+          commentCount={project.commentCount}
+          likedByCurrentUser={project.likedByCurrentUser}
+          // 목록 응답에 없을 수 있는 값은 카드에서 기본값 처리
+          school={project.school}
+          introduce={project.introduce}
         />
       ))}
+      {items.length === 0 && (
+        <div className="p-8 text-gray-500">프로젝트가 없습니다.</div>
+      )}
     </div>
   );
 };
