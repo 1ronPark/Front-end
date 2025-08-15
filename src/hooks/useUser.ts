@@ -68,6 +68,7 @@ export const useUser = () => {
         name: queryResult.data.name,
         nickname: queryResult.data.nickname,
         email: queryResult.data.email,
+        profileImage: queryResult.data.profileImageUrl || "", // 프로필 이미지가 없을 경우 빈 문자열로 처리
       };
       setUser(storeUser);
     }
