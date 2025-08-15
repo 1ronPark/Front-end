@@ -116,14 +116,14 @@ export const FormEdit = () => {
       for (const ir of regionsToRemove) {
         if (!ir.id) continue;
         await deleteRegionById({
-          endpoint: `/api/v1/members/regions/${ir.id}`,
+          endpoint: `/v1/members/regions/${ir.id}`,
         });
       }
 
       // --- 포지션 삭제
       for (const pos of toRemove) {
         await deletePosition({
-          endpoint: `/api/v1/members/position?positionName=${encodeURIComponent(
+          endpoint: `/v1/members/position?positionName=${encodeURIComponent(
             pos
           )}`,
         });
@@ -144,7 +144,7 @@ export const FormEdit = () => {
       // --- 포지션 추가
       for (const pos of toAdd) {
         await postPosition({
-          endpoint: `/api/v1/members/position?positionName=${encodeURIComponent(
+          endpoint: `/v1/members/position?positionName=${encodeURIComponent(
             pos
           )}`,
         });
@@ -221,7 +221,10 @@ export const FormEdit = () => {
         </div>
 
         <div className="sticky top-8 ml-8 w-64 flex-shrink-0 self-start">
-          <ModifyingMenu activeSection={activeSection} />
+          <ModifyingMenu
+            activeSection={activeSection}
+            onSave={handleSave} // ← 저장 함수 전달
+          />
         </div>
       </div>
     </div>

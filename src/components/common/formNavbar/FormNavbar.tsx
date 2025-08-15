@@ -2,13 +2,15 @@ import { NavLink } from "react-router-dom";
 import logo_lightup from "../../../assets/logo_lightup.svg";
 import ic_loginbutton from "../../../assets/ic_loginbutton.svg";
 import ic_myprofile from "../../../assets/ic_myprofile.svg";
+import { useUserStore } from "../../../store/useUserStore";
 
 type FormNavbarProps = {
   isLoggedIn: boolean;
-  userName: string;
 };
 
-export const FormNavbar = ({ isLoggedIn, userName }: FormNavbarProps) => {
+export const FormNavbar = ({ isLoggedIn }: FormNavbarProps) => {
+  const user = useUserStore((state) => state.user);
+
   return (
     <div className="flex w-full items-center justify-between bg-white px-6 py-7">
       {/* 로고 */}
@@ -24,8 +26,14 @@ export const FormNavbar = ({ isLoggedIn, userName }: FormNavbarProps) => {
       <div>
         {isLoggedIn ? (
           <div className="flex items-center gap-2 pr-3">
-            <img src={ic_myprofile} alt="myprofile" className="h-6 w-6" />
-            <span className="title-medium text-[#6750A4]">{userName}</span>
+            <img
+              src={user?.profileImage || ic_myprofile}
+              alt="myprofile"
+              className="h-6 w-6 rounded-2xl"
+            />
+            <span className="title-medium text-[#6750A4]">
+              {user?.nickname}
+            </span>
           </div>
         ) : (
           <NavLink

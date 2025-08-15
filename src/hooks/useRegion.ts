@@ -56,7 +56,7 @@ export const useGetRegionsSido = () => {
 
 export const useGetRegionSigungu = (siDo?: string) => {
   const baseEndpoint =
-    import.meta.env.VITE_API_GET_SIGUNGU_ENDPOINT ?? "/api/v1/regions/sigungu";
+    import.meta.env.VITE_API_GET_SIGUNGU_ENDPOINT ?? "/v1/regions/sigungu";
 
   return useApiQuery<GetRegionSigunguResponse>({
     method: "GET",
@@ -70,7 +70,7 @@ export const useGetRegionSigungu = (siDo?: string) => {
 export const usePostRegion = () => {
   return useApiMutation<PostRegionsBody, PostRegionRegionResponse>({
     method: "POST",
-    endpoint: "/api/v1/members/regions", // 기본값 (호출 시 덮어씀)
+    endpoint: import.meta.env.VITE_API_POST_REGION_ENDPOINT, // 기본값 (호출 시 덮어씀)
     onSuccess: (data) => {
       alert(
         `지역 ${data.result.regions
