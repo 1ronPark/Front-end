@@ -1,4 +1,5 @@
 import LoadingAnimation from '../components/common/LoadingAnimation';
+import loadingBg from '../assets/loading/loading-bg.png';
 import './LoadingPage.css';
 
 const LoadingPage = () => {
@@ -48,7 +49,7 @@ const LoadingPage = () => {
       </div>
       <div
         className="w-[200px] h-[200px] bg-no-repeat bg-cover mt-150 mr-90 scale-x-[-1]"
-        style={{ backgroundImage: "url('/src/assets/loading/loading-bg.png')" }}
+        style={{ backgroundImage: `url(${loadingBg})` }}
       ></div>
     </div>
   );
