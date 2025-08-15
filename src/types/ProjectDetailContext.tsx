@@ -17,10 +17,8 @@ export function ProjectDetailProvider({
   // 불필요한 리렌더 줄이기
   const memo = useMemo(() => value, [value]);
   return (
-    <div>
     <ProjectDetailContext.Provider value={memo}>
       {children}
     </ProjectDetailContext.Provider>
-    </div>
   );
 }

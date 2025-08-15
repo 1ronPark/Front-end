@@ -1,33 +1,53 @@
-import profile2 from "../../../assets/icons/projectDetail/profileExam2.png";
+import defalutProfile from "../../../assets/ic_myprofile.svg";
 import { useProjectDetailCtx } from "../../../types/ProjectDetailContext";
 import { RefreshCw } from "lucide-react";
 import CommentItem from "./CommentItem";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useCreateComment } from "../../../hooks/useProjectComment";
-import { useQueryClient } from "@tanstack/react-query";
+import { useIsFetching, useQueryClient } from "@tanstack/react-query";
 
 const CommentSection = () => {
-  const { itemId, commentCount } = useProjectDetailCtx();
+  const { itemId, itemComments, commentCount } = useProjectDetailCtx();
 
-  const [comment, setComment] = useState("");
+    const [comment, setComment] = useState("");
+  const [latest, setLatest] = useState(true); // 최신순 유지
+  const qc = useQueryClient();
+  const isFetching = useIsFetching();
+
+  // 댓글 정렬 (updatedAt 기준)
+  const comments = useMemo(() => {
+    const arr = [...(itemComments ?? [])];
+    arr.sort((a, b) => {
+      const ta = new Date(a.updatedAt).getTime();
+      const tb = new Date(b.updatedAt).getTime();
+      return latest ? tb - ta : ta - tb;
+    });
+    return arr;
+  }, [itemComments, latest]);
+
   const createComment = useCreateComment(itemId);
-  const queryClient = useQueryClient();
 
   const onSubmitComment = (e: React.FormEvent) => {
     e.preventDefault();
     const content = comment.trim();
     if (!content || createComment.isPending) return;
+
     createComment.mutate(
-      { body: { content } },
+      { content },
       {
         onSuccess: () => {
           setComment("");
-          // 상세/댓글 쿼리 리프레시
-          queryClient.invalidateQueries();
+          setLatest(true); // 최신순 고정
         },
       }
     );
   };
+
+  const handleRefreshLatest = () => {
+    setLatest(true);          // 최신순으로 고정
+    qc.invalidateQueries();   // 서버에서 최신 데이터 재조회
+  };
+
 
   return (
     <div className="w-full flex flex-col gap-4 px-4">
@@ -41,7 +61,7 @@ const CommentSection = () => {
       className="w-full flex items-start gap-4 p-4 rounded-xl bg-[rgba(29,27,32,0.08)]">
         {/* 프로필 */}
         <img
-          src={profile2}
+          src={defalutProfile}
           alt="프로필 이미지"
           className="w-12 h-12 rounded-full mt-1 object-cover object-top"
         />
@@ -67,15 +87,32 @@ const CommentSection = () => {
 
       {/* 최신순 버튼 */}
       <div className="flex justify-start">
-        <button 
-        onClick={() => queryClient.invalidateQueries()}
-        className="flex items-center justify-center gap-2 w-[96px] h-[48px] bg-white text-[#49454E] label-large text-sm rounded-md border-[1px] border-[#CBC4CF] hover:bg-[#F2ECF4] active:bg-[#EDE6EE] curosor-pointer">
-          <RefreshCw className="w-4 h-4" />
+        <button
+          type="button"
+          onClick={handleRefreshLatest}
+          className="flex items-center justify-center gap-2 w-[120px] h-[40px] bg-white text-[#49454E] label-large text-sm rounded-md border border-[#CBC4CF] hover:bg-[#F2ECF4] active:bg-[#EDE6EE] cursor-pointer"
+        >
+          <RefreshCw className={`w-4 h-4 ${isFetching ? "animate-spin" : ""}`} />
           최신순
         </button>
       </div>
 
-      <CommentItem />
+      {/* 댓글 목록 */}
+      <div className="flex flex-col gap-3">
+        {comments.map((c) => (
+          <CommentItem
+            itemCommentId={c.itemCommentId}
+            authorName={c.authorName}
+            authorProfileImageURL={c.authorProfileImageURL}
+            content={c.content}
+            updatedAt={c.updatedAt}
+          />
+        ))}
+        // 댓글이 없을 경우 안내 메시지 
+        {/*comments.length === 0 && (
+          <p className="text-sm text-[#6B6B6B]">첫 댓글을 남겨보세요!</p>
+        )*/}
+      </div>
     </div>
   );
 };
