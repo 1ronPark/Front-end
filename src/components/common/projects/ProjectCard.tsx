@@ -10,10 +10,10 @@ import { useState, useEffect } from "react";
 const ProjectCard = ({
   itemId: id,
   memberName: name,
- introduce: sub_title = "프로젝트 소개가 없습니다.",
+ introduce: itemNmae ="프로젝트 소개",
   itemImageUrl: ImageUrl = defaultImage, // 이미지가 없을 경우 기본 이미지, 에러일 경우 확인 위해 흑백 이미지
   updatedAt: date,
-  school = "학교 정보 없음",
+  school = "대학교",
   viewCount,
   commentCount,
   likedByCurrentUser,
@@ -70,7 +70,7 @@ const ProjectCard = ({
 
           {/* 프로젝트 소개 및 위치 */}
           <div className="flex flex-col mt-2">
-            <span className="title-medium-emphasis truncate">{sub_title}</span>
+            <span className="title-medium-emphasis truncate">{itemNmae}</span>
             <span className="body-medium text-gray-500">{school}</span>
           </div>
 

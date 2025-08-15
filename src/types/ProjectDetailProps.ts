@@ -1,5 +1,4 @@
-
-export type ProjectRegion = { siDo: string; siGunGu: string;};
+export type ProjectRegion = { siDo: string; siGunGu: string };
 
 export type ProjectRecruitPosition = {
   positionName: string;
@@ -41,8 +40,8 @@ export type ProjectDetailDataApi = {
   commentCount: number;
   updatedAt: string;
   likedByCurrentUser: boolean;
-  applied_project: boolean;
-  suggested_project: boolean;
+  applicantStatus: boolean;
+  suggestStatus: boolean;
 };
 
 export type ProjectDetailData = ProjectDetailDataApi & { itemId: number };

@@ -47,8 +47,8 @@ const ProjectInfoCard = () => {
     //emComments,
     updatedAt: date,
     likedByCurrentUser,
-    applied_project = false,
-    suggested_project = false, // 임시
+    applicantStatus: applied_project = false,
+    suggestStatus: suggested_project = false, 
   } = useProjectDetailCtx();
 
   const [showActionModal, setShowActionModal] = useState(false);

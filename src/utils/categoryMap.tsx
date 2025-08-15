@@ -23,6 +23,7 @@ import SecurityIcon from "../assets/icons/ic_security.svg";
 import EsgIcon from "../assets/icons/ic_esg.svg";
 import RobotIcon from "../assets/icons/ic_robot.svg";
 
+
 export const CATEGORY_ICON_MAP: Record<string, string> = {
   "전체": AllIcon,
   "플랫폼": PlatformIcon,
@@ -48,3 +49,4 @@ export const CATEGORY_ICON_MAP: Record<string, string> = {
   "ESG": EsgIcon,
   "로보틱스": RobotIcon,
 };
+

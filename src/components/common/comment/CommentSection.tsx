@@ -9,7 +9,7 @@ import { useIsFetching, useQueryClient } from "@tanstack/react-query";
 const CommentSection = () => {
   const { itemId, itemComments, commentCount } = useProjectDetailCtx();
 
-    const [comment, setComment] = useState("");
+  const [comment, setComment] = useState("");
   const [latest, setLatest] = useState(true); // 최신순 유지
   const qc = useQueryClient();
   const isFetching = useIsFetching();
@@ -108,7 +108,6 @@ const CommentSection = () => {
             updatedAt={c.updatedAt}
           />
         ))}
-        // 댓글이 없을 경우 안내 메시지 
         {/*comments.length === 0 && (
           <p className="text-sm text-[#6B6B6B]">첫 댓글을 남겨보세요!</p>
         )*/}
