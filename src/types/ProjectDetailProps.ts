@@ -8,9 +8,31 @@ export type ProjectRecruitPosition = {
   preferMbti: string;
 };
 
-export type CategoryType = {
-  categoryName: string;
-};
+export type CategoryType =
+  | "전체"
+  | "플랫폼"
+  | "라이프스타일"
+  | "금융"
+  | "커뮤니티"
+  | "미디어"
+  | "교육"
+  | "생산성"
+  | "블록체인"
+  | "노코드"
+  | "인공지능"
+  | "데이터 분석"
+  | "디자인"
+  | "마케팅"
+  | "게임"
+  | "이커머스"
+  | "헬스케어"
+  | "바이오"
+  | "메타버스"
+  | "세일즈"
+  | "보안"
+  | "ESG"
+  | "로보틱스";
+
 
 export type ProjectComment = {
   itemCommentId: number;
@@ -35,7 +57,7 @@ export type ProjectDetailDataApi = {
   regions: ProjectRegion[];
   description?: string;
   recruitPositions: ProjectRecruitPosition[];
-  itemCategories: CategoryType[];
+  itemCategories: { categoryName: CategoryType }[];
   itemComments: ProjectComment[];
   commentCount: number;
   updatedAt: string;

@@ -54,9 +54,9 @@ const SearchModal = ({ onClose }: SearchModalProps) => {
       source: "member" as const,
     })),
     ...dummyProjectInfo.map((item) => ({
-      id: item.id,
-      name: item.title,
-      description: item.title,
+      id: item.itemId,
+      name: item.itemName,
+      description: item.introduce,
       source: "project" as const,
     })),
   ];

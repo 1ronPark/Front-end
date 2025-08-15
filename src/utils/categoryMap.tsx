@@ -1,3 +1,5 @@
+import type { CategoryType } from "../types/ProjectDetailProps";
+
 // utils/categoryMap.ts
 import AllIcon from "../assets/icons/ic_all.svg";
 import PlatformIcon from "../assets/icons/ic_platform.svg";
@@ -24,7 +26,7 @@ import EsgIcon from "../assets/icons/ic_esg.svg";
 import RobotIcon from "../assets/icons/ic_robot.svg";
 
 
-export const CATEGORY_ICON_MAP: Record<string, string> = {
+export const CATEGORY_ICON_MAP: Record<CategoryType, string> = {
   "전체": AllIcon,
   "플랫폼": PlatformIcon,
   "라이프스타일": LifeIcon,
