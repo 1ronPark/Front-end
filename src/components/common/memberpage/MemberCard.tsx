@@ -3,25 +3,15 @@ import { Heart } from 'lucide-react';
 import ic_memberlocation from '../../../assets/icons/ic_memberlocation.svg';
 import { useNavigate } from 'react-router-dom';
 import type { MyInfoProps } from '../../../types/MyInfoProps';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLikeMember, useUnLikeMember } from '../../../hooks/useMember';
-
-// export type MemberCardProps = {
-//     id: number;
-//     name: string;
-//     nickname: string;
-//     gender: '남' | '여';
-//     mbti: string;
-//     location: string;
-//     role: string;
-//     skills: string[];
-//     strengths: string[];
-// };
 
 type MemberCardProps = Pick<
     MyInfoProps,
     "id" | "name" | "nickname" | "gender" | "mbti" | "location" | "role" | "skills" | "strengths"
->;
+> & {
+    liked?: boolean;
+};
 
 const MemberCard = ({
     id,
@@ -33,35 +23,39 @@ const MemberCard = ({
     role,
     skills,
     strengths,
+    liked=false,
 }: MemberCardProps) => {
 
-    const [isLiked, setIsLiked] = useState(false);
+    const [isLiked, setIsLiked] = useState(liked);
 
     const likeMutation = useLikeMember(id);
     const unlikeMutation = useUnLikeMember(id);
 
-    const handleLikeClick = (e: React.MouseEvent) => {
-        e.stopPropagation(); // 카드 클릭 막기
+    const navigate = useNavigate();
 
+    useEffect(()=>setIsLiked(!!liked), [liked]);
+
+    const onHeartClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
         if (isLiked) {
-            unlikeMutation.mutate(undefined, {
+            unlikeMutation.mutate({}, {
                 onSuccess: () => setIsLiked(false),
+                onError: () => setIsLiked(true),
             });
         } else {
-            likeMutation.mutate(undefined, {
+            likeMutation.mutate({}, {
                 onSuccess: () => setIsLiked(true),
+                onError: () => setIsLiked(false),
             });
         }
-    };
-
-
-    const navigate = useNavigate();
+    }
 
     return (
         <div
             onClick={()=>navigate(`/members/${id}`)}
             className="
-                flex flex-col justify-between w-full h-auto border border-[#C8C5D0] rounded-[8px]
+                flex flex-col justify-between w-full h-[200px] overflow-hidden
+                border border-[#C8C5D0] rounded-[8px]
                 hover:bg-[#1D1B20]/8 hover:shadow-[0_1px_3px_1px_rgba(0,0,0,0.15),0_1px_2px_1px_rgba(0,0,0,0.30)]
                 active:bg-[#1D1B20]/10 active:shadow-none
                 transition-all duration-150 cursor-pointer
@@ -74,7 +68,7 @@ const MemberCard = ({
                     <div className="flex flex-wrap items-center gap-1"> {/* flex-wrap 추가 */}
                         <span className="title-medium">{name}</span>
                         <span className="title-medium">| {nickname}</span>
-                        <span className="label-medium">({gender}) {mbti}</span>
+                        <span className="label-medium">({gender ? '남' : '여'}) {mbti}</span>
                     </div>
                     <div className="flex items-center body-medium text-[#47464F]/58 gap-[4.17px]">
                         <img 
@@ -89,11 +83,19 @@ const MemberCard = ({
                     </div>
                 </div>
                 </div>
-                <Heart 
-                    className={`w-5 h-5 mt-[10.65px] cursor-pointer transition-colors duration-150
-                                `}
-                    fill={isLiked ? '#49454E' : 'none'} 
-                    onClick={handleLikeClick} />
+                <button
+                    onClick={onHeartClick}
+                    aria-label={isLiked ? '관심 해제' : '관심 추가'}
+                    className="p-1 mt-[10.65px] cursor-pointer transition-colors duration-150"
+                >
+                    {isLiked ? (
+                    // filled
+                    <Heart className="w-5 h-5  " fill="currentColor" stroke="currentColor" />
+                ) : (
+                    // outline
+                    <Heart className="w-5 h-5 " />
+                )}    
+                </button>
             </div>
 
             {/* 스킬과 강점 두 개씩만 */}

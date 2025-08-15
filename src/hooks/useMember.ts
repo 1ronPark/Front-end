@@ -1,4 +1,5 @@
-import { type MemberDetailData, type MemberFilters, type MemberListItem } from "../types/MemberProps";
+import { type MemberDetailData, type MemberFiltersParams, type MemberListItem } from "../types/MemberProps";
+import { buildMemberParams } from "../utils/buildMemberParams";
 import { useApiMutation, useApiQuery } from "./apiHooks";
 
 // 전체 응답 정의
@@ -6,7 +7,10 @@ interface MemberListResponse {
     isSuccess: boolean;
     code: string;
     message: string;
-    result: MemberListItem[];
+    result: {
+        members: MemberListItem[];
+        numOfTotalResults: number;
+    };
     success: boolean;
 }
 
@@ -19,43 +23,57 @@ interface MemberDetailResponse {
     success: boolean;
 } 
 
-interface MemberLikeResponse {
-    isSuccess: boolean;
-    code: string;
-    message: string;
-    result: {};
-    success: boolean;
-}
+// 좋아요 응답 정의
+// interface MemberLikeResponse {
+//     isSuccess: boolean;
+//     code: string;
+//     message: string;
+//     result: {
+//         liked: boolean;
+//     };
+//     success: boolean;
+// }
 
-// 필터링 백엔드가 해주는지에 대한 여부에 따라 달라짐
-export const useMembers = (filters?: MemberFilters) => {
+export const useMembers = (filters?: MemberFiltersParams) => {
     return useApiQuery<MemberListResponse>({
         method: 'GET',
-        endpoint: '/api/v1/members', // 임시
-        // 필터링, 페이징 등 쿼리 파라미터
+        endpoint: '/v1/members/search',
+        params: buildMemberParams(filters),
     });
 };
 
+// 상세 조회
 export const useMemberDetail = (memberId: number) => {
     return useApiQuery<MemberDetailResponse>({
         method: 'GET',
-        endpoint: `api/v1/members/${memberId}`,
+        endpoint: `/v1/members/${memberId}`,
     });
 };
 
 // 회원 좋아요 기능
-export const useLikeMember = (itemId: number) => {
-    return useApiMutation<undefined, MemberLikeResponse>({
+export const useLikeMember = (memberId: number) => {
+    return useApiMutation<undefined, void>({
         method: 'POST',
-        endpoint: `/api/v1/items/${itemId}/like`,
+        endpoint: `/v1/members/${memberId}/like`,
+        onSuccess: () => {
+            console.log('좋아요 등록 완료!');
+        },
+        onError: (error) => {
+            console.error(error.message || '좋아요 등록 실패');
+        },  
     });
 };
 
 // 회원 좋아요 취소 기능
-export const useUnLikeMember = (itemId: number) => {
-    return useApiMutation<undefined, MemberLikeResponse>({
+export const useUnLikeMember = (memberId: number) => {
+    return useApiMutation<undefined, void>({
         method: 'DELETE',
-        endpoint: `/api/v1/items/${itemId}/like`
+        endpoint: `/v1/members/${memberId}/like`,
+        onSuccess: () => {
+            console.log("좋아요 취소 성공");
+        },
+        onError: (err) => {
+            console.error(err.message || "좋아요 취소 실패");
+        },
     })
 }
-

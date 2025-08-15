@@ -1,7 +1,5 @@
-import { useState, useRef, useEffect } from 'react';
-import { ChevronDown } from 'lucide-react';
-
-// 아이콘 import
+import { useState, useRef, useEffect } from "react";
+import { ChevronDown } from "lucide-react";
 import PlatformIcon from "../../../../assets/icons/ic_platform.svg";
 import LifeIcon from "../../../../assets/icons/ic_life.svg";
 import FinenceIcon from "../../../../assets/icons/ic_finence.svg";
@@ -25,7 +23,7 @@ import SecurityIcon from "../../../../assets/icons/ic_security.svg";
 import EsgIcon from "../../../../assets/icons/ic_esg.svg";
 import RobotIcon from "../../../../assets/icons/ic_robot.svg";
 
-const categories = [
+const PART_OPTIONS = [
   { name: "플랫폼", icon: PlatformIcon },
   { name: "라이프스타일", icon: LifeIcon },
   { name: "금융", icon: FinenceIcon },
@@ -50,58 +48,76 @@ const categories = [
   { name: "로보틱스", icon: RobotIcon },
 ];
 
-interface TopicDropdownProps {
-  onSelect: (topic: string) => void;
+interface PartDropdownProps {
+  onSelect: (part: string) => void;
 }
 
-const TopicDropdown = ({ onSelect }: TopicDropdownProps) => {
+const PartDropdown = ({ onSelect }: PartDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [inputValue, setInputValue] = useState('');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
+        setInputValue('');
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
-  const handleSelect = (topic: string) => {
-    onSelect(topic);
+  const handleSelect = (part: string) => {
+    onSelect(part);
     setIsOpen(false);
+    setInputValue('');
   };
+
+  const filteredParts = PART_OPTIONS.filter(option =>
+    option.name.toLowerCase().includes(inputValue.toLowerCase())
+  );
 
   return (
     <div className="relative" ref={dropdownRef}>
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full items-center justify-between rounded-xl border border-gray-200 p-3"
-      >
-        <span className="text-sm text-gray-400">주제를 선택하세요.</span>
-        <ChevronDown size={20} className={`text-gray-500 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
-      </button>
+      {!isOpen ? (
+        <button
+          onClick={() => setIsOpen(true)}
+          className="flex w-full items-center justify-between rounded-xl border border-gray-200 p-3"
+        >
+          <span className="text-sm text-gray-400">프로젝트의 주제를 선택해주세요.</span>
+          <ChevronDown size={24} className="text-gray-400 disabled:text-gray-400" />
+        </button>
+      ) : (
+        <input
+          type="text"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          autoFocus
+          className="w-full rounded-xl border-2 border-[#5A588D] px-4 py-3 text-sm outline-none"
+          placeholder="프로젝트의 주제를 검색하세요."
+        />
+      )}
       {isOpen && (
-        <div className="absolute z-10 mt-2 w-full rounded-md border border-gray-300 bg-white shadow-lg">
-          <ul className="max-h-60 overflow-y-auto py-1">
-            {categories.map(option => (
-              <li
-                key={option.name}
-                className="flex cursor-pointer items-center gap-3 px-4 py-2 text-sm hover:bg-gray-100"
-                onClick={() => handleSelect(option.name)}
-              >
-                <img src={option.icon} alt={option.name} className="h-5 w-5" />
-                <span>{option.name}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <ul className="absolute z-10 mt-2 max-h-60 w-full overflow-y-auto rounded-md border border-gray-300 bg-white shadow-lg">
+          {filteredParts.map((option) => (
+            <li
+              key={option.name}
+              className="cursor-pointer px-4 py-2 text-sm hover:bg-gray-100"
+              onClick={() => handleSelect(option.name)}
+            >
+              <span className="inline-flex items-center gap-2">
+                <img src={option.icon} alt={option.name} className="w-5 h-5" />
+                {option.name}
+              </span>
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );
 };
 
-export default TopicDropdown;
+export default PartDropdown;

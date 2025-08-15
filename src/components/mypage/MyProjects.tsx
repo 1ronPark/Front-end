@@ -2,12 +2,15 @@ import { NavLink } from "react-router-dom";
 import addIcon from "../../assets/icons/mypage/ic_project_addsvg.svg";
 import MyProjectEmpty from "./project/MyProjectEmpty";
 import MyProjectList from "./project/MyProjectList";
+import type { Project } from "../../hooks/useMyProjects";
 
 interface MyProjectProps {
-  hasData: boolean; //데이터가 있으면 true
+  hasData: boolean;
+  isLoading: boolean;
+  projects: Project[];
 }
 
-const MyProjects = ({ hasData }: MyProjectProps) => {
+const MyProjects = ({ hasData, isLoading, projects }: MyProjectProps) => {
   return (
     <div className="flex-1 justify-center overflow-y-auto mx-[100px]">
       <div className="w-[960px] flex justify-between items-center ">
@@ -29,8 +32,14 @@ const MyProjects = ({ hasData }: MyProjectProps) => {
       </div>
       {/* 구분선 */}
       <hr className="w-[960px] mt-4 border-t border-[#CBC4CF]" />
-      <div className="w-[960px] mt-6 flex flex-col items-center gap-8">
-        {hasData === false ? <MyProjectEmpty /> : <MyProjectList />}
+            <div className="w-[960px] mt-6 flex flex-col items-center gap-8">
+        {isLoading ? (
+          <div>로딩 중...</div> // 여기에 스피너나 스켈레톤 UI 컴포넌트를 사용할 수 있습니다.
+        ) : hasData === false ? (
+          <MyProjectEmpty />
+        ) : (
+          <MyProjectList projectList={projects} />
+        )}
       </div>
     </div>
   );

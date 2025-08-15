@@ -1,24 +1,38 @@
 import { useState } from "react";
 import { useChangePassword } from "../../../hooks/useChangePassword";
 import { useNavigate } from "react-router-dom";
+import { usePasswordCheck } from "../../../hooks/usePasswordCheck";
 
 const PasswordChangeForm = () => {
   const navigate = useNavigate();
   const { mutate } = useChangePassword();
+  const { mutateAsync: checkPassword } = usePasswordCheck(); // ✅ hook 실행
 
   const [step, setStep] = useState<1 | 2>(1);
+  const [password, setPassword] = useState("");
   const [prevPassword, setPrevPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleStep1Submit = (e: React.FormEvent) => {
+  const [isVerifying, setIsVerifying] = useState(false);
+
+  const handleStep1Submit = async (e: React.FormEvent) => {
     e.preventDefault();
     // 간단한 유효성 검사만 하고 바로 다음 단계
-    if (prevPassword.length < 4) {
-      alert("기존 비밀번호를 정확히 입력해주세요.");
-      return;
+    // if (prevPassword.length < 4) {
+    //   alert("기존 비밀번호를 정확히 입력해주세요.");
+    //   return;
+    // }
+    try {
+      setIsVerifying(true);
+      await checkPassword({ body: { password } }); // ✅ 여기서 async 실행
+      setPrevPassword(password);
+      setStep(2); // 성공 시 다음 단계
+    } catch {
+      alert("기존 비밀번호가 올바르지 않습니다.");
+    } finally {
+      setIsVerifying(false);
     }
-    setStep(2);
   };
 
   const handleStep2Submit = (e: React.FormEvent) => {
@@ -33,7 +47,7 @@ const PasswordChangeForm = () => {
     }
 
     mutate(
-      { prevPassword, newPassword },
+      { body: { prevPassword, newPassword } },
       {
         onSuccess: () => {
           alert("비밀번호가 성공적으로 변경되었습니다.");
@@ -60,13 +74,14 @@ const PasswordChangeForm = () => {
               <input
                 type="password"
                 placeholder="기존 비밀번호"
-                value={prevPassword}
-                onChange={(e) => setPrevPassword(e.target.value)}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="w-[320px] border p-2 rounded"
                 required
               />
               <button
                 type="submit"
+                disabled={isVerifying}
                 className="cursor-pointer bg-[#68548E] title-medium text-[#FFF] py-4 px-8 rounded-lg transition-all hover:scale-105 hover:bg-[#59407e]"
               >
                 다음

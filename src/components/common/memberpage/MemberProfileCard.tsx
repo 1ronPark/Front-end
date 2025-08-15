@@ -5,30 +5,66 @@ import ic_member_univ from '../../../assets/icons/ic_member_univ.svg';
 import ic_member_email from '../../../assets/icons/ic_member_email.svg';
 import ic_profile from '../../../assets/icons/ic_profile.svg';
 import { Heart } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ActionStatusModal from '../modals/ActionStatusModal';
+import ToolTip from '../tooltips/ToolTip';
+import type { MemberDetailData } from '../../../types/MemberProps';
+import { formatRegions } from '../../../utils/formatRegions';
+import { useLikeMember, useUnLikeMember } from '../../../hooks/useMember';
 // import type { MemberDetailData } from '../../../types/MemberProps';
 
 type MemberProfileCardProps = {
-  // data: MemberDetailData;
-  isApplicantToMyProject?: boolean;
-  suggested_project?: boolean;
+  memberData: MemberDetailData
+  isApplicantToMyProject?: boolean; // 다른 멤버 -> 나 (내가 PM) - tooltip
+  suggested_project: boolean; // 나 -> 다른 멤버 (내가 지원자) - 제안 보내기 버튼 눌렀을 때 true
 };
 
-const MemberProfileCard = ({ isApplicantToMyProject = false }: MemberProfileCardProps) => {
+const MemberProfileCard = ({ memberData, isApplicantToMyProject, suggested_project }: MemberProfileCardProps) => {
   const [showProposalModal, setShowProposalModal] = useState(false);
-  const [isProposalSent, setIsProposalSent] = useState(false); // 추가: 제안 보낸 상태
+  const [isProposalSent, setIsProposalSent] = useState(suggested_project); // 추가: 제안 보낸 상태 -> tooltip 사라짐
+
+  const [isLiked, setIsLiked] = useState(memberData.liked);
+
+  const likeMutation = useLikeMember(memberData.id);
+  const unlikeMutation = useUnLikeMember(memberData.id);
+
+  useEffect(() => {
+    setIsLiked(!!memberData.liked);
+  }, [memberData.liked]);
+
+  // const isMutating = likeMutation.isPending || unlikeMutation.isPending;
 
   const profileInfos = [
-    { icon: ic_member_part, alt: "파트", label: "파트", value: '디자인' },
-    { icon: ic_member_location, alt: "위치", label: "위치", value: '지역'/* data.regions.join(', ') */ },
-    { icon: ic_member_univ, alt: "대학교", label: "대학교", value: '가천대학교' /* data.school */ },
-    { icon: ic_member_email, alt: "이메일", label: "이메일", value: '이메일' /*data.email*/ },
+    { icon: ic_member_part, alt: "파트", label: "파트", value: memberData.positions.join(', ') },
+    { icon: ic_member_location, alt: "위치", label: "위치", value: formatRegions(memberData.regions) /* data.regions.join(', ') */ },
+    { icon: ic_member_univ, alt: "대학교", label: "대학교", value: memberData.school /* data.school */ },
+    { icon: ic_member_email, alt: "이메일", label: "이메일", value: memberData.email /*data.email*/ },
   ];
 
   const handleProposalSent = () => {
     setIsProposalSent(true); // 제안 보낸 후 상태 업데이트
   };
+
+  const showTooltip = Boolean(isApplicantToMyProject) && !isProposalSent;
+  const tooltipMsg = `${memberData.nickname}님의 프로젝트에 지원한 팀원이에요\n지금 바로 제안하고 연락해 보세요!`;
+
+  useEffect(()=>setIsLiked(!!memberData.liked), [memberData.liked]);
+
+    const onHeartClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (isLiked) {
+            unlikeMutation.mutate({}, {
+                onSuccess: () => setIsLiked(false),
+                onError: () => setIsLiked(true),
+            });
+            console.log('좋아요 등록');
+        } else {
+            likeMutation.mutate({}, {
+                onSuccess: () => setIsLiked(true),
+                onError: () => setIsLiked(false),
+            });
+        }
+    }
   
   return (
     <section>
@@ -36,7 +72,7 @@ const MemberProfileCard = ({ isApplicantToMyProject = false }: MemberProfileCard
         <div className="flex justify-between items-center mb-4.5">
           {/* 제목 */}
           <h2 className="headline-medium-emphasis">
-            기술과 디자인을 넘나들며 방향을 설계하는 실전형 디자이너
+            {memberData.profileTitle}
           </h2>
         </div>
 
@@ -48,7 +84,7 @@ const MemberProfileCard = ({ isApplicantToMyProject = false }: MemberProfileCard
           {/* 왼쪽: 로그인 안내 */}
           <div className="flex justify-center items-center self-center px-4">
             <img
-              src={ic_profile}
+              src={memberData.profileImageUrl || ic_profile}
               alt="프로필 이미지"
               className="w-[128px] h-[128px] rounded-full object-cover block"
             />
@@ -56,12 +92,12 @@ const MemberProfileCard = ({ isApplicantToMyProject = false }: MemberProfileCard
           {/* 가운데: 프로필 정보 */} {/* 추후 리팩토링 예정 */}
           <div className="flex flex-col gap-[11px] w-full flex-shrink-0">
             <div className="flex gap-4 items-center mb-[13px]">
-              <span className="body-large-emphasis">히로</span>
+              <span className="body-large-emphasis">{memberData.name}</span>
               <div className="w-px h-4 bg-[#C8C5D0]" />
-              <span className="body-large-emphasis">강해준</span>
-              <span className="body-large text-[#47464F]">남</span>
-              <span className="body-large text-[#47464F]">23세</span>
-              <span className="body-large text-[#47464F]">ISTJ</span>
+              <span className="body-large-emphasis">{memberData.nickname}</span>
+              <span className="body-large text-[#47464F]">{memberData.gender ? '남' : '여'}</span>
+              <span className="body-large text-[#47464F]">{memberData.age}</span>
+              <span className="body-large text-[#47464F]">{memberData.mbti}</span>
             </div>
             {/* 프로필 정보 반복 렌더링 */}
             {profileInfos.map(({ icon, alt, label, value }, index) => (
@@ -84,49 +120,65 @@ const MemberProfileCard = ({ isApplicantToMyProject = false }: MemberProfileCard
         </div>
       </div>
 
+      {/*  */}
+
       {/* 하단 버튼 */}
       <div className="flex gap-4 justify-center mt-6 mb-4">
-        <div className="relative">
-          {/* ✅ 조건부 툴팁 */}
-          {isApplicantToMyProject && (
-            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-10 w-[257px] px-4 py-2 rounded-[16px] bg-white text-[#16134A] shadow text-center body-medium-emphasis">
-              히로님의 프로젝트에 지원한 팀원이에요
-              <br />
-              지금 바로 제안하고 연락해 보세요!
-              <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white rotate-45 shadow-sm"></div>
-            </div>
-          )}
-          <button
-            onClick={()=>setShowProposalModal(true)}
-            disabled={isProposalSent}
-            className={`w-[200px] h-[56px] flex items-center justify-center gap-2.5 rounded-[16px] ${
-              isProposalSent
-                ? 'bg-[#5A5891] opacity-60 text-[#68548E] cursor-not-allowed' // 제안 보냄
-                : 'bg-[#5A5891] text-[#FFFFFF]' // 제안 보내기
-              }`}
-        >  
-          <img src={ic_send} alt="send icon" className="w-4 h-4 text-white" />
-          <p className="title-medium text-[#FFFFFF]"> 
-              {isProposalSent ? '이미 제안했어요' : '제안 보내기'}
-            </p>
-        </button>
+        <div className="relative inline-block group">
+          {(() => {
+            const proposalButton = (
+              <button
+                onClick={() => setShowProposalModal(true)}
+                disabled={isProposalSent}
+                className={`w-[200px] h-[56px] flex items-center justify-center gap-2.5 rounded-[16px] ${
+                  isProposalSent
+                    ? 'bg-[#5A5891] opacity-60 text-[#68548E] cursor-not-allowed' // 제안 보냄
+                    : 'bg-[#5A5891] text-[#FFFFFF]' // 제안 보내기
+                }`}
+              >  
+                <img src={ic_send} alt="send icon" className="w-4 h-4 text-white" />
+                <p className="title-medium text-[#FFFFFF]"> 
+                  {isProposalSent ? '이미 제안했어요' : '제안 보내기'}
+                </p>
+              </button>
+            );
+
+            return showTooltip ? (
+              <ToolTip content={tooltipMsg}>
+                {proposalButton}
+              </ToolTip>
+            ) : proposalButton;
+          })()}
         </div>
         
-        
-
         <button
+          onClick={onHeartClick}
           className="w-[200px] h-[56px] flex items-center justify-center gap-2.5 rounded-[16px] border-[1px] border-[#C8C5D0] text-[#47464F]"
         >
-            <Heart size={20} />
-            <p className="title-medium text-[#47464F]">관심 목록 추가</p>  
+            {isLiked ? (
+              // 좋아요 상태: 채워진 하트
+              <>
+                <Heart size={20} fill="currentColor" stroke="currentColor" />
+                <p className="title-medium text-[#47464F]">관심 목록 추가됨</p> 
+
+              </>
+              
+            ) : (
+              // 기본 상태: 빈 하트
+              <>
+                <Heart size={20} />
+              <p className="title-medium text-[#47464F]">관심 목록 추가</p> 
+              </>
+              
+            )}
         </button>
       </div>
 
       {showProposalModal && (
         <ActionStatusModal
-          proposalConfirmTitle={`강해준님께\n제안을\n보낼까요?`}
+          proposalConfirmTitle={`${memberData.name}님께\n제안을\n보낼까요?`}
           proposalConfirmButtonText="보내기"
-          proposalSentTitle={`강해준님께\n제안을\n보냈어요`}
+          proposalSentTitle={`${memberData.name}님께\n제안을\n보냈어요`}
           proposalSentButtonText="확인"
           onClose={()=>setShowProposalModal(false)}
           onProposalSent={handleProposalSent}

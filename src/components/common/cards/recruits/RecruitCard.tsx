@@ -1,40 +1,34 @@
-import { useState } from 'react';
-import type { ChangeEvent } from "react";
 import CloseIcon from '../../../../assets/icons/ic_close.svg';
 import PartDropdown from '../../../common/dropdowns/PartDropdown';
 import MbtiDropdown from '../../../common/dropdowns/MbtiDropdown';
 import DeleteIcon from '../../../../assets/icons/ic_delete.svg';
 import ProjectDescription from '../../../mypage/project/register/ProjectDescription';
+import type { RecruitPosition } from '../../../../hooks/useMakeItem';
 
 
 interface RecruitCardProps {
+  recruit: RecruitPosition;
+  onUpdateRecruit: (updated: RecruitPosition) => void;
   onDelete: () => void;
 }
 
-const RecruitCard = ({ onDelete }: RecruitCardProps) => {
-  const [introText, setIntroText] = useState("");
+// 컴포넌트 상단(혹은 utils 폴더)에서 아래 함수 선언
+const PART_OPTIONS = [
+  { id: 1, name: '프론트엔드' },
+  { id: 2, name: '백엔드' },
+  { id: 3, name: '디자인' },
+  { id: 4, name: '기획' },
+  { id: 5, name: '홍보' },
+];
+
+function getPartNameById(id: number | null) {
+  if (id === null) return '';
+  const part = PART_OPTIONS.find(option => option.id === id);
+  return part ? part.name : '';
+}
+
+const RecruitCard = ({ recruit, onUpdateRecruit, onDelete }: RecruitCardProps) => {
   const maxLength = 3000;
-
-  const [section, setSection] = useState<string | null>(null);
-  const [mbtis, setMbtis] = useState<string[]>([]);
-
-  const handleAddSection = (selected: string) => {
-    setSection(selected);
-  };
-
-  const handleAddMbti = (mbti: string) => {
-    if (mbtis.length < 3 && !mbtis.includes(mbti)) {
-      setMbtis([...mbtis, mbti]);
-    }
-  };
-
-  const handleRemoveSection = () => {
-    setSection(null);
-  };
-
-  const handleRemoveMbti = (mbtiToRemove: string) => {
-    setMbtis(mbtis.filter(mbti => mbti !== mbtiToRemove));
-  };
 
 return (
   <div className="rounded-lg border border-gray-300 bg-white p-4 shadow-md">
@@ -56,13 +50,15 @@ return (
           </div>
           {/* 파트 섹션 */}
           <div className="space-y-2">
-            <PartDropdown onSelect={handleAddSection} />
-            {section && (
-              <div className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 w-30 justify-between">
-                <span className="text-sm font-semimedium text-gray-700">
-                  {section}
-                </span>
-                <button onClick={handleRemoveSection}>
+            <PartDropdown
+              selected={recruit.positionId}
+              onSelect={id => onUpdateRecruit({ ...recruit, positionId: id })}
+            />
+            {/* 선택된 파트명이 있을 경우에만 표시 (선택적) */}
+            {recruit.positionId != null && recruit.positionId !== 0 &&getPartNameById(recruit.positionId) && (
+              <div className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 w-30 justify-between text-sm">
+                <span>{getPartNameById(recruit.positionId)}</span>
+                <button onClick={() => onUpdateRecruit({ ...recruit, positionId: null })}>
                   <img src={CloseIcon} alt="삭제" className="h-4 w-4" />
                 </button>
               </div>
@@ -76,17 +72,15 @@ return (
               <h3 className="text-sm font-semibold text-orange-500">*</h3>
             </div>
             <span className="text-sm text-gray-500">
-              <span className = "text-[#6C63FF]">{introText.length}</span> / {maxLength}
+              <span className = "text-[#6C63FF]">{recruit.mainTasks.length}</span> / {maxLength}
             </span>
           </div>
           <textarea
             className="w-full rounded-lg border border-gray-300 p-3 text-gray-700 focus:border-primary-500 focus:outline-none text-sm"
             rows={1}
             placeholder="파트원이 하게 될 주요 작업 내용을 입력해주세요."
-            value={introText}
-            onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-              setIntroText(e.target.value)
-            }
+            value={recruit.mainTasks}
+            onChange={e => onUpdateRecruit({ ...recruit, mainTasks: e.target.value })}
             maxLength={maxLength}
           ></textarea>
         </div>
@@ -98,10 +92,8 @@ return (
             className="w-full rounded-lg border border-gray-300 p-3 text-gray-700 focus:border-primary-500 focus:outline-none text-sm"
             rows={1}
             placeholder="우대 사항에 대해 입력해주세요."
-            value={introText}
-            onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-              setIntroText(e.target.value)
-            }
+            value={recruit.preferentialTreatment}
+            onChange={e => onUpdateRecruit({ ...recruit, preferentialTreatment: e.target.value })}
             maxLength={maxLength}
           ></textarea>
         </div>
@@ -110,37 +102,58 @@ return (
             <h3 className="text-sm font-semibold">선호 MBTI</h3>
           </div>
           {/* MBTI 섹션 */}
-          <div className="space-y-2">
-            <MbtiDropdown onSelect={handleAddMbti} />
-            <div className="flex flex-wrap gap-3">
-              {mbtis.map(mbti => (
+          <MbtiDropdown
+            selected={recruit.preferMbti}
+            onSelect={mbti => {
+              if (Array.isArray(recruit.preferMbti)) {
+                // 최대 3개까지, 중복 선택 방지
+                if (recruit.preferMbti.length < 3 && !recruit.preferMbti.includes(mbti)) {
+                  onUpdateRecruit({
+                    ...recruit,
+                    preferMbti: [...recruit.preferMbti, mbti],
+                  });
+                }
+              }
+            }}
+          />
+          <div className="flex flex-wrap gap-3">
+            {Array.isArray(recruit.preferMbti) &&
+              recruit.preferMbti.map(mbti => (
                 <div
                   key={mbti}
                   className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2"
                 >
-                  <span className="text-sm font-semimedium text-gray-700">
-                    {mbti}
-                  </span>
-                  <button onClick={() => handleRemoveMbti(mbti)}>
+                  <span className="text-sm font-semimedium text-gray-700">{mbti}</span>
+                  <button
+                    onClick={() =>
+                      onUpdateRecruit({
+                        ...recruit,
+                        preferMbti: recruit.preferMbti.filter(
+                          m => m !== mbti
+                        ),
+                      })
+                    }
+                  >
                     <img src={CloseIcon} alt="삭제" className="h-4 w-4" />
                   </button>
                 </div>
               ))}
-            </div>
           </div>
         </div>
         <div className="space-y-2">
-        <div className="flex items-cente justify-between">
-          <div className="flex items-center mb-3">
-            <h3 className="text-sm font-semibold">모집 인원</h3>
-            <h3 className="text-sm font-semibold text-orange-500">*</h3>
+          <div className="flex items-cente justify-between">
+            <div className="flex items-center mb-3">
+              <h3 className="text-sm font-semibold">모집 인원</h3>
+              <h3 className="text-sm font-semibold text-orange-500">*</h3>
+            </div>
+            <ProjectDescription
+              value={recruit.recruitNumber}
+              onChange={v => onUpdateRecruit({ ...recruit, recruitNumber: v })}
+            />
           </div>
-          <ProjectDescription />
-        </div>
         </div>
       </div>
     </div>
-  );
-};
+)};
 
 export default RecruitCard;

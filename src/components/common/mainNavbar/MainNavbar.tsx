@@ -119,7 +119,12 @@ export const MainNavbar = ({ bgColor = "white" }: MainNavbarProps) => {
               }}
               className="flex items-center gap-2 px-6 py-4 bg-transparent cursor-pointer"
             >
-              <img src={ic_myprofile} alt="myprofile" className="w-6 h-6" />
+              <img
+                //유저스토어에서 프로필이미지가 빈문자열이면 기본 이미지 출력
+                src={user?.profileImage || ic_myprofile}
+                alt="myprofile"
+                className="w-6 h-6 rounded-2xl"
+              />
               <span className="text-[#6750A4] title-medium">
                 {user?.nickname}
               </span>

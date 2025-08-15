@@ -1,11 +1,12 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface User {
   memberId: number;
   name: string;
   nickname: string;
   email: string;
+  profileImage: string;
 }
 
 interface UserStore {
@@ -22,7 +23,7 @@ export const useUserStore = create<UserStore>()(
       resetUser: () => set({ user: null }),
     }),
     {
-      name: 'user-storage',
+      name: "user-storage",
     }
   )
 );

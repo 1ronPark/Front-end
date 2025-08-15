@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "http://13.124.230.194:8080/api/:path*" },
+    { "source": "/((?!api|_next|assets|favicon.ico|robots.txt|sitemap.xml|manifest.webmanifest).*)", "destination": "/index.html" }
+  ]
+}

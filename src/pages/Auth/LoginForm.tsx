@@ -11,6 +11,43 @@ export const LoginForm = () => {
     navigate("/loginPassword"); // 비밀번호 입력 페이지로 이동
   };
 
+  // 상단 import 라인 아래 쪽 어딘가에 유틸 함수 추가
+const makeState = () => Math.random().toString(36).slice(2);
+
+// 현재 도메인을 동적으로 가져오기 (배포 환경 대응)
+  const getCurrentDomain = () => {
+    if (typeof window !== 'undefined') {
+      return window.location.origin;
+    }
+    return import.meta.env.VITE_FRONT_ORIGIN; // fallback for SSR
+  };
+
+// 구글/카카오 인가 URL 생성기
+const googleAuthorizeUrl = (clientId: string) => {
+  const FRONT = getCurrentDomain();
+  const p = new URLSearchParams({
+    client_id: clientId,
+    redirect_uri: `${FRONT}${import.meta.env.VITE_SOCIAL_CALLBACK}`,
+    response_type: "code",
+    scope: "openid email profile",
+    state: "GOOGLE-" + makeState(),
+  });
+  return `https://accounts.google.com/o/oauth2/v2/auth?${p.toString()}`;
+};
+
+const kakaoAuthorizeUrl = (restKey: string) => {
+  const FRONT = getCurrentDomain();
+  const p = new URLSearchParams({
+    client_id: restKey,
+    redirect_uri: `${FRONT}${import.meta.env.VITE_SOCIAL_CALLBACK}`,
+    response_type: "code",
+    state: "KAKAO-" + makeState(),
+    scope: "account_email profile_nickname profile_image", // ✅ 필요한 항목 모두
+    prompt: "consent", // ✅ 재동의 창 강제 표시
+  });
+  return `https://kauth.kakao.com/oauth/authorize?${p.toString()}`;
+};
+
   return (
     <div className="min-h-screen label-large flex flex-col justify-center items-center pt-4 overflow-hidden bg-[radial-gradient(ellipse_116.75%_116.75%_at_50%_-16.75%,rgba(255,217,225,0.4)_0%,rgba(255,255,255,0.4)_100%),radial-gradient(ellipse_65.2%_65.2%_at_50%_0%,#EBDDFF_0%,white_100%)] ">
       {/* 상단 헤더 */}
@@ -64,37 +101,39 @@ export const LoginForm = () => {
 
         {/* 소셜 로그인 버튼들 */}
         <div className="w-full flex flex-col gap-4">
-          <NavLink
-            to="https://accounts.google.com/o/oauth2/v2/auth?
-                client_id=${process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID}
-                &redirect_uri=https://bageasy.vercel.app/loading
-                &response_type=code
-                &scope=email+profile"
+          <button
+            onClick={() => {
+              const url = googleAuthorizeUrl(import.meta.env.VITE_GOOGLE_CLIENT_ID);
+              window.location.href = url;
+            }}
+            className="w-full h-12 border border-[#CBC4CF] rounded-full flex items-center justify-center gap-3 hover:bg-gray-50 cursor-pointer"
           >
-            <button className="w-full h-12 border border-[#CBC4CF] rounded-full flex items-center justify-center gap-3 hover:bg-gray-50 cursor-pointer">
-              <img
-                src="https://www.svgrepo.com/show/475656/google-color.svg"
-                alt="Google"
-                className="w-5 h-5"
-              />
-              <span className="text-sm font-medium text-[#49454E]">
-                Google 로 계속하기
-              </span>
-            </button>
-          </NavLink>
+            <img
+              src="https://www.svgrepo.com/show/475656/google-color.svg"
+              alt="Google"
+              className="w-5 h-5"
+            />
+            <span className="text-sm font-medium text-[#49454E]">
+              Google 로 계속하기
+            </span>
+          </button>
 
-          <NavLink to="">
-            <button className="w-full h-12 border border-[#CBC4CF] rounded-full flex items-center justify-center gap-3 hover:bg-gray-50 cursor-pointer">
-              <img
-                src="https://www.svgrepo.com/show/303176/kakaotalk-logo.svg"
-                alt="KakaoTalk"
-                className="w-5 h-5"
-              />
-              <span className="text-sm font-medium text-[#49454E]">
-                Kakaotalk 로 계속하기
-              </span>
-            </button>
-          </NavLink>
+          <button
+            onClick={() => {
+              const url = kakaoAuthorizeUrl(import.meta.env.VITE_KAKAO_REST_KEY);
+              window.location.href = url;
+            }}
+            className="w-full h-12 border border-[#CBC4CF] rounded-full flex items-center justify-center gap-3 hover:bg-gray-50 cursor-pointer"
+          >
+            <img
+              src="https://www.svgrepo.com/show/303176/kakaotalk-logo.svg"
+              alt="KakaoTalk"
+              className="w-5 h-5"
+            />
+            <span className="text-sm font-medium text-[#49454E]">
+              KakaoTalk 로 계속하기
+            </span>
+          </button>
         </div>
 
         {/* 약관 / 개인정보 */}

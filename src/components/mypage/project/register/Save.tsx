@@ -1,23 +1,24 @@
 import { Upload } from "lucide-react";
 import { useApiMutation } from "../../../../hooks/apiHooks";
-import { useProjectStore } from "../../../../store/useProjectStore"; // zustand 상태 import
+import { useRegisterProjectStore } from "../../../../store/registerProjectStore"; // zustand 상태 import
 import type { CreateProjectResponse } from "../../../../hooks/useProject";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Save = () => {
-  // zustand 상태에서 프로젝트 정보 가져오기
+  // zustand 전역 상태에서 프로젝트 정보 가져오기
   const {
-    projectName: projectName,
-    projectSubtitle,
+    name: projectName,
+    introduce: projectSubtitle,
     itemProfileImage,
     itemPlanFile,
     //topics
-  } = useProjectStore();
+  } = useRegisterProjectStore();
 
   // API 호출을 위한 훅 세팅
   const createProject = useApiMutation<FormData, CreateProjectResponse>({
     method: "POST",
-    endpoint: "/api/v1/items",
+    endpoint: `${import.meta.env.VITE_API_ITEMS_ENDPOINT}`,
     onSuccess: (res: CreateProjectResponse) => {
       // 응답 성공 여부 확인
       if (!res.isSuccess) {
@@ -28,8 +29,7 @@ const Save = () => {
       const { itemName } = res.result;
       alert(`프로젝트 '${itemName}'이(가) 성공적으로 등록되었습니다!`);
 
-      // 필요하면 페이지 이동도 가능
-      // navigate(`/mypage/${memberId}`);
+      navigate("/myprofile?tab=projects");
     },
     onError: (err: unknown) => {
       if (axios.isAxiosError(err)) {
@@ -48,25 +48,65 @@ const Save = () => {
 
   // 제출 로직
   const handleSubmit = () => {
-    if (
-      !projectName ||
-      !projectSubtitle ||
-      !itemProfileImage ||
-      !itemPlanFile
-    ) {
-      alert("모든 항목을 입력해주세요.");
-      return;
-    }
+    // Save.tsx handleSubmit 맨 위
+    // console.log('[DEBUG] store', useRegisterProjectStore.getState());
+    const missingFields: string[] = [];
+      if (!projectName) missingFields.push("프로젝트명");
+      if (!projectSubtitle) missingFields.push("프로젝트 소개");
+      if (!itemProfileImage) missingFields.push("프로젝트 썸네일(대표이미지)");
+      if (!itemPlanFile) missingFields.push("기획 파일(첨부 파일)");
 
-    const formData = new FormData();
-    formData.append("itemName", projectName); //서버 명세에 맞는 키로 변경하여 제출
-    formData.append("introduction", projectSubtitle);
-    formData.append("itemProfileImage", itemProfileImage);
-    formData.append("itemPlanFile", itemPlanFile);
+      if (missingFields.length > 0) {
+        alert(`다음 항목을 입력/첨부해주세요:\n- ${missingFields.join('\n- ')}`);
+        return;
+      }
 
-    createProject.mutate(formData);
+      const formData = new FormData();
+
+      const {
+        projectStatus,
+        name,
+        recruitPositions,
+        itemCategories,
+        collaborationRegions,
+        description,
+        introduce,
+        extraLink1,
+        extraLink2,
+      } = useRegisterProjectStore.getState();
+
+      const requestPayload = {
+        extraLink1,
+        extraLink2,
+        projectStatus,
+        name,
+        recruitPositions: recruitPositions.map(pos => ({
+          ...pos,
+          preferMbti: Array.isArray(pos.preferMbti)
+            ? pos.preferMbti.join(',') // preferMbti가 배열이면 string으로 변환
+            : pos.preferMbti || '',
+        })),
+        itemCategories,
+        collaborationRegions,
+        description,
+        introduce,
+      };
+
+      formData.append("itemProfileImage", itemProfileImage!);
+      formData.append("itemPlanFile", itemPlanFile!);
+      formData.append("request", JSON.stringify(requestPayload));
+
+        // 🔥 FormData 실제 내용 콘솔로 찍기
+      // for (const [key, value] of formData.entries()) {
+      //   console.log('FormData', key, value);
+      // }
+      // console.log('store recruitPositions:', recruitPositions, typeof recruitPositions);
+      // console.log('store itemCategories:', itemCategories, typeof itemCategories);
+      // console.log('store collaborationRegions:', collaborationRegions, typeof collaborationRegions);
+      createProject.mutate({body:formData});
   };
 
+  const navigate = useNavigate();
   return (
     <div className="flex justify-center py-6">
       <button
