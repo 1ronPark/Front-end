@@ -9,7 +9,7 @@ export type ProjectRecruitPosition = {
 };
 
 export type CategoryType = {
-  categoryName: string;
+  categoryName: string[];
 };
 
 export type ProjectComment = {

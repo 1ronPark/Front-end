@@ -2,11 +2,11 @@ import { ChevronUp, EllipsisVertical } from "lucide-react";
 import logo from "../../../assets/icons/mypage/project_sample_logo.png";
 import hailIcon from "../../../assets/icons/mypage/ic_hail.svg";
 import groupIcon from "../../../assets/icons/mypage/ic_group_search.svg";
-import type { CategoryType } from "../../../types/MyProjectCard";
+import type { CategoryType } from "../../../types/ProjectDetailProps";
 import { useState } from "react";
 import ProjectEditDeleteModal from "../../common/modals/ProjectEditDeleteModal";
 
-interface MyProjectCartProps {
+export interface MyProjectCardProps {
   id: number;
   categories: CategoryType[];
   title: string;
@@ -28,7 +28,7 @@ const MyprojectCard = ({
   hasTeammate,
   current_project,
   applied_project
-}: MyProjectCartProps) => {
+}: MyProjectCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   // ...
   

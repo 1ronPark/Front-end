@@ -1,8 +1,7 @@
-import type { CategoryType } from "../../../types/MyProjectCard";
 import MyprojectCard from "./MyprojectCard";
 import type { Project } from "../../../hooks/useMyProjects";
 
-interface MyProjectListProps {
+export interface MyProjectListProps {
   projectList: Project[];
 }
 
@@ -17,7 +16,7 @@ const MyProjectList = ({ projectList }: MyProjectListProps) => {
           <MyprojectCard
             key={`current-${idx}`}
             id={idx}
-            categories={project.itemCategories.map(cat => cat.categoryName) as CategoryType[]}
+            categories={project.itemCategories.map(cat => cat.categoryName)}
             title={project.itemName}
             sub_title={project.introduce}
             itemImageUrl={project.itemImageUrl}
