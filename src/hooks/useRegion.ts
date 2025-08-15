@@ -50,13 +50,13 @@ type PostRegionsBody = { memberRegions: MemberRegion[] };
 export const useGetRegionsSido = () => {
   return useApiQuery<GetRegionSidoResponse>({
     method: "GET",
-    endpoint: "/v1/regions/sido",
+    endpoint: import.meta.env.VITE_API_GET_REGION_SIDO_ENDPOINT,
   });
 };
 
 export const useGetRegionSigungu = (siDo?: string) => {
   const baseEndpoint =
-    import.meta.env.VITE_API_GET_SIGUNGU_ENDPOINT ?? "/v1/regions/sigungu";
+    import.meta.env.VITE_API_GET_SIGUNGU_ENDPOINT ;
 
   return useApiQuery<GetRegionSigunguResponse>({
     method: "GET",
@@ -88,5 +88,5 @@ export const usePostRegion = () => {
 export const useDeleteRegionById = () =>
   useApiMutation<undefined, { result: { memberRegionId: number } }>({
     method: "DELETE",
-    endpoint: "/api/v1/members/regions", // 호출할 때 /{id} 로 덮어씀
+    endpoint: import.meta.env.VITE_API_REGION_ENDPOINT, // 호출할 때 /{id} 로 덮어씀
   });

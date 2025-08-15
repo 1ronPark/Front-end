@@ -37,24 +37,28 @@ interface MemberDetailResponse {
 export const useMembers = (filters?: MemberFiltersParams) => {
     return useApiQuery<MemberListResponse>({
         method: 'GET',
-        endpoint: '/v1/members/search',
+        endpoint: import.meta.env.VITE_API_MEMBERS_SEARCH_ENDPOINT,
         params: buildMemberParams(filters),
     });
 };
 
 // 상세 조회
 export const useMemberDetail = (memberId: number) => {
+    const endpoint = import.meta.env.VITE_API_MEMBER_DETAIL_ENDPOINT.replace(':id', String(memberId));
+
     return useApiQuery<MemberDetailResponse>({
         method: 'GET',
-        endpoint: `/v1/members/${memberId}`,
+        endpoint,
     });
 };
 
 // 회원 좋아요 기능
 export const useLikeMember = (memberId: number) => {
+  const endpoint = import.meta.env.VITE_API_MEMBER_LIKE_ENDPOINT.replace(':id', String(memberId));
+
     return useApiMutation<undefined, void>({
         method: 'POST',
-        endpoint: `/v1/members/${memberId}/like`,
+        endpoint,
         onSuccess: () => {
             console.log('좋아요 등록 완료!');
         },
@@ -66,9 +70,11 @@ export const useLikeMember = (memberId: number) => {
 
 // 회원 좋아요 취소 기능
 export const useUnLikeMember = (memberId: number) => {
+  const endpoint = import.meta.env.VITE_API_MEMBER_LIKE_ENDPOINT.replace(':id', String(memberId));
+
     return useApiMutation<undefined, void>({
         method: 'DELETE',
-        endpoint: `/v1/members/${memberId}/like`,
+        endpoint,
         onSuccess: () => {
             console.log("좋아요 취소 성공");
         },

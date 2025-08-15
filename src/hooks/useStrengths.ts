@@ -63,5 +63,5 @@ export const usePostStrengths = () => {
 export const useDeleteStrengthsById = () =>
   useApiMutation<undefined, { result: { strengthId: number } }>({
     method: "DELETE",
-    endpoint: "/api/v1/members/strengths", // 호출할 때 /{id} 로 덮어씀
+    endpoint: import.meta.env.VITE_API_POST_STRENGTHS_ENDPOINT, // 호출할 때 /{id} 로 덮어씀
   });

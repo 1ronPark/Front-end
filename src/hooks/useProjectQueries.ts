@@ -41,7 +41,7 @@ export const useProjectList = (page: number, sort?: ListSort) => {
 
   return useApiQuery<ProjectListResponse>({
     method: 'GET',
-    endpoint: `/v1/items/search?${qs.toString()}`,
+    endpoint: `${import.meta.env.VITE_API_ITEMS_SEARCH_ENDPOINT}?${qs.toString()}`,
   });
 };
 
@@ -60,7 +60,7 @@ interface ProjectDetailResponse {
 export const useProjectDetail = (itemId: number) => {
   return useApiQuery<ProjectDetailResponse>({
     method: 'GET',
-    endpoint: `/v1/items/${itemId}`,
+    endpoint: `${import.meta.env.VITE_API_ITEMS_ENDPOINT}/${itemId}`,
     enabled: Number.isFinite(itemId) && itemId > 0,
   });
 };
@@ -79,6 +79,6 @@ interface LikedStatusResponse {
 export const useLikedStatus = (itemId: number) => {
   return useApiQuery<LikedStatusResponse>({
     method: "GET",
-    endpoint: `/v1/items/${itemId}/like`, 
+    endpoint: import.meta.env.VITE_API_ITEMS_LIKE_ENDPOINT.replace(":id", String(itemId)), 
   });
 };

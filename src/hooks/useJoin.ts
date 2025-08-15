@@ -20,11 +20,10 @@ export interface SignUpResponse {
 }
 
 export const useSignUp = () => {
-  console.log('�� useSignUp endpoint:', "/v1/members/join");
 
   return useApiMutation<SignUpRequest, SignUpResponse>({
     method: 'POST',
-    endpoint: "/v1/members/join",
+    endpoint: import.meta.env.VITE_API_SIGNUP_ENDPOINT,
     onSuccess: () => {
       console.log('회원가입 성공!');
     },

@@ -17,7 +17,7 @@ export interface CreateProjectResponse {
 export const useCreateProject = () => {
   return useApiMutation<FormData, CreateProjectResponse>({
     method: "POST",
-    endpoint: '/v1/items',
+    endpoint: import.meta.env.VITE_API_ITEMS_ENDPOINT,
     onSuccess: () => {
       alert("프로젝트 등록 완료!");
     },
@@ -31,7 +31,7 @@ export const useCreateProject = () => {
 export const useLikeProject = (itemId: number) => {
   return useApiMutation<undefined, void>({
     method: 'POST',
-    endpoint: `/v1/items/${itemId}/like`,
+    endpoint: import.meta.env.VITE_API_ITEMS_LIKE_ENDPOINT.replace(':id', String(itemId)),
     onSuccess: () => {
       alert('좋아요 등록 완료!');
     },
@@ -45,7 +45,7 @@ export const useLikeProject = (itemId: number) => {
 export const useUnlikeProject = (itemId: number) =>
   useApiMutation<undefined, void>({
     method: "DELETE",
-    endpoint: `/v1/items/${itemId}/like`,
+    endpoint: import.meta.env.VITE_API_ITEMS_LIKE_ENDPOINT.replace(':id', String(itemId)),
     onSuccess: () => {
       console.log("좋아요 취소 성공");
     },

@@ -26,7 +26,7 @@ export const useCreateComment = (itemId: number) => {
     mutationFn: (body) =>
       fetchRequest<CreateResponse<CommentCreated>, { content: string }>({
         method: "POST",
-        endpoint: `/v1/items/${itemId}/comments`,
+        endpoint: import.meta.env.VITE_API_ITEMS_COMMENT.replace(':id', String(itemId)),
         body,
       }),
     onSuccess: () => {
@@ -54,7 +54,7 @@ export const useDeleteComment = (itemId: number) => {
     mutationFn: ({ commentId }) =>
       fetchRequest<DeleteResponse>({
         method: "DELETE",
-        endpoint: `/v1/items/comments/${commentId}`, // '/v1/...'만 (BASE는 /api)
+        endpoint: import.meta.env.VITE_API_COMMENT_DELETE.replace(":id", String(commentId)),
       }),
     onSuccess: () => {
       // 상세만 부분 무효화 (전체 무효화 금지)

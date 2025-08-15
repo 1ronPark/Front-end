@@ -23,7 +23,7 @@ export const useLogin = () => {
   const navigate = useNavigate();
   const mutation = useApiMutation<LoginRequest, LoginResponse>({
   method: "POST",
-  endpoint: "/v1/members/login",
+  endpoint: import.meta.env.VITE_API_LOGIN_ENDPOINT,
   onError: (err: Error) => {
     // Axios 에러인지 안전하게 판별 후 코드별 처리
     if (isAxiosError<{ code: string; message: string }>(err)) {

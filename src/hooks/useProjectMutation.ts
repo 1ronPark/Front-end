@@ -15,7 +15,7 @@ export interface CreateProjectResponse {
 export const useCreateProject = () => {
   return useApiMutation<FormData, CreateProjectResponse>({
     method: "POST",
-    endpoint: "/v1/items",
+    endpoint: import.meta.env.VITE_API_ITEMS_ENDPOINT,
     onSuccess: () => {
       alert("프로젝트 등록 완료!");
     },
@@ -29,7 +29,7 @@ export const useCreateProject = () => {
 export const useLikeProject = (itemId: number) => {
   return useApiMutation<undefined, void>({
     method: "POST",
-    endpoint: `/v1/items/${itemId}/like`,
+    endpoint: import.meta.env.VITE_API_ITEMS_LIKE_ENDPOINT.replace(":id", String(itemId)),
   });
 };
 
@@ -37,7 +37,7 @@ export const useLikeProject = (itemId: number) => {
 export const useUnlikeProject = (itemId: number) =>
   useApiMutation<undefined, void>({
     method: "DELETE",
-    endpoint: `/v1/items/${itemId}/like`,
+    endpoint: import.meta.env.VITE_API_ITEMS_LIKE_ENDPOINT.replace(":id", String(itemId)),
   });
 
 //프로젝트 지원 API 훅================================================
@@ -51,9 +51,9 @@ type BaseResponse<T = unknown> = {
 
 type ApplyResult = { appliedAt: string; message?: string };
 
-// POST /v1/items/{itemId}/apply
+
 export const useApplyToProject = (itemId: number) =>
   useApiMutation<undefined, BaseResponse<ApplyResult>>({
     method: 'POST',
-    endpoint: `/v1/items/${itemId}/apply`, 
+    endpoint: import.meta.env.VITE_API_ITEMS_APPLY_ENDPOINT.replace(':id', String(itemId)), 
   });

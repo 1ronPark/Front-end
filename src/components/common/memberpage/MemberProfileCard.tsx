@@ -82,7 +82,7 @@ const MemberProfileCard = ({ memberData, isApplicantToMyProject, suggested_proje
         {/* 본문: 3단 그리드 */}
         <div className="grid grid-cols-[auto_1fr_auto] gap-8 min-w-0">
           {/* 왼쪽: 로그인 안내 */}
-          <div className="flex justify-center items-center self-center px-4">
+          <div className="flex justify-center items-center self-center px-4 ">
             <img
               src={memberData.profileImageUrl || ic_profile}
               alt="프로필 이미지"
