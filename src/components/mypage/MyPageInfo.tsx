@@ -36,9 +36,16 @@ const MyPageInfo = () => {
 
     // useApiMutation은 기본적으로 mutate(비동기X)지만,
     // 여기선 모달에서 로딩 표시를 위해 Promise로 래핑
+    const uploadEndpoint = import.meta.env
+      .VITE_API_POST_PROFILE_IMAGE_CHANGE_ENDPOINT;
+    if (!uploadEndpoint) {
+      alert("VITE_API_PROFILE_IMAGE_ENDPOINT가 설정되지 않았습니다.");
+      return;
+    }
+
     await new Promise<void>((resolve, reject) => {
       profileChange(
-        { body: fd },
+        { body: fd, endpoint: uploadEndpoint },
         {
           onSuccess: () => resolve(),
           onError: () => reject(new Error("upload failed")),
