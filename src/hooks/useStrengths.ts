@@ -2,16 +2,15 @@
 import { useApiMutation, useApiQuery } from "./apiHooks";
 
 export interface Strength {
-  id: number;
-  name: string;
-  strengthType: string;
+  strenghtId: number;
+  strengthName: string;
 }
 export interface GetStrengthsResponse {
   isSuccess: boolean;
   code: string;
   message: string;
   result: {
-    strengths: string[];
+    strengths: Strength[];
   };
 }
 

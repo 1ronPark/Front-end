@@ -1,62 +1,91 @@
-import { useState, useRef, useEffect } from 'react';
-import { ChevronDown } from 'lucide-react';
-
-const STRENGTH_OPTIONS = ['성실한', '열정있는', '꾸준한', '소통 전문가', '습득이 빠른', '느좋', '문제 해결 능력', '창의적인', '협업 능력', '긍정적인', '적극적인', '리더십 있는', '유연한 사고', '분석적인', '디테일이 뛰어난', '시간 관리 능력', '적응력이 뛰어난'];
+// components/common/dropdowns/strength/StrengthDropdown.tsx
+import { useEffect, useRef, useState } from "react";
+import { ChevronDown } from "lucide-react";
+import { useGetStrengths, type Strength } from "../../../../hooks/useStrengths";
 
 interface StrengthDropdownProps {
-  onSelect: (strength: string) => void;
+  position?: string;
+  disabled?: boolean;
+  selectedIds?: number[]; // 이미 선택된 강점 id 목록
+  onSelect: (item: Strength) => void; // 선택시 콜백
 }
 
-const StrengthDropdown = ({ onSelect }: StrengthDropdownProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const dropdownRef = useRef<HTMLDivElement>(null);
+const StrengthDropdown = ({
+  position,
+  disabled = false,
+  selectedIds = [],
+  onSelect,
+}: StrengthDropdownProps) => {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
+  const { data, isLoading, error } = useGetStrengths(position);
+  const options = data?.result?.strengths ?? [];
+
+  // 외부 클릭 닫기
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node))
+        setOpen(false);
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  const handleSelect = (strength: string) => {
-    onSelect(strength);
-    setIsOpen(false);
-    setSearchTerm('');
+  // ✅ 선택 핸들러 추가
+  const handleSelect = (opt: Strength) => {
+    onSelect(opt); // 부모로 선택 전달
+    setOpen(false); // ✅ 드롭다운 닫기
   };
 
-  const filteredStrengths = STRENGTH_OPTIONS.filter(option =>
-    option.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+  // 포지션 바뀌면 닫기
+  useEffect(() => setOpen(false), [position]);
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div ref={ref} className="relative">
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full items-center justify-between rounded-xl border border-gray-200  p-4"
+        disabled={disabled}
+        onClick={() => !disabled && setOpen((v) => !v)}
+        className={`flex w-full items-center justify-between rounded-xl border p-4 ${
+          disabled
+            ? "border-gray-100 bg-gray-50 text-gray-400"
+            : "border-gray-200"
+        }`}
       >
-        <span className="text-base text-gray-400">강점을 선택하세요.</span>
-        <ChevronDown size={24} className="text-gray-500 disabled:text-gray-400" />
+        <span className="text-gray-400">
+          {disabled ? "포지션을 먼저 선택하세요." : "강점을 선택하세요."}
+        </span>
+        <ChevronDown
+          size={20}
+          className={disabled ? "text-gray-300" : "text-gray-500"}
+        />
       </button>
-      {isOpen && (
-        <div className="absolute z-10 mt-2 w-full rounded-md border border-gray-300 bg-white shadow-lg">
-          <ul className="max-h-52 overflow-y-auto">
-            {filteredStrengths.map(option => (
-              <li
-                key={option}
-                className={`cursor-pointer px-4 py-2 text-sm hover:bg-gray-100`}
-                onClick={() => handleSelect(option)}
-              >
-                {option}
-              </li>
-            ))}
-          </ul>
-        </div>
+
+      {open && !disabled && (
+        <ul className="absolute z-10 mt-2 w-full max-h-60 overflow-y-auto rounded-md border bg-white shadow">
+          {isLoading && (
+            <li className="px-4 py-3 text-sm text-gray-500">불러오는 중...</li>
+          )}
+          {error && (
+            <li className="px-4 py-3 text-sm text-red-500">불러오기 실패</li>
+          )}
+          {!isLoading &&
+            options.map((opt) => {
+              const picked = selectedIds.includes(opt.strengthId);
+              return (
+                <li
+                  key={opt.strengthId}
+                  onMouseDown={() => !picked && handleSelect(opt)}
+                  className={`px-4 py-2 text-sm hover:bg-gray-100 ${
+                    picked ? "opacity-40 cursor-not-allowed" : "cursor-pointer"
+                  }`}
+                  title={picked ? "이미 선택됨" : opt.strengthName}
+                >
+                  {opt.strengthName}
+                </li>
+              );
+            })}
+        </ul>
       )}
     </div>
   );
