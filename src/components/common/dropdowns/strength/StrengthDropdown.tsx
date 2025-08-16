@@ -23,7 +23,6 @@ const StrengthDropdown = ({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { data, isLoading, error } = useGetStrengths(position);
-  const options = data?.result?.strengths ?? [];
 
   // 포지션 바뀌면 초기화
   useEffect(() => {
@@ -47,10 +46,11 @@ const StrengthDropdown = ({
 
   // 필터링
   const filtered = useMemo(() => {
+    const options = data?.result?.strengths ?? [];
     if (!query.trim()) return options;
     const q = query.trim().toLowerCase();
     return options.filter((o) => o.strengthName.toLowerCase().includes(q));
-  }, [options, query]);
+  }, [data, query]);
 
   const pick = (opt: Strength) => {
     if (selectedIds.includes(opt.strengthId)) return;
