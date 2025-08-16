@@ -1,13 +1,13 @@
 // components/common/dropdowns/strength/StrengthDropdown.tsx
-import { useEffect, useRef, useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { ChevronDown, X } from "lucide-react";
 import { useGetStrengths, type Strength } from "../../../../hooks/useStrengths";
 
 interface StrengthDropdownProps {
   position?: string;
   disabled?: boolean;
-  selectedIds?: number[]; // 이미 선택된 강점 id 목록
-  onSelect: (item: Strength) => void; // 선택시 콜백
+  selectedIds?: number[]; // 이미 선택된 강점 id
+  onSelect: (item: Strength) => void; // 선택 콜백
 }
 
 const StrengthDropdown = ({
@@ -17,65 +17,148 @@ const StrengthDropdown = ({
   onSelect,
 }: StrengthDropdownProps) => {
   const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const [query, setQuery] = useState("");
+  const [isComposing, setIsComposing] = useState(false); // 한글 IME 처리
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const { data, isLoading, error } = useGetStrengths(position);
   const options = data?.result?.strengths ?? [];
 
-  // 외부 클릭 닫기
+  // 포지션 바뀌면 초기화
+  useEffect(() => {
+    setOpen(false);
+    setQuery("");
+  }, [position]);
+
+  // 외부 클릭 시 닫기
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node))
+      if (
+        wrapperRef.current &&
+        !wrapperRef.current.contains(e.target as Node)
+      ) {
         setOpen(false);
+      }
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  // ✅ 선택 핸들러 추가
-  const handleSelect = (opt: Strength) => {
-    onSelect(opt); // 부모로 선택 전달
-    setOpen(false); // ✅ 드롭다운 닫기
+  // 필터링
+  const filtered = useMemo(() => {
+    if (!query.trim()) return options;
+    const q = query.trim().toLowerCase();
+    return options.filter((o) => o.strengthName.toLowerCase().includes(q));
+  }, [options, query]);
+
+  const pick = (opt: Strength) => {
+    if (selectedIds.includes(opt.strengthId)) return;
+    onSelect(opt);
+    setOpen(false);
+    setQuery("");
+    // 포커스 유지가 필요하면 아래 라인 주석 해제
+    // requestAnimationFrame(() => inputRef.current?.focus());
   };
 
-  // 포지션 바뀌면 닫기
-  useEffect(() => setOpen(false), [position]);
+  const onKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (isComposing) return; // 한글 조합 중에는 무시
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const candidate = filtered.find(
+        (o) => !selectedIds.includes(o.strengthId)
+      );
+      if (candidate) pick(candidate);
+    } else if (e.key === "Escape") {
+      setOpen(false);
+    } else if (e.key === "ArrowDown") {
+      // 간단 모드: 화살표는 드롭다운만 열기
+      if (!open) setOpen(true);
+    }
+  };
 
   return (
-    <div ref={ref} className="relative">
-      <button
-        disabled={disabled}
-        onClick={() => !disabled && setOpen((v) => !v)}
-        className={`flex w-full items-center justify-between rounded-xl border p-4 ${
-          disabled
-            ? "border-gray-100 bg-gray-50 text-gray-400"
-            : "border-gray-200"
+    <div ref={wrapperRef} className="relative">
+      {/* 버튼 대신 입력가능한 컨트롤 */}
+      <div
+        className={`flex w-full items-center rounded-xl border p-4 pr-2 ${
+          disabled ? "border-gray-100 bg-gray-50" : "border-gray-200"
         }`}
+        onClick={() => {
+          if (disabled) return;
+          setOpen(true);
+          inputRef.current?.focus();
+        }}
+        role="combobox"
+        aria-expanded={open}
+        aria-haspopup="listbox"
       >
-        <span className="text-gray-400">
-          {disabled ? "포지션을 먼저 선택하세요." : "강점을 선택하세요."}
-        </span>
-        <ChevronDown
-          size={20}
-          className={disabled ? "text-gray-300" : "text-gray-500"}
+        <input
+          ref={inputRef}
+          type="text"
+          value={query}
+          disabled={disabled}
+          onChange={(e) => setQuery(e.target.value)}
+          onFocus={() => !disabled && setOpen(true)}
+          onKeyDown={onKeyDown}
+          onCompositionStart={() => setIsComposing(true)}
+          onCompositionEnd={() => setIsComposing(false)}
+          placeholder={
+            disabled
+              ? "포지션을 먼저 선택하세요."
+              : "강점을 입력하거나 선택하세요."
+          }
+          className={` flex-1 bg-transparent outline-none placeholder:text-gray-400 ${
+            disabled ? "text-gray-400" : "text-gray-900"
+          }`}
         />
-      </button>
+        {query && !disabled && (
+          <button
+            type="button"
+            aria-label="clear"
+            className="p-1 mr-1 text-gray-400 hover:text-gray-600"
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={() => {
+              setQuery("");
+              inputRef.current?.focus();
+            }}
+          >
+            <X size={16} />
+          </button>
+        )}
 
+        <ChevronDown
+          className={`shrink-0 ${disabled ? "text-gray-300" : "text-gray-500"}`}
+          size={20}
+        />
+      </div>
+
+      {/* 드롭다운 */}
       {open && !disabled && (
-        <ul className="absolute z-10 mt-2 w-full max-h-60 overflow-y-auto rounded-md border bg-white shadow">
+        <ul
+          role="listbox"
+          className="absolute z-10 mt-2 w-full max-h-60 overflow-y-auto rounded-md border bg-white shadow"
+        >
           {isLoading && (
             <li className="px-4 py-3 text-sm text-gray-500">불러오는 중...</li>
           )}
           {error && (
             <li className="px-4 py-3 text-sm text-red-500">불러오기 실패</li>
           )}
+          {!isLoading && filtered.length === 0 && (
+            <li className="px-4 py-3 text-sm text-gray-500">
+              일치하는 강점이 없어요.
+            </li>
+          )}
           {!isLoading &&
-            options.map((opt) => {
+            filtered.map((opt) => {
               const picked = selectedIds.includes(opt.strengthId);
               return (
                 <li
                   key={opt.strengthId}
-                  onMouseDown={() => !picked && handleSelect(opt)}
+                  role="option"
+                  aria-selected={false}
+                  onMouseDown={() => !picked && pick(opt)} // 선택 즉시 닫힘
                   className={`px-4 py-2 text-sm hover:bg-gray-100 ${
                     picked ? "opacity-40 cursor-not-allowed" : "cursor-pointer"
                   }`}
