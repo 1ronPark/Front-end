@@ -79,5 +79,5 @@ export const usePostRegion = () => {
 export const useDeleteRegionById = () =>
   useApiMutation<undefined, { result: { memberRegionId: number } }>({
     method: "DELETE",
-    endpoint: import.meta.env.VITE_API_REGION_ENDPOINT, // 호출할 때 /{id} 로 덮어씀
+    endpoint: import.meta.env.VITE_API_POST_REGION_ENDPOINT, // 호출할 때 /{id} 로 덮어씀
   });
