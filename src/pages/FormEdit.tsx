@@ -162,6 +162,7 @@ export const FormEdit = () => {
         ""
       );
 
+      // ✅강점 제거
       for (const s of strengthsToRemove) {
         await deleteStrengthById({
           endpoint: `${base}/${s.strengthId}`, // ← /{id}로 확정
