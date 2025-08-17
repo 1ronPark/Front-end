@@ -1,50 +1,57 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import CloseIcon from "../../../assets/icons/ic_close.svg";
 import SkillDropdown from "../../common/dropdowns/strength/SkillDropdown";
 import StrengthDropdown from "../../common/dropdowns/strength/StrengthDropdown";
 import { useProfileStore } from "../../../store/useProfileStore";
 import type { Strength } from "../../../hooks/useStrengths";
+import { useGetProfile } from "../../../hooks/useProfile";
 
 const MAX_STRENGTH = 10;
 
-const Strength = () => {
+const StrengthSection = () => {
+  // 스킬(로컬)
   const [skills, setSkills] = useState<string[]>([]);
 
-  // const [strengths, setStrengths] = useState<string[]>([]);
-
-  const [selected, setSelected] = useState<Strength[]>([]);
-
+  // 스토어 (포지션 / 강점)
   const positions = useProfileStore((s) => s.positions);
+  const strengths = useProfileStore((s) => s.strengths);
+  const addStrength = useProfileStore((s) => s.addStrength);
+  const removeStrength = useProfileStore((s) => s.removeStrength);
 
+  // 프로필 조회 후 강점 초기 주입
+  const { data: profile } = useGetProfile();
+  useEffect(() => {
+    const list = profile?.result?.strengths;
+    if (list && list.length) {
+      useProfileStore.getState().setInitialStrengthsFromProfile(list);
+    }
+  }, [profile]);
+
+  // 단일 포지션
   const position: string | undefined = useMemo(() => {
     if (!positions) return undefined;
     return Array.isArray(positions) ? positions[0] : (positions as string);
   }, [positions]);
 
+  // 스킬 핸들러
   const handleAddSkill = (skill: string) => {
     if (skills.length < 3 && !skills.includes(skill)) {
-      setSkills([...skills, skill]);
+      setSkills((prev) => [...prev, skill]);
     }
   };
+  const handleRemoveSkill = (skill: string) =>
+    setSkills((prev) => prev.filter((s) => s !== skill));
 
-  const handleRemoveSkill = (skillToRemove: string) => {
-    setSkills(skills.filter((skill) => skill !== skillToRemove));
-  };
-
+  // 강점 핸들러
   const handleAddStrength = (item: Strength) => {
-    if (selected.some((s) => s.strengthId === item.strengthId)) return;
-    if (selected.length >= MAX_STRENGTH) {
+    if (strengths.some((s) => s.strengthId === item.strengthId)) return;
+    if (strengths.length >= MAX_STRENGTH) {
       alert(`강점은 최대 ${MAX_STRENGTH}개까지 선택할 수 있어요.`);
       return;
     }
-    setSelected((prev) => [...prev, item]);
+    addStrength(item);
   };
-
-  const handleRemoveStrength = (strengthToRemove: number) => {
-    setSelected((prev) =>
-      prev.filter((s) => s.strengthId !== strengthToRemove)
-    );
-  };
+  const handleRemoveStrength = (id: number) => removeStrength(id);
 
   return (
     <div className="space-y-10">
@@ -58,16 +65,16 @@ const Strength = () => {
             </span>
           </div>
         </div>
+
         <SkillDropdown onSelect={handleAddSkill} />
+
         <div className="flex flex-wrap gap-3">
           {skills.map((skill) => (
             <div
               key={skill}
               className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2"
             >
-              <span className="text-sm font-semimedium text-gray-700">
-                {skill}
-              </span>
+              <span className="text-sm font-medium text-gray-700">{skill}</span>
               <button onClick={() => handleRemoveSkill(skill)}>
                 <img src={CloseIcon} alt="삭제" className="h-4 w-4" />
               </button>
@@ -82,15 +89,17 @@ const Strength = () => {
           <div className="flex items-center gap-2 justify-between w-full">
             <h3 className="text-2xl font-medium text-gray-800">강점</h3>
             <span className="text-sm font-medium text-gray-500">
-              {selected.length} / 10
+              {strengths.length} / {MAX_STRENGTH}
             </span>
           </div>
         </div>
-        {/* ✅ 포지션 기반 강점 드롭다운 */}
+
+        {/* 포지션 기반 강점 드롭다운 */}
         <StrengthDropdown
           position={position}
           disabled={!position}
-          selectedIds={selected.map((s) => s.strengthId)}
+          selectedIds={strengths.map((s) => s.strengthId)}
+          // selectedItems={strengths}
           onSelect={handleAddStrength}
         />
 
@@ -101,15 +110,15 @@ const Strength = () => {
         )}
 
         <div className="flex flex-wrap gap-3">
-          {selected.map((strength) => (
+          {strengths.map((s) => (
             <div
-              key={strength.strengthId}
+              key={s.strengthId}
               className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2"
             >
-              <span className="text-sm font-semimedium text-gray-700">
-                {strength.strengthName}
+              <span className="text-sm font-medium text-gray-700">
+                {s.strengthName}
               </span>
-              <button onClick={() => handleRemoveStrength(strength.strengthId)}>
+              <button onClick={() => handleRemoveStrength(s.strengthId)}>
                 <img src={CloseIcon} alt="삭제" className="h-4 w-4" />
               </button>
             </div>
@@ -120,4 +129,4 @@ const Strength = () => {
   );
 };
 
-export default Strength;
+export default StrengthSection;

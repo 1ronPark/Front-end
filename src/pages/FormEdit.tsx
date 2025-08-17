@@ -11,28 +11,12 @@ import Save from "../components/mypage/edit/Save";
 import { useProfileStore } from "../store/useProfileStore";
 import { useDeletePositions, usePostPositions } from "../hooks/usePositions";
 import { useDeleteRegionById, usePostRegion } from "../hooks/useRegion";
-// import {
-//   usePostStrengths,
-//   useDeleteStrengthsById,
-// } from "../hooks/useStrengths";
+import {
+  usePostStrengths,
+  useDeleteStrengthsById,
+} from "../hooks/useStrengths";
 import Reception from "../components/mypage/edit/Reception";
 import { usePostProfileImage } from "../hooks/useProfile";
-
-// const MOCK_USER_DATA = {
-//   id: 1,
-//   name: "홍길동",
-//   nickname: "홍",
-//   age: 23,
-//   role: "디자이너",
-//   location: "서울",
-//   gender: "남",
-//   phone: "010-1234-5678",
-//   email: "hong@hong.ac.kr",
-//   univ: "길동대학교",
-//   mbti: "INTJ",
-//   intro: "기술과 디자인을 넘나들며 방향을 설계하는 실전형 디자이너",
-//   blog: "https://velog.io/@honggildong",
-// };
 
 const SECTIONS = [
   // { id: "basic-info", component: <Header /> },
@@ -67,6 +51,9 @@ export const FormEdit = () => {
   // 지역
   const initialRegions = useProfileStore((s) => s.initialRegions);
   const regions = useProfileStore((s) => s.regions);
+  //강점
+  const initialStrengths = useProfileStore((s) => s.initialStrengths);
+  const strengths = useProfileStore((s) => s.strengths);
 
   // ===== Hooks =====
   // 포지션
@@ -77,6 +64,11 @@ export const FormEdit = () => {
   const { mutateAsync: postRegion, isPending: postingRegion } = usePostRegion();
   const { mutateAsync: deleteRegionById, isPending: deletingRegion } =
     useDeleteRegionById();
+  //강점
+  const { mutateAsync: postStrengths, isPending: postingStrengths } =
+    usePostStrengths();
+  const { mutateAsync: deleteStrengthById, isPending: deletingStrengths } =
+    useDeleteStrengthsById();
 
   // ===== Save =====
   const handleSave = async () => {
@@ -97,6 +89,15 @@ export const FormEdit = () => {
       (ir) => !regions.some((r) => sameRegion(ir, r))
     );
 
+    // 3) 강점 diff
+    const curIds = new Set(strengths.map((s) => s.strengthId));
+    const initIds = new Set(initialStrengths.map((s) => s.strengthId));
+
+    const strengthsToAdd = strengths.filter((s) => !initIds.has(s.strengthId));
+    const strengthsToRemove = initialStrengths.filter(
+      (s) => !curIds.has(s.strengthId)
+    );
+
     // ✅ 이미지 변경도 함께 판단
     const hasProfileImageChange = !!pendingProfileFile;
 
@@ -105,6 +106,8 @@ export const FormEdit = () => {
       toRemove.length === 0 &&
       regionsToAdd.length === 0 &&
       regionsToRemove.length === 0 &&
+      strengthsToAdd.length === 0 && // ← 추가
+      strengthsToRemove.length === 0 &&
       !hasProfileImageChange
     ) {
       alert("변경된 내용이 없습니다.");
@@ -150,6 +153,27 @@ export const FormEdit = () => {
           endpoint:
             import.meta.env.VITE_API_POST_POSITION_ENDPOINT +
             `?positionName=${encodeURIComponent(pos)}`,
+        });
+      }
+
+      // 끝에 슬래시 제거 후 id 붙이기(// 예방)
+      const base = import.meta.env.VITE_API_POST_STRENGTHS_ENDPOINT.replace(
+        /\/$/,
+        ""
+      );
+
+      for (const s of strengthsToRemove) {
+        await deleteStrengthById({
+          endpoint: `${base}/${s.strengthId}`, // ← /{id}로 확정
+        });
+      }
+
+      // --- 강점 추가 (배치 전송 가정; 없으면 for-of로 개별 전송)
+      // ✅ 강점 추가: POST { strengthId }
+      for (const s of strengthsToAdd) {
+        await postStrengths({
+          // 기본 endpoint 사용 (훅에 설정돼 있음)
+          body: { strengthId: s.strengthId },
         });
       }
 
@@ -219,7 +243,14 @@ export const FormEdit = () => {
           ))}
           <Save
             onClick={handleSave}
-            disabled={posting || deleting || postingRegion || deletingRegion}
+            disabled={
+              posting ||
+              deleting ||
+              postingRegion ||
+              deletingRegion ||
+              postingStrengths || // ✅ 추가
+              deletingStrengths
+            }
           />
         </div>
 
