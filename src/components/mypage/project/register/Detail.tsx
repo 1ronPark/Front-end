@@ -1,15 +1,15 @@
 import { Plus } from "lucide-react";
 import PortfolioCard from "../../../common/cards/portfolio/PortfolioCard";
 import githubIcon from "../../../../assets/GitHub.svg";
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import PortfolioModal from "../../modal/PortfolioModal";
 import type { PortfolioItemData } from "../../modal/PortfolioModal"; // PortfolioItemData 임포트
 
 type DetailProps = {
   description: string;
-  extraLink1: string;
-  extraLink2: string;
-  itemPlanFile: string | null;
+  extraLink1?: string;
+  extraLink2?: string;
+  itemPlanFile: File | null ;
   onChange: (field: string, value: string | File | null) => void;
   mode: 'register' | 'edit';
 };
@@ -21,45 +21,17 @@ const Detail = ({ description, onChange, mode }: DetailProps) => {
 
   const handleConfirmPortfolio = (data: PortfolioItemData) => {
     setPortfolioItems((prevItems) => [...prevItems, data]);
-    // type에 따라 각각 저장 (추가)
+
     if (data.type === 'file') {
+      console.log('[썸네일 업로드] 선택된 파일:', data.file);
       onChange('itemPlanFile', data.file);
-    }
-    if (data.type === 'github') {
+    } else if (data.type === 'github') {
       onChange('extraLink1', data.url);
-    }
-    if (data.type === 'blog') {
+    } else if (data.type === 'blog') {
       onChange('extraLink2', data.url);
     }
   };
 
-  useEffect(() => {
-    // 1. 파일은 itemPlanFile로, 링크는 각각 extraLink1/extraLink2로
-    let planFileSet = false;
-    portfolioItems.forEach(item => {
-      if (item.type === 'file' && !planFileSet) {
-        onChange('itemPlanFile', item.file);
-        planFileSet = true;
-      }
-      if (item.type === 'github') {
-        onChange('extraLink1', item.url);
-      }
-      if (item.type === 'blog') {
-        onChange('extraLink2', item.url);
-      }
-    });
-
-    // 파일/링크가 빠졌을 경우 초기화
-    if (!portfolioItems.some(item => item.type === 'file')) {
-      onChange('itemPlanFile', null);
-    }
-    if (!portfolioItems.some(item => item.type === 'github')) {
-      onChange('extraLink1', '');
-    }
-    if (!portfolioItems.some(item => item.type === 'blog')) {
-      onChange('extraLink2', '');
-    }
-  }, [portfolioItems, onChange]);
 
   return (
     <div className="space-y-8">

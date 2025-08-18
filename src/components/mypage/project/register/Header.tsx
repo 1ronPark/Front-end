@@ -58,7 +58,10 @@ interface HeaderProps {
   introduce: string;
   itemProfileImage: string | File | null;
   itemCategories: { itemCategory: string }[];
-  onChange: (field: string, value: string | File | { itemCategory: string }[] ) => void;
+  onChange: (
+    field: 'name' | 'introduce' | 'itemProfileImage' | 'itemCategories',
+    value: string | File | null | { itemCategory: string }[]
+  ) => void;
 }
 
 const Header = ({ mode, name, introduce, itemProfileImage, itemCategories, onChange }: HeaderProps) => {
@@ -84,11 +87,13 @@ const Header = ({ mode, name, introduce, itemProfileImage, itemCategories, onCha
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    console.log("🔥 [썸네일 업로드] 선택된 파일:", file); // ✅ 추가됨
     if (file) {
-      if (mode === 'register') {
-        onChange('itemProfileImage', file);
-      }
+      onChange('itemProfileImage', file);
       setPreviewUrl(URL.createObjectURL(file));
+    } else {
+      onChange('itemProfileImage', null);
+      setPreviewUrl(null);
     }
   };
 
@@ -97,22 +102,18 @@ const Header = ({ mode, name, introduce, itemProfileImage, itemCategories, onCha
       itemCategories.length < 3 &&
       !itemCategories.some((c) => c.itemCategory === categoryName)
     ) {
-      if (mode === 'register') {
-        onChange('itemCategories', [
-          ...itemCategories,
-          { itemCategory: categoryName },
-        ]);
-      }
+      onChange('itemCategories', [
+        ...itemCategories,
+        { itemCategory: categoryName },
+      ]);
     }
   };
 
   const handleRemoveCategory = (nameToRemove: string) => {
-    if (mode === 'register') {
-      onChange(
-        'itemCategories',
-        itemCategories.filter((c) => c.itemCategory !== nameToRemove),
-      );
-    }
+    onChange(
+      'itemCategories',
+      itemCategories.filter((c) => c.itemCategory !== nameToRemove),
+    );
   };
 
   const handleUploadClick = () => {
@@ -189,9 +190,7 @@ const Header = ({ mode, name, introduce, itemProfileImage, itemCategories, onCha
             placeholder="프로젝트 명을 입력해주세요."
             value={name}
             onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
-              if (mode === 'register') {
-                onChange('name', e.target.value);
-              }
+              onChange('name', e.target.value);
             }}
           ></textarea>
         </div>
@@ -208,9 +207,7 @@ const Header = ({ mode, name, introduce, itemProfileImage, itemCategories, onCha
             placeholder="프로젝트에 대한 간단한 설명을 해주세요."
             value={introduce}
             onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
-              if (mode === 'register') {
-                onChange('introduce', e.target.value);
-              }
+              onChange('introduce', e.target.value);
             }}
           ></textarea>
         </div>

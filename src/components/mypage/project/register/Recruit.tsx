@@ -6,6 +6,7 @@ import CustomDropdown from '../../../common/dropdowns/CustomDropdown';
 import RecruitCard from '../../../../components/common/cards/recruits/RecruitCard';
 import Switch from '../../../common/buttons/Switch';
 import type { RecruitPosition } from "../../../../hooks/useMakeItem";
+import { useLocation } from 'react-router-dom';
 
 interface RecruitProps {
   projectStatus: boolean;
@@ -22,8 +23,11 @@ interface RecruitProps {
 }
 
 const Recruit = ({ projectStatus, collaborationRegions, recruitPositions, setField }: RecruitProps) => {
+  const location = useLocation();
+
   useEffect(() => {
-    if (collaborationRegions.length === 0) {
+    const isEditMode = location.pathname.includes('edit');
+    if (!isEditMode && collaborationRegions.length === 0) {
       setField('collaborationRegions', [{ siDo: '', siGunGu: '' }]);
     }
   }, [setField]);

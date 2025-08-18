@@ -22,7 +22,7 @@ type ProjectEditData = {
   projectStatus: boolean;
   regions: { siDo: string; siGunGu: string }[];
   recruitPositions: {
-    positionName: string;
+    positionId: number;
     recruitNumber: number;
     mainTasks: string;
     preferentialTreatment: string;

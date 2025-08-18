@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef} from 'react';
+import {useRegisterProjectStore as useRegisterStore} from '../../store/registerProjectStore';
 import Header from '../../components/mypage/project/register/Header';
 import ProjectMenu from '../../components/mypage/project/register/ProjectMenu';
 import Save from '../../components/mypage/project/register/Save';
@@ -13,23 +14,41 @@ import ErrorPage from "../../pages/ErrorPage";
 
 export const RegisterProject = () => {
   const { projectId } = useParams();
-  const mode = projectId ? "edit" : "register"; 
+  const [mode, setMode] = useState<'edit' | 'register'>('register');
+
+  useEffect(() => {
+    setMode(projectId ? 'edit' : 'register');
+  }, [projectId]);
+
+  const resetState = useRegisterStore((state) => state.resetState);
+
+  useEffect(() => {
+    if (mode==='register') {
+      resetState();
+    }
+  }, [mode, resetState]);
 
   const { data, isLoading, isError } = useGetProjectInfo();
 
-  const [name, setName] = useState<string>('');
-  const [introduce, setIntroduce] = useState<string>('');
-  const [itemProfileImage, setItemProfileImage] = useState<File | null>(null);
-  const [itemCategories, setItemCategories] = useState<{ itemCategory: string }[]>([]);
-  const [description, setDescription] = useState('');
-  const [extraLink1, setExtraLink1] = useState('');
-  const [extraLink2, setExtraLink2] = useState('');
-  const [itemPlanFile, setItemPlanFile] = useState<string | null>(null);
+  const {
+    name, setName,
+    introduce, setIntroduce,
+    itemProfileImage, setItemProfileImage,
+    itemCategories, setItemCategories,
+    description, setDescription,
+    extraLink1, setExtraLink1,
+    extraLink2, setExtraLink2,
+    itemPlanFile, setItemPlanFile,
+    projectStatus, setProjectStatus,
+    collaborationRegions, setCollaborationRegions,
+    recruitPositions, setRecruitPositions,
+  } = useRegisterStore();
 
 useEffect(() => {
   if (!data) return;
 
   const item = data.result;
+
   setName(item.itemName);
   setIntroduce(item.introduce);
   setItemCategories(item.itemCategories.map(cat => ({ itemCategory: cat.categoryName })));
@@ -37,8 +56,7 @@ useEffect(() => {
   setCollaborationRegions(item.regions);
   setRecruitPositions(
     item.recruitPositions.map(pos => ({
-      positionId: 0,
-      positionName: pos.positionName,
+      positionId: pos.positionId,
       recruitNumber: pos.recruitNumber,
       mainTasks: pos.mainTasks,
       preferentialTreatment: pos.preferentialTreatment,
@@ -49,12 +67,19 @@ useEffect(() => {
   setDescription(item.description);
   setExtraLink1(item.extraLink1);
   setExtraLink2(item.extraLink2);
-  setItemPlanFile(item.itemPlanFileUrl);
+
+  if (itemProfileImage !== null) {
+    setItemProfileImage(null);
+  }
+
+  if (itemPlanFile !== null) {
+    setItemPlanFile(null);
+  }
 }, [data]);
 
   const handleHeaderChange = (
-    field: string,
-    value: string | File | { itemCategory: string }[]
+    field: "name" | "introduce" | "itemProfileImage" | "itemCategories",
+    value: string | File | { itemCategory: string }[] | null
   ) => {
     switch (field) {
       case 'name':
@@ -64,7 +89,8 @@ useEffect(() => {
         setIntroduce(value as string);
         break;
       case 'itemProfileImage':
-        setItemProfileImage(value as File);
+        if (!value || !(value instanceof File)) return;
+        setItemProfileImage(value);
         break;
       case 'itemCategories':
         setItemCategories(value as { itemCategory: string }[]);
@@ -72,9 +98,6 @@ useEffect(() => {
     }
   };
 
-  const [projectStatus, setProjectStatus] = useState<boolean>(false);
-  const [collaborationRegions, setCollaborationRegions] = useState<{ siDo: string; siGunGu: string }[]>([]);
-  const [recruitPositions, setRecruitPositions] = useState<RecruitPosition[]>([]);
 
  const handleRecruitChange = <T extends 'projectStatus' | 'collaborationRegions' | 'recruitPositions'>(
   field: T,
@@ -109,7 +132,7 @@ useEffect(() => {
         setExtraLink2(value as string);
         break;
       case 'itemPlanFile':
-        setItemPlanFile(value as string | null);
+        setItemPlanFile(value as File | null);
         break;
     }
   };
@@ -202,10 +225,24 @@ useEffect(() => {
               {section.component}
             </div>
           ))}
-          <Save />
+          <Save
+            mode={mode}
+            projectId={projectId}
+            name={name}
+            introduce={introduce}
+            itemProfileImage={itemProfileImage}
+            itemCategories={itemCategories}
+            description={description}
+            extraLink1={extraLink1}
+            extraLink2={extraLink2}
+            itemPlanFile={itemPlanFile}
+            projectStatus={projectStatus}
+            collaborationRegions={collaborationRegions}
+            recruitPositions={recruitPositions}
+          />
         </div>
         <div className="sticky top-8 ml-8 w-64 flex-shrink-0 self-start">
-          <ProjectMenu activeSection={activeSection} />
+          <ProjectMenu activeSection={activeSection} mode={mode} projectId={projectId} />
         </div>
       </div>
     </div>
