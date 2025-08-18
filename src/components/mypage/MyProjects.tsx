@@ -24,7 +24,8 @@ const MyProjects = ({ hasData, isLoading, projects }: MyProjectProps) => {
           {hasData && (
             <NavLink
               to="/register-project"
-              className="flex h-[48px] items-center justify-center gap-2 rounded-xl bg-[#E3E0F9] px-4 py-2.5 text-[#464559] hover:bg-[#d3cfed] label-large"
+              className="flex h-[48px] items-center justify-center gap-2 rounded-xl bg-[#E3E0F9] 
+              px-4 py-2.5 text-[#464559] hover:bg-[#d3cfed] label-large"
             >
               <img src={addIcon} alt="프로젝트 추가" />
               <span>프로젝트 등록하기</span>
