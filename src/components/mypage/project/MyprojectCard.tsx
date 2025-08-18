@@ -5,6 +5,7 @@ import type { CategoryType } from "../../../types/ProjectDetailProps";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ProjectEditDeleteModal from "../../common/modals/ProjectEditDeleteModal";
+import ProjectDeleteModal from "../../common/modals/ProjectDeleteModal";
 
 export interface MyProjectCardProps {
   itemId: number;
@@ -25,6 +26,8 @@ const MyprojectCard = ({
   sub_title,
   itemImageUrl,
   status,
+  current_project,
+  applied_project,
 }: MyProjectCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   // ...
@@ -82,15 +85,24 @@ const MyprojectCard = ({
         </div>
       </div>
       {isModalOpen && (
-        <ProjectEditDeleteModal
-          onClose={() => setIsModalOpen(false)}
-          onShareClick={() => {
-            // 공유하기 클릭 핸들러
-            console.log("공유하기 클릭됨");
-            setIsModalOpen(false); // 모달 닫기
+        current_project ? (
+          <ProjectEditDeleteModal
+            onClose={() => setIsModalOpen(false)}
+            onShareClick={() => {
+              console.log("공유하기 클릭됨");
+              setIsModalOpen(false);
             }}
-          // 필요하면 project id 등 props 전달
-        />)}
+          />
+        ) : applied_project ? (
+          <ProjectDeleteModal
+            onClose={() => setIsModalOpen(false)}
+            onShareClick={() => {
+              console.log("공유하기 클릭됨");
+              setIsModalOpen(false);
+            }}
+          />
+        ) : null
+      )}
     </div>
   );
 };
