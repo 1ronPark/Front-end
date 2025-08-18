@@ -18,6 +18,7 @@ interface RegisterProjectState {
   collaborationRegions: CollaborationRegion[];
   description: string;
   introduce: string;
+  updateAt: string;
   // 파일
   itemProfileImage: File | null;
   itemPlanFile: File | null;
@@ -33,6 +34,7 @@ interface RegisterProjectState {
   setRecruitPositions: (positions: RecruitPosition[]) => void;
   setItemCategories: (categories: ItemCategory[]) => void;
   setCollaborationRegions: (regions: CollaborationRegion[]) => void;
+  setUpdateAt: (updateAt: string) => void;
   // actions
   setField: <K extends keyof RegisterProjectState>(
     key: K,
@@ -53,6 +55,9 @@ export const useRegisterProjectStore = create(
       introduce: '',
       itemProfileImage: null,
       itemPlanFile: null,
+      extraLink1: '',
+      extraLink2: '',
+      updateAt: '',
       setItemProfileImage: (file) => set({ itemProfileImage: file }),
       setItemPlanFile: (file) => set({ itemPlanFile: file }),
       setField: (key, value) => set({ [key]: value } as Partial<RegisterProjectState>),
@@ -65,6 +70,7 @@ export const useRegisterProjectStore = create(
       setRecruitPositions: (positions) => set({ recruitPositions: positions }),
       setItemCategories: (categories) => set({ itemCategories: categories }),
       setCollaborationRegions: (regions) => set({ collaborationRegions: regions }),
+      setUpdateAt: (updateAt: string) => set({ updateAt }),
       resetState: () =>
         set(() => ({
           extraLink1: '',
@@ -94,6 +100,7 @@ export const useRegisterProjectStore = create(
         introduce: state.introduce,
         itemProfileImage: state.itemProfileImage,
         itemPlanFile: state.itemPlanFile,
+        updateAt: state.updateAt,
         setItemProfileImage: state.setItemProfileImage,
         setItemPlanFile: state.setItemPlanFile,
         setField: state.setField,
@@ -106,6 +113,7 @@ export const useRegisterProjectStore = create(
         setRecruitPositions: state.setRecruitPositions,
         setItemCategories: state.setItemCategories,
         setCollaborationRegions: state.setCollaborationRegions,
+        setUpdateAt: state.setUpdateAt,
         resetState: state.resetState,
       }),
     }

@@ -28,6 +28,7 @@ type ProjectEditData = {
     preferentialTreatment: string;
     preferMbti: string;
   }[];
+  updatedAt: string;
 };
 
 const useGetEditProjectInfo = () => {

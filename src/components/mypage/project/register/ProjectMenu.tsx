@@ -1,3 +1,12 @@
+const formatDate = (isoString: string): string => {
+  const date = new Date(isoString);
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+
+  return `${year}. ${month}. ${day}`;
+};
 import { Check } from 'lucide-react';
 import Save from './Save'; // Save 컴포넌트 경로에 맞게 수정 필요
 
@@ -5,10 +14,11 @@ interface ProjectMenuProps {
   activeSection: string;
   mode?: 'edit' | 'register';
   projectId?: string | null;
+  updateAt?: string;
 }
 
-const ProjectMenu = ({ activeSection, mode, projectId }: ProjectMenuProps) => {
-  const lastModifiedDate = '2025. 07. 03'; // 실제 데이터로 교체 필요
+const ProjectMenu = ({ activeSection, mode, projectId, updateAt }: ProjectMenuProps) => {
+  const lastModifiedDate = updateAt ? formatDate(updateAt) : '수정일 정보 없음';
   const menuItems = [
     { id: 'basic-info', label: '기본정보' },
     { id: 'project-detail', label: '프로젝트 상세' },

@@ -42,6 +42,7 @@ export const RegisterProject = () => {
     projectStatus, setProjectStatus,
     collaborationRegions, setCollaborationRegions,
     recruitPositions, setRecruitPositions,
+    updateAt, setUpdateAt,
   } = useRegisterStore();
 
 useEffect(() => {
@@ -54,6 +55,7 @@ useEffect(() => {
   setItemCategories(item.itemCategories.map(cat => ({ itemCategory: cat.categoryName })));
   setProjectStatus(item.projectStatus);
   setCollaborationRegions(item.regions);
+  setUpdateAt(item.updatedAt);
   setRecruitPositions(
     item.recruitPositions.map(pos => ({
       positionId: pos.positionId,
@@ -242,7 +244,7 @@ useEffect(() => {
           />
         </div>
         <div className="sticky top-8 ml-8 w-64 flex-shrink-0 self-start">
-          <ProjectMenu activeSection={activeSection} mode={mode} projectId={projectId} />
+          <ProjectMenu activeSection={activeSection} mode={mode} projectId={projectId} updateAt={updateAt} />
         </div>
       </div>
     </div>

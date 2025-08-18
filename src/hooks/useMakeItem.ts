@@ -9,6 +9,7 @@ export interface RecruitPosition {
   preferentialTreatment: string;
   preferMbti: string[];
   recruitNumber: number;
+  updatedAt?: string;
 }
 
 /**
