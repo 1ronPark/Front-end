@@ -16,7 +16,7 @@ export const MyProfile = () => {
     setSearchParams({ tab });
   };
 
-  const { data, isLoading } = useMyProjects(); // 추가!
+  const { createdProjects, appliedProjects, isLoading } = useMyProjects();
 
   return (
     <div className="flex">
@@ -26,9 +26,9 @@ export const MyProfile = () => {
         {currentTab === "edit" && <MyProfileEdit />}
         {currentTab === "projects" && (
           <MyProjects
-            hasData={!!data?.result?.items?.length}
             isLoading={isLoading}
-            projects={data?.result?.items ?? []}
+            createdProjects={createdProjects}
+            appliedProjects={appliedProjects}
           />
         )}
       </div>

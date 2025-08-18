@@ -33,7 +33,7 @@ const MyprojectCard = ({
   // ...
   
   return (
-    <div className="relative w-[960px] flex justify-center items-center rounded-xl shadow-md hover:bg-[rgba(29,27,32,0.08)] mb-2">
+    <div className="relative w-[960px] flex justify-center items-center rounded-xl bg-white shadow-[0_0_10px_rgba(0,0,0,0.1)] hover:bg-[rgba(29,27,32,0.08)] mb-2">
       <button
         className="w-[56px] h-[56px] absolute flex flex-col justify-center items-center text-black 
         rounded-[100px] top-0 right-0 hover:bg-[rgba(73,69,79,0.08)]"
