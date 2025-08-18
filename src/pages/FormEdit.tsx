@@ -116,14 +116,19 @@ export const FormEdit = () => {
       for (const ir of regionsToRemove) {
         if (!ir.id) continue;
         await deleteRegionById({
-          endpoint: import.meta.env.VITE_API_REGION_DELETE_ENDPOINT.replace(':id', String(ir.id)),
+          endpoint: import.meta.env.VITE_API_REGION_DELETE_ENDPOINT.replace(
+            ":id",
+            String(ir.id)
+          ),
         });
       }
 
       // --- 포지션 삭제
       for (const pos of toRemove) {
         await deletePosition({
-          endpoint: import.meta.env.VITE_API_DELETE_POSITIONS_ENDPOINT + `?positionName=${encodeURIComponent(pos)}`,
+          endpoint:
+            import.meta.env.VITE_API_DELETE_POSITIONS_ENDPOINT +
+            `?positionName=${encodeURIComponent(pos)}`,
         });
       }
 
@@ -142,7 +147,9 @@ export const FormEdit = () => {
       // --- 포지션 추가
       for (const pos of toAdd) {
         await postPosition({
-          endpoint: import.meta.env.VITE_API_POST_POSITION_ENDPOINT + `?positionName=${encodeURIComponent(pos)}`,
+          endpoint:
+            import.meta.env.VITE_API_POST_POSITION_ENDPOINT +
+            `?positionName=${encodeURIComponent(pos)}`,
         });
       }
 

@@ -71,7 +71,7 @@ export const useGetProfile = () => {
 export const usePostProfileImage = () => {
   return useApiMutation<FormData, PostProgileImageResponse>({
     method: "POST",
-    endpoint: import.meta.env.VITE_API_POST_PROFILE_CHANGE_ENDPOINT,
+    endpoint: import.meta.env.VITE_API_POST_PROFILE_IMAGE_CHANGE_ENDPOINT,
 
     onSuccess: () => {
       // 성공 시 추가 작업이 필요하면 여기에 작성
