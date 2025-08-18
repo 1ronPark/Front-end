@@ -88,18 +88,11 @@ const MyprojectCard = ({
         current_project ? (
           <ProjectEditDeleteModal
             onClose={() => setIsModalOpen(false)}
-            onShareClick={() => {
-              console.log("공유하기 클릭됨");
-              setIsModalOpen(false);
-            }}
+            projectId={itemId}
           />
         ) : applied_project ? (
           <ProjectDeleteModal
             onClose={() => setIsModalOpen(false)}
-            onShareClick={() => {
-              console.log("공유하기 클릭됨");
-              setIsModalOpen(false);
-            }}
           />
         ) : null
       )}

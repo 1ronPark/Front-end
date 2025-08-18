@@ -7,10 +7,9 @@ import { Trash2 } from "lucide-react";
 
 interface MenuModalProps {
   onClose: () => void;
-  onShareClick: () => void; // ✅ 공유 버튼 클릭 핸들러 추가
 }
 
-const MenuModal = ({ onClose}: MenuModalProps) => {
+const ProjectDeleteModal = ({ onClose}: MenuModalProps) => {
   // 바깥 클릭시 모달을 사라지게하는 ref
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -54,4 +53,4 @@ const MenuModal = ({ onClose}: MenuModalProps) => {
   );
 };
 
-export default MenuModal;
+export default ProjectDeleteModal;
