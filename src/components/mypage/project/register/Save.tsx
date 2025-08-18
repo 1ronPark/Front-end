@@ -75,6 +75,10 @@ const Save = () => {
         extraLink2,
       } = useRegisterProjectStore.getState();
 
+      const sanitizedCollaborationRegions = collaborationRegions.filter(
+        (r) => r.siDo.trim() !== '' && r.siGunGu.trim() !== ''
+      );
+
       const requestPayload = {
         extraLink1,
         extraLink2,
@@ -87,7 +91,7 @@ const Save = () => {
             : pos.preferMbti || '',
         })),
         itemCategories,
-        collaborationRegions,
+        collaborationRegions: sanitizedCollaborationRegions,
         description,
         introduce,
       };
