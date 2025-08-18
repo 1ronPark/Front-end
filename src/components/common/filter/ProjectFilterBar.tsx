@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import KeyboardArrowDownIcon from "../../../assets/icons/ic_keyboard_arrow_down.svg";
 import KeyboardArrowUpIcon from "../../../assets/icons/ic_keyboard_arrow_up.svg";
 import PartBox from "./dropdowns/PartBox";
@@ -16,12 +16,18 @@ type SortOption = "인기순" | "최신순" | null;
 type Props = {
   sortOption: SortOption;
   onChangeSort: (opt: SortOption) => void;
+  onFiltersChange: (filters: {
+    categories?: CategoryType[];
+    part?: string;
+    mbti?: string[];
+    regions?: string[];
+  }) => void;
 };
 
-const ProjectFilterBar: React.FC<Props> = ({ sortOption, onChangeSort }) => {
-const handleSortOptionClick = (option: Exclude<SortOption, null>) => {
-  onChangeSort(sortOption === option ? null : option);
-};
+const ProjectFilterBar: React.FC<Props> = ({ sortOption, onChangeSort, onFiltersChange }) => {
+  const handleSortOptionClick = (option: Exclude<SortOption, null>) => {
+    onChangeSort(sortOption === option ? null : option);
+  };
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedSort, setSelectedSort] = useState<string>("파트");
@@ -81,6 +87,23 @@ const handleSortOptionClick = (option: Exclude<SortOption, null>) => {
     }
     return `${selectedMbti[0]} 외 ${selectedMbti.length - 1}개`;
   };
+
+  useEffect(() => {
+    onFiltersChange({
+      categories: selectedCategories.length
+        ? (selectedCategories as CategoryType[])
+        : undefined,
+      part: selectedSort !== "파트" ? selectedSort : undefined,
+      mbti: selectedMbti.length ? selectedMbti : undefined,
+      regions: selectedLocations.length ? selectedLocations : undefined,
+    });
+  }, [
+    selectedCategories,
+    selectedSort,
+    selectedMbti,
+    selectedLocations,
+    onFiltersChange,
+  ]);
 
   return (
     <div className=" bg-white rounded-lg font-pretendard ">

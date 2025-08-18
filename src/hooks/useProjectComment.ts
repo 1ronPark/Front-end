@@ -26,13 +26,13 @@ export const useCreateComment = (itemId: number) => {
     mutationFn: (body) =>
       fetchRequest<CreateResponse<CommentCreated>, { content: string }>({
         method: "POST",
-        endpoint: import.meta.env.VITE_API_ITEMS_COMMENT.replace(':id', String(itemId)),
+        endpoint: import.meta.env.VITE_API_ITEMS_COMMENT_POST_ENDPOINT.replace(':id', String(itemId)),
         body,
       }),
     onSuccess: () => {
       // 상세 쿼리만 콕 찝어서 갱신
       // useApiQuery의 queryKey = [method, endpoint, queryString] 규칙을 따름
-      qc.invalidateQueries({ queryKey: ["GET", `/v1/items/${itemId}`, ""] });
+      qc.invalidateQueries({ queryKey: ["GET", `VITE_API_ITEMS_ENDPOINT/${itemId}`, ""] });
     },
   });
 };
@@ -54,11 +54,11 @@ export const useDeleteComment = (itemId: number) => {
     mutationFn: ({ commentId }) =>
       fetchRequest<DeleteResponse>({
         method: "DELETE",
-        endpoint: import.meta.env.VITE_API_COMMENT_DELETE.replace(":id", String(commentId)),
+        endpoint: import.meta.env.VITE_API_ITEMS_DELETE_COMMENT.replace(":id", String(commentId)),
       }),
     onSuccess: () => {
       // 상세만 부분 무효화 (전체 무효화 금지)
-      qc.invalidateQueries({ queryKey: ["GET", `/v1/items/${itemId}`, ""] });
+      qc.invalidateQueries({ queryKey: ["GET", `VITE_API_ITEMS_ENDPOINT${itemId}`, ""] });
     },
   });
 };

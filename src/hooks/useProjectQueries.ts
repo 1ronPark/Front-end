@@ -1,5 +1,5 @@
 import { useApiQuery } from './apiHooks';
-import type { ProjectDetailData } from '../types/ProjectDetailProps';
+import type { CategoryType, ProjectDetailData } from '../types/ProjectDetailProps';
 
 // 전체 조회 응답 타입
 export interface ProjectListItem {
@@ -30,18 +30,32 @@ export interface ProjectListResponse {
 
 
 // 전체 조회 api 훅
-export type ListSort = 'latest' | 'popular';
+type SortApi = "popular" | "latest" | undefined;
 
-export const useProjectList = (page: number, sort?: ListSort) => {
-  const apiPage = Math.max(1, Math.trunc(page));
+const joinOrUndef = (arr?: (string | number)[]) =>
+  arr && arr.length ? arr.join(",") : undefined;
 
-  const qs = new URLSearchParams();
-  qs.set('page', String(apiPage));
-  if (sort) qs.set('sort', sort);
-
+export const useProjectList = (
+  page: number,
+  sort?: SortApi,
+  filters?: {
+    categories?: CategoryType[];
+    part?: string;
+    mbti?: string[];
+    regions?: string[];
+  }
+) => {
   return useApiQuery<ProjectListResponse>({
-    method: 'GET',
-    endpoint: `${import.meta.env.VITE_API_ITEMS_SEARCH_ENDPOINT}?${qs.toString()}`,
+    method: "GET",
+    endpoint: import.meta.env.VITE_API_ITEMS_SEARCH_ENDPOINT,
+    params: {
+      page,
+      sort, // 'popular' | 'latest'
+      categories: joinOrUndef(filters?.categories as unknown as string[]),
+      part: filters?.part,
+      mbti: joinOrUndef(filters?.mbti),
+      regions: joinOrUndef(filters?.regions),
+    },
   });
 };
 
@@ -60,7 +74,7 @@ interface ProjectDetailResponse {
 export const useProjectDetail = (itemId: number) => {
   return useApiQuery<ProjectDetailResponse>({
     method: 'GET',
-    endpoint: `${import.meta.env.VITE_API_ITEMS_ENDPOINT}/${itemId}`,
+    endpoint: import.meta.env.VITE_API_ITEMS_GET_DETAIL_ENDPOINT.replace(':id', String(itemId)) ,
     enabled: Number.isFinite(itemId) && itemId > 0,
   });
 };
