@@ -3,6 +3,7 @@ import { useApiQuery } from "./apiHooks";
 
 export interface Project {
   itemName: string;
+  itemId: number;
   introduce: string;
   itemImageUrl: string;
   itemCategories: { categoryName: CategoryType }[];

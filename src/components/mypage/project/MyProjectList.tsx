@@ -16,7 +16,7 @@ const MyProjectList = ({ createdProjects, appliedProjects }: MyProjectListProps)
         {createdProjects.map((project, idx) => (
           <MyprojectCard
             key={`created-${idx}`}
-            id={idx}
+            itemId={project.itemId}
             categories={project.itemCategories.map(cat => cat.categoryName)}
             title={project.itemName}
             sub_title={project.introduce}
@@ -35,7 +35,7 @@ const MyProjectList = ({ createdProjects, appliedProjects }: MyProjectListProps)
           {appliedProjects.map((project, idx) => (
             <MyprojectCard
               key={`applied-${idx}`}
-              id={idx}
+              itemId={project.itemId}
               categories={project.itemCategories.map(cat => cat.categoryName)}
               title={project.itemName}
               sub_title={project.introduce}

@@ -3,6 +3,8 @@ import addIcon from "../../assets/icons/mypage/ic_project_addsvg.svg";
 import MyProjectEmpty from "./project/MyProjectEmpty";
 import MyProjectList from "./project/MyProjectList";
 import type { Project } from "../../hooks/useMyProjects";
+import LoadingPage from "../../pages/LoadingPage";
+
 
 interface MyProjectProps {
   isLoading: boolean;
@@ -40,7 +42,7 @@ const MyProjects = ({
       <hr className="w-[960px] mt-4 border-t border-[#CBC4CF]" />
       <div className="w-[960px] mt-6 flex flex-col items-center gap-8">
         {isLoading ? (
-          <div>로딩 중...</div> // 여기에 스피너나 스켈레톤 UI 컴포넌트를 사용할 수 있습니다.
+          <LoadingPage />
         ) : hasData === false ? (
           <MyProjectEmpty />
         ) : (
