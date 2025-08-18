@@ -4,25 +4,41 @@ import githubIcon from "../../../../assets/GitHub.svg";
 import { useState, useEffect } from "react";
 import PortfolioModal from "../../modal/PortfolioModal";
 import { useRegisterProjectStore } from "../../../../store/registerProjectStore";
+import { useEditProjectStore } from "../../../../store/editProjectStore";
 import type { PortfolioItemData } from "../../modal/PortfolioModal"; // PortfolioItemData 임포트
 
 const Detail = () => {
   const [portfolioModal, setPortfolioModal] = useState<boolean>(false);
   const [portfolioItems, setPortfolioItems] = useState<PortfolioItemData[]>([]); // 포트폴리오 항목 상태
-  const { description, setField } = useRegisterProjectStore();
+  const registerStore = useRegisterProjectStore();
+  const editStore = useEditProjectStore();
+  const isEditMode = editStore.isEditMode;
+  const description = isEditMode ? editStore.description : registerStore.description;
   const maxLength = 3000;
 
   const handleConfirmPortfolio = (data: PortfolioItemData) => {
     setPortfolioItems((prevItems) => [...prevItems, data]);
     // type에 따라 각각 저장 (추가)
     if (data.type === 'file') {
-      setField('itemPlanFile', data.file);      // 파일 첨부 → itemPlanFile
+      if (isEditMode) {
+        editStore.setField('itemPlanFile', data.file);
+      } else {
+        registerStore.setField('itemPlanFile', data.file);
+      }      // 파일 첨부 → itemPlanFile
     }
     if (data.type === 'github') {
-      setField('extraLink1', data.url);         // github → extraLink1
+      if (isEditMode) {
+        editStore.setField('extraLink1', data.url);
+      } else {
+        registerStore.setField('extraLink1', data.url);
+      }         // github → extraLink1
     }
     if (data.type === 'blog') {
-      setField('extraLink2', data.url);         // blog → extraLink2
+      if (isEditMode) {
+        editStore.setField('extraLink2', data.url);
+      } else {
+        registerStore.setField('extraLink2', data.url);
+      }         // blog → extraLink2
     }
   };
 
@@ -31,28 +47,52 @@ const Detail = () => {
   let planFileSet = false;
   portfolioItems.forEach(item => {
     if (item.type === 'file' && !planFileSet) {
-      setField('itemPlanFile', item.file); // 파일 첨부는 딱 한 번만
+      if (isEditMode) {
+        editStore.setField('itemPlanFile', item.file);
+      } else {
+        registerStore.setField('itemPlanFile', item.file);
+      } // 파일 첨부는 딱 한 번만
       planFileSet = true;
     }
     if (item.type === 'github') {
-      setField('extraLink1', item.url); // github 링크
+      if (isEditMode) {
+        editStore.setField('extraLink1', item.url);
+      } else {
+        registerStore.setField('extraLink1', item.url);
+      } // github 링크
     }
     if (item.type === 'blog') {
-      setField('extraLink2', item.url); // blog 링크
+      if (isEditMode) {
+        editStore.setField('extraLink2', item.url);
+      } else {
+        registerStore.setField('extraLink2', item.url);
+      } // blog 링크
     }
   });
 
   // 파일/링크가 빠졌을 경우 초기화
   if (!portfolioItems.some(item => item.type === 'file')) {
-    setField('itemPlanFile', null);
+    if (isEditMode) {
+      editStore.setField('itemPlanFile', null);
+    } else {
+      registerStore.setField('itemPlanFile', null);
+    }
   }
   if (!portfolioItems.some(item => item.type === 'github')) {
-    setField('extraLink1', '');
+    if (isEditMode) {
+      editStore.setField('extraLink1', '');
+    } else {
+      registerStore.setField('extraLink1', '');
+    }
   }
   if (!portfolioItems.some(item => item.type === 'blog')) {
-    setField('extraLink2', '');
+    if (isEditMode) {
+      editStore.setField('extraLink2', '');
+    } else {
+      registerStore.setField('extraLink2', '');
+    }
   }
-}, [portfolioItems, setField]);
+}, [isEditMode]);
 
   return (
     <div className="space-y-8">
@@ -117,9 +157,13 @@ const Detail = () => {
               rows={1}
               placeholder="프로젝트에 대해 자세한 설명을 해주세요."
               value={description}
-              onChange={(e) =>
-                setField('description', e.target.value)
-              }
+              onChange={(e) => {
+                if (isEditMode) {
+                  editStore.setField('description', e.target.value);
+                } else {
+                  registerStore.setField('description', e.target.value);
+                }
+              }}
               maxLength={maxLength}
             ></textarea>
           </div>

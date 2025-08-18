@@ -53,6 +53,7 @@ const categories = [
 ];
 
 interface HeaderProps {
+  mode: 'register' | 'edit';
   name: string;
   introduce: string;
   itemProfileImage: File | null;
@@ -60,7 +61,7 @@ interface HeaderProps {
   onChange: (field: string, value: string | File | { itemCategory: string }[] ) => void;
 }
 
-const Header = ({ name, introduce, itemProfileImage, itemCategories, onChange }: HeaderProps) => {
+const Header = ({ mode, name, introduce, itemProfileImage, itemCategories, onChange }: HeaderProps) => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(() =>
     itemProfileImage ? URL.createObjectURL(itemProfileImage) : null,
   );
@@ -77,8 +78,10 @@ const Header = ({ name, introduce, itemProfileImage, itemCategories, onChange }:
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      onChange('itemProfileImage', file); // store에 저장
-      setPreviewUrl(URL.createObjectURL(file)); // 미리보기 즉시 반영
+      if (mode === 'register') {
+        onChange('itemProfileImage', file);
+      }
+      setPreviewUrl(URL.createObjectURL(file));
     }
   };
 
@@ -87,18 +90,22 @@ const Header = ({ name, introduce, itemProfileImage, itemCategories, onChange }:
       itemCategories.length < 3 &&
       !itemCategories.some((c) => c.itemCategory === categoryName)
     ) {
-      onChange('itemCategories', [
-        ...itemCategories,
-        { itemCategory: categoryName },
-      ]);
+      if (mode === 'register') {
+        onChange('itemCategories', [
+          ...itemCategories,
+          { itemCategory: categoryName },
+        ]);
+      }
     }
   };
 
   const handleRemoveCategory = (nameToRemove: string) => {
-    onChange(
-      'itemCategories',
-      itemCategories.filter((c) => c.itemCategory !== nameToRemove),
-    );
+    if (mode === 'register') {
+      onChange(
+        'itemCategories',
+        itemCategories.filter((c) => c.itemCategory !== nameToRemove),
+      );
+    }
   };
 
   const handleUploadClick = () => {
@@ -171,9 +178,11 @@ const Header = ({ name, introduce, itemProfileImage, itemCategories, onChange }:
             rows={1}
             placeholder="프로젝트 명을 입력해주세요."
             value={name}
-            onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-              onChange('name', e.target.value)
-            }
+            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
+              if (mode === 'register') {
+                onChange('name', e.target.value);
+              }
+            }}
           ></textarea>
         </div>
         <div className="space-y-2">
@@ -188,9 +197,11 @@ const Header = ({ name, introduce, itemProfileImage, itemCategories, onChange }:
             rows={1}
             placeholder="프로젝트에 대한 간단한 설명을 해주세요."
             value={introduce}
-            onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-              onChange('introduce', e.target.value)
-            }
+            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
+              if (mode === 'register') {
+                onChange('introduce', e.target.value);
+              }
+            }}
           ></textarea>
         </div>
         <div>

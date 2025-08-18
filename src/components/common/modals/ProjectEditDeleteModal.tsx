@@ -41,11 +41,7 @@ const ProjectEditDeleteModal = ({ onClose, projectId}: MenuModalProps) => {
         {(
           <button
             onClick={() => {
-              navigate('/register-project', {
-                state: {
-                  projectId,
-                }
-              });
+              navigate(`/edit-project/${projectId}`);
               onClose(); // 모달 닫기
             }}
             className="h-[48px] px-3 py-2 flex items-center gap-3 hover:bg-gray-100 cursor-pointer"

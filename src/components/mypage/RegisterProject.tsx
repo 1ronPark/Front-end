@@ -4,12 +4,16 @@ import ProjectMenu from '../../components/mypage/project/register/ProjectMenu';
 import Save from '../../components/mypage/project/register/Save';
 import Detail from './project/register/Detail';
 import Recruit from './project/register/Recruit';
+import type { RecruitPosition } from "../../hooks/useMakeItem";
+import { useParams } from "react-router-dom";
 
 export const RegisterProject = () => {
   const [name, setName] = useState<string>('');
   const [introduce, setIntroduce] = useState<string>('');
   const [itemProfileImage, setItemProfileImage] = useState<File | null>(null);
   const [itemCategories, setItemCategories] = useState<{ itemCategory: string }[]>([]);
+  const { projectId } = useParams();
+  const mode = projectId ? "edit" : "register"; 
 
   const handleHeaderChange = (
     field: string,
@@ -31,8 +35,34 @@ export const RegisterProject = () => {
     }
   };
 
+  const [projectStatus, setProjectStatus] = useState<boolean>(false);
+  const [collaborationRegions, setCollaborationRegions] = useState<{ siDo: string; siGunGu: string }[]>([]);
+  const [recruitPositions, setRecruitPositions] = useState<RecruitPosition[]>([]);
+
+ const handleRecruitChange = <T extends 'projectStatus' | 'collaborationRegions' | 'recruitPositions'>(
+  field: T,
+  value: T extends 'projectStatus'
+    ? boolean
+    : T extends 'collaborationRegions'
+    ? { siDo: string; siGunGu: string }[]
+    : RecruitPosition[]
+  ) => {
+    switch (field) {
+      case 'projectStatus':
+        setProjectStatus(value as boolean);
+        break;
+      case 'collaborationRegions':
+        setCollaborationRegions(value as { siDo: string; siGunGu: string }[]);
+        break;
+      case 'recruitPositions':
+        setRecruitPositions(value as RecruitPosition[]);
+        break;
+    }
+  };
+
   const SECTIONS = [
     { id: 'basic-info', component: <Header
+      mode={mode}
       name={name}
       introduce={introduce}
       itemProfileImage={itemProfileImage}
@@ -40,7 +70,17 @@ export const RegisterProject = () => {
       onChange={handleHeaderChange}
     /> },
     { id: 'project-detail', component: <Detail /> },
-    { id: 'recruitment', component: <Recruit /> },
+    {
+      id: 'recruitment',
+      component: (
+        <Recruit
+          projectStatus={projectStatus}
+          collaborationRegions={collaborationRegions}
+          recruitPositions={recruitPositions}
+          setField={handleRecruitChange}
+        />
+      )
+    },
   ];
   {/*{ id: 'reception-status', component: <Reception /> },*/}
 
