@@ -73,7 +73,8 @@ export const useProfileStore = create<ProfileEditStore>((set, get) => ({
     set({
       positions: v.length > 0 ? [v[0]] : [],
       strengths: [],
-      initialStrengths: [],
+
+      skills: [], // ← 추가
     }),
   togglePosition: (pos) => {
     const cur = get().positions;
@@ -82,7 +83,7 @@ export const useProfileStore = create<ProfileEditStore>((set, get) => ({
     set({
       positions: next,
       strengths: [],
-      initialStrengths: [],
+      skills: [],
     });
   },
 
