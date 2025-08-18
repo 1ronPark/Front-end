@@ -2,16 +2,22 @@
 import { useApiMutation, useApiQuery } from "./apiHooks";
 
 export interface Strength {
+  strengthId: number;
+  strengthName: string;
+}
+
+export interface StrengthType {
   id: number;
   name: string;
-  strengthType: string;
+  strengthType?: string; // 필요한 경우 enum 확장
 }
-export interface GetStrengthsResponse {
+
+interface GetStrengthsResponse {
   isSuccess: boolean;
   code: string;
   message: string;
   result: {
-    strengths: string[];
+    strengths: Strength[];
   };
 }
 
