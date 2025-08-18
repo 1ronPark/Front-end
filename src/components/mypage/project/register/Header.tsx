@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react";
 import type { ChangeEvent } from "react";
-import { useRegisterProjectStore } from "../../../../store/registerProjectStore";
 import CloseIcon from "../../../../assets/icons/ic_close.svg";
 import addPhotoIcon from "../../../../assets/icons/mypage/ic_camera.svg";
 import TopicDropdown from "../../../common/dropdowns/strength/TopicDropdown";
@@ -27,6 +26,7 @@ import SecurityIcon from "../../../../assets/icons/ic_security.svg";
 import EsgIcon from "../../../../assets/icons/ic_esg.svg";
 import RobotIcon from "../../../../assets/icons/ic_robot.svg";
 
+
 const categories = [
   { name: "플랫폼", icon: PlatformIcon },
   { name: "라이프스타일", icon: LifeIcon },
@@ -52,15 +52,15 @@ const categories = [
   { name: "로보틱스", icon: RobotIcon },
 ];
 
-const Header = () => {
-  const {
-    name,
-    introduce,
-    itemProfileImage,
-    itemCategories,
-    setField,
-  } = useRegisterProjectStore();
+interface HeaderProps {
+  name: string;
+  introduce: string;
+  itemProfileImage: File | null;
+  itemCategories: { itemCategory: string }[];
+  onChange: (field: string, value: string | File | { itemCategory: string }[] ) => void;
+}
 
+const Header = ({ name, introduce, itemProfileImage, itemCategories, onChange }: HeaderProps) => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(() =>
     itemProfileImage ? URL.createObjectURL(itemProfileImage) : null,
   );
@@ -77,7 +77,7 @@ const Header = () => {
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setField('itemProfileImage', file); // store에 저장
+      onChange('itemProfileImage', file); // store에 저장
       setPreviewUrl(URL.createObjectURL(file)); // 미리보기 즉시 반영
     }
   };
@@ -87,7 +87,7 @@ const Header = () => {
       itemCategories.length < 3 &&
       !itemCategories.some((c) => c.itemCategory === categoryName)
     ) {
-      setField('itemCategories', [
+      onChange('itemCategories', [
         ...itemCategories,
         { itemCategory: categoryName },
       ]);
@@ -95,7 +95,7 @@ const Header = () => {
   };
 
   const handleRemoveCategory = (nameToRemove: string) => {
-    setField(
+    onChange(
       'itemCategories',
       itemCategories.filter((c) => c.itemCategory !== nameToRemove),
     );
@@ -172,7 +172,7 @@ const Header = () => {
             placeholder="프로젝트 명을 입력해주세요."
             value={name}
             onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-              setField('name', e.target.value)
+              onChange('name', e.target.value)
             }
           ></textarea>
         </div>
@@ -189,7 +189,7 @@ const Header = () => {
             placeholder="프로젝트에 대한 간단한 설명을 해주세요."
             value={introduce}
             onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-              setField('introduce', e.target.value)
+              onChange('introduce', e.target.value)
             }
           ></textarea>
         </div>

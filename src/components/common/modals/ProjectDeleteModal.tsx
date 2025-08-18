@@ -43,9 +43,9 @@ const ProjectDeleteModal = ({ onClose}: MenuModalProps) => {
             className="h-[48px] px-3 py-2 flex items-center gap-3 hover:bg-gray-100 cursor-pointer"
           >
             <div className="flex justify-center items-center w-6 h-6">
-              <Trash2 className="w-5 h-5 text-[#BA1A1A]" />
+              <Trash2 className="w-5 h-5 text-[#625656]" />
             </div>
-            <span className="body-large text-[#BA1A1A]">삭제하기</span>
+            <span className="body-large text-[#625656]">숨기기</span>
           </button>
         )}
       </div>

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { Pencil,Trash2} from "lucide-react";
 import { useDeleteMyProject } from '../../../hooks/useDeleteProject';
 
@@ -12,6 +13,7 @@ const ProjectEditDeleteModal = ({ onClose, projectId}: MenuModalProps) => {
   const { mutate } = useDeleteMyProject();
   // 바깥 클릭시 모달을 사라지게하는 ref
   const modalRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -37,7 +39,17 @@ const ProjectEditDeleteModal = ({ onClose, projectId}: MenuModalProps) => {
       <div className="flex flex-col py-2">
         {/* 수정하기 버튼 => 만약 내가 쓴 글이면 */}
         {(
-          <button className="h-[48px] px-3 py-2 flex items-center gap-3 hover:bg-gray-100 cursor-pointer">
+          <button
+            onClick={() => {
+              navigate('/register-project', {
+                state: {
+                  projectId,
+                }
+              });
+              onClose(); // 모달 닫기
+            }}
+            className="h-[48px] px-3 py-2 flex items-center gap-3 hover:bg-gray-100 cursor-pointer"
+          >
             <div className="flex justify-center items-center w-6 h-6">
               <Pencil className="w-5 h-5 text-[#1C1B21]" />
             </div>

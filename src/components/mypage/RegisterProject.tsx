@@ -5,13 +5,45 @@ import Save from '../../components/mypage/project/register/Save';
 import Detail from './project/register/Detail';
 import Recruit from './project/register/Recruit';
 
-const SECTIONS = [
-  { id: 'basic-info', component: <Header /> },
-  { id: 'project-detail', component: <Detail /> },
-  { id: 'recruitment', component: <Recruit /> },
-];
-{/*{ id: 'reception-status', component: <Reception /> },*/}
 export const RegisterProject = () => {
+  const [name, setName] = useState<string>('');
+  const [introduce, setIntroduce] = useState<string>('');
+  const [itemProfileImage, setItemProfileImage] = useState<File | null>(null);
+  const [itemCategories, setItemCategories] = useState<{ itemCategory: string }[]>([]);
+
+  const handleHeaderChange = (
+    field: string,
+    value: string | File | { itemCategory: string }[]
+  ) => {
+    switch (field) {
+      case 'name':
+        setName(value as string);
+        break;
+      case 'introduce':
+        setIntroduce(value as string);
+        break;
+      case 'itemProfileImage':
+        setItemProfileImage(value as File);
+        break;
+      case 'itemCategories':
+        setItemCategories(value as { itemCategory: string }[]);
+        break;
+    }
+  };
+
+  const SECTIONS = [
+    { id: 'basic-info', component: <Header
+      name={name}
+      introduce={introduce}
+      itemProfileImage={itemProfileImage}
+      itemCategories={itemCategories}
+      onChange={handleHeaderChange}
+    /> },
+    { id: 'project-detail', component: <Detail /> },
+    { id: 'recruitment', component: <Recruit /> },
+  ];
+  {/*{ id: 'reception-status', component: <Reception /> },*/}
+
   const [activeSection, setActiveSection] = useState('basic-info');
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
 
