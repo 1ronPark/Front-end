@@ -3,96 +3,63 @@ import PortfolioCard from "../../../common/cards/portfolio/PortfolioCard";
 import githubIcon from "../../../../assets/GitHub.svg";
 import { useState, useEffect } from "react";
 import PortfolioModal from "../../modal/PortfolioModal";
-import { useRegisterProjectStore } from "../../../../store/registerProjectStore";
-import { useEditProjectStore } from "../../../../store/editProjectStore";
 import type { PortfolioItemData } from "../../modal/PortfolioModal"; // PortfolioItemData 임포트
 
-const Detail = () => {
+type DetailProps = {
+  description: string;
+  extraLink1: string;
+  extraLink2: string;
+  itemPlanFile: string | null;
+  onChange: (field: string, value: string | File | null) => void;
+  mode: 'register' | 'edit';
+};
+
+const Detail = ({ description, onChange, mode }: DetailProps) => {
   const [portfolioModal, setPortfolioModal] = useState<boolean>(false);
   const [portfolioItems, setPortfolioItems] = useState<PortfolioItemData[]>([]); // 포트폴리오 항목 상태
-  const registerStore = useRegisterProjectStore();
-  const editStore = useEditProjectStore();
-  const isEditMode = editStore.isEditMode;
-  const description = isEditMode ? editStore.description : registerStore.description;
   const maxLength = 3000;
 
   const handleConfirmPortfolio = (data: PortfolioItemData) => {
     setPortfolioItems((prevItems) => [...prevItems, data]);
     // type에 따라 각각 저장 (추가)
     if (data.type === 'file') {
-      if (isEditMode) {
-        editStore.setField('itemPlanFile', data.file);
-      } else {
-        registerStore.setField('itemPlanFile', data.file);
-      }      // 파일 첨부 → itemPlanFile
+      onChange('itemPlanFile', data.file);
     }
     if (data.type === 'github') {
-      if (isEditMode) {
-        editStore.setField('extraLink1', data.url);
-      } else {
-        registerStore.setField('extraLink1', data.url);
-      }         // github → extraLink1
+      onChange('extraLink1', data.url);
     }
     if (data.type === 'blog') {
-      if (isEditMode) {
-        editStore.setField('extraLink2', data.url);
-      } else {
-        registerStore.setField('extraLink2', data.url);
-      }         // blog → extraLink2
+      onChange('extraLink2', data.url);
     }
   };
 
   useEffect(() => {
-  // 1. 파일은 itemPlanFile로, 링크는 각각 extraLink1/extraLink2로
-  let planFileSet = false;
-  portfolioItems.forEach(item => {
-    if (item.type === 'file' && !planFileSet) {
-      if (isEditMode) {
-        editStore.setField('itemPlanFile', item.file);
-      } else {
-        registerStore.setField('itemPlanFile', item.file);
-      } // 파일 첨부는 딱 한 번만
-      planFileSet = true;
-    }
-    if (item.type === 'github') {
-      if (isEditMode) {
-        editStore.setField('extraLink1', item.url);
-      } else {
-        registerStore.setField('extraLink1', item.url);
-      } // github 링크
-    }
-    if (item.type === 'blog') {
-      if (isEditMode) {
-        editStore.setField('extraLink2', item.url);
-      } else {
-        registerStore.setField('extraLink2', item.url);
-      } // blog 링크
-    }
-  });
+    // 1. 파일은 itemPlanFile로, 링크는 각각 extraLink1/extraLink2로
+    let planFileSet = false;
+    portfolioItems.forEach(item => {
+      if (item.type === 'file' && !planFileSet) {
+        onChange('itemPlanFile', item.file);
+        planFileSet = true;
+      }
+      if (item.type === 'github') {
+        onChange('extraLink1', item.url);
+      }
+      if (item.type === 'blog') {
+        onChange('extraLink2', item.url);
+      }
+    });
 
-  // 파일/링크가 빠졌을 경우 초기화
-  if (!portfolioItems.some(item => item.type === 'file')) {
-    if (isEditMode) {
-      editStore.setField('itemPlanFile', null);
-    } else {
-      registerStore.setField('itemPlanFile', null);
+    // 파일/링크가 빠졌을 경우 초기화
+    if (!portfolioItems.some(item => item.type === 'file')) {
+      onChange('itemPlanFile', null);
     }
-  }
-  if (!portfolioItems.some(item => item.type === 'github')) {
-    if (isEditMode) {
-      editStore.setField('extraLink1', '');
-    } else {
-      registerStore.setField('extraLink1', '');
+    if (!portfolioItems.some(item => item.type === 'github')) {
+      onChange('extraLink1', '');
     }
-  }
-  if (!portfolioItems.some(item => item.type === 'blog')) {
-    if (isEditMode) {
-      editStore.setField('extraLink2', '');
-    } else {
-      registerStore.setField('extraLink2', '');
+    if (!portfolioItems.some(item => item.type === 'blog')) {
+      onChange('extraLink2', '');
     }
-  }
-}, [isEditMode]);
+  }, [portfolioItems, onChange]);
 
   return (
     <div className="space-y-8">
@@ -105,6 +72,9 @@ const Detail = () => {
         <div className="flex items-center">
           <p className="text-sm font-semibold">프로젝트 기획서, 링크</p>
           <p className="text-lg font-semibold text-orange-500">*</p>
+          {mode === 'edit' && (
+            <span className="ml-2 text-sm text-red-500"> 기획서는 바꾸지 않으면 기존 기획서가 유지돼요.</span>
+          )}
         </div>
         <div className="grid grid-cols-3 gap-4">
           {/* 기존 더미 카드 제거 */}
@@ -158,11 +128,7 @@ const Detail = () => {
               placeholder="프로젝트에 대해 자세한 설명을 해주세요."
               value={description}
               onChange={(e) => {
-                if (isEditMode) {
-                  editStore.setField('description', e.target.value);
-                } else {
-                  registerStore.setField('description', e.target.value);
-                }
+                onChange('description', e.target.value);
               }}
               maxLength={maxLength}
             ></textarea>

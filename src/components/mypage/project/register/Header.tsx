@@ -56,20 +56,27 @@ interface HeaderProps {
   mode: 'register' | 'edit';
   name: string;
   introduce: string;
-  itemProfileImage: File | null;
+  itemProfileImage: string | File | null;
   itemCategories: { itemCategory: string }[];
   onChange: (field: string, value: string | File | { itemCategory: string }[] ) => void;
 }
 
 const Header = ({ mode, name, introduce, itemProfileImage, itemCategories, onChange }: HeaderProps) => {
-  const [previewUrl, setPreviewUrl] = useState<string | null>(() =>
-    itemProfileImage ? URL.createObjectURL(itemProfileImage) : null,
-  );
+  const [previewUrl, setPreviewUrl] = useState<string | null>(() => {
+    if (itemProfileImage instanceof File) {
+      return URL.createObjectURL(itemProfileImage);
+    } else if (typeof itemProfileImage === 'string') {
+      return itemProfileImage;
+    }
+    return null;
+  });
 
   // itemProfileImage가 바뀔 때마다 미리보기 URL 재생성
   useEffect(() => {
-    if (itemProfileImage) {
+    if (itemProfileImage instanceof File) {
       setPreviewUrl(URL.createObjectURL(itemProfileImage));
+    } else if (typeof itemProfileImage === 'string') {
+      setPreviewUrl(itemProfileImage);
     }
   }, [itemProfileImage]);
 
@@ -152,6 +159,9 @@ const Header = ({ mode, name, introduce, itemProfileImage, itemCategories, onCha
           </button>
         </div>
         <div className="flex flex-col flex-1 py-2 ml-3">
+          {mode === 'edit' && (
+            <p className="text-sm text-red-500 mt-1">썸네일은 바꾸지 않으면 기존 썸네일이 유지돼요.</p>
+          )}
           <div className="flex items-center">
             <p className="text-sm font-semibold">썸네일 이미지</p>
             <p className="text-lg font-semibold text-orange-500">*</p>

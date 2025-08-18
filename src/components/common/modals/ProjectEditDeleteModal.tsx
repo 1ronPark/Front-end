@@ -43,6 +43,7 @@ const ProjectEditDeleteModal = ({ onClose, projectId}: MenuModalProps) => {
             onClick={() => {
               navigate(`/edit-project/${projectId}`);
               onClose(); // 모달 닫기
+              alert("썸네일과 기획서, 링크를 꼭 재등록해주세요!")
             }}
             className="h-[48px] px-3 py-2 flex items-center gap-3 hover:bg-gray-100 cursor-pointer"
           >

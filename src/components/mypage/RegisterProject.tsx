@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef} from 'react';
 import Header from '../../components/mypage/project/register/Header';
 import ProjectMenu from '../../components/mypage/project/register/ProjectMenu';
 import Save from '../../components/mypage/project/register/Save';
@@ -6,14 +6,51 @@ import Detail from './project/register/Detail';
 import Recruit from './project/register/Recruit';
 import type { RecruitPosition } from "../../hooks/useMakeItem";
 import { useParams } from "react-router-dom";
+import  useGetProjectInfo  from "../../hooks/useGetProjectInfo";
+import LoadingPage from "../../pages/LoadingPage";
+import ErrorPage from "../../pages/ErrorPage";
+
 
 export const RegisterProject = () => {
+  const { projectId } = useParams();
+  const mode = projectId ? "edit" : "register"; 
+
+  const { data, isLoading, isError } = useGetProjectInfo();
+
   const [name, setName] = useState<string>('');
   const [introduce, setIntroduce] = useState<string>('');
   const [itemProfileImage, setItemProfileImage] = useState<File | null>(null);
   const [itemCategories, setItemCategories] = useState<{ itemCategory: string }[]>([]);
-  const { projectId } = useParams();
-  const mode = projectId ? "edit" : "register"; 
+  const [description, setDescription] = useState('');
+  const [extraLink1, setExtraLink1] = useState('');
+  const [extraLink2, setExtraLink2] = useState('');
+  const [itemPlanFile, setItemPlanFile] = useState<string | null>(null);
+
+useEffect(() => {
+  if (!data) return;
+
+  const item = data.result;
+  setName(item.itemName);
+  setIntroduce(item.introduce);
+  setItemCategories(item.itemCategories.map(cat => ({ itemCategory: cat.categoryName })));
+  setProjectStatus(item.projectStatus);
+  setCollaborationRegions(item.regions);
+  setRecruitPositions(
+    item.recruitPositions.map(pos => ({
+      positionId: 0,
+      positionName: pos.positionName,
+      recruitNumber: pos.recruitNumber,
+      mainTasks: pos.mainTasks,
+      preferentialTreatment: pos.preferentialTreatment,
+      preferMbti: pos.preferMbti ? pos.preferMbti.split(',') : [],
+    }))
+  );
+
+  setDescription(item.description);
+  setExtraLink1(item.extraLink1);
+  setExtraLink2(item.extraLink2);
+  setItemPlanFile(item.itemPlanFileUrl);
+}, [data]);
 
   const handleHeaderChange = (
     field: string,
@@ -60,16 +97,50 @@ export const RegisterProject = () => {
     }
   };
 
+  const handleDetailChange = (field: string, value: string | File | null) => {
+    switch (field) {
+      case 'description':
+        setDescription(value as string);
+        break;
+      case 'extraLink1':
+        setExtraLink1(value as string);
+        break;
+      case 'extraLink2':
+        setExtraLink2(value as string);
+        break;
+      case 'itemPlanFile':
+        setItemPlanFile(value as string | null);
+        break;
+    }
+  };
+
   const SECTIONS = [
-    { id: 'basic-info', component: <Header
-      mode={mode}
-      name={name}
-      introduce={introduce}
-      itemProfileImage={itemProfileImage}
-      itemCategories={itemCategories}
-      onChange={handleHeaderChange}
-    /> },
-    { id: 'project-detail', component: <Detail /> },
+    {
+      id: 'basic-info',
+      component: (
+        <Header
+          mode={mode}
+          name={name}
+          introduce={introduce}
+          itemProfileImage={itemProfileImage}
+          itemCategories={itemCategories}
+          onChange={handleHeaderChange}
+        />
+      ),
+    },
+    {
+      id: 'project-detail',
+      component: (
+        <Detail
+          description={description}
+          extraLink1={extraLink1}
+          extraLink2={extraLink2}
+          itemPlanFile={itemPlanFile}
+          onChange={handleDetailChange}
+          mode={mode}
+        />
+      ),
+    },
     {
       id: 'recruitment',
       component: (
@@ -79,7 +150,7 @@ export const RegisterProject = () => {
           recruitPositions={recruitPositions}
           setField={handleRecruitChange}
         />
-      )
+      ),
     },
   ];
   {/*{ id: 'reception-status', component: <Reception /> },*/}
@@ -111,6 +182,9 @@ export const RegisterProject = () => {
       });
     };
   }, []);
+
+  if (isLoading) return <LoadingPage />;
+  if (isError) return <ErrorPage />;
 
   return (
     <div className="flex justify-center w-full">
