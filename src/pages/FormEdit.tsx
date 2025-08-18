@@ -17,6 +17,7 @@ import {
 } from "../hooks/useStrengths";
 import Reception from "../components/mypage/edit/Reception";
 import { usePostProfileImage } from "../hooks/useProfile";
+import { useDeleteSkillById, usePostSkills } from "../hooks/useSkill";
 
 const SECTIONS = [
   // { id: "basic-info", component: <Header /> },
@@ -54,6 +55,9 @@ export const FormEdit = () => {
   //강점
   const initialStrengths = useProfileStore((s) => s.initialStrengths);
   const strengths = useProfileStore((s) => s.strengths);
+  //스킬
+  const initialSkills = useProfileStore((s) => s.initialSkills);
+  const skills = useProfileStore((s) => s.skills);
 
   // ===== Hooks =====
   // 포지션
@@ -69,6 +73,10 @@ export const FormEdit = () => {
     usePostStrengths();
   const { mutateAsync: deleteStrengthById, isPending: deletingStrengths } =
     useDeleteStrengthsById();
+  //스킬
+  const { mutateAsync: PostSkills, isPending: PostingSkills } = usePostSkills();
+  const { mutateAsync: deleteSkillById, isPending: deletingSkills } =
+    useDeleteSkillById();
 
   // ===== Save =====
   const handleSave = async () => {
@@ -98,6 +106,15 @@ export const FormEdit = () => {
       (s) => !curIds.has(s.strengthId)
     );
 
+    // 4) 스킬 diff
+    const curSkillIds = new Set(skills.map((s) => s.skillId));
+    const initSkillIds = new Set(initialSkills.map((s) => s.skillId));
+
+    const skillsToAdd = skills.filter((s) => !initSkillIds.has(s.skillId));
+    const skillsToRemove = initialSkills.filter(
+      (s) => !curSkillIds.has(s.skillId)
+    );
+
     // ✅ 이미지 변경도 함께 판단
     const hasProfileImageChange = !!pendingProfileFile;
 
@@ -106,8 +123,10 @@ export const FormEdit = () => {
       toRemove.length === 0 &&
       regionsToAdd.length === 0 &&
       regionsToRemove.length === 0 &&
-      strengthsToAdd.length === 0 && // ← 추가
+      strengthsToAdd.length === 0 &&
       strengthsToRemove.length === 0 &&
+      skillsToAdd.length === 0 &&
+      skillsToRemove.length === 0 &&
       !hasProfileImageChange
     ) {
       alert("변경된 내용이 없습니다.");
@@ -157,15 +176,19 @@ export const FormEdit = () => {
       }
 
       // 끝에 슬래시 제거 후 id 붙이기(// 예방)
-      const base = import.meta.env.VITE_API_POST_STRENGTHS_ENDPOINT.replace(
+      const baseStrengths =
+        import.meta.env.VITE_API_POST_STRENGTHS_ENDPOINT.replace(/\/$/, "");
+
+      const baseSkills = import.meta.env.VITE_API_POST_SKILLS_ENDPOINT.replace(
         /\/$/,
         ""
       );
 
+      // --- 강점 제거 (배치 전송 가정; 없으면 for-of로 개별 전송)
       // ✅강점 제거
       for (const s of strengthsToRemove) {
         await deleteStrengthById({
-          endpoint: `${base}/${s.strengthId}`, // ← /{id}로 확정
+          endpoint: `${baseStrengths}/${s.strengthId}`, // ← /{id}로 확정
         });
       }
 
@@ -175,6 +198,19 @@ export const FormEdit = () => {
         await postStrengths({
           // 기본 endpoint 사용 (훅에 설정돼 있음)
           body: { strengthId: s.strengthId },
+        });
+      }
+
+      // ✅ 스킬 제거
+      for (const s of skillsToRemove) {
+        await deleteSkillById({
+          endpoint: `${baseSkills}/${s.skillId}`,
+        });
+      }
+      // ✅ 스킬 추가
+      for (const s of skillsToAdd) {
+        await PostSkills({
+          body: { skillId: s.skillId },
         });
       }
 
@@ -249,8 +285,10 @@ export const FormEdit = () => {
               deleting ||
               postingRegion ||
               deletingRegion ||
-              postingStrengths || // ✅ 추가
-              deletingStrengths
+              postingStrengths ||
+              deletingStrengths ||
+              PostingSkills ||
+              deletingSkills
             }
           />
         </div>

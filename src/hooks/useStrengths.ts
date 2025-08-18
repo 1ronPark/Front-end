@@ -12,7 +12,7 @@ export interface StrengthType {
   strengthType?: string; // 필요한 경우 enum 확장
 }
 
-export interface GetStrengthsResponse {
+interface GetStrengthsResponse {
   isSuccess: boolean;
   code: string;
   message: string;
