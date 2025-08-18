@@ -32,6 +32,7 @@ const Save = ({
     projectId: projectId ?? "", // undefined나 null이면 빈 문자열로 대체
     onSuccess: () => {
       alert("프로젝트가 성공적으로 수정되었습니다!");
+      navigate("/myprofile?tab=projects");
     },
     onError: (error) => {
       alert("수정 실패: " + (typeof error === 'object' && error !== null && 'message' in error ? (error as AxiosError).message : '알 수 없는 오류'));
