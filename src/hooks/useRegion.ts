@@ -39,14 +39,6 @@ export type MemberRegion = { siDo: string; siGunGu: string };
 
 type PostRegionsBody = { memberRegions: MemberRegion[] };
 
-// interface DeleteRegionByIdResponse {
-//   isSuccess: boolean;
-//   code: string;
-//   message: string;
-//   result: { memberRegionId: number };
-//   success: boolean;
-// }
-
 export const useGetRegionsSido = () => {
   return useApiQuery<GetRegionSidoResponse>({
     method: "GET",
