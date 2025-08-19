@@ -5,24 +5,24 @@ import PartBox from "./dropdowns/PartBox";
 import MbtiBox from "./dropdowns/MbtiBox";
 import LocationBox from "./dropdowns/LocationBox";
 import { CATEGORY_ICON_MAP } from "../../../utils/categoryMap";
-import type { CategoryType } from "../../../types/ProjectDetailProps";
+import type { CategoryType, ProjectQueryParams } from "../../../types/ProjectProps";
 
+//카테고리 & 아이콘 매핑
 const categories = Object.entries(CATEGORY_ICON_MAP).map(([name, icon]) => ({
   name: name as CategoryType,
   icon,
 }));
 
-type SortOption = "인기순" | "최신순" | null;
+
+
+type SortOption = '인기순' | '최신순' | null;
+
 type Props = {
-  sortOption: SortOption;
-  onChangeSort: (opt: SortOption) => void;
-  onFiltersChange: (filters: {
-    categories?: CategoryType[];
-    part?: string;
-    mbti?: string[];
-    regions?: string[];
-  }) => void;
+  sortOption: "인기순" | "최신순" | null;
+  onChangeSort: (opt: "인기순" | "최신순" | null) => void;
+  onFiltersChange: (filters: Partial<ProjectQueryParams>) => void; // Partial 권장
 };
+
 
 const ProjectFilterBar: React.FC<Props> = ({ sortOption, onChangeSort, onFiltersChange }) => {
   const handleSortOptionClick = (option: Exclude<SortOption, null>) => {
@@ -39,13 +39,49 @@ const ProjectFilterBar: React.FC<Props> = ({ sortOption, onChangeSort, onFilters
     위치: false,
   });
 
-  const handleCategoryClick = (category: string) => {
-    setSelectedCategories((prev) =>
-      prev.includes(category)
-        ? prev.filter((c) => c !== category)
-        : [...prev, category]
-    );
+const ALL = "전체";
+
+useEffect(() => {
+  const ALL = '전체';
+  // '전체'는 제외
+  const effectiveCats = selectedCategories.includes(ALL)
+    ? []
+    : selectedCategories;
+
+  const toTri = (pos: 'E'|'N'|'F'|'P'): boolean | undefined =>
+    selectedMbti.includes(pos) ? true : undefined;
+
+  const sortMap = { '인기순': 'popular', '최신순': 'latest' } as const;
+
+  const filters: ProjectQueryParams = {
+    categories: effectiveCats.length ? effectiveCats.join(',') : undefined,
+    positions: selectedSort !== '파트' ? selectedSort : undefined,
+    regions: selectedLocations.length ? selectedLocations.join(',') : undefined,
+    mbtiE: toTri('E'),
+    mbtiN: toTri('N'),
+    mbtiF: toTri('F'),
+    mbtiP: toTri('P'),
+    sort: sortOption ? sortMap[sortOption] : undefined,
+    page: 1,
+    limit: 20,
   };
+
+  onFiltersChange(filters); 
+}, [selectedCategories, selectedSort, selectedMbti, selectedLocations, sortOption]);
+
+
+
+const handleCategoryClick = (category: string) => {
+  setSelectedCategories(prev => {
+    if (category === ALL) {
+      return prev.includes(ALL) ? [] : [ALL];
+    }
+    const withoutAll = prev.filter(c => c !== ALL);
+    return withoutAll.includes(category)
+      ? withoutAll.filter(c => c !== category)
+      : [...withoutAll, category];
+  });
+};
 
   const handleDropdownClick = (dropdownName: string) => {
     setOpenDropdown((prev) => ({
@@ -88,22 +124,6 @@ const ProjectFilterBar: React.FC<Props> = ({ sortOption, onChangeSort, onFilters
     return `${selectedMbti[0]} 외 ${selectedMbti.length - 1}개`;
   };
 
-  useEffect(() => {
-    onFiltersChange({
-      categories: selectedCategories.length
-        ? (selectedCategories as CategoryType[])
-        : undefined,
-      part: selectedSort !== "파트" ? selectedSort : undefined,
-      mbti: selectedMbti.length ? selectedMbti : undefined,
-      regions: selectedLocations.length ? selectedLocations : undefined,
-    });
-  }, [
-    selectedCategories,
-    selectedSort,
-    selectedMbti,
-    selectedLocations,
-    onFiltersChange,
-  ]);
 
   return (
     <div className=" bg-white rounded-lg font-pretendard ">

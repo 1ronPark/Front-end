@@ -1,21 +1,5 @@
 import { useApiQuery } from './apiHooks';
-import type { CategoryType, ProjectDetailData } from '../types/ProjectDetailProps';
-
-// 전체 조회 응답 타입
-export interface ProjectListItem {
-  itemId: number;
-  itemName: string;
-  memberName: string;
-  itemImageUrl?: string; 
-  updatedAt: string;
-  recruitStatus?: boolean;
-  school?: string;
-  introduce?: string;
-  viewCount: number;
-  commentCount: number;
-  likedByCurrentUser: boolean;
-
-}
+import type { ProjectListItem, ProjectDetailData, ProjectListApiParams } from '../types/ProjectProps';
 
 export interface ProjectListResponse {
   isSuccess: boolean;
@@ -27,34 +11,16 @@ export interface ProjectListResponse {
   success: boolean;
 }
 
-
-
 // 전체 조회 api 훅
-type SortApi = "popular" | "latest" | undefined;
+export const useProjectList = (params: ProjectListApiParams) => {
+  const { page, ...rest } = params;
 
-const joinOrUndef = (arr?: (string | number)[]) =>
-  arr && arr.length ? arr.join(",") : undefined;
-
-export const useProjectList = (
-  page: number,
-  sort?: SortApi,
-  filters?: {
-    categories?: CategoryType[];
-    part?: string;
-    mbti?: string[];
-    regions?: string[];
-  }
-) => {
   return useApiQuery<ProjectListResponse>({
-    method: "GET",
+    method: 'GET',
     endpoint: import.meta.env.VITE_API_ITEMS_SEARCH_ENDPOINT,
     params: {
-      page,
-      sort, // 'popular' | 'latest'
-      categories: joinOrUndef(filters?.categories as unknown as string[]),
-      part: filters?.part,
-      mbti: joinOrUndef(filters?.mbti),
-      regions: joinOrUndef(filters?.regions),
+      page,      // 스웨거 예시대로 1-based
+      ...rest,   // sort, mbti
     },
   });
 };

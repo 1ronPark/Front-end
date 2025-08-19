@@ -1,7 +1,7 @@
 import { Upload } from "lucide-react";
 import { useApiMutation } from "../../../../hooks/apiHooks";
 import { useRegisterProjectStore } from "../../../../store/registerProjectStore"; // zustand 상태 import
-import type { CreateProjectResponse } from "../../../../hooks/useProject";
+import type { CreateProjectResponse } from "../../../../hooks/useProjectMutation";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 

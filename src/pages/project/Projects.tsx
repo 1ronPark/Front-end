@@ -3,56 +3,58 @@ import ProjectFilterBar from "../../components/common/filter/ProjectFilterBar";
 import ProjectList from "../../components/common/projects/ProjectList";
 import Pagination from "../../components/common/pagination/Pagination";
 import { useProjectList } from "../../hooks/useProjectQueries";
-import type { CategoryType } from "../../types/ProjectDetailProps";
+import type { ProjectListApiParams, SortParam } from "../../types/ProjectProps";
+
+type SortOption = "인기순" | "최신순" | null;
 
 export const Projects = () => {
-  const [page, setPage] = useState(1);
-  const [sortOption, setSortOption] = useState<"인기순" | "최신순" | null>(
-    "인기순"
-  );
-  const [filters, setFilters] = useState<{
-    categories?: CategoryType[];
-    part?: string;
-    mbti?: string[];
-    regions?: string[];
-  }>({});
+  // 단일 쿼리 상태 (page는 반드시 초기화)
+  const [query, setQuery] = useState<ProjectListApiParams>({
+    page: 1,
+    sort: "latest", // 초기 정렬값(선택)
+  });
 
-  const apiSort =
-    sortOption === "최신순"
-      ? "latest"
-      : sortOption === "인기순"
-      ? "popular"
-      : undefined;
-
-  const { data, isLoading, isError } = useProjectList(page, apiSort, filters);
+  const { data, isLoading, isError } = useProjectList(query);
   const items = data?.result?.items ?? [];
 
-  const PAGE_SIZE = 12; // 서버와 합의 필요?
+  const page = query.page;
+  const pageSize = 12; // 서버가 사이즈를 못 받는다면 프론트 기준 고정
   const hasPrev = page > 1;
-  const hasNext = items.length === PAGE_SIZE;
+  const hasNext = items.length === pageSize; // 총 개수 응답 없으면 이렇게
 
-  const handleFiltersChange = useCallback((next: typeof filters) => {
-    setPage(1);
-    setFilters(next);
+  // 필터 변경: Partial만 merge
+  const handleFiltersChange = useCallback((next: Partial<ProjectListApiParams>) => {
+    setQuery(prev => ({ ...prev, page: 1, ...next }));
   }, []);
 
-  const handleChangeSort = useCallback((option: "인기순" | "최신순" | null) => {
-    setPage(1);
-    setSortOption(option);
+  // 정렬 버튼: UI → API 값 매핑
+  const handleChangeSort = useCallback((opt: SortOption) => {
+    const map: Record<Exclude<SortOption, null>, SortParam> = {
+      인기순: "popular",
+      최신순: "latest",
+    };
+    setQuery(prev => ({ ...prev, page: 1, sort: opt ? map[opt] : undefined }));
   }, []);
+
+  // UI용 표시값
+  const uiSort: SortOption =
+    query.sort === "latest" ? "최신순" :
+    query.sort === "popular" ? "인기순" : null;
 
   return (
     <div className="flex justify-center">
       <div className="w-full mt-[30px] max-w-[1440px] px-[132px] mb-[27px]">
         <ProjectFilterBar
-   sortOption={sortOption}
-   onChangeSort={handleChangeSort}
-   onFiltersChange={handleFiltersChange}
+          sortOption={uiSort}
+          onChangeSort={handleChangeSort}
+          onFiltersChange={handleFiltersChange}
         />
+
         <ProjectList items={items} isLoading={isLoading} isError={isError} />
+
         <Pagination
           page={page}
-          onPageChange={setPage}
+          onPageChange={(p) => setQuery(prev => ({ ...prev, page: p }))}
           hasPrev={hasPrev}
           hasNext={hasNext}
         />

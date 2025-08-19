@@ -1,5 +1,5 @@
 import ProjectCard from "./ProjectCard";
-import {type ProjectListItem } from "../../../hooks/useProjectQueries";
+import type { ProjectListItem } from "../../../types/ProjectProps";
 
 
 type Props = {
