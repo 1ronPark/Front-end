@@ -21,11 +21,7 @@ type Props = {
   onFiltersChange: (filters: Partial<ProjectListApiParams>) => void; // ✅ Partial
 };
 
-<<<<<<< HEAD
 const ProjectFilterBar: React.FC<Props> = ({ sortOption, onChangeSort, onFiltersChange }) => {
-=======
-const ProjectFilterBar: React.FC<Props> = ({ sortOption, onChangeSort }) => {
->>>>>>> 2c61a2d091eac1fde9eb5c9404b03c852b187fb3
   const handleSortOptionClick = (option: Exclude<SortOption, null>) => {
     onChangeSort(sortOption === option ? null : option);
   };
