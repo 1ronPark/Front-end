@@ -46,7 +46,9 @@ const MyProfileEdit = () => {
 
         <div className="rounded-lg bg-white p-8 border mt-5 border-gray-200 shadow-sm">
           <h3 className="mb-5 text-2xl font-semibold">
-            {myInfo?.result.profileTitle}
+            {myInfo?.result.profileTitle
+              ? myInfo?.result.profileTitle
+              : "한 줄 소개로 자신을 소개해 보세요!"}
           </h3>
           <hr className="mb-5 border-t border-[#CBC4CF]" />
           <div className="flex flex-col gap-4">
