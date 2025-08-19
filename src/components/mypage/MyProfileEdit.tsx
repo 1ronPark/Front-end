@@ -1,8 +1,17 @@
 import { MapPin, Briefcase, Wrench, FilePenLine } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useGetProfile } from "../../hooks/useProfile";
 
 const MyProfileEdit = () => {
   const navigate = useNavigate();
+
+  //프로필 정보 가져오기
+  const { data: myInfo, isLoading, error } = useGetProfile();
+  const regions = myInfo?.result?.regions ?? [];
+  const skills = myInfo?.result?.skills ?? [];
+
+  if (isLoading) return <div>불러오는 중...</div>;
+  if (error) return <div>에러 발생 또는 데이터 없음</div>;
 
   return (
     <div className="w-full flex justify-center overflow-y-auto">
@@ -19,6 +28,7 @@ const MyProfileEdit = () => {
         <div className="mb-4 flex items-center justify-between">
           <div>
             <p className="title-small text-[#47464F]">
+              {/* ⚠️ 저장시간을 저장하는 도메인 필요 백에 요청해야될듯 !! */}
               2025. 07. 03 최종 수정됨
             </p>
           </div>
@@ -36,7 +46,9 @@ const MyProfileEdit = () => {
 
         <div className="rounded-lg bg-white p-8 border mt-5 border-gray-200 shadow-sm">
           <h3 className="mb-5 text-2xl font-semibold">
-            기술과 디자인을 넘나들며 방향을 설계하는 실전형 디자이너
+            {myInfo?.result.profileTitle
+              ? myInfo?.result.profileTitle
+              : "한 줄 소개로 자신을 소개해 보세요!"}
           </h3>
           <hr className="mb-5 border-t border-[#CBC4CF]" />
           <div className="flex flex-col gap-4">
@@ -44,18 +56,28 @@ const MyProfileEdit = () => {
               <MapPin className="h-5 w-5 text-gray-600" />
               <p className="font-semibold w-20 shrink-0">위치</p>
               <p className="ml-10">
-                가천대학교 글로벌 캠퍼스, 서울 강남구, 성남 전체
+                {myInfo?.result.school}{" "}
+                <span>
+                  {regions.map((r) => `${r.siDo} ${r.siGunGu}`).join(", ")}
+                </span>
               </p>
             </div>
             <div className="flex items-center gap-2">
               <Briefcase className="h-5 w-5 text-gray-600" />
               <p className="font-semibold w-20 shrink-0">파트</p>
-              <p className="ml-10">Design</p>
+              <p className="ml-10">{myInfo?.result.positions}</p>
             </div>
             <div className="flex items-center gap-2">
               <Wrench className="h-5 w-5 text-gray-600" />
               <p className="font-semibold w-20 shrink-0">스킬</p>
-              <p className="ml-10">React, JavaScript, html, css</p>
+              <p className="ml-10">
+                {" "}
+                <span>
+                  {skills.length === 0
+                    ? "스킬을 등록해주세요."
+                    : skills.map((r) => `${r.name}`).join(", ")}
+                </span>
+              </p>
             </div>
           </div>
         </div>

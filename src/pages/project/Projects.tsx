@@ -26,7 +26,11 @@ export const Projects = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="w-full mt-[30px] max-w-[1440px] px-[132px] mb-[27px]">
+      <div
+        className=" w-full mt-12 mb-7 overflow-visible
+                max-w-[1440px]
+                px-4 sm:px-8 md:px-16 xl:px-[130px]"
+      >
         <ProjectFilterBar
           sortOption={sortOption}
           onChangeSort={(opt) => {

@@ -19,6 +19,23 @@ const mapProfileSkills = (src: ProfileSkill[]): Skill[] =>
 const MAX_STRENGTHS = 10;
 const MAX_SKILLS = 3;
 
+/** KST(Asia/Seoul) 기준으로 Y/M/D 반환 */
+// function getSeoulYMD(date = new Date()) {
+//   const parts = new Intl.DateTimeFormat("ko-KR", {
+//     timeZone: "Asia/Seoul",
+//     year: "numeric",
+//     month: "2-digit",
+//     day: "2-digit",
+//   }).formatToParts(date);
+//   const get = (t: string) => parts.find((p) => p.type === t)?.value ?? "00";
+//   return {
+//     year: Number(get("year")),
+//     month: Number(get("month")), // 1~12 (두 자리)
+//     day: Number(get("day")), // 1~31 (두 자리)
+//   };
+// }
+// type YMD = { year: number; month: number; day: number };
+
 type ProfileEditStore = {
   // 포지션
   initialPositions: string[];
@@ -60,6 +77,12 @@ type ProfileEditStore = {
   addSkill: (s: Skill) => void; // 스킬 추가
   removeSkill: (id: number) => void; // id로 스킬 제거
   resetSkills: () => void; // 스킬만 리셋
+
+  /** 마지막 저장 일자 (KST) */
+  // lastSavedYMD: YMD | null;
+
+  /** 저장 일자를 현재 시각(KST)으로 기록 */
+  // markSaved: (at?: Date) => void;
 
   reset: () => void;
 };
@@ -171,6 +194,13 @@ export const useProfileStore = create<ProfileEditStore>((set, get) => ({
   },
   resetSkills: () => set({ skills: [], initialSkills: [] }),
 
+  // lastSavedYMD: null,
+
+  // markSaved: (at) => {
+  //   const ymd = getSeoulYMD(at ?? new Date());
+  //   set({ lastSavedYMD: ymd });
+  // },
+
   // ===== 전체 리셋 =====
   reset: () =>
     set({
@@ -182,5 +212,6 @@ export const useProfileStore = create<ProfileEditStore>((set, get) => ({
       strengths: [],
       initialSkills: [],
       skills: [],
+      // lastSavedYMD: null, // 저장일자도 초기화
     }),
 }));

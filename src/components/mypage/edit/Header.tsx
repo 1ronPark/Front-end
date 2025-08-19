@@ -21,7 +21,7 @@ const Header = ({ pendingPreviewUrl, onPickProfileImage }: HeaderProps) => {
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [addPhotoModal, setIsAddPhotoModal] = useState<boolean>(false);
   const imageSrc = pendingPreviewUrl || data?.profileImageUrl || "";
-  
+
   const onCloseAll = () => {
     setEditModalOpen(false);
     setIsAddPhotoModal(false);
@@ -36,7 +36,11 @@ const Header = ({ pendingPreviewUrl, onPickProfileImage }: HeaderProps) => {
       <div className="rounded-lg bg-white p-8 shadow shawdow-md">
         <div className="mb-4 flex items-center justify-between">
           {/* career부분 profileTitle로 변경될 것 같음 */}
-          <h2 className="title-large-emphasis">{data?.career}</h2>
+          <h2 className="title-large-emphasis">
+            {data?.profileTitle
+              ? data?.profileTitle
+              : "한 줄 소개로 자신을 소개해 보세요!"}
+          </h2>
           <button
             className="flex flex-row justify-center px-1.5 py-3 gap-1 hover:cursor-pointer"
             onClick={() => setEditModalOpen(true)}
@@ -110,22 +114,7 @@ const Header = ({ pendingPreviewUrl, onPickProfileImage }: HeaderProps) => {
         <MyInfoEditModal
           onClose={() => setEditModalOpen(false)}
           onCloseAll={onCloseAll}
-          myInfo={{
-            // MyInfoProps에 맞춰 매핑 (TS 오류 해결을 위해 임시로 빨리 처리)
-            id: data.id,
-            name: data.name,
-            nickname: data.nickname,
-            phoneNumber: data.phoneNumber,
-            gender: data.gender,
-            age: data.age,
-            mbti: data.mbti,
-            role: data.role,
-            school: data.school,
-            email: data.email,
-            profileImageUrl: data.profileImageUrl ?? undefined, // null → undefined 정리
-            location: data.location ?? "",
-            selfIntroduce: data.intro ?? "",
-          }}
+          myInfo={data}
         />
       )}
 
