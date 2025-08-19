@@ -150,7 +150,13 @@ const MyPageInfo = () => {
               <div className="flex justify-between">
                 <p className="label-large text-[#49454E]">한줄소개</p>
                 <p className="text-right label-large-emphasis">
-                  {myProps.result.profileTitle}
+                  {myProps.result.profileTitle ? (
+                    myProps.result.profileTitle
+                  ) : (
+                    <span className="text-right label-large text-gray-500">
+                      한줄소개를 작성해주세요.
+                    </span>
+                  )}
                 </p>
               </div>
             </div>

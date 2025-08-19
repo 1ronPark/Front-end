@@ -6,9 +6,12 @@ const MyProfileEdit = () => {
   const navigate = useNavigate();
 
   //프로필 정보 가져오기
-  const { data: myInfo } = useGetProfile();
+  const { data: myInfo, isLoading, error } = useGetProfile();
   const regions = myInfo?.result?.regions ?? [];
   const skills = myInfo?.result?.skills ?? [];
+
+  if (isLoading) return <div>불러오는 중...</div>;
+  if (error) return <div>에러 발생 또는 데이터 없음</div>;
 
   return (
     <div className="w-full flex justify-center overflow-y-auto">

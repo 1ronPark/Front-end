@@ -18,7 +18,7 @@ export interface User {
   school: string;
   phoneNumber: string;
   profileImageUrl: string;
-  profileTitle: string | null;
+  profileTitle: string;
 }
 
 // =================================================================
