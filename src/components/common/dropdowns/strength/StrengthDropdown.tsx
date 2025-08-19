@@ -1,62 +1,174 @@
-import { useState, useRef, useEffect } from 'react';
-import { ChevronDown } from 'lucide-react';
-
-const STRENGTH_OPTIONS = ['성실한', '열정있는', '꾸준한', '소통 전문가', '습득이 빠른', '느좋', '문제 해결 능력', '창의적인', '협업 능력', '긍정적인', '적극적인', '리더십 있는', '유연한 사고', '분석적인', '디테일이 뛰어난', '시간 관리 능력', '적응력이 뛰어난'];
+// components/common/dropdowns/strength/StrengthDropdown.tsx
+import { useEffect, useMemo, useRef, useState } from "react";
+import { ChevronDown, X } from "lucide-react";
+import { useGetStrengths, type Strength } from "../../../../hooks/useStrengths";
 
 interface StrengthDropdownProps {
-  onSelect: (strength: string) => void;
+  position?: string;
+  disabled?: boolean;
+  selectedIds?: number[]; // 이미 선택된 강점 id
+  onSelect: (item: Strength) => void; // 선택 콜백
 }
 
-const StrengthDropdown = ({ onSelect }: StrengthDropdownProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const dropdownRef = useRef<HTMLDivElement>(null);
+const StrengthDropdown = ({
+  position,
+  disabled = false,
+  selectedIds = [],
+  onSelect,
+}: StrengthDropdownProps) => {
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const [isComposing, setIsComposing] = useState(false); // 한글 IME 처리
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
+  const { data, isLoading, error } = useGetStrengths(position);
+
+  // 포지션 바뀌면 초기화
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
+    setOpen(false);
+    setQuery("");
+  }, [position]);
+
+  // 외부 클릭 시 닫기
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (
+        wrapperRef.current &&
+        !wrapperRef.current.contains(e.target as Node)
+      ) {
+        setOpen(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  const handleSelect = (strength: string) => {
-    onSelect(strength);
-    setIsOpen(false);
-    setSearchTerm('');
+  // 필터링
+  const filtered = useMemo(() => {
+    const options = data?.result?.strengths ?? [];
+    if (!query.trim()) return options;
+    const q = query.trim().toLowerCase();
+    return options.filter((o) => o.strengthName.toLowerCase().includes(q));
+  }, [data, query]);
+
+  const pick = (opt: Strength) => {
+    if (selectedIds.includes(opt.strengthId)) return;
+    onSelect(opt);
+    setOpen(false);
+    setQuery("");
+    // 포커스 유지가 필요하면 아래 라인 주석 해제
+    // requestAnimationFrame(() => inputRef.current?.focus());
   };
 
-  const filteredStrengths = STRENGTH_OPTIONS.filter(option =>
-    option.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+  const onKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (isComposing) return; // 한글 조합 중에는 무시
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const candidate = filtered.find(
+        (o) => !selectedIds.includes(o.strengthId)
+      );
+      if (candidate) pick(candidate);
+    } else if (e.key === "Escape") {
+      setOpen(false);
+    } else if (e.key === "ArrowDown") {
+      // 간단 모드: 화살표는 드롭다운만 열기
+      if (!open) setOpen(true);
+    }
+  };
 
   return (
-    <div className="relative" ref={dropdownRef}>
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full items-center justify-between rounded-xl border border-gray-200  p-4"
+    <div ref={wrapperRef} className="relative">
+      {/* 버튼 대신 입력가능한 컨트롤 */}
+      <div
+        className={`flex w-full items-center rounded-xl border p-4 pr-2 ${
+          disabled ? "border-gray-100 bg-gray-50" : "border-gray-200"
+        }`}
+        onClick={() => {
+          if (disabled) return;
+          setOpen(true);
+          inputRef.current?.focus();
+        }}
+        role="combobox"
+        aria-expanded={open}
+        aria-haspopup="listbox"
       >
-        <span className="text-base text-gray-400">강점을 선택하세요.</span>
-        <ChevronDown size={24} className="text-gray-500 disabled:text-gray-400" />
-      </button>
-      {isOpen && (
-        <div className="absolute z-10 mt-2 w-full rounded-md border border-gray-300 bg-white shadow-lg">
-          <ul className="max-h-52 overflow-y-auto">
-            {filteredStrengths.map(option => (
-              <li
-                key={option}
-                className={`cursor-pointer px-4 py-2 text-sm hover:bg-gray-100`}
-                onClick={() => handleSelect(option)}
-              >
-                {option}
-              </li>
-            ))}
-          </ul>
-        </div>
+        <input
+          ref={inputRef}
+          type="text"
+          value={query}
+          disabled={disabled}
+          onChange={(e) => setQuery(e.target.value)}
+          onFocus={() => !disabled && setOpen(true)}
+          onKeyDown={onKeyDown}
+          onCompositionStart={() => setIsComposing(true)}
+          onCompositionEnd={() => setIsComposing(false)}
+          placeholder={
+            disabled
+              ? "포지션을 먼저 선택하세요."
+              : "강점을 입력하거나 선택하세요."
+          }
+          className={` flex-1 bg-transparent outline-none placeholder:text-gray-400 ${
+            disabled ? "text-gray-400" : "text-gray-900"
+          }`}
+        />
+        {query && !disabled && (
+          <button
+            type="button"
+            aria-label="clear"
+            className="p-1 mr-1 text-gray-400 hover:text-gray-600"
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={() => {
+              setQuery("");
+              inputRef.current?.focus();
+            }}
+          >
+            <X size={16} />
+          </button>
+        )}
+
+        <ChevronDown
+          className={`shrink-0 ${disabled ? "text-gray-300" : "text-gray-500"}`}
+          size={20}
+        />
+      </div>
+
+      {/* 드롭다운 */}
+      {open && !disabled && (
+        <ul
+          role="listbox"
+          className="absolute z-10 mt-2 w-full max-h-60 overflow-y-auto rounded-md border bg-white shadow"
+        >
+          {isLoading && (
+            <li className="px-4 py-3 text-sm text-gray-500">불러오는 중...</li>
+          )}
+          {error && (
+            <li className="px-4 py-3 text-sm text-red-500">불러오기 실패</li>
+          )}
+          {!isLoading && filtered.length === 0 && (
+            <li className="px-4 py-3 text-sm text-gray-500">
+              일치하는 강점이 없어요.
+            </li>
+          )}
+          {!isLoading &&
+            filtered.map((opt) => {
+              const picked = selectedIds.includes(opt.strengthId);
+              return (
+                <li
+                  key={opt.strengthId}
+                  role="option"
+                  aria-selected={false}
+                  onMouseDown={() => !picked && pick(opt)} // 선택 즉시 닫힘
+                  className={`px-4 py-2 text-sm hover:bg-gray-100 ${
+                    picked ? "opacity-40 cursor-not-allowed" : "cursor-pointer"
+                  }`}
+                  title={picked ? "이미 선택됨" : opt.strengthName}
+                >
+                  {opt.strengthName}
+                </li>
+              );
+            })}
+        </ul>
       )}
     </div>
   );
