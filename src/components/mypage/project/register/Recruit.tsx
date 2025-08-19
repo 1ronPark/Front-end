@@ -5,24 +5,32 @@ import SplitButton from '../../../common/buttons/SplitButton';
 import CustomDropdown from '../../../common/dropdowns/CustomDropdown';
 import RecruitCard from '../../../../components/common/cards/recruits/RecruitCard';
 import Switch from '../../../common/buttons/Switch';
-import { useRegisterProjectStore } from "../../../../store/registerProjectStore";
 import type { RecruitPosition } from "../../../../hooks/useMakeItem";
+import { useLocation } from 'react-router-dom';
 
-const Recruit = () => {
-  const {
-    projectStatus,
-    collaborationRegions,
-    recruitPositions,
-    setField,
-  } = useRegisterProjectStore();
+interface RecruitProps {
+  projectStatus: boolean;
+  collaborationRegions: { siDo: string; siGunGu: string }[];
+  recruitPositions: RecruitPosition[];
+  setField: <T extends 'projectStatus' | 'collaborationRegions' | 'recruitPositions'>(
+    field: T,
+    value: T extends 'projectStatus'
+      ? boolean
+      : T extends 'collaborationRegions'
+        ? { siDo: string; siGunGu: string }[]
+        : RecruitPosition[]
+  ) => void;
+}
 
-  // 최초 렌더 시 지역 배열이 비어 있으면 기본 칸 한 개 추가
+const Recruit = ({ projectStatus, collaborationRegions, recruitPositions, setField }: RecruitProps) => {
+  const location = useLocation();
+
   useEffect(() => {
-    if (collaborationRegions.length === 0) {
+    const isEditMode = location.pathname.includes('edit');
+    if (!isEditMode && collaborationRegions.length === 0) {
       setField('collaborationRegions', [{ siDo: '', siGunGu: '' }]);
     }
-  }, [collaborationRegions.length, setField]);
-
+  }, [setField]);
   const [cityDropdownOpen, setCityDropdownOpen] = useState<Record<number, boolean>>({});
   const [districtDropdownOpen, setDistrictDropdownOpen] = useState<Record<number, boolean>>({});
   const allCities = Object.keys(locationData);
@@ -87,7 +95,7 @@ const Recruit = () => {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold">파트원 모집 여부</h2>
-        <Switch initialState={projectStatus} onToggle={(v) => setField('projectStatus', v)} />
+        <Switch state={projectStatus} onToggle={(v) => setField('projectStatus', v)} />
       </div>
       <hr className="my-6 border-[#EAE9EA]" />
       <div className="grid grid-cols-[240px_auto] gap-8">
