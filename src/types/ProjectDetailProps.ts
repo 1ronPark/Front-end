@@ -53,7 +53,7 @@ export type ProjectDetailDataApi = {
   age: number;
   mbti: string;
   email: string;
-  school: string;
+  schoolName: string;
   regions: ProjectRegion[];
   description?: string;
   recruitPositions: ProjectRecruitPosition[];

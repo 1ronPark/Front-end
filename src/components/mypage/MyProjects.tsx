@@ -3,14 +3,22 @@ import addIcon from "../../assets/icons/mypage/ic_project_addsvg.svg";
 import MyProjectEmpty from "./project/MyProjectEmpty";
 import MyProjectList from "./project/MyProjectList";
 import type { Project } from "../../hooks/useMyProjects";
+import LoadingPage from "../../pages/LoadingPage";
+
 
 interface MyProjectProps {
-  hasData: boolean;
   isLoading: boolean;
-  projects: Project[];
+  createdProjects: Project[];
+  appliedProjects: Project[];
 }
 
-const MyProjects = ({ hasData, isLoading, projects }: MyProjectProps) => {
+const MyProjects = ({
+  isLoading,
+  createdProjects = [],
+  appliedProjects = [],
+}: MyProjectProps) => {
+  const hasData = createdProjects.length > 0 || appliedProjects.length > 0;
+
   return (
     <div className="w-full flex justify-center overflow-y-auto">
       <div className="w-[960px] flex flex-col">
