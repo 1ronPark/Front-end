@@ -1,4 +1,4 @@
-import type { CategoryType } from "../types/ProjectDetailProps";
+import type { CategoryType } from "../types/ProjectProps";
 
 // utils/categoryMap.ts
 import AllIcon from "../assets/icons/ic_all.svg";

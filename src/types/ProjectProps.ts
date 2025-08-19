@@ -91,5 +91,6 @@ export type ProjectListApiParams = {
   page: number;        // 스웨거 예시가 1-based → 그대로 사용
   sort?: SortParam;    // 정렬 (없으면 서버 기본)
   mbti?: string;       // "E,N" 처럼 CSV (없으면 필터 X)
+  categories?: string; 
 };
 

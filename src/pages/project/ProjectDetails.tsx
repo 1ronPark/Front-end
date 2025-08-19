@@ -1,7 +1,7 @@
 import { useParams, Navigate } from "react-router-dom";
 import { useProjectDetail } from "../../hooks/useProjectQueries";
 import { ProjectDetailProvider } from "../../types/ProjectDetailContext";
-import type { ProjectDetailData } from "../../types/ProjectDetailProps";
+import type { ProjectDetailData } from "../../types/ProjectProps";
 
 import CommentSection from "../../components/common/comment/CommentSection";
 import ProjectOverview from "../../components/common/projectsdetail/ProjectOverview";
@@ -16,7 +16,7 @@ export const ProjectDetail = () => {
   const invalid = !Number.isFinite(numericId) || numericId <= 0;
 
   // 훅은 항상 호출, invalid면 enabled:false
-  const { data, isLoading, isError } = useProjectDetail(numericId);
+ const { data, isLoading, isError, refetch, isFetching } = useProjectDetail(numericId);
 
   if (invalid) return <Navigate to="/projects" replace />;
 
@@ -34,7 +34,8 @@ export const ProjectDetail = () => {
           <ProjectInfoCard />
           <ProjectOverview />
           <RecruitPart />
-          <CommentSection />
+          <CommentSection onRefresh={refetch} isRefreshing={isFetching} />
+
         </div>
       </div>
     </ProjectDetailProvider>

@@ -11,14 +11,14 @@ export const Projects = () => {
   // 단일 쿼리 상태 (page는 반드시 초기화)
   const [query, setQuery] = useState<ProjectListApiParams>({
     page: 1,
-    sort: "latest", // 초기 정렬값(선택)
+    sort: "latest", // 초기 정렬값
   });
 
   const { data, isLoading, isError } = useProjectList(query);
   const items = data?.result?.items ?? [];
 
   const page = query.page;
-  const pageSize = 12; // 서버가 사이즈를 못 받는다면 프론트 기준 고정
+  const pageSize = 12; 
   const hasPrev = page > 1;
   const hasNext = items.length === pageSize; // 총 개수 응답 없으면 이렇게
 

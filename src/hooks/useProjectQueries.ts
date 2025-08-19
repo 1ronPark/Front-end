@@ -1,6 +1,7 @@
    import { useApiQuery } from './apiHooks';
 import type { ProjectListItem, ProjectDetailData, ProjectListApiParams } from '../types/ProjectProps';
 
+
 export interface ProjectListResponse {
   isSuccess: boolean;
   code: string;
@@ -37,13 +38,13 @@ interface ProjectDetailResponse {
 }
 
 // 상세조회
-export const useProjectDetail = (itemId: number) => {
-  return useApiQuery<ProjectDetailResponse>({
-    method: 'GET',
-    endpoint: import.meta.env.VITE_API_ITEMS_GET_DETAIL_ENDPOINT.replace(':id', String(itemId)) ,
-    enabled: Number.isFinite(itemId) && itemId > 0,
+export const useProjectDetail = (id: number) =>
+  useApiQuery<ProjectDetailResponse>({
+    method: "GET",
+    endpoint: import.meta.env.VITE_API_ITEMS_DETAIL_ENDPOINT.replace(":id", String(id)),
+    // queryKey를 내부에서 [method, endpoint, queryString]로 만들면 자동 동일
+    enabled: Number.isFinite(id) && id > 0,
   });
-};
 
 // 좋아요 상태 조회 응답 타입
 interface LikedStatusResponse {

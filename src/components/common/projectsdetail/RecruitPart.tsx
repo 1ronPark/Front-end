@@ -1,5 +1,5 @@
 import { useProjectDetailCtx } from "../../../types/ProjectDetailContext";
-import type { ProjectRecruitPosition } from "../../../types/ProjectDetailProps";
+import type { ProjectRecruitPosition } from "../../../types/ProjectProps";
 
 // 줄바꿈/쉼표/• 기준으로 설명을 리스트로 쪼개는 유틸
 const toItems = (s?: string) =>

@@ -39,34 +39,13 @@ const ProjectFilterBar: React.FC<Props> = ({ sortOption, onChangeSort, onFilters
 const ALL = "전체";
 
 useEffect(() => {
-  const ALL = '전체';
-  // '전체'는 제외
-  const effectiveCats = selectedCategories.includes(ALL)
-    ? []
-    : selectedCategories;
+  const effective = selectedCategories.includes(ALL)
+    ? [] : selectedCategories;
 
-  const toTri = (pos: 'E'|'N'|'F'|'P'): boolean | undefined =>
-    selectedMbti.includes(pos) ? true : undefined;
-
-  const sortMap = { '인기순': 'popular', '최신순': 'latest' } as const;
-
-  const filters: ProjectQueryParams = {
-    categories: effectiveCats.length ? effectiveCats.join(',') : undefined,
-    positions: selectedSort !== '파트' ? selectedSort : undefined,
-    regions: selectedLocations.length ? selectedLocations.join(',') : undefined,
-    mbtiE: toTri('E'),
-    mbtiN: toTri('N'),
-    mbtiF: toTri('F'),
-    mbtiP: toTri('P'),
-    sort: sortOption ? sortMap[sortOption] : undefined,
-    page: 1,
-    limit: 20,
-  };
-
-  onFiltersChange(filters); 
-}, [selectedCategories, selectedSort, selectedMbti, selectedLocations, sortOption]);
-
-
+  onFiltersChange({
+    categories: effective.length ? effective.join(',') : undefined, // ✅ 핵심 1줄
+  });
+}, [selectedCategories, onFiltersChange]);
 
 const handleCategoryClick = (category: string) => {
   setSelectedCategories(prev => {
