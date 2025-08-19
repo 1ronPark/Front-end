@@ -15,7 +15,7 @@ export const dummyMemberInfo: MyInfoProps[] = [
     gender: true,
     age: 23,
     skills: ["#spring", "#node.js", "#CSS", "#빅데이터분석기사"],
-    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"],
   },
   {
     id: 2,
@@ -31,7 +31,7 @@ export const dummyMemberInfo: MyInfoProps[] = [
     gender: false,
     age: 24,
     skills: ["#react", "#typescript", "#UIUX"],
-    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"],
   },
   {
     id: 3,
@@ -47,7 +47,7 @@ export const dummyMemberInfo: MyInfoProps[] = [
     gender: true,
     age: 22,
     skills: ["#c++", "#python", "#ps"],
-    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"],
   },
   {
     id: 4,
@@ -63,7 +63,7 @@ export const dummyMemberInfo: MyInfoProps[] = [
     gender: false,
     age: 23,
     skills: ["#Figma", "#UX", "#프로토타이핑"],
-    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"],
   },
   {
     id: 5,
@@ -79,7 +79,7 @@ export const dummyMemberInfo: MyInfoProps[] = [
     gender: true,
     age: 25,
     skills: ["#MySQL", "#MongoDB", "#DBA"],
-    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"],
   },
   {
     id: 6,
@@ -95,7 +95,7 @@ export const dummyMemberInfo: MyInfoProps[] = [
     gender: false,
     age: 24,
     skills: ["#Agile", "#Jira", "#Notion"],
-    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"],
   },
   {
     id: 7,
@@ -111,7 +111,7 @@ export const dummyMemberInfo: MyInfoProps[] = [
     gender: true,
     age: 23,
     skills: ["#Jest", "#Cypress", "#테스트자동화"],
-    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"],
   },
   {
     id: 8,
@@ -127,7 +127,7 @@ export const dummyMemberInfo: MyInfoProps[] = [
     gender: true,
     age: 26,
     skills: ["#PyTorch", "#Tensorflow", "#LLM"],
-    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"],
   },
   {
     id: 9,
@@ -143,7 +143,7 @@ export const dummyMemberInfo: MyInfoProps[] = [
     gender: true,
     age: 25,
     skills: ["#Kotlin", "#Swift", "#ReactNative"],
-    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"],
   },
   {
     id: 10,
@@ -159,7 +159,7 @@ export const dummyMemberInfo: MyInfoProps[] = [
     gender: true,
     age: 22,
     skills: ["#Flutter", "#Ionic", "#ReactNative"],
-    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"],
   },
   {
     id: 11,
@@ -175,7 +175,7 @@ export const dummyMemberInfo: MyInfoProps[] = [
     gender: true,
     age: 23,
     skills: ["#Photoshop", "#Illustrator", "#Branding"],
-    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"],
   },
   {
     id: 12,
@@ -191,7 +191,7 @@ export const dummyMemberInfo: MyInfoProps[] = [
     gender: true,
     age: 24,
     skills: ["#HTML", "#CSS", "#웹접근성"],
-    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"],
   },
   {
     id: 13,
@@ -207,7 +207,7 @@ export const dummyMemberInfo: MyInfoProps[] = [
     gender: true,
     age: 25,
     skills: ["#OWASP", "#보안테스트", "#해킹방지"],
-    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"],
   },
   {
     id: 14,
@@ -223,7 +223,7 @@ export const dummyMemberInfo: MyInfoProps[] = [
     gender: true,
     age: 26,
     skills: ["#ROS", "#C++", "#센서"],
-    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"],
   },
   {
     id: 15,
@@ -239,7 +239,7 @@ export const dummyMemberInfo: MyInfoProps[] = [
     gender: true,
     age: 24,
     skills: ["#pandas", "#numpy", "#powerBI"],
-    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"],
   },
   {
     id: 16,
@@ -255,7 +255,7 @@ export const dummyMemberInfo: MyInfoProps[] = [
     gender: true,
     age: 27,
     skills: ["#AWS", "#Azure", "#GCP"],
-    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"],
   },
   {
     id: 17,
@@ -271,7 +271,7 @@ export const dummyMemberInfo: MyInfoProps[] = [
     gender: true,
     age: 25,
     skills: ["#Docker", "#Kubernetes", "#CI/CD"],
-    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"],
   },
   {
     id: 18,
@@ -287,7 +287,7 @@ export const dummyMemberInfo: MyInfoProps[] = [
     gender: true,
     age: 23,
     skills: ["#Scikit-learn", "#MLflow", "#파라미터튜닝"],
-    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"],
   },
   {
     id: 19,
@@ -303,7 +303,7 @@ export const dummyMemberInfo: MyInfoProps[] = [
     gender: true,
     age: 24,
     skills: ["#Node.js", "#React", "#PostgreSQL"],
-    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"],
   },
   {
     id: 20,
@@ -319,6 +319,6 @@ export const dummyMemberInfo: MyInfoProps[] = [
     gender: true,
     age: 27,
     skills: ["#Architecture", "#CI/CD", "#코드리뷰"],
-    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"]
+    strengths: ["#끈기", "#성실", "#아아", "#빅데이터분석기사"],
   },
 ];

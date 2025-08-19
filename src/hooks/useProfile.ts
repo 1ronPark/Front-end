@@ -56,6 +56,13 @@ interface PostProgileImageResponse {
   success: boolean;
 }
 
+interface PutProfileEditRequest {
+  nickname: string;
+  mbti: string;
+  email: string;
+  phoneNumber: string;
+  profileTitle: string;
+}
 // 커스텀 훅: 프로필 정보를 가져오는 함수
 export const useGetProfile = () => {
   return useApiQuery<GetProfileResponse>({
@@ -65,7 +72,20 @@ export const useGetProfile = () => {
 };
 
 // 커스텀 훅: 프로필 정보를 변경하는 함수
-// export const usePutProfileEdit = ()
+export const usePutProfileEdit = () => {
+  return useApiMutation<PutProfileEditRequest, { isSuccess: boolean }>({
+    method: "PUT",
+    endpoint: import.meta.env.VITE_API_PUT_MYINFO_EDIT_ENDPOINT,
+    onSuccess: () => {
+      // 성공 시 추가 작업이 필요하면 여기에 작성
+      alert("프로필 정보가 성공적으로 변경되었습니다.");
+    },
+    onError: () => {
+      // 에러 처리 로직
+      alert("프로필 정보 변경에 실패했습니다.");
+    },
+  });
+};
 
 // 커스텀 훅: 프로필 사진을 변경하는 함수
 export const usePostProfileImage = () => {
