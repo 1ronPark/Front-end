@@ -25,6 +25,7 @@ const MyProfileEdit = () => {
         <div className="mb-4 flex items-center justify-between">
           <div>
             <p className="title-small text-[#47464F]">
+              {/* ⚠️ 저장시간을 저장하는 도메인 필요 백에 요청해야될듯 !! */}
               2025. 07. 03 최종 수정됨
             </p>
           </div>

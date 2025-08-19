@@ -6,8 +6,6 @@ import { fetchRequest } from "./fetchRequest";
 
 // API가 반환할 데이터 타입 정의 (예시)
 export interface User {
-  intro: string;
-  location: string;
   id: number;
   name: string;
   nickname: string;
@@ -19,18 +17,18 @@ export interface User {
   email: string;
   school: string;
   phoneNumber: string;
-  career: string | null;
-  profileImageUrl: string | null;
+  profileImageUrl: string;
+  profileTitle: string | null;
 }
 
 // =================================================================
 // 1. 기존 checkAuth.ts를 대체하는 useUser 훅 (Query)
 // =================================================================
-const getMe = async (): Promise<User> => {
+export const getMe = async (): Promise<User> => {
   // fetchRequest에 제네릭 타입을 명시하여 타입 안정성을 높입니다.
   const response = await fetchRequest<{ result: User }>({
     method: "GET",
-    endpoint: import.meta.env.VITE_API_GET_PROFILE_ENDPOINT,
+    endpoint: import.meta.env.VITE_API_GET_ME_ENDPOINT,
   });
   // 서버 응답 구조가 예상과 다를 경우를 대비한 방어 코드
   if (!response || !response.result) {

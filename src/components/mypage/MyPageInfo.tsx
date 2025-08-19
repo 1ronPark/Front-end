@@ -2,12 +2,14 @@ import { ChevronLeft, DoorOpen } from "lucide-react";
 import editIcon from "../../assets/icons/mypage/ic_edit.svg";
 import { useState } from "react";
 import addPhotoIcon from "../../assets/icons/mypage/ic_camera.svg";
-import type { MyInfoProps } from "../../types/MyInfoProps";
 import MyInfoEditModal from "./modal/MyInfoEditModal";
 import AddPhotoModal from "./modal/AddPhotoModal";
 import { useApiQuery } from "../../hooks/apiHooks";
 import { useNavigate } from "react-router-dom";
 import { usePostProfileImage } from "../../hooks/useProfile";
+import type { User } from "../../hooks/useUser";
+
+import sample from "../../assets/sideNavbar/profile.png";
 
 const MyPageInfo = () => {
   const navigate = useNavigate();
@@ -20,11 +22,13 @@ const MyPageInfo = () => {
     data: myProps,
     isLoading,
     error,
-  } = useApiQuery<{ result: MyInfoProps }>({
+  } = useApiQuery<{ result: User }>({
     method: "GET",
     // 실제 백엔드 엔드포인트로 대체
-    endpoint: import.meta.env.VITE_API_ME_ENDPOINT,
+    endpoint: import.meta.env.VITE_API_GET_ME_ENDPOINT,
   });
+  console.log(myProps?.result);
+
   // 멀티파트 업로드 뮤테이션 (서버가 profileImageUrl 갱신까지 처리)
   const { mutate: profileChange } = usePostProfileImage();
 
@@ -88,7 +92,11 @@ const MyPageInfo = () => {
               <div className="relative w-[160px] h-[160px]">
                 <img
                   className="w-full h-full rounded-full object-cover"
-                  src={myProps.result.profileImageUrl}
+                  src={
+                    myProps.result.profileImageUrl
+                      ? myProps.result.profileImageUrl
+                      : `${sample}`
+                  }
                   alt="프로필 이미지"
                 />
                 {/* 프로필 사진 등록 버튼 */}
@@ -142,7 +150,7 @@ const MyPageInfo = () => {
               <div className="flex justify-between">
                 <p className="label-large text-[#49454E]">한줄소개</p>
                 <p className="text-right label-large-emphasis">
-                  {myProps.result.career}
+                  {myProps.result.profileTitle}
                 </p>
               </div>
             </div>

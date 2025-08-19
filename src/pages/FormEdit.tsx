@@ -58,6 +58,8 @@ export const FormEdit = () => {
   //스킬
   const initialSkills = useProfileStore((s) => s.initialSkills);
   const skills = useProfileStore((s) => s.skills);
+  //저장된 날짜
+  // const markSaved = useProfileStore((s) => s.markSaved);
 
   // ===== Hooks =====
   // 포지션
@@ -227,6 +229,9 @@ export const FormEdit = () => {
         setPendingProfileFile(null);
         setPendingPreviewUrl(null);
       }
+
+      // ✅ 저장 성공 시점에 저장일자 기록 (KST)
+      // markSaved(); // 또는 markSaved(new Date(serverReturnedAt)) 같이 서버 시각을 쓰고 싶으면 넘겨줘도 OK
 
       alert("프로필이 저장되었습니다.");
     } catch (e) {
