@@ -38,13 +38,9 @@ const ProjectInfoCard = () => {
     age,
     mbti,
     email,
-    school,
+    schoolName,
     regions,
-    //description, -> projectOverview에 넘겨줄 형식
-    // likedByCurrentUser: liked,
-    //ecruitPositions,
     itemCategories,
-    //emComments,
     updatedAt: date,
     likedByCurrentUser,
     applicantStatus: applied_project = false,
@@ -187,7 +183,7 @@ const ProjectInfoCard = () => {
                   <GraduationCap className="flex justify-center w-4 h-4" />
                   대학교
                 </div>
-                <span className="body-small ml-6">{school}</span>
+                <span className="body-small ml-6">{schoolName}</span>
               </div>
 
               <hr className="border-t px-4 border-[rgba(121,116,126,0.08)] py-[2px]" />

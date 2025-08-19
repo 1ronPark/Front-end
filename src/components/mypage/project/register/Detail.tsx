@@ -1,58 +1,37 @@
 import { Plus } from "lucide-react";
 import PortfolioCard from "../../../common/cards/portfolio/PortfolioCard";
 import githubIcon from "../../../../assets/GitHub.svg";
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import PortfolioModal from "../../modal/PortfolioModal";
-import { useRegisterProjectStore } from "../../../../store/registerProjectStore";
 import type { PortfolioItemData } from "../../modal/PortfolioModal"; // PortfolioItemData 임포트
 
-const Detail = () => {
+type DetailProps = {
+  description: string;
+  extraLink1?: string;
+  extraLink2?: string;
+  itemPlanFile: File | null ;
+  onChange: (field: string, value: string | File | null) => void;
+  mode: 'register' | 'edit';
+};
+
+const Detail = ({ description, onChange, mode }: DetailProps) => {
   const [portfolioModal, setPortfolioModal] = useState<boolean>(false);
   const [portfolioItems, setPortfolioItems] = useState<PortfolioItemData[]>([]); // 포트폴리오 항목 상태
-  const { description, setField } = useRegisterProjectStore();
   const maxLength = 3000;
 
   const handleConfirmPortfolio = (data: PortfolioItemData) => {
     setPortfolioItems((prevItems) => [...prevItems, data]);
-    // type에 따라 각각 저장 (추가)
+
     if (data.type === 'file') {
-      setField('itemPlanFile', data.file);      // 파일 첨부 → itemPlanFile
-    }
-    if (data.type === 'github') {
-      setField('extraLink1', data.url);         // github → extraLink1
-    }
-    if (data.type === 'blog') {
-      setField('extraLink2', data.url);         // blog → extraLink2
+      console.log('[썸네일 업로드] 선택된 파일:', data.file);
+      onChange('itemPlanFile', data.file);
+    } else if (data.type === 'github') {
+      onChange('extraLink1', data.url);
+    } else if (data.type === 'blog') {
+      onChange('extraLink2', data.url);
     }
   };
 
-  useEffect(() => {
-  // 1. 파일은 itemPlanFile로, 링크는 각각 extraLink1/extraLink2로
-  let planFileSet = false;
-  portfolioItems.forEach(item => {
-    if (item.type === 'file' && !planFileSet) {
-      setField('itemPlanFile', item.file); // 파일 첨부는 딱 한 번만
-      planFileSet = true;
-    }
-    if (item.type === 'github') {
-      setField('extraLink1', item.url); // github 링크
-    }
-    if (item.type === 'blog') {
-      setField('extraLink2', item.url); // blog 링크
-    }
-  });
-
-  // 파일/링크가 빠졌을 경우 초기화
-  if (!portfolioItems.some(item => item.type === 'file')) {
-    setField('itemPlanFile', null);
-  }
-  if (!portfolioItems.some(item => item.type === 'github')) {
-    setField('extraLink1', '');
-  }
-  if (!portfolioItems.some(item => item.type === 'blog')) {
-    setField('extraLink2', '');
-  }
-}, [portfolioItems, setField]);
 
   return (
     <div className="space-y-8">
@@ -65,6 +44,9 @@ const Detail = () => {
         <div className="flex items-center">
           <p className="text-sm font-semibold">프로젝트 기획서, 링크</p>
           <p className="text-lg font-semibold text-orange-500">*</p>
+          {mode === 'edit' && (
+            <span className="ml-2 text-sm text-red-500"> 기획서는 바꾸지 않으면 기존 기획서가 유지돼요.</span>
+          )}
         </div>
         <div className="grid grid-cols-3 gap-4">
           {/* 기존 더미 카드 제거 */}
@@ -117,9 +99,9 @@ const Detail = () => {
               rows={1}
               placeholder="프로젝트에 대해 자세한 설명을 해주세요."
               value={description}
-              onChange={(e) =>
-                setField('description', e.target.value)
-              }
+              onChange={(e) => {
+                onChange('description', e.target.value);
+              }}
               maxLength={maxLength}
             ></textarea>
           </div>

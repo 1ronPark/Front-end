@@ -27,7 +27,7 @@ const ProjectList: React.FC<Props> = ({ items, isLoading, isError }) => {
           commentCount={project.commentCount}
           likedByCurrentUser={project.likedByCurrentUser}
           // 목록 응답에 없을 수 있는 값은 카드에서 기본값 처리
-          school={project.school}
+          schoolName={project.schoolName}
           introduce={project.introduce}
         />
       ))}

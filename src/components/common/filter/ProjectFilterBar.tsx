@@ -5,7 +5,7 @@ import PartBox from "./dropdowns/PartBox";
 import MbtiBox from "./dropdowns/MbtiBox";
 import LocationBox from "./dropdowns/LocationBox";
 import { CATEGORY_ICON_MAP } from "../../../utils/categoryMap";
-import type { CategoryType, ProjectQueryParams } from "../../../types/ProjectProps";
+import type { CategoryType, ProjectListApiParams } from "../../../types/ProjectProps";
 
 //카테고리 & 아이콘 매핑
 const categories = Object.entries(CATEGORY_ICON_MAP).map(([name, icon]) => ({
@@ -13,16 +13,13 @@ const categories = Object.entries(CATEGORY_ICON_MAP).map(([name, icon]) => ({
   icon,
 }));
 
-
-
-type SortOption = '인기순' | '최신순' | null;
+type SortOption = "인기순" | "최신순" | null;
 
 type Props = {
-  sortOption: "인기순" | "최신순" | null;
-  onChangeSort: (opt: "인기순" | "최신순" | null) => void;
-  onFiltersChange: (filters: Partial<ProjectQueryParams>) => void; // Partial 권장
+  sortOption: SortOption;
+  onChangeSort: (opt: SortOption) => void;
+  onFiltersChange: (filters: Partial<ProjectListApiParams>) => void; // ✅ Partial
 };
-
 
 const ProjectFilterBar: React.FC<Props> = ({ sortOption, onChangeSort, onFiltersChange }) => {
   const handleSortOptionClick = (option: Exclude<SortOption, null>) => {

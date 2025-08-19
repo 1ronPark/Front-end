@@ -64,7 +64,8 @@ const router = createBrowserRouter([
           { path: "members/:memberId", element: <MemberDetail /> },
           { path: "myprofile", element: <MyProfile /> },
           { path: "myprofile/password", element: <PasswordChangeForm /> },
-          { path: "register-project", element: <RegisterProject /> },
+          { path: "register-project", element: <RegisterProject /> }, // 등록
+          { path: "edit-project/:projectId", element: <RegisterProject /> }, // 수정
         ],
       },
     ],

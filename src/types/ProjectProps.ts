@@ -6,7 +6,7 @@ export interface ProjectListItem {
   itemImageUrl?: string; 
   updatedAt: string;
   recruitStatus?: boolean;
-  school?: string;
+  schoolName?: string;
   introduce?: string;
   viewCount: number;
   commentCount: number;
@@ -69,7 +69,7 @@ export type ProjectDetailDataApi = {
   age: number;
   mbti: string;
   email: string;
-  school: string;
+  schoolName: string;
   regions: ProjectRegion[];
   description?: string;
   recruitPositions: ProjectRecruitPosition[];
