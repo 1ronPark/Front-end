@@ -1,7 +1,7 @@
 // src/components/mypage/edit/modal/MyInfoEditModal.tsx
 import { X } from "lucide-react";
 import { useState } from "react";
-import type { MyInfoProps } from "../../../types/MyInfoProps";
+import type { MyInfoEditPayload } from "../../../types/MyInfoProps";
 // (선택) 확인 모달을 계속 쓸 거면 유지
 import MyInfoEditCheckModal from "./MyInfoEditCheckModal";
 
@@ -11,7 +11,7 @@ import { usePutProfileEdit } from "../../../hooks/useProfile";
 interface EditModalProps {
   onClose: () => void; // 바깥 클릭 등으로 일시 닫기
   onCloseAll: () => void; // 저장 성공 시 전체 닫기
-  myInfo: MyInfoProps; // 초기값
+  myInfo: MyInfoEditPayload; // 초기값
 }
 
 const MyInfoEditModal = ({ onClose, onCloseAll, myInfo }: EditModalProps) => {
