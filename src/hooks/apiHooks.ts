@@ -10,7 +10,7 @@ interface ApiQueryOptions {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface ApiMutationOptions<_TBody = unknown, TResult = unknown> {
-  method: "POST" | "PUT" | "DELETE";
+  method: "POST" | "PUT" | "DELETE" | "PATCH";
   endpoint: string;
   onSuccess?: (data: TResult) => void;
   onError?: (error: Error) => void;

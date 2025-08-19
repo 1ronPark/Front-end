@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react";
 import type { ChangeEvent } from "react";
-import { useRegisterProjectStore } from "../../../../store/registerProjectStore";
 import CloseIcon from "../../../../assets/icons/ic_close.svg";
 import addPhotoIcon from "../../../../assets/icons/mypage/ic_camera.svg";
 import TopicDropdown from "../../../common/dropdowns/strength/TopicDropdown";
@@ -27,6 +26,7 @@ import SecurityIcon from "../../../../assets/icons/ic_security.svg";
 import EsgIcon from "../../../../assets/icons/ic_esg.svg";
 import RobotIcon from "../../../../assets/icons/ic_robot.svg";
 
+
 const categories = [
   { name: "플랫폼", icon: PlatformIcon },
   { name: "라이프스타일", icon: LifeIcon },
@@ -52,23 +52,34 @@ const categories = [
   { name: "로보틱스", icon: RobotIcon },
 ];
 
-const Header = () => {
-  const {
-    name,
-    introduce,
-    itemProfileImage,
-    itemCategories,
-    setField,
-  } = useRegisterProjectStore();
+interface HeaderProps {
+  mode: 'register' | 'edit';
+  name: string;
+  introduce: string;
+  itemProfileImage: string | File | null;
+  itemCategories: { itemCategory: string }[];
+  onChange: (
+    field: 'name' | 'introduce' | 'itemProfileImage' | 'itemCategories',
+    value: string | File | null | { itemCategory: string }[]
+  ) => void;
+}
 
-  const [previewUrl, setPreviewUrl] = useState<string | null>(() =>
-    itemProfileImage ? URL.createObjectURL(itemProfileImage) : null,
-  );
+const Header = ({ mode, name, introduce, itemProfileImage, itemCategories, onChange }: HeaderProps) => {
+  const [previewUrl, setPreviewUrl] = useState<string | null>(() => {
+    if (itemProfileImage instanceof File) {
+      return URL.createObjectURL(itemProfileImage);
+    } else if (typeof itemProfileImage === 'string') {
+      return itemProfileImage;
+    }
+    return null;
+  });
 
   // itemProfileImage가 바뀔 때마다 미리보기 URL 재생성
   useEffect(() => {
-    if (itemProfileImage) {
+    if (itemProfileImage instanceof File) {
       setPreviewUrl(URL.createObjectURL(itemProfileImage));
+    } else if (typeof itemProfileImage === 'string') {
+      setPreviewUrl(itemProfileImage);
     }
   }, [itemProfileImage]);
 
@@ -76,9 +87,13 @@ const Header = () => {
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    console.log("🔥 [썸네일 업로드] 선택된 파일:", file); // ✅ 추가됨
     if (file) {
-      setField('itemProfileImage', file); // store에 저장
-      setPreviewUrl(URL.createObjectURL(file)); // 미리보기 즉시 반영
+      onChange('itemProfileImage', file);
+      setPreviewUrl(URL.createObjectURL(file));
+    } else {
+      onChange('itemProfileImage', null);
+      setPreviewUrl(null);
     }
   };
 
@@ -87,7 +102,7 @@ const Header = () => {
       itemCategories.length < 3 &&
       !itemCategories.some((c) => c.itemCategory === categoryName)
     ) {
-      setField('itemCategories', [
+      onChange('itemCategories', [
         ...itemCategories,
         { itemCategory: categoryName },
       ]);
@@ -95,7 +110,7 @@ const Header = () => {
   };
 
   const handleRemoveCategory = (nameToRemove: string) => {
-    setField(
+    onChange(
       'itemCategories',
       itemCategories.filter((c) => c.itemCategory !== nameToRemove),
     );
@@ -145,6 +160,9 @@ const Header = () => {
           </button>
         </div>
         <div className="flex flex-col flex-1 py-2 ml-3">
+          {mode === 'edit' && (
+            <p className="text-sm text-red-500 mt-1">썸네일은 바꾸지 않으면 기존 썸네일이 유지돼요.</p>
+          )}
           <div className="flex items-center">
             <p className="text-sm font-semibold">썸네일 이미지</p>
             <p className="text-lg font-semibold text-orange-500">*</p>
@@ -171,9 +189,9 @@ const Header = () => {
             rows={1}
             placeholder="프로젝트 명을 입력해주세요."
             value={name}
-            onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-              setField('name', e.target.value)
-            }
+            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
+              onChange('name', e.target.value);
+            }}
           ></textarea>
         </div>
         <div className="space-y-2">
@@ -188,9 +206,9 @@ const Header = () => {
             rows={1}
             placeholder="프로젝트에 대한 간단한 설명을 해주세요."
             value={introduce}
-            onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-              setField('introduce', e.target.value)
-            }
+            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
+              onChange('introduce', e.target.value);
+            }}
           ></textarea>
         </div>
         <div>
