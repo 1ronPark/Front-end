@@ -4,16 +4,17 @@ import { Eye, MessageSquareText } from "lucide-react";
 import defaultImage from "../../../assets/icons/project/project_defaultImage.png"; // 기본 이미지
 import Avatar from "../../../assets/ic_myprofile.svg";
 import { getRelativeDate } from "../../../utils/date"; // 날짜를 상대적인 형식으로 표시하는 유틸리티 함수
-import type { ProjectListItem } from "../../../hooks/useProjectQueries";
+import type { ProjectListItem } from "../../../types/ProjectProps";
 import { useState, useEffect } from "react";
 
 const ProjectCard = ({
   itemId: id,
   memberName: name,
-  itemName: itemName,
+  introduce,
+  //itemName: itemName,
   itemImageUrl: ImageUrl = defaultImage, // 이미지가 없을 경우 기본 이미지, 에러일 경우 확인 위해 흑백 이미지
   updatedAt: date,
-  school : school,
+  schoolName,
   viewCount : viewCount,
   commentCount : commentCount,
   likedByCurrentUser : likedByCurrentUser,
@@ -70,8 +71,8 @@ const ProjectCard = ({
 
           {/* 프로젝트 소개 및 위치 */}
           <div className="flex flex-col mt-2">
-            <span className="title-medium-emphasis truncate">{itemName}</span>
-            <span className="body-medium text-gray-500">{school}</span>
+            <span className="title-medium-emphasis truncate">{introduce}</span>
+            <span className="body-medium text-gray-500">{schoolName}</span>
           </div>
 
           {/*gap-6에서 수정*/}

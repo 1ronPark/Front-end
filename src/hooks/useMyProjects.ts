@@ -1,4 +1,4 @@
-import type { CategoryType } from "../types/ProjectDetailProps";
+import type { CategoryType } from "../types/ProjectProps";
 import { useApiQuery } from "./apiHooks";
 
 export interface Project {

@@ -1,7 +1,7 @@
 import { ChevronUp, EllipsisVertical } from "lucide-react";
 import logo from "../../../assets/icons/mypage/project_sample_logo.png";
 import groupIcon from "../../../assets/icons/mypage/ic_group_search.svg";
-import type { CategoryType } from "../../../types/ProjectDetailProps";
+import type { CategoryType } from "../../../types/ProjectProps";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ProjectEditDeleteModal from "../../common/modals/ProjectEditDeleteModal";

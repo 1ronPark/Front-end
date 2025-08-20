@@ -1,21 +1,6 @@
-import { useApiQuery } from './apiHooks';
-import type { ProjectDetailData } from '../types/ProjectDetailProps';
+   import { useApiQuery } from './apiHooks';
+import type { ProjectListItem, ProjectDetailData, ProjectListApiParams } from '../types/ProjectProps';
 
-// 전체 조회 응답 타입
-export interface ProjectListItem {
-  itemId: number;
-  itemName: string;
-  memberName: string;
-  itemImageUrl?: string; 
-  updatedAt: string;
-  recruitStatus?: boolean;
-  school?: string;
-  introduce?: string;
-  viewCount: number;
-  commentCount: number;
-  likedByCurrentUser: boolean;
-
-}
 
 export interface ProjectListResponse {
   isSuccess: boolean;
@@ -27,21 +12,17 @@ export interface ProjectListResponse {
   success: boolean;
 }
 
-
-
 // 전체 조회 api 훅
-export type ListSort = 'latest' | 'popular';
-
-export const useProjectList = (page: number, sort?: ListSort) => {
-  const apiPage = Math.max(1, Math.trunc(page));
-
-  const qs = new URLSearchParams();
-  qs.set('page', String(apiPage));
-  if (sort) qs.set('sort', sort);
+export const useProjectList = (params: ProjectListApiParams) => {
+  const { page, ...rest } = params;
 
   return useApiQuery<ProjectListResponse>({
     method: 'GET',
-    endpoint: `${import.meta.env.VITE_API_ITEMS_SEARCH_ENDPOINT}?${qs.toString()}`,
+    endpoint: import.meta.env.VITE_API_ITEMS_SEARCH_ENDPOINT,
+    params: {
+      page,      // 스웨거 예시대로 1-based
+      ...rest,   // sort, mbti
+    },
   });
 };
 
@@ -57,13 +38,13 @@ interface ProjectDetailResponse {
 }
 
 // 상세조회
-export const useProjectDetail = (itemId: number) => {
-  return useApiQuery<ProjectDetailResponse>({
-    method: 'GET',
-    endpoint: `${import.meta.env.VITE_API_ITEMS_ENDPOINT}/${itemId}`,
-    enabled: Number.isFinite(itemId) && itemId > 0,
+export const useProjectDetail = (id: number) =>
+  useApiQuery<ProjectDetailResponse>({
+    method: "GET",
+    endpoint: import.meta.env.VITE_API_ITEMS_DETAIL_ENDPOINT.replace(":id", String(id)),
+    // queryKey를 내부에서 [method, endpoint, queryString]로 만들면 자동 동일
+    enabled: Number.isFinite(id) && id > 0,
   });
-};
 
 // 좋아요 상태 조회 응답 타입
 interface LikedStatusResponse {
