@@ -47,7 +47,7 @@ const SocialCallback = () => {
         const { accessToken } = res.result;
         setToken(accessToken);
         alert("LightUp에 오신 것을 환영합니다!");
-        alert("회원정보를 수정하셔야 LightUp을 사용하실 수 있어요.");
+        alert("회원정보를 모두 입력수정하시고, LightUp을 사용해주세요!");
         navigate("/myprofile?tab=info", { replace: true });
       } catch (error) {
       const err = error as AxiosError<{ code?: string; message?: string; result?: string }>;

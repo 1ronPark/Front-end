@@ -18,7 +18,9 @@ export const LoginPassword = () => {
       { email, password },
       {
         onSuccess: () => {
-          navigate("/"); // 로그인 성공 시 홈으로 이동
+        alert("LightUp에 오신 것을 환영합니다!");
+        alert("회원정보를 모두 입력수정하시고, LightUp을 사용해주세요!");
+        navigate("/myprofile?tab=info", { replace: true });
         },
       }
     );
