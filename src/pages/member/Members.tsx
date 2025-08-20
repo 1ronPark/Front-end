@@ -53,18 +53,30 @@ export const Members = () => {
                 w-full mt-12 mb-7 overflow-visible
                 max-w-[1440px]
                 px-4 sm:px-8 md:px-16 xl:px-[130px]
+                flex flex-col
+                min-h-[calc(100vh-200px)]
             ">
                 <MemberFilterBar 
                     onFiltersChange={handleFiltersChange}/>
-                {isLoading ? <LoadingPage />
-                    : isError ? <ErrorPage />
-                    : <MemberList members={members || []} />}
-                <Pagination
-                    page={page}
-                    onPageChange={handlePageChange}
-                    hasPrev={hasPrev}
-                    hasNext={hasNext}
-                />
+                <div className="flex-1 flex flex-col">
+                    {/* 멤버 리스트 영역 - 최소 높이 설정 */}
+                    <div className="min-h-[848px]">
+                        {isLoading ? <LoadingPage />
+                            : isError ? <ErrorPage />
+                            : <MemberList members={members || []} />}
+                    </div>
+                    
+                    {/* 페이지네이션을 항상 하단에 고정 */}
+                    <div className="mt-auto">
+                        <Pagination
+                            page={page}
+                            onPageChange={handlePageChange}
+                            hasPrev={hasPrev}
+                            hasNext={hasNext}
+                        />
+                    </div>
+                </div>
+                
             </div>
         </div>
     );
