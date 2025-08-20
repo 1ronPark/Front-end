@@ -35,7 +35,7 @@ const MemberFilterBar: React.FC<MemberFilterBarProps> = ({ onFiltersChange }) =>
     mbtiF: toTri('F'),
     mbtiP: toTri('P'),
     page: 1,
-    limit: 20,
+    limit: 16,
   };
 
   onFiltersChange(filters);

@@ -11,6 +11,7 @@ import type { MemberDetailData } from '../../../types/MemberProps';
 import { formatRegions } from '../../../utils/formatRegions';
 import { useLikeMember, useUnLikeMember } from '../../../hooks/useMember';
 import MyProjectListBox from '../filter/dropdowns/MyProjectListBox';
+import { useUserStore } from '../../../store/useUserStore';
 // import MyProjectListBox from '../filter/dropdowns/MyProjectListBox';
 // import type { MemberDetailData } from '../../../types/MemberProps';
 
@@ -27,6 +28,8 @@ type MemberProfileCardProps = {
 const MemberProfileCard = ({ memberData, isApplicantToMyProject, suggested_project, onProposalClick, showDropdown, onProjectSelect, selectedProject }: MemberProfileCardProps) => {
 
   const [isLiked, setIsLiked] = useState(memberData.liked);
+  const user = useUserStore((state) => state.user);
+  const currentUserName = user?.name || '';
 
   const likeMutation = useLikeMember(memberData.id);
   const unlikeMutation = useUnLikeMember(memberData.id);
@@ -45,7 +48,7 @@ const MemberProfileCard = ({ memberData, isApplicantToMyProject, suggested_proje
   ];
 
   const showTooltip = Boolean(isApplicantToMyProject) && !suggested_project;
-  const tooltipMsg = `${memberData.nickname}님의 프로젝트에 지원한 팀원이에요\n지금 바로 제안하고 연락해 보세요!`; // 이름 수정
+  const tooltipMsg = `${currentUserName}님의 프로젝트에 지원한 팀원이에요\n지금 바로 제안하고 연락해 보세요!`; // 이름 수정
 
   useEffect(()=>setIsLiked(!!memberData.liked), [memberData.liked]);
 
