@@ -10,7 +10,7 @@ export interface MyInfoProps {
   email: string;
   school: string;
   location: string;
-  mbti?:string;
+  mbti?: string;
   role: string;
   gender?: boolean; // 성별
   age?: number;
@@ -21,4 +21,20 @@ export interface MyInfoProps {
   selfIntroduce?: string;
   career?: string;
   blog?: string;
+}
+
+export interface MyInfoEditPayload {
+  id: number;
+  name: string;
+  nickname: string;
+  age: number;
+  gender: boolean;
+  birth: string;
+  role: string;
+  mbti: string;
+  email: string;
+  school: string;
+  phoneNumber: string;
+  profileImageUrl: string;
+  profileTitle: string;
 }

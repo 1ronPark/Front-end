@@ -6,37 +6,36 @@ import LoadingPage from '../LoadingPage';
 import ErrorPage from '../ErrorPage';
 import { useMemberDetail } from '../../hooks/useMember';
 import { useParams } from 'react-router-dom';
-import { useMyProjects } from '../../hooks/useMyProjects';
+// import { useMyProjects } from '../../hooks/useMyProjects';
 import { useEffect, useState } from 'react';
 import { useOfferedProject, useOfferProject } from '../../hooks/useProject';
 import ActionStatusModal from '../../components/common/modals/ActionStatusModal';
-
+// import MyProjectListBox from '../../components/common/filter/dropdowns/MyProjectListBox';
 
 const MemberDetail = () => {
     const { memberId } = useParams<{ memberId: string }>(); // string???????????
     // const { data } = useMemberDetail(parseInt(memberId!)); // ????????
     const { data, isLoading, isError } = useMemberDetail(parseInt(memberId || ""));
-    const { createdProjects } = useMyProjects();
     const { data: applyStatusData } = useOfferedProject();
 
+    const [showDropdown, setShowDropdown] = useState(false);
+    const [selectedProject, setSelectedProject] = useState<{itemId: number; itemName: string} | null>(null);
     const [showProposalModal, setShowProposalModal] = useState(false);
 
-    const firstProjectId = createdProjects?.[0]?.itemId;
     const [isProposalSent, setIsProposalSent] = useState(false);
 
     const offerProjectMutation = useOfferProject();
 
     useEffect(() => {
-        if (applyStatusData?.result?.itemApplyStatuses && firstProjectId) {
+        if (applyStatusData?.result?.itemApplyStatuses) {
             const hasProposed = applyStatusData.result.itemApplyStatuses.some(status => 
                 status.fromOwner === true &&
                 status.itemOwned === true &&
-                status.itemId === firstProjectId &&
                 status.memberId === parseInt(memberId || "0")
             );
             setIsProposalSent(hasProposed);
         }
-    }, [applyStatusData, firstProjectId, memberId]);
+    }, [applyStatusData, memberId]);
 
     if (isLoading) return <LoadingPage />;
     if (isError || !data?.result) return <ErrorPage />;
@@ -45,23 +44,30 @@ const MemberDetail = () => {
 
     const detail = data.result;
 
+    const handleProjectSelect = (project: {itemId: number; itemName: string}) => {
+        setSelectedProject(project);
+        setShowDropdown(false);
+        setShowProposalModal(true);
+    }
+
     const handleProposalSent = () => {
-        if (!firstProjectId){
+        if (!selectedProject){
             alert('제안할 프로젝트가 없습니다.');
             return;
         }
 
+        const requestData = {
+            body: {
+                itemId: selectedProject.itemId,
+                memberId: detail.id
+            }
+        };
+
         offerProjectMutation.mutate(
-            {
-                body: {
-                    itemId: firstProjectId,
-                    memberId: detail.id
-                }
-            },
+            requestData,
             {
                 onSuccess: () => {
                     setIsProposalSent(true);
-                    setShowProposalModal(false);
                 },
                 onError: (error) => {
                     console.error('제안 보내기 실패:', error);
@@ -77,7 +83,10 @@ const MemberDetail = () => {
                     memberData={detail}
                     isApplicantToMyProject={true}
                     suggested_project={isProposalSent}
-                    onProposalClick={()=>setShowProposalModal(true)}
+                    onProposalClick={()=>setShowDropdown(true)}
+                    showDropdown={showDropdown}
+                    onProjectSelect={handleProjectSelect}
+                    selectedProject={selectedProject}
                 />
                 <MemberStrengths 
                     skills={detail.skills}
@@ -90,6 +99,7 @@ const MemberDetail = () => {
                 <MemberAwards 
                     activities={detail.activities} />
             </div>
+            
             {showProposalModal && (
                 <ActionStatusModal
                     proposalConfirmTitle={`${detail.name}님께\n제안을\n보낼까요?`}
@@ -98,6 +108,7 @@ const MemberDetail = () => {
                     proposalSentButtonText="확인"
                     onClose={()=>setShowProposalModal(false)}
                     onProposalSent={handleProposalSent}
+                    selectedProject={selectedProject}
                 />
             )}
         </div>

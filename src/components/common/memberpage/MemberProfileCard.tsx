@@ -10,6 +10,8 @@ import ToolTip from '../tooltips/ToolTip';
 import type { MemberDetailData } from '../../../types/MemberProps';
 import { formatRegions } from '../../../utils/formatRegions';
 import { useLikeMember, useUnLikeMember } from '../../../hooks/useMember';
+import MyProjectListBox from '../filter/dropdowns/MyProjectListBox';
+// import MyProjectListBox from '../filter/dropdowns/MyProjectListBox';
 // import type { MemberDetailData } from '../../../types/MemberProps';
 
 type MemberProfileCardProps = {
@@ -17,11 +19,12 @@ type MemberProfileCardProps = {
   isApplicantToMyProject?: boolean; // 다른 멤버 -> 나 (내가 PM) - tooltip
   suggested_project: boolean; // 나 -> 다른 멤버 (내가 지원자) - 제안 보내기 버튼 눌렀을 때 true
   onProposalClick: ()=>void;
+  showDropdown?: boolean;
+  onProjectSelect?: (project: {itemId: number; itemName: string}) => void;
+  selectedProject?: {itemId: number; itemName: string} | null;
 };
 
-const MemberProfileCard = ({ memberData, isApplicantToMyProject, suggested_project, onProposalClick }: MemberProfileCardProps) => {
-  // const [showProposalModal, setShowProposalModal] = useState(false);
-  // const [isProposalSent, setIsProposalSent] = useState(suggested_project); // 추가: 제안 보낸 상태 -> tooltip 사라짐
+const MemberProfileCard = ({ memberData, isApplicantToMyProject, suggested_project, onProposalClick, showDropdown, onProjectSelect, selectedProject }: MemberProfileCardProps) => {
 
   const [isLiked, setIsLiked] = useState(memberData.liked);
 
@@ -170,7 +173,16 @@ const MemberProfileCard = ({ memberData, isApplicantToMyProject, suggested_proje
         </button>
       </div>
 
-      
+      {showDropdown && onProjectSelect && (
+        <div className="mt-4 mb-4">
+          <div className="max-w-[300px] mx-auto">
+            <MyProjectListBox
+              onProjectSelect={onProjectSelect}
+              selectedProjectId={selectedProject?.itemId}
+            />
+          </div>
+        </div>    
+      )}
     </section>
   );
 };
