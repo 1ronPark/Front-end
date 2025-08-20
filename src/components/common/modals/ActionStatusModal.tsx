@@ -35,13 +35,19 @@ const ActionStatusModal = ({
         // "확인" 버튼 클릭 시
         console.log('Selected project for proposal:', selectedProject);
 
-        if (!selectedProject) {
+        if (selectedProject === undefined) {
+            // 프로젝트 지원 모드 - selectedProject가 없어도 진행
+            onProposalSent?.();
+            setStep('sent');
+        } else if (selectedProject) {
+            // 제안 보내기 모드 - selectedProject가 있어야 진행
+            onProposalSent?.();
+            setStep('sent');
+        } else {
+            // 제안 보내기 모드에서 selectedProject가 없는 경우
             alert('선택된 프로젝트가 없습니다.');
             return;
         }
-        
-        onProposalSent?.(); // 각자의 상세 페이지로 상태 변경 신호 전달
-        setStep('sent'); // 완료 화면으로 전환
     };
 
     const handleComplete = () => {
@@ -62,7 +68,6 @@ const ActionStatusModal = ({
                         <h2 className="headline-large-emphasis mb-16 whitespace-pre-line">{proposalConfirmTitle}</h2>
                         <button
                             onClick={handleConfirmProposal}
-                            disabled={!selectedProject}
                             className="w-full py-4 rounded-[16px] bg-[#5A5891] text-white title-medium-emphasis"
                         >
                             {proposalConfirmButtonText}
