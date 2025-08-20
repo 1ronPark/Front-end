@@ -6,7 +6,6 @@ import ic_member_email from '../../../assets/icons/ic_member_email.svg';
 import ic_profile from '../../../assets/icons/ic_profile.svg';
 import { Heart } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import ActionStatusModal from '../modals/ActionStatusModal';
 import ToolTip from '../tooltips/ToolTip';
 import type { MemberDetailData } from '../../../types/MemberProps';
 import { formatRegions } from '../../../utils/formatRegions';
@@ -17,11 +16,12 @@ type MemberProfileCardProps = {
   memberData: MemberDetailData
   isApplicantToMyProject?: boolean; // 다른 멤버 -> 나 (내가 PM) - tooltip
   suggested_project: boolean; // 나 -> 다른 멤버 (내가 지원자) - 제안 보내기 버튼 눌렀을 때 true
+  onProposalClick: ()=>void;
 };
 
-const MemberProfileCard = ({ memberData, isApplicantToMyProject, suggested_project }: MemberProfileCardProps) => {
-  const [showProposalModal, setShowProposalModal] = useState(false);
-  const [isProposalSent, setIsProposalSent] = useState(suggested_project); // 추가: 제안 보낸 상태 -> tooltip 사라짐
+const MemberProfileCard = ({ memberData, isApplicantToMyProject, suggested_project, onProposalClick }: MemberProfileCardProps) => {
+  // const [showProposalModal, setShowProposalModal] = useState(false);
+  // const [isProposalSent, setIsProposalSent] = useState(suggested_project); // 추가: 제안 보낸 상태 -> tooltip 사라짐
 
   const [isLiked, setIsLiked] = useState(memberData.liked);
 
@@ -41,11 +41,7 @@ const MemberProfileCard = ({ memberData, isApplicantToMyProject, suggested_proje
     { icon: ic_member_email, alt: "이메일", label: "이메일", value: memberData.email /*data.email*/ },
   ];
 
-  const handleProposalSent = () => {
-    setIsProposalSent(true); // 제안 보낸 후 상태 업데이트
-  };
-
-  const showTooltip = Boolean(isApplicantToMyProject) && !isProposalSent;
+  const showTooltip = Boolean(isApplicantToMyProject) && !suggested_project;
   const tooltipMsg = `${memberData.nickname}님의 프로젝트에 지원한 팀원이에요\n지금 바로 제안하고 연락해 보세요!`;
 
   useEffect(()=>setIsLiked(!!memberData.liked), [memberData.liked]);
@@ -128,17 +124,17 @@ const MemberProfileCard = ({ memberData, isApplicantToMyProject, suggested_proje
           {(() => {
             const proposalButton = (
               <button
-                onClick={() => setShowProposalModal(true)}
-                disabled={isProposalSent}
+                onClick={onProposalClick}
+                disabled={suggested_project}
                 className={`w-[200px] h-[56px] flex items-center justify-center gap-2.5 rounded-[16px] ${
-                  isProposalSent
+                  suggested_project
                     ? 'bg-[#5A5891] opacity-60 text-[#68548E] cursor-not-allowed' // 제안 보냄
                     : 'bg-[#5A5891] text-[#FFFFFF]' // 제안 보내기
                 }`}
               >  
                 <img src={ic_send} alt="send icon" className="w-4 h-4 text-white" />
                 <p className="title-medium text-[#FFFFFF]"> 
-                  {isProposalSent ? '이미 제안했어요' : '제안 보내기'}
+                  {suggested_project ? '이미 제안했어요' : '제안 보내기'}
                 </p>
               </button>
             );
@@ -174,16 +170,7 @@ const MemberProfileCard = ({ memberData, isApplicantToMyProject, suggested_proje
         </button>
       </div>
 
-      {showProposalModal && (
-        <ActionStatusModal
-          proposalConfirmTitle={`${memberData.name}님께\n제안을\n보낼까요?`}
-          proposalConfirmButtonText="보내기"
-          proposalSentTitle={`${memberData.name}님께\n제안을\n보냈어요`}
-          proposalSentButtonText="확인"
-          onClose={()=>setShowProposalModal(false)}
-          onProposalSent={handleProposalSent}
-        />
-      )}
+      
     </section>
   );
 };
