@@ -60,12 +60,6 @@ const ActionStatusModal = ({
                 {step === 'confirm' ? (
                     <>
                         <h2 className="headline-large-emphasis mb-16 whitespace-pre-line">{proposalConfirmTitle}</h2>
-                        {selectedProject && (
-                            <div className="mb-8 p-3 bg-white rounded-lg border">
-                                <p className="text-sm text-gray-600">선택된 프로젝트</p>
-                                <p className="font-medium">{selectedProject.itemName}</p>
-                            </div>
-                        )}
                         <button
                             onClick={handleConfirmProposal}
                             disabled={!selectedProject}

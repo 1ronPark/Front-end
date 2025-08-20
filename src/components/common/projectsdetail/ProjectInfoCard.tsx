@@ -293,12 +293,15 @@ const ProjectInfoCard = () => {
           proposalSentButtonText="확인"
           onClose={() => setShowActionModal(false)}
           onProposalSent={() => {
+            console.log('지원하기 버튼 클릭됨'); // 디버깅용
             // 모달 '확인' 클릭 시 실제 서버로 지원 요청 전송
             applyMutation.mutate(
               { body: undefined },
               {
                 onSuccess: () => {
+                  console.log('지원 성공'); // 디버깅용
                   setApplied(true);
+                  setShowActionModal(false);
                   setShowAlertModal(true);
                 },
                 onError: () => {},

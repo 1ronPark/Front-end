@@ -102,7 +102,7 @@ const MemberDetail = () => {
             
             {showProposalModal && (
                 <ActionStatusModal
-                    proposalConfirmTitle={`${detail.name}님께\n제안을\n보낼까요?`}
+                    proposalConfirmTitle={`${detail.name}님께\n${selectedProject?.itemName}제안을\n보낼까요?`}
                     proposalConfirmButtonText="보내기"
                     proposalSentTitle={`${detail.name}님께\n제안을\n보냈어요`}
                     proposalSentButtonText="확인"
