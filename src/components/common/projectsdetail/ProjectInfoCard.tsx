@@ -21,6 +21,7 @@ import {
   useApplyToProject,
 } from "../../../hooks/useProjectMutation";
 import { useProjectDetailCtx } from "../../../types/ProjectDetailContext";
+import { useMyProjects } from "../../../hooks/useMyProjects"; 
 
 import ActionStatusModal from "../modals/ActionStatusModal";
 import AlertModal from "../modals/AlertModal";
@@ -46,6 +47,13 @@ const ProjectInfoCard = () => {
     applicantStatus: applied_project = false,
     suggestStatus: suggested_project = false, 
   } = useProjectDetailCtx();
+
+  const { createdProjects } = useMyProjects();
+  const myProjectIdSet = useMemo(
+    () => new Set((createdProjects ?? []).map(p => p.itemId)),
+    [createdProjects]
+  );
+  const isMine = myProjectIdSet.has(itemId);
 
   const [showActionModal, setShowActionModal] = useState(false);
   const [showAlertModal, setShowAlertModal] = useState(false);
@@ -74,7 +82,11 @@ const ProjectInfoCard = () => {
 
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (loading) return; // 중복 클릭 방지
+   if (loading) return; // 중복 클릭 방지
+   if (isMine) {        // 본인 프로젝트면 경고 후 종료
+     window.alert("내가 등록한 프로젝트에는 관심을 표시할 수 없어요.");
+     return;
+   }
 
     const prev = liked;
     setLiked(!prev);
@@ -277,16 +289,17 @@ const ProjectInfoCard = () => {
           <button
             type="button"
             onClick={handleClick}
-            disabled={loading}
-            aria-pressed={liked}
-            aria-busy={loading}
+    disabled={loading}                          
+    aria-pressed={liked}
+    aria-busy={loading}
+    aria-disabled={loading || isMine}                    
             className={`w-[200px] h-[56px] inline-flex items-center justify-center gap-2.5 rounded-[16px] border transition
     ${
       liked
         ? "bg-[#E3E0F9] border-purple-200 text-[#545891] hover:[#E3E0F9]"
         : "bg-transparant border-[#C8C5D0] text-[#47464F] hover:bg-gray-200"
     }
-    ${loading ? "opacity-60 cursor-not-allowed" : "cursor-pointer"}
++    ${(loading || isMine) ? "opacity-40" : "cursor-pointer"}
     focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-400`}
           >
             <Heart className="w-5 h-5" fill={liked ? "currentColor" : "none"} />

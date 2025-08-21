@@ -1,7 +1,14 @@
 import { Pencil } from "lucide-react";
 import FavoriteItem from "./FavoriteItem";
+import { useProjectList } from "../../../../hooks/useProjectQueries";
 
 const FavoriteList = () => {
+  const { data, isLoading, isError } = useProjectList({
+    page: 1,
+    onlyLiked: true,
+  });
+  const items = data?.result?.items ?? [];
+
   return (
     <div className="w-[300px]">
       {/* 헤더 */}
@@ -13,36 +20,44 @@ const FavoriteList = () => {
         </button>
         {/* <div className="title-large">관심</div> */}
       </div>
-
-      <div className="flex flex-col px-6 pt-6 pb-2 gap-2 title-small text-[#49454E]">
-        최근 본
-      </div>
-      <div className="flex flex-col justify-center items-center min-h-[72px] border-b border-[#CBC4CF]">
-        <FavoriteItem />
-        <FavoriteItem />
-        <FavoriteItem />
-      </div>
-      {/* 관심그룹 1*/}
-      <div className="flex flex-col px-6 pt-6 pb-2 gap-2 title-small text-[#49454E]">
+{!isLoading && !isError && items.map((it) => (
+          <FavoriteItem
+            key={it.itemId}
+            id={it.itemId}
+            title={it.itemName}
+            subtitle={it.memberName}
+            imageUrl={it.itemImageUrl}
+            liked={it.likedByCurrentUser}
+          />
+        ))}
+      {/*<div className="flex flex-col px-6 pt-6 pb-2 gap-2 title-small text-[#49454E]">
         관심그룹 1
       </div>
-      <div className="flex flex-col items-center justify-center min-h-[72px] border-b border-[#CBC4CF]">
-        <FavoriteItem />
-        <FavoriteItem />
-        <FavoriteItem />
+       <div className="flex flex-col min-h-[72px] border-b border-[#CBC4CF]">
+        {isLoading && (
+          <div className="px-6 py-4 text-sm text-[#49454E]">불러오는 중…</div>
+        )}
+        {isError && (
+          <div className="px-6 py-4 text-sm text-red-600">관심 목록을 불러오지 못했습니다.</div>
+        )}
+        {!isLoading && !isError && items.length === 0 && (
+          <div className="px-6 py-4 text-sm text-[#49454E]">관심한 프로젝트가 없습니다.</div>
+        )}
+        
       </div>
+      */}
 
-      {/* 관심그루 2*/}
+
+      {/* 관심그루 2
       <div className="flex flex-col px-6 pt-6 pb-2 gap-2 title-small text-[#49454E]">
         관심그룹 2
       </div>
 
       <div className="flex flex-col items-center justify-center min-h-[72px] border-b border-[#CBC4CF]">
-        <FavoriteItem />
-        <FavoriteItem />
-        <FavoriteItem />
-      </div>
+
+      </div>    */}
     </div>
+
   );
 };
 
