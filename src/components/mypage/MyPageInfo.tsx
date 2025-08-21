@@ -197,7 +197,7 @@ const MyPageInfo = () => {
                 </>
               ) : (
                 <>
-                   소셜로그인을 사용 중 입니다.
+                  소셜로그인을 사용 중 입니다.
                   <br />
                   비밀번호는 소셜로그인 플랫폼을 통해 변경하실 수 있습니다.
                 </>
@@ -209,7 +209,9 @@ const MyPageInfo = () => {
                   ? "opacity-50 cursor-not-allowed"
                   : "hover:cursor-pointer"
               }`}
-              onClick={() => credentialType === "PASSWORD" && navigate("password")}
+              onClick={() =>
+                credentialType === "PASSWORD" && navigate("password")
+              }
               disabled={credentialType !== "PASSWORD"}
             >
               <ChevronLeft className="w-[20px] h-[20px] text-[#49454E]" />
