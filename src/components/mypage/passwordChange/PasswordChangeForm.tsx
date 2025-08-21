@@ -82,7 +82,7 @@ const PasswordChangeForm = () => {
               <button
                 type="submit"
                 disabled={isVerifying}
-                className="cursor-pointer bg-[#68548E] title-medium text-[#FFF] py-4 px-8 rounded-lg transition-all hover:scale-105 hover:bg-[#59407e]"
+                className="cursor-pointer bg-[#62609c] title-medium text-[#FFF] py-4 px-8 rounded-lg transition-all hover:scale-105 hover:bg-[#5A5891]"
               >
                 다음
               </button>
@@ -109,7 +109,7 @@ const PasswordChangeForm = () => {
               />
               <button
                 type="submit"
-                className="cursor-pointer bg-[#68548E] title-medium text-[#FFF] py-4 px-8 rounded-lg transition-all hover:scale-105 hover:bg-[#59407e]"
+                className="cursor-pointer bg-[#62609c] title-medium text-[#FFF] py-4 px-8 rounded-lg transition-all hover:scale-105 hover:bg-[#5A5891]"
               >
                 변경하기
               </button>
