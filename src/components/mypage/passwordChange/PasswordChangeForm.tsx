@@ -113,6 +113,7 @@ const PasswordChangeForm = () => {
               >
                 변경하기
               </button>
+              
               <button
                 type="button"
                 onClick={() => setStep(1)}
