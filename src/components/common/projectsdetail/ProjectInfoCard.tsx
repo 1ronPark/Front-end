@@ -40,11 +40,7 @@ const ProjectInfoCard = () => {
     email,
     schoolName,
     regions,
-    //description, -> projectOverview에 넘겨줄 형식
-    // likedByCurrentUser: liked,
-    //ecruitPositions,
     itemCategories,
-    //emComments,
     updatedAt: date,
     likedByCurrentUser,
     applicantStatus: applied_project = false,

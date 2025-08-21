@@ -1,68 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import KeyboardArrowDownIcon from "../../../assets/icons/ic_keyboard_arrow_down.svg";
 import KeyboardArrowUpIcon from "../../../assets/icons/ic_keyboard_arrow_up.svg";
 import PartBox from "./dropdowns/PartBox";
 import MbtiBox from "./dropdowns/MbtiBox";
 import LocationBox from "./dropdowns/LocationBox";
+import { CATEGORY_ICON_MAP } from "../../../utils/categoryMap";
+import type { CategoryType, ProjectListApiParams } from "../../../types/ProjectProps";
 
-// 아이콘 import
-import AllIcon from "../../../assets/icons/ic_all.svg";
-import PlatformIcon from "../../../assets/icons/ic_platform.svg";
-import LifeIcon from "../../../assets/icons/ic_life.svg";
-import FinenceIcon from "../../../assets/icons/ic_finence.svg";
-import CommunityIcon from "../../../assets/icons/ic_community.svg";
-import MediaIcon from "../../../assets/icons/ic_media.svg";
-import EduIcon from "../../../assets/icons/ic_edu.svg";
-import WorkflowIcon from "../../../assets/icons/ic_workflow.svg";
-import BlockchainIcon from "../../../assets/icons/ic_blockchain.svg";
-import NocodeIcon from "../../../assets/icons/ic_nocode.svg";
-import AiIcon from "../../../assets/icons/ic_ai.svg";
-import AnalyticsIcon from "../../../assets/icons/ic_analytics.svg";
-import DesignIcon from "../../../assets/icons/ic_design.svg";
-import MarketingIcon from "../../../assets/icons/ic_marketing.svg";
-import GameIcon from "../../../assets/icons/ic_game.svg";
-import ShoppingIcon from "../../../assets/icons/ic_shopping.svg";
-import HealthIcon from "../../../assets/icons/ic_health.svg";
-import BioIcon from "../../../assets/icons/ic_bio.svg";
-import MetabusIcon from "../../../assets/icons/ic_metabus.svg";
-import SalesIcon from "../../../assets/icons/ic_sales.svg";
-import SecurityIcon from "../../../assets/icons/ic_security.svg";
-import EsgIcon from "../../../assets/icons/ic_esg.svg";
-import RobotIcon from "../../../assets/icons/ic_robot.svg";
-
-const categories = [
-  { name: "전체", icon: AllIcon },
-  { name: "플랫폼", icon: PlatformIcon },
-  { name: "라이프스타일", icon: LifeIcon },
-  { name: "금융", icon: FinenceIcon },
-  { name: "커뮤니티", icon: CommunityIcon },
-  { name: "미디어", icon: MediaIcon },
-  { name: "교육", icon: EduIcon },
-  { name: "생산성", icon: WorkflowIcon },
-  { name: "블록체인", icon: BlockchainIcon },
-  { name: "노코드", icon: NocodeIcon },
-  { name: "인공지능", icon: AiIcon },
-  { name: "데이터 분석", icon: AnalyticsIcon },
-  { name: "디자인", icon: DesignIcon },
-  { name: "마케팅", icon: MarketingIcon },
-  { name: "게임", icon: GameIcon },
-  { name: "이커머스", icon: ShoppingIcon },
-  { name: "헬스케어", icon: HealthIcon },
-  { name: "바이오", icon: BioIcon },
-  { name: "메타버스", icon: MetabusIcon },
-  { name: "세일즈", icon: SalesIcon },
-  { name: "보안", icon: SecurityIcon },
-  { name: "ESG", icon: EsgIcon },
-  { name: "로보틱스", icon: RobotIcon },
-];
+//카테고리 & 아이콘 매핑
+const categories = Object.entries(CATEGORY_ICON_MAP).map(([name, icon]) => ({
+  name: name as CategoryType,
+  icon,
+}));
 
 type SortOption = "인기순" | "최신순" | null;
+
 type Props = {
   sortOption: SortOption;
   onChangeSort: (opt: SortOption) => void;
+  onFiltersChange: (filters: Partial<ProjectListApiParams>) => void; // ✅ Partial
 };
 
-const ProjectFilterBar: React.FC<Props> = ({ sortOption, onChangeSort }) => {
+const ProjectFilterBar: React.FC<Props> = ({ sortOption, onChangeSort, onFiltersChange }) => {
   const handleSortOptionClick = (option: Exclude<SortOption, null>) => {
     onChangeSort(sortOption === option ? null : option);
   };
@@ -77,13 +36,28 @@ const ProjectFilterBar: React.FC<Props> = ({ sortOption, onChangeSort }) => {
     위치: false,
   });
 
-  const handleCategoryClick = (category: string) => {
-    setSelectedCategories((prev) =>
-      prev.includes(category)
-        ? prev.filter((c) => c !== category)
-        : [...prev, category]
-    );
-  };
+const ALL = "전체";
+
+useEffect(() => {
+  const effective = selectedCategories.includes(ALL)
+    ? [] : selectedCategories;
+
+  onFiltersChange({
+    categories: effective.length ? effective.join(',') : undefined, // ✅ 핵심 1줄
+  });
+}, [selectedCategories, onFiltersChange]);
+
+const handleCategoryClick = (category: string) => {
+  setSelectedCategories(prev => {
+    if (category === ALL) {
+      return prev.includes(ALL) ? [] : [ALL];
+    }
+    const withoutAll = prev.filter(c => c !== ALL);
+    return withoutAll.includes(category)
+      ? withoutAll.filter(c => c !== category)
+      : [...withoutAll, category];
+  });
+};
 
   const handleDropdownClick = (dropdownName: string) => {
     setOpenDropdown((prev) => ({
@@ -125,6 +99,7 @@ const ProjectFilterBar: React.FC<Props> = ({ sortOption, onChangeSort }) => {
     }
     return `${selectedMbti[0]} 외 ${selectedMbti.length - 1}개`;
   };
+
 
   return (
     <div className=" bg-white rounded-lg font-pretendard ">

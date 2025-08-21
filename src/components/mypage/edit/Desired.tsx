@@ -29,7 +29,13 @@ const Desired = () => {
   const setInitialRegions = useProfileStore((s) => s.setInitialRegions);
   const setRegions = useProfileStore((s) => s.setRegions);
 
-  // 드롭다운 open 상태(행의 "실인덱스" 기준 키 사용)
+  // 🔹 추가 버튼용 드래프트(선택만 저장, 추가 누르면 regions에 반영)
+  const [draft, setDraft] = useState<{ siDo: string; siGunGu: string }>({
+    siDo: "",
+    siGunGu: "",
+  });
+
+  // 드롭다운 open 상태(행의 "실인덱스" 기준 키 사용; 드래프트는 -1)
   const [cityDropdownOpen, setCityDropdownOpen] = useState<
     Record<number, boolean>
   >({});
@@ -65,56 +71,71 @@ const Desired = () => {
 
   const completedCount = completedEntries.length;
 
-  // regions 안의 "미완성" 항목 1개(있다면)
-  const firstIncomplete: RowMeta | undefined = regions
-    .map((r, i) => ({ siDo: r.siDo, siGunGu: r.siGunGu, _i: i }))
-    .find((r) => !r.siDo || !r.siGunGu);
-
-  // rows = 완료된 지역 + (미완성 1개 or 가상빈행 1개; 단, 3개 미만일 때만)
+  // rows = 완료된 지역 + (드래프트 1개; 단, 3개 미만일 때만)
   const rows: RowMeta[] =
     completedCount < 3
       ? [
           ...completedEntries,
-          firstIncomplete ?? {
-            siDo: "",
-            siGunGu: "",
-            _i: regions.length,
-            _virtual: true,
-          },
+          { siDo: draft.siDo, siGunGu: draft.siGunGu, _i: -1, _virtual: true },
         ]
       : completedEntries;
 
+  // 🔹 추가 버튼: 드래프트를 regions에 반영(스토어만 갱신). API는 Save에서 동작.
   const handleAddLocation = () => {
-    // 3개 이상이면 추가 X, 이미 미완성 행이 있으면 또 추가 X
     if (completedCount >= 3) return;
-    if (regions.some((r) => !r.siDo || !r.siGunGu)) return;
-    setRegions([...regions, { siDo: "", siGunGu: "" }]);
+    if (!draft.siDo || !draft.siGunGu) return;
+
+    // 중복 방지
+    const isDup = regions.some(
+      (r) => r.siDo === draft.siDo && r.siGunGu === draft.siGunGu
+    );
+    if (isDup) return;
+
+    setRegions(
+      [...regions, { siDo: draft.siDo, siGunGu: draft.siGunGu }].slice(0, 3)
+    );
+    setDraft({ siDo: "", siGunGu: "" }); // 드래프트 리셋
+    setCityDropdownOpen((p) => ({ ...p, [-1]: false }));
+    setDistrictDropdownOpen((p) => ({ ...p, [-1]: false }));
   };
 
   const handleRemoveLocation = (realIndex: number) => {
-    // 실제 인덱스 기준 삭제
+    if (realIndex < 0) {
+      // 드래프트 삭제 동작 (원하면 지원)
+      setDraft({ siDo: "", siGunGu: "" });
+      return;
+    }
     if (regions.length === 0) return;
     setRegions(regions.filter((_, i) => i !== realIndex));
   };
 
+  // 🔹 선택 변경: 드래프트면 draft만 수정, 기존 행 수정은 즉시 스토어 반영(원하면 이것도 저장 버튼식으로 바꿀 수 있음)
   const handleLocationChange = (
     realIndex: number,
     field: "city" | "district",
     value: string
   ) => {
-    // 빈 배열(가상행) 상태에서 선택되면 실데이터 생성
-    const base =
-      regions.length > 0 ? [...regions] : [{ siDo: "", siGunGu: "" }];
-    while (base.length <= realIndex) base.push({ siDo: "", siGunGu: "" });
+    if (realIndex === -1) {
+      if (field === "city") {
+        setDraft({ siDo: value, siGunGu: "" });
+        setCityDropdownOpen((prev) => ({ ...prev, [-1]: false }));
+      } else {
+        setDraft((d) => ({ ...d, siGunGu: value }));
+        setDistrictDropdownOpen((prev) => ({ ...prev, [-1]: false }));
+      }
+      return;
+    }
 
+    // 기존 완료 행 수정은 즉시 반영 (선택 사항)
+    const base = [...regions];
     if (field === "city") {
-      base[realIndex] = { siDo: value, siGunGu: "" }; // 시/도 변경 시 군구 초기화
+      base[realIndex] = { siDo: value, siGunGu: "" };
       setCityDropdownOpen((prev) => ({ ...prev, [realIndex]: false }));
     } else {
       base[realIndex] = { ...base[realIndex], siGunGu: value };
       setDistrictDropdownOpen((prev) => ({ ...prev, [realIndex]: false }));
     }
-    setRegions(base.slice(0, 3)); // 최대 3개
+    setRegions(base.slice(0, 3));
   };
 
   const toggleCityDropdown = (realIndex: number) => {
@@ -155,9 +176,9 @@ const Desired = () => {
             .slice()
             .reverse()
             .map((row, reversedIndex) => {
-              const rowIndex = rows.length - 1 - reversedIndex; // rows 기준 인덱스
-              const isLast = rowIndex === rows.length - 1; // 마지막 행(=추가 행)
-              const realIndex = rows[rowIndex]._i; // 실제 regions 인덱스
+              const rowIndex = rows.length - 1 - reversedIndex;
+              const isDraftRow = row._virtual === true; // 드래프트
+              const realIndex = row._i;
               const selectedCity = row.siDo;
               const districtOptions = selectedCity
                 ? locationData[selectedCity] || []
@@ -217,10 +238,11 @@ const Desired = () => {
                   </div>
 
                   {/* 추가/삭제 버튼 */}
-                  {isLast && completedCount < 3 ? (
+                  {isDraftRow && completedCount < 3 ? (
                     <button
-                      className="flex w-32 items-center justify-center gap-1 rounded-md bg-[#68548E] py-3 text-white transition-all hover:scale-105 hover:bg-[#59407e]"
+                      className="flex w-32 items-center justify-center gap-1 rounded-md bg-[#68548E] py-3 text-white transition-all hover:scale-105 hover:bg-[#59407e] disabled:opacity-50 disabled:cursor-not-allowed"
                       onClick={handleAddLocation}
+                      disabled={!draft.siDo || !draft.siGunGu}
                     >
                       <Plus size={16} />
                       <span>추가</span>
