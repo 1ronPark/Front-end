@@ -80,6 +80,7 @@ export type ProjectDetailDataApi = {
   likedByCurrentUser: boolean;
   applicantStatus: boolean;
   suggestStatus: boolean;
+  recruitStatus: boolean;
 };
 
 export type ProjectDetailData = ProjectDetailDataApi & { itemId: number };
