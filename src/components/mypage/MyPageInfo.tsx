@@ -8,6 +8,7 @@ import { useApiQuery } from "../../hooks/apiHooks";
 import { useNavigate } from "react-router-dom";
 import { usePostProfileImage } from "../../hooks/useProfile";
 import type { User } from "../../hooks/useUser";
+import { useLoginPath } from "../../hooks/useLoginPath"; // ⬅️ import 추가
 
 import sample from "../../assets/sideNavbar/profile.png";
 
@@ -31,6 +32,10 @@ const MyPageInfo = () => {
 
   // 멀티파트 업로드 뮤테이션 (서버가 profileImageUrl 갱신까지 처리)
   const { mutate: profileChange } = usePostProfileImage();
+
+  // 로그인 경로 정보 가져오기
+  const { data: loginPathData } = useLoginPath();
+  const credentialType = loginPathData?.result.credentials?.[0]?.credentialType;
 
   // 적용 시 업로드 수행
   const onUpload = async (file: File) => {
@@ -174,13 +179,28 @@ const MyPageInfo = () => {
           {/* content */}
           <div className="flex w-[960px] justify-between">
             <p className="label-large text-[#49454E]">
-              카카오톡 로그인 사용 중 입니다.
-              <br />
-              비밀번호는 카카오톡에서 변경하실 수 있습니다.
+              {credentialType === "PASSWORD" ? (
+                <>
+                  현재 비밀번호를 사용 중입니다.
+                  <br />
+                  원하시는 경우 아래 버튼을 통해 변경하실 수 있습니다.
+                </>
+              ) : (
+                <>
+                   소셜로그인을 사용 중 입니다.
+                  <br />
+                  비밀번호는 소셜로그인 플랫폼을 통해 변경하실 수 있습니다.
+                </>
+              )}
             </p>
             <button
-              className="flex justify-center items-center px-3 py-1.5 gap-1 hover:cursor-pointer"
-              onClick={() => navigate("password")}
+              className={`flex justify-center items-center px-3 py-1.5 gap-1 ${
+                credentialType !== "PASSWORD"
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:cursor-pointer"
+              }`}
+              onClick={() => credentialType === "PASSWORD" && navigate("password")}
+              disabled={credentialType !== "PASSWORD"}
             >
               <ChevronLeft className="w-[20px] h-[20px] text-[#49454E]" />
               <p className="label-large text-[#49454E]">변경 하러 가기</p>
