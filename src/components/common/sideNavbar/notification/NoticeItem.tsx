@@ -24,7 +24,7 @@ const NoticeItem = ({
 
   const handleClick = () => {
     patchNotification({
-      endpoint: `/api/v1/notification/${notificationId}`,
+      endpoint: `${import.meta.env.VITE_API_NOTIFICATION_LIST_ENDPOINT}/${notificationId}`,
     });
     setRead(true);
     navigate(`/projects/${referenceId}`);

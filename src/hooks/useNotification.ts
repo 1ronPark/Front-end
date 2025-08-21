@@ -76,14 +76,14 @@ export type NotificationDeleteResponse = {
 export const useNotificationList = ({ page, size = 10 }: NotificationQueryParams) =>
   useApiQuery<NotificationListResponse>({
     method: 'GET',
-    endpoint: `/api/v1/notification?page=${page}&size=${size}`,
+    endpoint: `${import.meta.env.VITE_API_NOTIFICATION_LIST_ENDPOINT}?page=${page}&size=${size}`,
   });
 
 // 읽지 않은 알림 개수
 export const useNotificationCount = () =>
   useApiQuery<NotificationCountResponse>({
     method: "GET",
-    endpoint: "/api/v1/notification/size",
+    endpoint: `${import.meta.env.VITE_API_NOTIFICATION_SIZE_ENDPOINT}`,
   });
 
 // ✅ SSE 알림 구독
@@ -94,7 +94,7 @@ export const useNotificationSSE = (onMessage: (event: MessageEvent) => void, las
       : {};
 
     const queryString = new URLSearchParams(headers).toString();
-    const url = `/api/v1/notification/subscribe${queryString ? `?${queryString}` : ""}`;
+    const url = `${import.meta.env.VITE_API_NOTIFICATION_SSE_ENDPOINT}${queryString ? `?${queryString}` : ""}`;
 
     const eventSource = new EventSource(url, { withCredentials: true });
 
