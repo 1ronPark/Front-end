@@ -16,6 +16,8 @@ type ActionStatusModalProps = {
 
     // 제안 보낸 후의 콜백 (제안 보내기 버튼 변화용)
     onProposalSent?: () => void;
+    // 제안 보내기에서 선택된 프로젝트 연결
+    selectedProject?: { itemId: number; itemName: string } | null; 
 };
 
 const ActionStatusModal = ({
@@ -25,14 +27,34 @@ const ActionStatusModal = ({
     proposalSentButtonText,
     onClose,
     onProposalSent,
+    selectedProject,
 }: ActionStatusModalProps) => {
     const [step, setStep] = useState<'confirm' | 'sent'>('confirm');
 
-    const handleProposalSent = () => {
+    const handleConfirmProposal = () => {
         // "확인" 버튼 클릭 시
-        onProposalSent?.(); // 각자의 상세 페이지로 상태 변경 신호 전달
+        console.log('Selected project for proposal:', selectedProject);
+
+        if (selectedProject === undefined) {
+            // 프로젝트 지원 모드 - selectedProject가 없어도 진행
+            onProposalSent?.();
+            setStep('sent');
+        } else if (selectedProject) {
+            // 제안 보내기 모드 - selectedProject가 있어야 진행
+            onProposalSent?.();
+            setStep('sent');
+        } else {
+            // 제안 보내기 모드에서 selectedProject가 없는 경우
+            alert('선택된 프로젝트가 없습니다.');
+            return;
+        }
+    };
+
+    const handleComplete = () => {
+        // "확인" 버튼 클릭 시 - 모달 닫기
         onClose();
     };
+
 
     return (
         <div className="fixed inset-0 z-50 top-[56px] right-[65px] flex items-center justify-center bg-black/50 backdrop-blur-sm text-center">
@@ -45,7 +67,7 @@ const ActionStatusModal = ({
                     <>
                         <h2 className="headline-large-emphasis mb-16 whitespace-pre-line">{proposalConfirmTitle}</h2>
                         <button
-                            onClick={() => setStep('sent')}
+                            onClick={handleConfirmProposal}
                             className="w-full py-4 rounded-[16px] bg-[#5A5891] text-white title-medium-emphasis"
                         >
                             {proposalConfirmButtonText}
@@ -62,7 +84,7 @@ const ActionStatusModal = ({
                         <img src={ic_sendresume} alt="완료" className="mx-auto mb-4" />
                         <h2 className="headline-large-emphasis mb-[80px] whitespace-pre-line">{proposalSentTitle}</h2>
                         <button
-                            onClick={handleProposalSent}
+                            onClick={handleComplete}
                             className="w-full py-4 rounded-[16px] bg-[#5A5891] text-white title-medium-emphasis"
                         >
                             {proposalSentButtonText}

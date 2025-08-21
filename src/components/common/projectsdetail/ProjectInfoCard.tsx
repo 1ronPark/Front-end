@@ -95,6 +95,22 @@ const ProjectInfoCard = () => {
     setShowActionModal(true);
   };
 
+  const handleApplyToProject = () => {
+    console.log('지원하기 버튼 클릭됨'); // 디버깅용
+    // 모달 '확인' 클릭 시 실제 서버로 지원 요청 전송
+    applyMutation.mutate(
+      { body: undefined },
+      {
+      onSuccess: () => {
+        console.log('지원 성공'); // 디버깅용
+        setApplied(true);
+        setShowActionModal(false);
+        setShowAlertModal(true);
+      },
+      onError: () => {},
+      }
+  )};
+
   return (
     <div>
       <section>
@@ -288,19 +304,8 @@ const ProjectInfoCard = () => {
           proposalSentTitle={`지원이 완료되었어요`}
           proposalSentButtonText="확인"
           onClose={() => setShowActionModal(false)}
-          onProposalSent={() => {
-            // 모달 '확인' 클릭 시 실제 서버로 지원 요청 전송
-            applyMutation.mutate(
-              { body: undefined },
-              {
-                onSuccess: () => {
-                  setApplied(true);
-                  setShowAlertModal(true);
-                },
-                onError: () => {},
-              }
-            );
-          }}
+          onProposalSent={handleApplyToProject}
+            
         />
       )}
 

@@ -10,7 +10,7 @@ interface MemberListProps {
 const MemberList: React.FC<MemberListProps> = ({ members }) => {
     
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6 w-fit min-h-[688px] overflow-y-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6 w-fit overflow-y-auto">
             {members.map((member) => (
                 <MemberCard
                     key={member.id}
