@@ -1,14 +1,86 @@
+// UnivVerifyModal.tsx
 import { useState } from "react";
 import { X } from "lucide-react";
+import UnivDropdown from "../../common/dropdowns/UnivDropdown";
+import type { School } from "../../../hooks/useUniv";
+import {
+  usePostUnivSendMail,
+  usePostUnivVerifyCode,
+} from "../../../hooks/useUniv"; // 경로 맞춰주세요
+// import { useQueryClient } from "@tanstack/react-query";
 
-type Props = {
-  onClose: () => void;
-};
+type Props = { onClose: () => void };
 
-const schoolVerifyModal = ({ onClose }: Props) => {
-  const [step, setStep] = useState<1 | 2 | 3>(1);
+const SchoolVerifyModal = ({ onClose }: Props) => {
+  // const queryClient = useQueryClient();
+
+  const [step, setStep] = useState<1 | 2>(1);
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
+  const [school, setSchool] = useState<School>();
+
+  // 메일 발송 훅
+  const { mutate: sendMail, isPending } = usePostUnivSendMail();
+  const { mutate: verifyCode } = usePostUnivVerifyCode();
+  const base = import.meta.env.VITE_API_POST_UNIV_SENDMAIL_ENDPOINT;
+  const verifyBase = import.meta.env.VITE_API_POST_UNIV_VERIFYEMAIL_ENDPOINT;
+
+  const canNext = email.trim() !== "" && !!school;
+
+  // ✅ 드롭다운에서 고른 값 사용
+  const payload = { schoolId: school?.schoolId, email: email.trim() };
+  console.log(payload);
+
+  const handleNext = () => {
+    if (!canNext || !payload) return;
+
+    const url = `${base}?schoolId=${school.schoolId}&email=${encodeURIComponent(
+      email.trim()
+    )}`;
+
+    // (선택) 이메일 형식 간단 체크
+    if (!/\S+@\S+\.\S+/.test(email.trim())) {
+      alert("올바른 이메일 형식이 아니에요.");
+      return;
+    }
+    //테스트 중
+    // setStep(2);
+
+    sendMail(
+      { endpoint: url }, // { body: ... } 없음!
+      {
+        onSuccess: (res) => {
+          if (res.isSuccess) setStep(2); // 성공하면 다음 스텝으로
+        },
+        onError: () => {
+          // 훅 onError에서도 안내하지만 여기서 한 번 더
+          alert("메일 발송 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
+        },
+      }
+    );
+  };
+
+  const handleSave = () => {
+    const url = `${verifyBase}?email=${email}&code=${code}`;
+
+    verifyCode(
+      { endpoint: url }, // 바디 없음
+      {
+        onSuccess: (res) => {
+          if (res.isSuccess) {
+            // queryClient.invalidateQueries({
+            //   // 프로젝트 키에 맞게 조정
+            //   predicate: (q) =>
+            //     typeof q.queryKey[1] === "string" &&
+            //     (q.queryKey[1] as string).includes("/api/v1/me"),
+            // });
+            // 훅 onSuccess에서 alert도 뜸. 여기선 후속 동작만.
+            onClose(); // 인증 성공 후 모달 닫기 (원하면 setStep(1) 초기화 등)
+          }
+        },
+      }
+    );
+  };
 
   return (
     <div className="fixed inset-0 z-60 bg-black/20 flex items-center justify-center">
@@ -16,11 +88,8 @@ const schoolVerifyModal = ({ onClose }: Props) => {
         {/* 헤더 */}
         <div className="flex items-center justify-between px-8">
           <p className="headline-small-emphasis text-[#1C1B21]">대학교 인증</p>
-          <button
-            onClick={onClose}
-            className="w-6 h-6 aspect-square justify-center items-center hover:cursor-pointer"
-          >
-            <X className="w-6 h-6 aspect-square" />
+          <button onClick={onClose} className="w-6 h-6 hover:cursor-pointer">
+            <X className="w-6 h-6" />
           </button>
         </div>
 
@@ -35,18 +104,28 @@ const schoolVerifyModal = ({ onClose }: Props) => {
               onChange={(e) => setEmail(e.target.value)}
               className="border-1 border-[#C8C5D0] mt-2 px-4 py-3 rounded-xl"
             />
+
             <span className="body-medium mt-6 text-[#47464F]">대학교</span>
-            <input
-              placeholder="대학교"
-              className="border-1 border-[#C8C5D0] mt-2 px-4 py-3 rounded-xl"
-            />
+            <div className="mt-2">
+              <UnivDropdown
+                value={school}
+                onSelect={setSchool} // ← School 전체(state에 저장)
+                placeholder="대학교 선택"
+                pageSize={10}
+              />
+            </div>
 
             <div className="flex gap-2 justify-end">
               <button
-                onClick={() => setStep(2)}
-                className="w-[121px] bg-[#545891] justify-end text-white rounded-xl title-medium py-4 px-6 mt-[64px]"
+                onClick={handleNext}
+                disabled={!canNext || isPending}
+                className={`w-[121px] rounded-xl title-medium py-4 px-6 mt-[64px] ${
+                  !canNext || isPending
+                    ? "bg-gray-200 text-gray-400"
+                    : "bg-[#545891] text-white"
+                }`}
               >
-                다음
+                {isPending ? "메일 발송 중…" : "다음"}
               </button>
             </div>
           </div>
@@ -54,35 +133,20 @@ const schoolVerifyModal = ({ onClose }: Props) => {
 
         {step === 2 && (
           <div className="flex flex-col px-8">
-            <span className="body-medium mt-[64px] text-[#47464F]">대학교</span>
-            <input
-              placeholder="학교명을 입력해 보세요"
-              className="bg-[#E5E1E9] mt-2 py-3 px-4 rounded-xl"
-            />
-
-            <div className="flex gap-2 justify-end">
-              <button
-                onClick={() => setStep(3)}
-                className="w-[121px] bg-[#545891] text-white rounded-xl title-medium py-4 px-6 mt-[64px]"
-              >
-                적용
-              </button>
-            </div>
-          </div>
-        )}
-
-        {step === 3 && (
-          <div className="flex flex-col px-8">
             <span className="body-medium mt-[64px] text-[#47464F]">
               학교 이메일
             </span>
-            <div
-              //value={email}
-              //onChange={(e) => setEmail(e.target.value)}
-              className="border px-4 py-3 mt-2 rounded-xl title-medium text-[#47464F]"
-            >
-              harrysjuns@gachon.ac.kr
+            <div className="border px-4 py-3 mt-2 rounded-xl title-medium text-[#47464F]">
+              {email}
             </div>
+
+            <span className="mt-4 body-medium text-[#47464F]">
+              선택한 대학교
+            </span>
+            <div className="border px-4 py-3 mt-2 rounded-xl text-[#47464F]">
+              {school?.schoolName ?? "-"}
+            </div>
+
             <span className="mt-6 body-medium text-[#47464F]">
               인증번호를 입력해 주세요.
             </span>
@@ -92,9 +156,7 @@ const schoolVerifyModal = ({ onClose }: Props) => {
               onChange={(e) => setCode(e.target.value)}
               className="border-1 border-[#C8C5D0] mt-2 px-4 py-3 rounded-xl"
             />
-            <div className="body-small text-red-500 mt-2 ">
-              인증에 실패하였습니다.
-            </div>
+
             <div className="flex gap-2 justify-end">
               <button
                 onClick={onClose}
@@ -103,7 +165,7 @@ const schoolVerifyModal = ({ onClose }: Props) => {
                 취소
               </button>
               <button
-                onClick={() => alert("인증이 완료 되었습니다.")}
+                onClick={handleSave}
                 className="w-[121px] bg-[#545891] text-white rounded-xl title-medium py-4 px-6 mt-[64px]"
               >
                 저장
@@ -116,4 +178,4 @@ const schoolVerifyModal = ({ onClose }: Props) => {
   );
 };
 
-export default schoolVerifyModal;
+export default SchoolVerifyModal;
