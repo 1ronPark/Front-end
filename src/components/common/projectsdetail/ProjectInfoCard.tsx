@@ -292,7 +292,6 @@ const ProjectInfoCard = () => {
               </button>
             </ToolTip>
           </div>
-
           <button
             type="button"
             onClick={handleClick}
@@ -311,7 +310,7 @@ const ProjectInfoCard = () => {
           >
             <Heart className="w-5 h-5" fill={liked ? "currentColor" : "none"} />
             <span className="title-medium">
-              {liked ? "관심 해제" : "관심 목록 추가"}
+              {liked ? "관심 목록 추가됨" : "관심 목록 추가"}
             </span>
           </button>
         </div>

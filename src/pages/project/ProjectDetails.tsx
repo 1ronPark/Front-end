@@ -7,7 +7,7 @@ import CommentSection from "../../components/common/comment/CommentSection";
 import ProjectOverview from "../../components/common/projectsdetail/ProjectOverview";
 import ProjectInfoCard from "../../components/common/projectsdetail/ProjectInfoCard";
 import RecruitPart from "../../components/common/projectsdetail/RecruitPart";
-import LoadingPage from "../LoadingPage";
+//import LoadingPage from "../LoadingPage";
 import ErrorPage from "../ErrorPage";
 
 export const ProjectDetail = () => {
@@ -20,7 +20,7 @@ export const ProjectDetail = () => {
 
   if (invalid) return <Navigate to="/projects" replace />;
 
-  if (isLoading) return <LoadingPage />;
+ if (isLoading) return <div className="p-8">불러오는 중…</div>;
 
   if (isError || !data?.result)
     return <ErrorPage />;

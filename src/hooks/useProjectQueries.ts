@@ -74,3 +74,31 @@ export const useLikedStatus = (itemId: number) => {
     endpoint: import.meta.env.VITE_API_ITEMS_LIKE_ENDPOINT.replace(":id", String(itemId)), 
   });
 };
+
+
+
+// 최근 본 프로젝트 api 데이터 타입
+export interface RecentViewedItem {
+  itemId: number;
+  itemName: string;
+  introduce: string;
+  itemProfileImageUrl: string | null;
+  viewedAt: string; // ISO
+}
+
+export interface RecentViewedResponse {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  result: {
+    recentViewedItems: RecentViewedItem[];
+  };
+  success: boolean;
+}
+
+// 
+export const useRecentViewedProjects = () =>
+  useApiQuery<RecentViewedResponse>({
+    method: 'GET',
+    endpoint: import.meta.env.VITE_API_ITEMS_RECENT_ENDPOINT,
+  });

@@ -13,33 +13,31 @@ import NoFavoriteList from "./favorite/NoFavoriteList";
 import RecentList from "./recent/RecentList";
 import NoRecentList from "./recent/NoRecentList";
 
+type Panel = "notification" | "favorite" | "recent";
+
 const SideNavbar = () => {
-  const [activePanel, setActivePanel] = useState<
-    "notification" | "favorite" | "recent" | null
-  >(null);
+  const [activePanel, setActivePanel] = useState<Panel | null>(null);
+  const [lastPanel, setLastPanel] = useState<Panel | null>("notification");
 
-  const [lastPanel, setLastPanel] = useState<
-    "notification" | "favorite" | "recent" | null
-  >("notification");
-
-  const togglePanel = (panel: "notification" | "favorite" | "recent") => {
-    setLastPanel(panel); //마지막에 열었던 패널 기록
-    setActivePanel((prev) => (prev === panel ? null : panel));
+  const togglePanel = (panel: Panel) => {
+    setActivePanel((prev) => {
+      if (prev === panel) return null; // 같은 버튼 → 닫기
+      setLastPanel(panel); // 다른 버튼 → 스위치
+      return panel;
+    });
   };
 
   const handleMenuClick = () => {
-    if (activePanel) {
-      setActivePanel(null); //패널 닫기
-    } else if (lastPanel) {
-      setActivePanel(lastPanel); //마지막 패널 다시 열기
-    }
+    setActivePanel((prev) => (prev ? null : lastPanel ?? "notification"));
   };
 
   return (
     <div>
       <div
-        className="fixed right-0 w-[65px] h-screen py-6 bg-[#EEE] 
-        flex flex-col items-center gap-6 border-l border-l-[#CBC4CF] box-border z-50"
+        className="fixed right-0 w-[65px] h-screen py-6 bg-[#EEE]
+             flex flex-col items-center gap-6 border-l border-l-[#CBC4CF]
+             box-border z-[60]" // ← 오버레이 z-40 보다 높게
+
         // {`fixed right-0 w-[65px] h-screen py-6  flex flex-col items-center gap-6 border-l border-l-[#CBC4CF] box-border
         //   ${activePanel ? "bg-[#FFF]" : "bg-[#EEE]"}
         //   `}
@@ -156,6 +154,28 @@ const SideNavbar = () => {
           </div>
         </div>
       </div>
+
+      {/*바깥 누르면 알림창 닫히는 기능 */}
+      {activePanel && (
+        <div
+          className="fixed inset-0 bg-black/15 z-30"
+          onClick={() => setActivePanel(null)}
+          aria-hidden
+        />
+      )}
+
+      {/*어두운 배경 부드럽게 */}
+<div
+  className={`fixed inset-0 z-40 bg-black transition-opacity duration-200 ease-out
+    ${activePanel ? 'opacity-30' : 'opacity-0'} pointer-events-none`}  // ← 클릭 막기
+  aria-hidden
+/>
+
+      <div
+        className={`fixed top-0 right-[65px] z-[60] 
+              transform transition-transform duration-200 ease-out
+              ${activePanel ? "translate-x-0" : "translate-x-full"}`}
+      ></div>
 
       <BasePanel
         isActive={activePanel !== null}
