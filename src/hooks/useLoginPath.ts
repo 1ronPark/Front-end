@@ -19,6 +19,6 @@ interface LoginPathResponse {
 export const useLoginPath = () => {
   return useApiQuery<LoginPathResponse>({
     method: "GET",
-    endpoint: "/api/v1/members/login/path",
+    endpoint: import.meta.env.VITE_API_LOGIN_PATH,
   });
 };
