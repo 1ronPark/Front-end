@@ -1,6 +1,7 @@
 // hooks/useInfiniteUniv.ts
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchRequest } from "./fetchRequest";
+import { useApiMutation } from "./apiHooks";
 
 export type School = { schoolId: number; schoolName: string };
 
@@ -19,6 +20,11 @@ type Params = {
   minSearchLength?: number; // 검색 최소 글자수 (기본 0)
   pageStart?: 0 | 1; // API 페이지 시작 인덱스 (기본 1)
   debugLog?: boolean; // true면 콘솔에 최종 URL 로그
+};
+
+type PostUnivSendMailParams = {
+  schoolId?: number;
+  email: string;
 };
 
 export const useInfiniteUniv = ({
@@ -66,5 +72,44 @@ export const useInfiniteUniv = ({
     // 캐시 시간: 5분
     staleTime: 1000 * 60 * 5,
     retry: 0,
+  });
+};
+
+export const usePostUnivSendMail = () => {
+  return useApiMutation<PostUnivSendMailParams, { isSuccess: boolean }>({
+    method: "POST",
+    endpoint: import.meta.env.VITE_API_POST_UNIV_SENDMAIL_ENDPOINT,
+    onSuccess: (data) => {
+      if (data.isSuccess) {
+        alert("인증 메일이 발송되었습니다. 메일함을 확인해주세요.");
+      } else {
+        alert("메일 발송에 실패했습니다. 다시 시도해주세요.");
+      }
+    },
+    onError: (error) => {
+      console.error("메일 발송 오류:", error);
+      alert("메일 발송 중 오류가 발생했습니다.");
+    },
+  });
+};
+
+export const usePostUnivVerifyCode = () => {
+  return useApiMutation<
+    { email: string; code: string },
+    { isSuccess: boolean }
+  >({
+    method: "POST",
+    endpoint: import.meta.env.VITE_API_POST_UNIV_VERIFYEMAIL_ENDPOINT,
+    onSuccess: (data) => {
+      if (data.isSuccess) {
+        alert("대학교 인증이 완료되었습니다.");
+      } else {
+        alert("인증 코드가 잘못되었거나 만료되었습니다. 다시 시도해주세요.");
+      }
+    },
+    onError: (error) => {
+      console.error("인증 코드 검증 오류:", error);
+      alert("인증 코드 검증 중 오류가 발생했습니다.");
+    },
   });
 };

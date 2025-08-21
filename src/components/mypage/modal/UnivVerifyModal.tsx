@@ -3,6 +3,7 @@ import { useState } from "react";
 import { X } from "lucide-react";
 import UnivDropdown from "../../common/dropdowns/UnivDropdown";
 import type { School } from "../../../hooks/useUniv";
+import { usePostUnivSendMail } from "../../../hooks/useUniv"; // 경로 맞춰주세요
 
 type Props = { onClose: () => void };
 
@@ -10,9 +11,44 @@ const SchoolVerifyModal = ({ onClose }: Props) => {
   const [step, setStep] = useState<1 | 2>(1);
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
-  const [school, setSchool] = useState<School | null>(null);
+  const [school, setSchool] = useState<School>();
+
+  // 메일 발송 훅
+  const { mutate: sendMail, isPending } = usePostUnivSendMail();
+  const base = import.meta.env.VITE_API_POST_UNIV_SENDMAIL_ENDPOINT;
 
   const canNext = email.trim() !== "" && !!school;
+
+  // ✅ 드롭다운에서 고른 값 사용
+  const payload = { schoolId: school?.schoolId, email: email.trim() };
+  console.log(payload);
+
+  const handleNext = () => {
+    if (!canNext || !payload) return;
+
+    const url = `${base}?schoolId=${school.schoolId}&email=${encodeURIComponent(
+      email.trim()
+    )}`;
+
+    // (선택) 이메일 형식 간단 체크
+    if (!/\S+@\S+\.\S+/.test(email.trim())) {
+      alert("올바른 이메일 형식이 아니에요.");
+      return;
+    }
+
+    sendMail(
+      { endpoint: url }, // { body: ... } 없음!
+      {
+        onSuccess: (res) => {
+          if (res.isSuccess) setStep(2); // 성공하면 다음 스텝으로
+        },
+        onError: () => {
+          // 훅 onError에서도 안내하지만 여기서 한 번 더
+          alert("메일 발송 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
+        },
+      }
+    );
+  };
 
   return (
     <div className="fixed inset-0 z-60 bg-black/20 flex items-center justify-center">
@@ -27,7 +63,6 @@ const SchoolVerifyModal = ({ onClose }: Props) => {
 
         {step === 1 && (
           <div className="flex flex-col px-8">
-            {/* 학교 이메일 */}
             <span className="body-medium mt-[64px] text-[#47464F]">
               학교 이메일
             </span>
@@ -38,29 +73,27 @@ const SchoolVerifyModal = ({ onClose }: Props) => {
               className="border-1 border-[#C8C5D0] mt-2 px-4 py-3 rounded-xl"
             />
 
-            {/* 대학교 드롭다운 */}
             <span className="body-medium mt-6 text-[#47464F]">대학교</span>
             <div className="mt-2">
               <UnivDropdown
                 value={school}
-                onSelect={setSchool}
+                onSelect={setSchool} // ← School 전체(state에 저장)
                 placeholder="대학교 선택"
                 pageSize={10}
               />
             </div>
 
-            {/* 액션 */}
             <div className="flex gap-2 justify-end">
               <button
-                onClick={() => setStep(2)}
-                disabled={!canNext}
+                onClick={handleNext}
+                disabled={!canNext || isPending}
                 className={`w-[121px] rounded-xl title-medium py-4 px-6 mt-[64px] ${
-                  canNext
-                    ? "bg-[#545891] text-white"
-                    : "bg-gray-200 text-gray-400"
+                  !canNext || isPending
+                    ? "bg-gray-200 text-gray-400"
+                    : "bg-[#545891] text-white"
                 }`}
               >
-                다음
+                {isPending ? "메일 발송 중…" : "다음"}
               </button>
             </div>
           </div>
