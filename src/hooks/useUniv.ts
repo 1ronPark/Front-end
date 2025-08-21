@@ -27,6 +27,11 @@ type PostUnivSendMailParams = {
   email: string;
 };
 
+type PostUnivVerifyCodeParams = {
+  email: string;
+  code: string;
+};
+
 export const useInfiniteUniv = ({
   keyword,
   size = 10,
@@ -94,10 +99,7 @@ export const usePostUnivSendMail = () => {
 };
 
 export const usePostUnivVerifyCode = () => {
-  return useApiMutation<
-    { email: string; code: string },
-    { isSuccess: boolean }
-  >({
+  return useApiMutation<PostUnivVerifyCodeParams, { isSuccess: boolean }>({
     method: "POST",
     endpoint: import.meta.env.VITE_API_POST_UNIV_VERIFYEMAIL_ENDPOINT,
     onSuccess: (data) => {

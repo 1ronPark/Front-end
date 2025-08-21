@@ -19,7 +19,6 @@ const MyInfoEditModal = ({ onClose, onCloseAll, myInfo }: EditModalProps) => {
   const [nickname, setNickname] = useState(myInfo.nickname);
   const [phoneNumber, setPhoneNumber] = useState(myInfo.phoneNumber);
   const [email, setEmail] = useState(myInfo.email);
-  const [school, setSchool] = useState(myInfo.school);
   const [selectedMbti, setSelectedMbti] = useState(myInfo.mbti);
   const [profileTitle, setProfileTitle] = useState(myInfo.profileTitle);
 
@@ -158,9 +157,9 @@ const MyInfoEditModal = ({ onClose, onCloseAll, myInfo }: EditModalProps) => {
               <span className="body-medium text-[#49454E]">대학교</span>
               <input
                 type="text"
-                value={school}
-                onChange={(e) => setSchool(e.target.value)}
-                className="w-full h-[56px] py-1 pl-4 gap-1 border border-gray-200 rounded-xl title-medium text-[#49454E]"
+                value={myInfo.school}
+                disabled
+                className="w-full h-[56px] py-1 pl-4 gap-1 border border-gray-200 rounded-xl bg-[rgba(29,27,32,0.08)] title-medium opacity-[0.38]"
               />
             </div>
 

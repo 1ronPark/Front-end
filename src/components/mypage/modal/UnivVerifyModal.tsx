@@ -3,11 +3,17 @@ import { useState } from "react";
 import { X } from "lucide-react";
 import UnivDropdown from "../../common/dropdowns/UnivDropdown";
 import type { School } from "../../../hooks/useUniv";
-import { usePostUnivSendMail } from "../../../hooks/useUniv"; // 경로 맞춰주세요
+import {
+  usePostUnivSendMail,
+  usePostUnivVerifyCode,
+} from "../../../hooks/useUniv"; // 경로 맞춰주세요
+// import { useQueryClient } from "@tanstack/react-query";
 
 type Props = { onClose: () => void };
 
 const SchoolVerifyModal = ({ onClose }: Props) => {
+  // const queryClient = useQueryClient();
+
   const [step, setStep] = useState<1 | 2>(1);
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
@@ -15,7 +21,9 @@ const SchoolVerifyModal = ({ onClose }: Props) => {
 
   // 메일 발송 훅
   const { mutate: sendMail, isPending } = usePostUnivSendMail();
+  const { mutate: verifyCode } = usePostUnivVerifyCode();
   const base = import.meta.env.VITE_API_POST_UNIV_SENDMAIL_ENDPOINT;
+  const verifyBase = import.meta.env.VITE_API_POST_UNIV_VERIFYEMAIL_ENDPOINT;
 
   const canNext = email.trim() !== "" && !!school;
 
@@ -35,6 +43,8 @@ const SchoolVerifyModal = ({ onClose }: Props) => {
       alert("올바른 이메일 형식이 아니에요.");
       return;
     }
+    //테스트 중
+    // setStep(2);
 
     sendMail(
       { endpoint: url }, // { body: ... } 없음!
@@ -45,6 +55,28 @@ const SchoolVerifyModal = ({ onClose }: Props) => {
         onError: () => {
           // 훅 onError에서도 안내하지만 여기서 한 번 더
           alert("메일 발송 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
+        },
+      }
+    );
+  };
+
+  const handleSave = () => {
+    const url = `${verifyBase}?email=${email}&code=${code}`;
+
+    verifyCode(
+      { endpoint: url }, // 바디 없음
+      {
+        onSuccess: (res) => {
+          if (res.isSuccess) {
+            // queryClient.invalidateQueries({
+            //   // 프로젝트 키에 맞게 조정
+            //   predicate: (q) =>
+            //     typeof q.queryKey[1] === "string" &&
+            //     (q.queryKey[1] as string).includes("/api/v1/me"),
+            // });
+            // 훅 onSuccess에서 alert도 뜸. 여기선 후속 동작만.
+            onClose(); // 인증 성공 후 모달 닫기 (원하면 setStep(1) 초기화 등)
+          }
         },
       }
     );
@@ -133,7 +165,7 @@ const SchoolVerifyModal = ({ onClose }: Props) => {
                 취소
               </button>
               <button
-                onClick={() => alert("인증이 완료 되었습니다.")}
+                onClick={handleSave}
                 className="w-[121px] bg-[#545891] text-white rounded-xl title-medium py-4 px-6 mt-[64px]"
               >
                 저장
