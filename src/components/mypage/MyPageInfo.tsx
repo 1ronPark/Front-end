@@ -1,4 +1,4 @@
-import { ChevronLeft, DoorOpen } from "lucide-react";
+import { ChevronLeft, CirclePlus, DoorOpen } from "lucide-react";
 import editIcon from "../../assets/icons/mypage/ic_edit.svg";
 import { useState } from "react";
 import addPhotoIcon from "../../assets/icons/mypage/ic_camera.svg";
@@ -10,12 +10,14 @@ import { usePostProfileImage } from "../../hooks/useProfile";
 import type { User } from "../../hooks/useUser";
 
 import sample from "../../assets/sideNavbar/profile.png";
+import SchoolVerifyModal from "./modal/UnivVerifyModal";
 
 const MyPageInfo = () => {
   const navigate = useNavigate();
 
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [addPhotoModal, setIsAddPhotoModal] = useState<boolean>(false);
+  const [univVerifyModal, setUnivVerifyModal] = useState<boolean>(false);
 
   // ✅ API 호출
   const {
@@ -137,8 +139,16 @@ const MyPageInfo = () => {
               </div>
               <div className="flex justify-between">
                 <p className="label-large text-[#49454E]">대학교</p>
-                <p className="text-right label-large-emphasis">
+
+                <p className="text-right label-large-emphasis ">
                   {myProps.result.school}
+                  <button
+                    className="flex items-center label-small text-[#49454E] gap-1 mt-2 cursor-pointer"
+                    onClick={() => setUnivVerifyModal(true)}
+                  >
+                    <CirclePlus className="w-4 h-4" />
+                    대학교 등록 & 수정
+                  </button>
                 </p>
               </div>
               <div className="flex justify-between">
@@ -215,6 +225,9 @@ const MyPageInfo = () => {
             onClose={() => setIsAddPhotoModal(false)}
             onUpload={onUpload} // ← 적용 시 업로드 수행
           />
+        )}
+        {univVerifyModal && (
+          <SchoolVerifyModal onClose={() => setUnivVerifyModal(false)} />
         )}
       </div>
     </div>

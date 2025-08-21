@@ -5,8 +5,8 @@ type Props = {
   onClose: () => void;
 };
 
-const schoolVerifyModal = ({ onClose }: Props) => {
-  const [step, setStep] = useState<1 | 2 | 3>(1);
+const SchoolVerifyModal = ({ onClose }: Props) => {
+  const [step, setStep] = useState<1 | 2>(1);
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
 
@@ -54,25 +54,6 @@ const schoolVerifyModal = ({ onClose }: Props) => {
 
         {step === 2 && (
           <div className="flex flex-col px-8">
-            <span className="body-medium mt-[64px] text-[#47464F]">대학교</span>
-            <input
-              placeholder="학교명을 입력해 보세요"
-              className="bg-[#E5E1E9] mt-2 py-3 px-4 rounded-xl"
-            />
-
-            <div className="flex gap-2 justify-end">
-              <button
-                onClick={() => setStep(3)}
-                className="w-[121px] bg-[#545891] text-white rounded-xl title-medium py-4 px-6 mt-[64px]"
-              >
-                적용
-              </button>
-            </div>
-          </div>
-        )}
-
-        {step === 3 && (
-          <div className="flex flex-col px-8">
             <span className="body-medium mt-[64px] text-[#47464F]">
               학교 이메일
             </span>
@@ -81,7 +62,8 @@ const schoolVerifyModal = ({ onClose }: Props) => {
               //onChange={(e) => setEmail(e.target.value)}
               className="border px-4 py-3 mt-2 rounded-xl title-medium text-[#47464F]"
             >
-              harrysjuns@gachon.ac.kr
+              {/* harrysjuns@gachon.ac.kr */}
+              {email}
             </div>
             <span className="mt-6 body-medium text-[#47464F]">
               인증번호를 입력해 주세요.
@@ -116,4 +98,4 @@ const schoolVerifyModal = ({ onClose }: Props) => {
   );
 };
 
-export default schoolVerifyModal;
+export default SchoolVerifyModal;
