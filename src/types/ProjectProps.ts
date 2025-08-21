@@ -87,10 +87,16 @@ export type ProjectDetailData = ProjectDetailDataApi & { itemId: number };
 // 필터 타입
 export type SortParam = 'popular' | 'latest'; // 스웨거에 열거가 없으면 프로젝트 합의 값으로
 
+// types/ProjectProps.ts
+export type SortApi = 'popular' | 'latest';
+
 export type ProjectListApiParams = {
-  page: number;        // 스웨거 예시가 1-based → 그대로 사용
-  sort?: SortParam;    // 정렬 (없으면 서버 기본)
-  mbti?: string;       // "E,N" 처럼 CSV (없으면 필터 X)
-  categories?: string; 
+  page: number;
+  sort?: SortApi;
+  category?: string;          // 단일 선택(예: "블록체인")
+  positionId?: number;        // Part -> id 매핑해서 숫자
+  regions?: string[];         // ["서울특별시 전체","대구광역시 남구"]
+  onlyLiked?: boolean;
 };
+
 

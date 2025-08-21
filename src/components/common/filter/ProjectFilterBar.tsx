@@ -18,7 +18,7 @@ type SortOption = "인기순" | "최신순" | null;
 type Props = {
   sortOption: SortOption;
   onChangeSort: (opt: SortOption) => void;
-  onFiltersChange: (filters: Partial<ProjectListApiParams>) => void; // ✅ Partial
+  onFiltersChange: (filters: Partial<ProjectListApiParams>) => void; 
 };
 
 const ProjectFilterBar: React.FC<Props> = ({ sortOption, onChangeSort, onFiltersChange }) => {
@@ -26,7 +26,7 @@ const ProjectFilterBar: React.FC<Props> = ({ sortOption, onChangeSort, onFilters
     onChangeSort(sortOption === option ? null : option);
   };
 
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const [selectedCategories, setSelectedCategories] = useState<CategoryType | null>(null);
   const [selectedSort, setSelectedSort] = useState<string>("파트");
   const [selectedMbti, setSelectedMbti] = useState<string[]>([]);
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
@@ -38,26 +38,22 @@ const ProjectFilterBar: React.FC<Props> = ({ sortOption, onChangeSort, onFilters
 
 const ALL = "전체";
 
-useEffect(() => {
-  const effective = selectedCategories.includes(ALL)
-    ? [] : selectedCategories;
+  useEffect(() => {
+    onFiltersChange({
+      category: selectedCategories ?? undefined,
+      // positionId, onlyLiked 등은 필요 시 여기에 함께 전달
+      regions: selectedLocations.length ? selectedLocations : undefined,
+      // MBTI/파트는 아직 백 스펙에 없으니 제외 (넣으려면 positionId 매핑 필요)
+    });
+  }, [selectedCategories, selectedLocations, onFiltersChange]);
 
-  onFiltersChange({
-    categories: effective.length ? effective.join(',') : undefined, // ✅ 핵심 1줄
-  });
-}, [selectedCategories, onFiltersChange]);
-
-const handleCategoryClick = (category: string) => {
-  setSelectedCategories(prev => {
+  const handleCategoryClick = (category: CategoryType) => {
     if (category === ALL) {
-      return prev.includes(ALL) ? [] : [ALL];
+      setSelectedCategories(null);
+    } else {
+      setSelectedCategories(prev => (prev === category ? null : category));
     }
-    const withoutAll = prev.filter(c => c !== ALL);
-    return withoutAll.includes(category)
-      ? withoutAll.filter(c => c !== category)
-      : [...withoutAll, category];
-  });
-};
+  };
 
   const handleDropdownClick = (dropdownName: string) => {
     setOpenDropdown((prev) => ({
@@ -111,7 +107,7 @@ const handleCategoryClick = (category: string) => {
                 key={category.name}
                 onClick={() => handleCategoryClick(category.name)}
                 className={`flex-shrink-0 px-2 py-1 text-sm rounded-lg flex flex-col items-center gap-1 hover cursor-pointer hover:shadow-md transform transition duration-200 hover:scale-105 ${
-                  selectedCategories.includes(category.name)
+                  selectedCategories === category.name
                     ? "border border-gray-300 "
                     : "bg-white text-gray-700"
                 }`}

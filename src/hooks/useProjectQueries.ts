@@ -12,17 +12,28 @@ export interface ProjectListResponse {
   success: boolean;
 }
 
+const buildProjectSearchQS = (p: ProjectListApiParams) => {
+  const qs = new URLSearchParams();
+  qs.append('page', String(p.page));
+  if (p.sort) qs.append('sort', p.sort);
+  if (p.category) qs.append('category', p.category);
+  if (typeof p.positionId === 'number') qs.append('positionId', String(p.positionId));
+  if (typeof p.onlyLiked === 'boolean') qs.append('onlyLiked', String(p.onlyLiked));
+  if (p.regions && p.regions.length) {
+    p.regions.forEach(r => qs.append('regions', r)); // ← 반복 키로 추가
+  }
+  return qs.toString();
+};
+
 // 전체 조회 api 훅
 export const useProjectList = (params: ProjectListApiParams) => {
-  const { page, ...rest } = params;
+  const base = String(import.meta.env.VITE_API_ITEMS_SEARCH_ENDPOINT || '/v1/items/search');
+  const qs = buildProjectSearchQS(params);
+  const endpointWithQS = qs ? `${base}?${qs}` : base;
 
   return useApiQuery<ProjectListResponse>({
     method: 'GET',
-    endpoint: import.meta.env.VITE_API_ITEMS_SEARCH_ENDPOINT,
-    params: {
-      page,      // 스웨거 예시대로 1-based
-      ...rest,   // sort, mbti
-    },
+    endpoint: endpointWithQS, // ✅ params 비움 → toQueryString 미사용
   });
 };
 
