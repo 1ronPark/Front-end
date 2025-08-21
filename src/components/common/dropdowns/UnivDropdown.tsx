@@ -11,6 +11,9 @@ type Props = {
   disabled?: boolean;
   className?: string;
   autoFocusOpen?: boolean;
+  minSearchLength?: number; // 2로 주면 '서'는 전체, '서울'부터 검색
+  pageStart?: 0; // 서버 page 시작(0 또는 1)
+  debug?: boolean;
 };
 
 const UnivDropdown = ({
@@ -21,9 +24,20 @@ const UnivDropdown = ({
   disabled,
   className = "",
   autoFocusOpen = false,
+  minSearchLength = 0,
+  pageStart = 0, // 스웨거가 0부터면 0 유지
+  debug = false,
 }: Props) => {
   const [open, setOpen] = useState(autoFocusOpen);
-  const [keyword, setKeyword] = useState("");
+
+  // ⬇️ 입력창에 표시되는 값 (선택값과 동기화)
+  const [inputValue, setInputValue] = useState<string>(value?.schoolName ?? "");
+  useEffect(() => {
+    setInputValue(value?.schoolName ?? "");
+  }, [value?.schoolName]);
+
+  // ⬇️ 실제 검색에 쓰는 키워드
+  const [keyword, setKeyword] = useState<string>("");
 
   // 외부 클릭 닫기
   const rootRef = useRef<HTMLDivElement>(null);
@@ -39,21 +53,23 @@ const UnivDropdown = ({
   // 무한스크롤 쿼리
   const {
     data,
+    status,
     isLoading,
-    // error,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
     refetch,
-    status,
   } = useInfiniteUniv({
     keyword,
     size: pageSize,
-    enabled: open,
-    fetchAllWhenEmpty: true, // 키워드 없으면 전체 조회
+    enabled: open && !disabled,
+    fetchAllWhenEmpty: true, // 빈 키워드면 전체(가나다)
+    minSearchLength,
+    pageStart,
+    debugLog: debug,
   });
 
-  // 평탄화 + 가나다 정렬(서버 정렬이 보장 안 될 때 가드)
+  // 평탄화 + 가나다 정렬(가드)
   const flatList = useMemo(() => {
     const arr = (data?.pages ?? []).flatMap((p) => p?.result?.schoolList ?? []);
     return [...arr].sort((a, b) =>
@@ -64,7 +80,7 @@ const UnivDropdown = ({
   const listBoxRef = useRef<HTMLDivElement>(null);
   const sentinelRef = useRef<HTMLDivElement>(null);
 
-  // sentinel 관찰 → 다음 페이지 로드
+  // sentinel: 화면에 들어오면 다음 페이지
   useEffect(() => {
     if (!open) return;
     const root = listBoxRef.current || undefined;
@@ -77,13 +93,13 @@ const UnivDropdown = ({
           fetchNextPage();
         }
       },
-      { root, rootMargin: "0px 0px 200px 0px", threshold: 0 } // 여유 margin
+      { root, rootMargin: "0px 0px 200px 0px", threshold: 0 }
     );
     observer.observe(sentinel);
     return () => observer.disconnect();
   }, [open, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  // 드롭다운 열릴 때 초기 로드가 너무 적어 스크롤이 안 생기면 한 페이지 더 가져오기(옵션)
+  // 열릴 때 스크롤이 안 생기면 한 페이지 더
   useEffect(() => {
     if (!open) return;
     if (!isLoading && hasNextPage && flatList.length < pageSize) {
@@ -92,64 +108,72 @@ const UnivDropdown = ({
   }, [open, isLoading, hasNextPage, flatList.length, pageSize, fetchNextPage]);
 
   const handleSelect = (s: School) => {
-    onSelect(s);
+    onSelect(s); // 부모에 선택 전달
+    setInputValue(s.schoolName);
+    setKeyword(""); // 다음에 열 때 전체 보이도록 초기화
     setOpen(false);
   };
 
-  const resetSearch = () => {
+  const onInputChange = (v: string) => {
+    setInputValue(v); // 입력창에 표시
+    setKeyword(v); // 즉시 검색
+    if (!open) setOpen(true); // 타이핑하면 자동으로 열기
+  };
+
+  const clearInput = () => {
+    setInputValue("");
     setKeyword("");
+    if (!open) setOpen(true);
   };
 
   return (
     <div className={`relative ${className}`} ref={rootRef}>
-      {/* 토글 버튼 */}
-      <button
-        type="button"
-        disabled={disabled}
-        onClick={() => setOpen((v) => !v)}
-        className={`w-full flex items-center justify-between rounded-lg border px-3 py-2 text-left
-          ${
-            disabled ? "bg-gray-100 text-gray-400" : "bg-white hover:bg-gray-50"
-          }`}
+      {/* 🔎 트리거 = 입력창 */}
+      <div
+        className={`w-full flex items-center gap-2 rounded-xl border-1 border-[#C8C5D0] mt-2 px-4 py-3 bg-white
+          ${disabled ? "pointer-events-none opacity-60" : ""}`}
+        onClick={() => !disabled && setOpen(true)}
       >
-        <span className={value ? "text-gray-900" : "text-gray-400"}>
-          {value ? value.schoolName : placeholder}
-        </span>
-        <ChevronDown className="h-4 w-4 text-gray-500" />
-      </button>
+        <Search className="h-4 w-4 text-gray-500 shrink-0" />
+        <input
+          value={inputValue}
+          onChange={(e) => onInputChange(e.target.value)}
+          onFocus={() => !disabled && setOpen(true)}
+          placeholder={placeholder}
+          className="flex-1 outline-none text-sm text-[#47464F] bg-transparent"
+          disabled={disabled}
+        />
+        {/* 입력 중일 때만 clear 노출 (열려있을 때) */}
+        {open && inputValue && (
+          <button
+            type="button"
+            onClick={clearInput}
+            className="text-gray-400 hover:text-gray-600"
+            aria-label="clear"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        )}
+        <button
+          type="button"
+          className="text-gray-500"
+          onClick={() => !disabled && setOpen((v) => !v)}
+          aria-label="toggle"
+        >
+          <ChevronDown className="h-4 w-4" />
+        </button>
+      </div>
 
-      {/* 드롭다운 패널 */}
+      {/* ▼ 드롭다운 목록 */}
       {open && (
-        <div className="absolute z-50 mt-2 w-full rounded-lg border bg-white shadow-lg">
-          {/* 검색 */}
-          <div className="flex items-center gap-2 px-3 py-2 border-b">
-            <Search className="h-4 w-4 text-gray-500" />
-            <input
-              value={keyword}
-              onChange={(e) => setKeyword(e.target.value)}
-              placeholder="학교명으로 검색 (즉시 검색)"
-              className="flex-1 outline-none text-sm py-1"
-            />
-            {keyword && (
-              <button
-                onClick={resetSearch}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            )}
-          </div>
-
-          {/* 리스트(스크롤 컨테이너) */}
+        <div className="absolute z-50 mt-2 w-full rounded-xl border-1 border-[#C8C5D0] bg-white shadow-lg">
           <div ref={listBoxRef} className="max-h-64 overflow-y-auto">
-            {/* 첫 로딩 */}
             {status === "pending" && (
               <div className="flex items-center gap-2 px-3 py-4 text-sm text-gray-500">
                 <Loader2 className="h-4 w-4 animate-spin" /> 불러오는 중…
               </div>
             )}
 
-            {/* 에러 */}
             {status === "error" && (
               <div className="px-3 py-4 text-sm text-red-500">
                 목록을 불러오지 못했어요.
@@ -162,7 +186,6 @@ const UnivDropdown = ({
               </div>
             )}
 
-            {/* 데이터 */}
             {status === "success" && (
               <>
                 {flatList.length === 0 ? (
@@ -182,14 +205,13 @@ const UnivDropdown = ({
                         </button>
                       </li>
                     ))}
-                    {/* sentinel: 화면에 들어오면 다음 페이지 로드 */}
+                    {/* sentinel */}
                     <li>
                       <div ref={sentinelRef} />
                     </li>
                   </ul>
                 )}
 
-                {/* 로딩/끝 상태 표시 */}
                 <div className="border-t px-3 py-2">
                   {isFetchingNextPage ? (
                     <div className="flex items-center gap-2 text-xs text-gray-500">
