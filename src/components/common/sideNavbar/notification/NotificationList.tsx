@@ -20,9 +20,11 @@ const NotificationList = () => {
       <div className="flex flex-col px-6 pt-6 pb-2 gap-2 title-small text-[#49454E]">
         이번 주
       </div>
-      <div className="flex flex-col justify-center items-center min-h-[72px] border-b border-[#CBC4CF]">
+      <div className="flex flex-col justify-center items-center gap-2 min-h-[72px] border-b border-[#CBC4CF] px-4 py-2">
         {notifications.map((item) => (
-          <NoticeItem key={item.notificationId} {...item} />
+          <div className="w-full">
+            <NoticeItem key={item.notificationId} {...item} />
+          </div>
         ))}
       </div>
     </div>

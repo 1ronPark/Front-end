@@ -12,7 +12,7 @@ import NoNotificationList from "./notification/NoNotificationList";
 import NoFavoriteList from "./favorite/NoFavoriteList";
 import RecentList from "./recent/RecentList";
 import NoRecentList from "./recent/NoRecentList";
-import { useNotificationCount } from "../../../hooks/useNotification";
+import { useUnreadNotificationCount } from "../../../hooks/useUnreadNotificationCount";
 
 const SideNavbar = () => {
   const [activePanel, setActivePanel] = useState<
@@ -23,9 +23,8 @@ const SideNavbar = () => {
     "notification" | "favorite" | "recent" | null
   >("notification");
 
-  // 알림 개수 데이터 fetch
-  const { data: notificationCount } = useNotificationCount();
-  const hasNotificationData = (notificationCount?.result.total ?? 0) > 0;
+  const unreadCount = useUnreadNotificationCount();
+  const hasNotificationData = unreadCount > 0;
   const hasFavoriteData = true;
   const hasRecentData = true;
 
@@ -90,11 +89,9 @@ const SideNavbar = () => {
                     className="flex justify-center items-center py-1 gap-[10px]"
                   />
                 </button>
-                {activePanel !== "notification" && hasNotificationData && (
+                {hasNotificationData && (
                   <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                    {(notificationCount?.result?.total ?? 0) > 99
-                      ? "99+"
-                      : notificationCount?.result?.total ?? 0}
+                    {unreadCount > 99 ? "99+" : unreadCount}
                   </span>
                 )}
               </div>
