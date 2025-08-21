@@ -10,20 +10,15 @@ export interface ApiResponse<T>{
 }
 
 //프로젝트 생성 API 훅================================================
-// export interface CreateProjectResponse {
-//   isSuccess: boolean;
-//   code: string;
-//   message: string;
-//   result: {
-//     memberId: number,
-//     itemName: string;
-//   };
-//   success: boolean;
-// }
-
 export interface CreateProjectResponse {
-  memberId: number;
-  itemName: string;
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  result: {
+    memberId: number,
+    itemName: string;
+  };
+  success: boolean;
 }
 
 // 프로젝트 제안 API 훅 (회원 상세 페이지에서의 제안 보내기)
@@ -56,7 +51,7 @@ export interface ApplyStatusResponse {
 }
 
 export const useCreateProject = () => {
-  return useApiMutation<FormData, ApiResponse<CreateProjectResponse>>({
+  return useApiMutation<FormData, CreateProjectResponse>({
     method: "POST",
     endpoint: import.meta.env.VITE_API_ITEMS_ENDPOINT,
     onSuccess: () => {

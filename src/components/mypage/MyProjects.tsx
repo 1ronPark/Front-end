@@ -3,7 +3,7 @@ import addIcon from "../../assets/icons/mypage/ic_project_addsvg.svg";
 import MyProjectEmpty from "./project/MyProjectEmpty";
 import MyProjectList from "./project/MyProjectList";
 import type { Project } from "../../hooks/useMyProjects";
-import LoadingPage from "../../pages/LoadingPage";
+// import LoadingPage from "../../pages/LoadingPage";
 
 
 interface MyProjectProps {
@@ -48,7 +48,10 @@ const MyProjects = ({
           ) : hasData === false ? (
             <MyProjectEmpty />
           ) : (
-            <MyProjectList projectList={projects} />
+            <MyProjectList
+              createdProjects={createdProjects}
+              appliedProjects={appliedProjects}
+            />
           )}
         </div>
       </div>
