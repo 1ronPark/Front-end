@@ -28,7 +28,7 @@ const NoticeItem = ({
       endpoint: `${import.meta.env.VITE_API_NOTIFICATION_LIST_ENDPOINT}/${notificationId}`,
     });
     setRead(true);
-    navigate(`/projects/${referenceId}`);
+    navigate(`/members/${referenceId}`);
   };
 
   return (

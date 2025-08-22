@@ -22,7 +22,7 @@ const NotificationList = () => {
   if (notifications.length === 0) return <div className="px-6 pt-6 pb-2">알림 없음</div>;
 
   return (
-    <div className="w-[300px]">
+    <div className="w-[300px] h-[800px] overflow-y-auto">
       {/* 헤더 */}
       <div className="flex flex-col px-6 pt-6 pb-2 gap-2">
         <div className="title-large">알림</div>
@@ -32,7 +32,7 @@ const NotificationList = () => {
       <div className="flex flex-col px-6 pt-6 pb-2 gap-2 title-small text-[#49454E]">
         이번 주
       </div>
-      <div className="flex flex-col justify-center items-center gap-2 max-h-[720px] overflow-y-auto border-b border-[#CBC4CF] py-2">
+      <div className="flex flex-col justify-center items-center gap-2 border-b border-[#CBC4CF] py-2">
         {thisWeekNotifications.map((item) => (
           <div className="w-full" key={item.notificationId}>
             <NoticeItem {...item} />
@@ -45,7 +45,7 @@ const NotificationList = () => {
       <div className="flex flex-col px-6 pt-6 pb-2 gap-2 title-small text-[#49454E]">
         이번 달
       </div>
-      <div className="flex flex-col justify-center items-center gap-2 max-h-[720px] overflow-y-auto border-b border-[#CBC4CF] py-2">
+      <div className="flex flex-col justify-center items-center gap-2 border-b border-[#CBC4CF] py-2">
         {thisMonthNotifications.map((item) => (
           <div className="w-full" key={item.notificationId}>
             <NoticeItem {...item} />
