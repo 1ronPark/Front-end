@@ -3,7 +3,7 @@ import MemberFilterBar from '../../components/common/filter/MemberFilterBar';
 import MemberList from '../../components/common/memberpage/MemberList';
 import { useMembers } from '../../hooks/useMember';
 import ErrorPage from '../ErrorPage';
-import LoadingPage from '../LoadingPage';
+// import LoadingPage from '../LoadingPage';
 import type { MemberFiltersParams } from '../../types/MemberProps';
 import Pagination from '../../components/common/pagination/Pagination';
 
@@ -52,7 +52,7 @@ export const Members = () => {
             <div className="
                 w-full mt-12 mb-7 overflow-visible
                 max-w-[1440px]
-                px-4 sm:px-8 md:px-16 xl:px-[130px]
+                px-4 sm:px-8 md:px-16 xl:px-[180px]
                 flex flex-col
                 min-h-[calc(100vh-200px)]
             ">
@@ -61,7 +61,7 @@ export const Members = () => {
                 <div className="flex-1 flex flex-col">
                     {/* 멤버 리스트 영역 - 최소 높이 설정 */}
                     <div className="min-h-[848px]">
-                        {isLoading ? <LoadingPage />
+                        {isLoading ? <div>로딩중...</div>
                             : isError ? <ErrorPage />
                             : <MemberList members={members || []} />}
                     </div>

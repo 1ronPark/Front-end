@@ -3,7 +3,7 @@ import addIcon from "../../assets/icons/mypage/ic_project_addsvg.svg";
 import MyProjectEmpty from "./project/MyProjectEmpty";
 import MyProjectList from "./project/MyProjectList";
 import type { Project } from "../../hooks/useMyProjects";
-import LoadingPage from "../../pages/LoadingPage";
+// import LoadingPage from "../../pages/LoadingPage";
 
 
 interface MyProjectProps {
@@ -20,37 +20,39 @@ const MyProjects = ({
   const hasData = createdProjects.length > 0 || appliedProjects.length > 0;
 
   return (
-    <div className="flex-1 justify-center overflow-y-auto mx-[100px]">
-      <div className="w-[960px] flex justify-between items-center ">
-        <div className="flex flex-col justify-center gap-4">
-          <p className="headline-small-emphasis">프로젝트 관리</p>
-          <li className="title-medium text-[#47464F] ml-3">
-            프로젝트를 시작으로 창업까지
-          </li>
+    <div className="flex-1 flex justify-center overflow-y-auto">
+      <div className="w-full max-w-[960px] flex flex-col items-center mx-4">
+        <div className="w-[960px] flex justify-between items-center ">
+          <div className="flex flex-col justify-center gap-4">
+            <p className="headline-small-emphasis">프로젝트 관리</p>
+            <li className="title-medium text-[#47464F] ml-3">
+              프로젝트를 시작으로 창업까지
+            </li>
+          </div>
+          {hasData && (
+            <NavLink
+              to="/register-project"
+              className="flex h-[48px] items-center justify-center gap-2 rounded-xl bg-[#E3E0F9] px-4 py-2.5 text-[#464559] hover:bg-[#d3cfed] label-large"
+            >
+              <img src={addIcon} alt="프로젝트 추가" />
+              <span>프로젝트 등록하기</span>
+            </NavLink>
+          )}
         </div>
-        {hasData && (
-          <NavLink
-            to="/register-project"
-            className="flex h-[48px] items-center justify-center gap-2 rounded-xl bg-[#E3E0F9] px-4 py-2.5 text-[#464559] hover:bg-[#d3cfed] label-large"
-          >
-            <img src={addIcon} alt="프로젝트 추가" />
-            <span>프로젝트 등록하기</span>
-          </NavLink>
-        )}
-      </div>
-      {/* 구분선 */}
-      <hr className="w-[960px] mt-4 border-t border-[#CBC4CF]" />
-      <div className="w-[960px] mt-6 flex flex-col items-center gap-8">
-        {isLoading ? (
-          <LoadingPage />
-        ) : hasData === false ? (
-          <MyProjectEmpty />
-        ) : (
-          <MyProjectList
-            createdProjects={createdProjects}
-            appliedProjects={appliedProjects}
-          />
-        )}
+        {/* 구분선 */}
+        <hr className="w-[960px] mt-4 border-t border-[#CBC4CF]" />
+        <div className="w-[960px] mt-6 flex flex-col items-center gap-8">
+          {isLoading ? (
+            <div>로딩중...</div>
+          ) : hasData === false ? (
+            <MyProjectEmpty />
+          ) : (
+            <MyProjectList
+              createdProjects={createdProjects}
+              appliedProjects={appliedProjects}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

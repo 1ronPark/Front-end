@@ -43,9 +43,9 @@ export const usePostPositions = () => {
   return useApiMutation<undefined, PostPositionResponse>({
     method: "POST",
     endpoint: import.meta.env.VITE_API_POST_POSITIONS_ENDPOINT, // 기본값 (호출 시 덮어씀)
-    onSuccess: (data) => {
-      alert(`포지션 ${data.result.positionName}이(가) 등록되었습니다.`);
-    },
+    // onSuccess: (data) => {
+    //   alert(`포지션 ${data.result.positionName}이(가) 등록되었습니다.`);
+    // },
     onError: (error) => {
       alert(`포지션 등록에 실패했습니다: ${error.message}`);
     },
@@ -56,9 +56,9 @@ export const useDeletePositions = () => {
   return useApiMutation<undefined, DeletePositionResponse>({
     method: "DELETE",
     endpoint: import.meta.env.VITE_API_DELETE_POSITIONS_ENDPOINT, // 기본값 (호출 시 덮어씀)
-    onSuccess: (data) => {
-      alert(`포지션 ${data.result.deletePositionName}이(가) 삭제되었습니다.`);
-    },
+    // onSuccess: (data) => {
+    //   alert(`포지션 ${data.result.deletePositionName}이(가) 삭제되었습니다.`);
+    // },
     onError: (error) => {
       alert(`포지션 삭제에 실패했습니다: ${error.message}`);
     },

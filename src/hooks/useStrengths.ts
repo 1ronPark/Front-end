@@ -57,9 +57,9 @@ export const usePostStrengths = () => {
   return useApiMutation<PostStrengthRequest, PostStrengthResponse>({
     method: "POST",
     endpoint: import.meta.env.VITE_API_POST_STRENGTHS_ENDPOINT, // 기본값 (호출 시 덮어씀)
-    onSuccess: (data) => {
-      alert(`강점 ${data.result.strengthName}이(가) 등록되었습니다.`);
-    },
+    // onSuccess: (data) => {
+    //   alert(`강점 ${data.result.strengthName}이(가) 등록되었습니다.`);
+    // },
     onError: (error) => {
       alert(`강점 등록에 실패했습니다: ${error.message}`);
     },
