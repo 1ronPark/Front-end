@@ -17,7 +17,7 @@ import { ProjectDetail } from "./pages/project/ProjectDetails";
 import { Members } from "./pages/member/Members";
 import { LightTalk } from "./pages/LightTalk";
 import { MyProfile } from "./pages/MyProfile";
-import LoadingPage from "./pages/LoadingPage";
+// import LoadingPage from "./pages/LoadingPage";
 import MemberDetail from "./pages/member/MemberDetail";
 import { FormEdit } from "./pages/FormEdit";
 import { RegisterProject } from "./components/mypage/RegisterProject";
@@ -43,10 +43,6 @@ import SocialCallback from "./pages/Auth/SocialCallback";
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
-  {
-    path: "/loading",
-    element: <LoadingPage />,
-  },
   {
     path: "/",
     element: <Layout />,

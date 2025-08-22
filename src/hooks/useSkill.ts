@@ -52,9 +52,9 @@ export const usePostSkills = () => {
   return useApiMutation<PostSkillRequest, PostSkillResponse>({
     method: "POST",
     endpoint: import.meta.env.VITE_API_POST_SKILLS_ENDPOINT, // 기본값 (호출 시 덮어씀)
-    onSuccess: (data) => {
-      alert(`스킬 ${data.result.skillName}이(가) 등록되었습니다.`);
-    },
+    // onSuccess: (data) => {
+    //   alert(`스킬 ${data.result.skillName}이(가) 등록되었습니다.`);
+    // },
     onError: (error) => {
       console.error("스킬 등록 실패:", error);
       alert("스킬 등록에 실패했습니다. 다시 시도해 주세요.");
