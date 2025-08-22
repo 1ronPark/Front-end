@@ -11,28 +11,14 @@ import Save from "../components/mypage/edit/Save";
 import { useProfileStore } from "../store/useProfileStore";
 import { useDeletePositions, usePostPositions } from "../hooks/usePositions";
 import { useDeleteRegionById, usePostRegion } from "../hooks/useRegion";
-// import {
-//   usePostStrengths,
-//   useDeleteStrengthsById,
-// } from "../hooks/useStrengths";
+import {
+  usePostStrengths,
+  useDeleteStrengthsById,
+} from "../hooks/useStrengths";
 import Reception from "../components/mypage/edit/Reception";
 import { usePostProfileImage } from "../hooks/useProfile";
-
-// const MOCK_USER_DATA = {
-//   id: 1,
-//   name: "홍길동",
-//   nickname: "홍",
-//   age: 23,
-//   role: "디자이너",
-//   location: "서울",
-//   gender: "남",
-//   phone: "010-1234-5678",
-//   email: "hong@hong.ac.kr",
-//   univ: "길동대학교",
-//   mbti: "INTJ",
-//   intro: "기술과 디자인을 넘나들며 방향을 설계하는 실전형 디자이너",
-//   blog: "https://velog.io/@honggildong",
-// };
+import { useDeleteSkillById, usePostSkills } from "../hooks/useSkill";
+import { useHistoryMutation } from "../hooks/useHistory";
 
 const SECTIONS = [
   // { id: "basic-info", component: <Header /> },
@@ -67,6 +53,19 @@ export const FormEdit = () => {
   // 지역
   const initialRegions = useProfileStore((s) => s.initialRegions);
   const regions = useProfileStore((s) => s.regions);
+  //강점
+  const initialStrengths = useProfileStore((s) => s.initialStrengths);
+  const strengths = useProfileStore((s) => s.strengths);
+  //스킬
+  const initialSkills = useProfileStore((s) => s.initialSkills);
+  const skills = useProfileStore((s) => s.skills);
+  //활동내역
+  const initialHistories = useProfileStore((s) => s.initialHistories);
+  const histories = useProfileStore((s) => s.histories);
+const { mutateAsync: updateHistories, isPending: postingHistories } = useHistoryMutation();
+  // const selfIntroduction = useProfileStore((s) => s.selfIntroduction);
+  //저장된 날짜
+  // const markSaved = useProfileStore((s) => s.markSaved);
 
   // ===== Hooks =====
   // 포지션
@@ -77,6 +76,17 @@ export const FormEdit = () => {
   const { mutateAsync: postRegion, isPending: postingRegion } = usePostRegion();
   const { mutateAsync: deleteRegionById, isPending: deletingRegion } =
     useDeleteRegionById();
+  //강점
+  const { mutateAsync: postStrengths, isPending: postingStrengths } =
+    usePostStrengths();
+  const { mutateAsync: deleteStrengthById, isPending: deletingStrengths } =
+    useDeleteStrengthsById();
+  //스킬
+  const { mutateAsync: PostSkills, isPending: PostingSkills } = usePostSkills();
+  const { mutateAsync: deleteSkillById, isPending: deletingSkills } =
+    useDeleteSkillById();
+  //활동내역
+
 
   // ===== Save =====
   const handleSave = async () => {
@@ -97,14 +107,82 @@ export const FormEdit = () => {
       (ir) => !regions.some((r) => sameRegion(ir, r))
     );
 
+    // 3) 강점 diff
+    const curIds = new Set(strengths.map((s) => s.strengthId));
+    const initIds = new Set(initialStrengths.map((s) => s.strengthId));
+
+    const strengthsToAdd = strengths.filter((s) => !initIds.has(s.strengthId));
+    const strengthsToRemove = initialStrengths.filter(
+      (s) => !curIds.has(s.strengthId)
+    );
+
+    // 4) 스킬 diff
+    const curSkillIds = new Set(skills.map((s) => s.skillId));
+    const initSkillIds = new Set(initialSkills.map((s) => s.skillId));
+
+    const skillsToAdd = skills.filter((s) => !initSkillIds.has(s.skillId));
+    const skillsToRemove = initialSkills.filter(
+      (s) => !curSkillIds.has(s.skillId)
+    );
+
+    // 5) 활동 내역 diff
+    const historiesToAdd = histories.filter(
+      (h) =>
+        !initialHistories.some(
+          (ih) =>
+            ih.name === h.name &&
+            ih.startDate === h.startDate &&
+            ih.endDate === h.endDate &&
+            ih.hasEndDate === h.hasEndDate
+        )
+    );
+    // console.log("🟣 historiesToAdd.length", historiesToAdd.length);
+    const validHistoriesToAdd = historiesToAdd.filter(
+      (h) => h.name.trim() && h.startDate.trim()
+    );
+    // console.log("✅ validHistoriesToAdd.length", validHistoriesToAdd.length);
+    // console.log("✅ validHistoriesToAdd", validHistoriesToAdd);
+
+    if (historiesToAdd.length > 0 && validHistoriesToAdd.length === 0) {
+      alert("활동 내역에 필수 값이 입력되지 않았습니다.");
+      return;
+    }
+
+    // const historiesToRemove = initialHistories.filter(
+    //   (ih) =>
+    //     !histories.some(
+    //       (h) =>
+    //         h.name === ih.name &&
+    //         h.startDate === ih.startDate &&
+    //         h.endDate === ih.endDate &&
+    //         h.hasEndDate === ih.hasEndDate
+    //     )
+    // );
+
     // ✅ 이미지 변경도 함께 판단
     const hasProfileImageChange = !!pendingProfileFile;
+
+    // console.log("🧪 Saving triggered");
+    // console.log("▶️ toAdd", toAdd);
+    // console.log("▶️ toRemove", toRemove);
+    // console.log("▶️ regionsToAdd", regionsToAdd);
+    // console.log("▶️ regionsToRemove", regionsToRemove);
+    // console.log("▶️ strengthsToAdd", strengthsToAdd);
+    // console.log("▶️ strengthsToRemove", strengthsToRemove);
+    // console.log("▶️ skillsToAdd", skillsToAdd);
+    // console.log("▶️ skillsToRemove", skillsToRemove);
+    // console.log("▶️ hasProfileImageChange", hasProfileImageChange);
 
     if (
       toAdd.length === 0 &&
       toRemove.length === 0 &&
       regionsToAdd.length === 0 &&
       regionsToRemove.length === 0 &&
+      strengthsToAdd.length === 0 &&
+      strengthsToRemove.length === 0 &&
+      skillsToAdd.length === 0 &&
+      skillsToRemove.length === 0 &&
+      historiesToAdd.length === 0 &&
       !hasProfileImageChange
     ) {
       alert("변경된 내용이 없습니다.");
@@ -116,14 +194,19 @@ export const FormEdit = () => {
       for (const ir of regionsToRemove) {
         if (!ir.id) continue;
         await deleteRegionById({
-          endpoint: import.meta.env.VITE_API_REGION_DELETE_ENDPOINT.replace(':id', String(ir.id)),
+          endpoint: import.meta.env.VITE_API_REGION_DELETE_ENDPOINT.replace(
+            ":id",
+            String(ir.id)
+          ),
         });
       }
 
       // --- 포지션 삭제
       for (const pos of toRemove) {
         await deletePosition({
-          endpoint: import.meta.env.VITE_API_DELETE_POSITIONS_ENDPOINT + `?positionName=${encodeURIComponent(pos)}`,
+          endpoint:
+            import.meta.env.VITE_API_DELETE_POSITIONS_ENDPOINT +
+            `?positionName=${encodeURIComponent(pos)}`,
         });
       }
 
@@ -142,7 +225,63 @@ export const FormEdit = () => {
       // --- 포지션 추가
       for (const pos of toAdd) {
         await postPosition({
-          endpoint: import.meta.env.VITE_API_POST_POSITION_ENDPOINT + `?positionName=${encodeURIComponent(pos)}`,
+          endpoint:
+            import.meta.env.VITE_API_POST_POSITION_ENDPOINT +
+            `?positionName=${encodeURIComponent(pos)}`,
+        });
+      }
+
+      // 끝에 슬래시 제거 후 id 붙이기(// 예방)
+      const baseStrengths =
+        import.meta.env.VITE_API_POST_STRENGTHS_ENDPOINT.replace(/\/$/, "");
+
+      const baseSkills = import.meta.env.VITE_API_POST_SKILLS_ENDPOINT.replace(
+        /\/$/,
+        ""
+      );
+
+      // --- 강점 제거 (배치 전송 가정; 없으면 for-of로 개별 전송)
+      // ✅강점 제거
+      for (const s of strengthsToRemove) {
+        await deleteStrengthById({
+          endpoint: `${baseStrengths}/${s.strengthId}`, // ← /{id}로 확정
+        });
+      }
+
+      // --- 강점 추가 (배치 전송 가정; 없으면 for-of로 개별 전송)
+      // ✅ 강점 추가: POST { strengthId }
+      for (const s of strengthsToAdd) {
+        await postStrengths({
+          // 기본 endpoint 사용 (훅에 설정돼 있음)
+          body: { strengthId: s.strengthId },
+        });
+      }
+
+      // ✅ 스킬 제거
+      for (const s of skillsToRemove) {
+        await deleteSkillById({
+          endpoint: `${baseSkills}/${s.skillId}`,
+        });
+      }
+      // ✅ 스킬 추가
+      for (const s of skillsToAdd) {
+        await PostSkills({
+          body: { skillId: s.skillId },
+        });
+      }
+
+      // ✅ 활동 추가
+      if (validHistoriesToAdd.length > 0) {
+        // console.log("🟢 updateHistories payload", validHistoriesToAdd);
+        await updateHistories({
+          body: {
+            activities: validHistoriesToAdd.map(({ name, startDate }) => ({
+              name,
+              startDate,
+              hasEndDate: false,
+              endDate: "", // or same as startDate
+            })),
+          },
         });
       }
 
@@ -159,6 +298,9 @@ export const FormEdit = () => {
         setPendingProfileFile(null);
         setPendingPreviewUrl(null);
       }
+
+      // ✅ 저장 성공 시점에 저장일자 기록 (KST)
+      // markSaved(); // 또는 markSaved(new Date(serverReturnedAt)) 같이 서버 시각을 쓰고 싶으면 넘겨줘도 OK
 
       alert("프로필이 저장되었습니다.");
     } catch (e) {
@@ -212,7 +354,17 @@ export const FormEdit = () => {
           ))}
           <Save
             onClick={handleSave}
-            disabled={posting || deleting || postingRegion || deletingRegion}
+            disabled={
+              posting ||
+              deleting ||
+              postingRegion ||
+              deletingRegion ||
+              postingStrengths ||
+              deletingStrengths ||
+              PostingSkills ||
+              deletingSkills ||
+              postingHistories 
+            }
           />
         </div>
 

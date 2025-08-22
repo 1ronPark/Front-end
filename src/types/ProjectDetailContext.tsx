@@ -1,5 +1,5 @@
 import { createContext, useContext, useMemo, type ReactNode } from "react";
-import type { ProjectDetailData } from "./ProjectDetailProps";
+import type { ProjectDetailData } from "./ProjectProps";
 
 const ProjectDetailContext = createContext<ProjectDetailData | null>(null);
 

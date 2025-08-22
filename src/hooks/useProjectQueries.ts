@@ -1,21 +1,6 @@
-import { useApiQuery } from './apiHooks';
-import type { ProjectDetailData } from '../types/ProjectDetailProps';
+   import { useApiQuery } from './apiHooks';
+import type { ProjectListItem, ProjectDetailData, ProjectListApiParams } from '../types/ProjectProps';
 
-// 전체 조회 응답 타입
-export interface ProjectListItem {
-  itemId: number;
-  itemName: string;
-  memberName: string;
-  itemImageUrl?: string; 
-  updatedAt: string;
-  recruitStatus?: boolean;
-  school?: string;
-  introduce?: string;
-  viewCount: number;
-  commentCount: number;
-  likedByCurrentUser: boolean;
-
-}
 
 export interface ProjectListResponse {
   isSuccess: boolean;
@@ -27,21 +12,28 @@ export interface ProjectListResponse {
   success: boolean;
 }
 
-
+const buildProjectSearchQS = (p: ProjectListApiParams) => {
+  const qs = new URLSearchParams();
+  qs.append('page', String(p.page));
+  if (p.sort) qs.append('sort', p.sort);
+  if (p.category) qs.append('category', p.category);
+  if (typeof p.positionId === 'number') qs.append('positionId', String(p.positionId));
+  if (typeof p.onlyLiked === 'boolean') qs.append('onlyLiked', String(p.onlyLiked));
+  if (p.regions && p.regions.length) {
+    p.regions.forEach(r => qs.append('regions', r)); // ← 반복 키로 추가
+  }
+  return qs.toString();
+};
 
 // 전체 조회 api 훅
-export type ListSort = 'latest' | 'popular';
-
-export const useProjectList = (page: number, sort?: ListSort) => {
-  const apiPage = Math.max(1, Math.trunc(page));
-
-  const qs = new URLSearchParams();
-  qs.set('page', String(apiPage));
-  if (sort) qs.set('sort', sort);
+export const useProjectList = (params: ProjectListApiParams) => {
+  const base = String(import.meta.env.VITE_API_ITEMS_SEARCH_ENDPOINT || '/v1/items/search');
+  const qs = buildProjectSearchQS(params);
+  const endpointWithQS = qs ? `${base}?${qs}` : base;
 
   return useApiQuery<ProjectListResponse>({
     method: 'GET',
-    endpoint: `${import.meta.env.VITE_API_ITEMS_SEARCH_ENDPOINT}?${qs.toString()}`,
+    endpoint: endpointWithQS, // params 비움 → toQueryString 미사용
   });
 };
 
@@ -57,13 +49,13 @@ interface ProjectDetailResponse {
 }
 
 // 상세조회
-export const useProjectDetail = (itemId: number) => {
-  return useApiQuery<ProjectDetailResponse>({
-    method: 'GET',
-    endpoint: `${import.meta.env.VITE_API_ITEMS_ENDPOINT}/${itemId}`,
-    enabled: Number.isFinite(itemId) && itemId > 0,
+export const useProjectDetail = (id: number) =>
+  useApiQuery<ProjectDetailResponse>({
+    method: "GET",
+    endpoint: import.meta.env.VITE_API_ITEMS_DETAIL_ENDPOINT.replace(":id", String(id)),
+    // queryKey를 내부에서 [method, endpoint, queryString]로 만들면 자동 동일
+    enabled: Number.isFinite(id) && id > 0,
   });
-};
 
 // 좋아요 상태 조회 응답 타입
 interface LikedStatusResponse {
@@ -82,3 +74,35 @@ export const useLikedStatus = (itemId: number) => {
     endpoint: import.meta.env.VITE_API_ITEMS_LIKE_ENDPOINT.replace(":id", String(itemId)), 
   });
 };
+
+
+
+// 최근 본 프로젝트 api 데이터 타입
+
+export const RECENT_REFRESH_EVENT = "recent:view:refresh";
+
+
+export interface RecentViewedItem {
+  itemId: number;
+  itemName: string;
+  introduce: string;
+  itemProfileImageUrl: string | null;
+  viewedAt: string; // ISO
+}
+
+export interface RecentViewedResponse {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  result: {
+    recentViewedItems: RecentViewedItem[];
+  };
+  success: boolean;
+}
+
+// 
+export const useRecentViewedProjects = () =>
+  useApiQuery<RecentViewedResponse>({
+    method: 'GET',
+    endpoint: import.meta.env.VITE_API_ITEMS_RECENT_ENDPOINT,
+  });

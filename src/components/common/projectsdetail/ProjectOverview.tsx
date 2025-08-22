@@ -1,8 +1,8 @@
-import lightupProject from "../../../assets/icons/projectDetail/lightupProject.png";
+//import lightupProject from "../../../assets/icons/projectDetail/lightupProject.png";
 import { useProjectDetailCtx } from "../../../types/ProjectDetailContext";
 
 const ProjectOverview = () => {
-  const { description } = useProjectDetailCtx();
+  const { description, itemPlanFileUrl } = useProjectDetailCtx();
 
   return (
     <div>
@@ -12,7 +12,7 @@ const ProjectOverview = () => {
           {description}
         </div>
         <img
-          src={lightupProject}
+          src={itemPlanFileUrl}
           alt="project overview img"
           className="w-full rounded-lg"
         />

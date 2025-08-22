@@ -12,7 +12,7 @@ const ModifyingMenu = ({ activeSection, onSave }: ModifyingMenuProps) => {
     { id: "basic-info", label: "기본 정보" },
     { id: "desired-conditions", label: "희망 조건" },
     { id: "strengths", label: "스킬 & 강점" },
-    { id: "portfolio", label: "자기소개 • 포트폴리오" },
+    { id: "portfolio", label: "포트폴리오" }, //자기소개 • 포트폴리오
     { id: "history", label: "수상 • 활동 이력" },
   ];
 

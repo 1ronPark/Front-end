@@ -1,32 +1,43 @@
-import { ChevronLeft, DoorOpen } from "lucide-react";
+import { ChevronLeft, CirclePlus, DoorOpen } from "lucide-react";
 import editIcon from "../../assets/icons/mypage/ic_edit.svg";
 import { useState } from "react";
 import addPhotoIcon from "../../assets/icons/mypage/ic_camera.svg";
-import type { MyInfoProps } from "../../types/MyInfoProps";
 import MyInfoEditModal from "./modal/MyInfoEditModal";
 import AddPhotoModal from "./modal/AddPhotoModal";
 import { useApiQuery } from "../../hooks/apiHooks";
 import { useNavigate } from "react-router-dom";
 import { usePostProfileImage } from "../../hooks/useProfile";
+import type { User } from "../../hooks/useUser";
+import { useLoginPath } from "../../hooks/useLoginPath"; // ⬅️ import 추가
+
+import sample from "../../assets/sideNavbar/profile.png";
+import SchoolVerifyModal from "./modal/UnivVerifyModal";
 
 const MyPageInfo = () => {
   const navigate = useNavigate();
 
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [addPhotoModal, setIsAddPhotoModal] = useState<boolean>(false);
+  const [univVerifyModal, setUnivVerifyModal] = useState<boolean>(false);
 
   // ✅ API 호출
   const {
     data: myProps,
     isLoading,
     error,
-  } = useApiQuery<{ result: MyInfoProps }>({
+  } = useApiQuery<{ result: User }>({
     method: "GET",
     // 실제 백엔드 엔드포인트로 대체
-    endpoint: import.meta.env.VITE_API_ME_ENDPOINT,
+    endpoint: import.meta.env.VITE_API_GET_ME_ENDPOINT,
   });
+  console.log(myProps?.result);
+
   // 멀티파트 업로드 뮤테이션 (서버가 profileImageUrl 갱신까지 처리)
   const { mutate: profileChange } = usePostProfileImage();
+
+  // 로그인 경로 정보 가져오기
+  const { data: loginPathData } = useLoginPath();
+  const credentialType = loginPathData?.result.credentials?.[0]?.credentialType;
 
   // 적용 시 업로드 수행
   const onUpload = async (file: File) => {
@@ -36,9 +47,16 @@ const MyPageInfo = () => {
 
     // useApiMutation은 기본적으로 mutate(비동기X)지만,
     // 여기선 모달에서 로딩 표시를 위해 Promise로 래핑
+    const uploadEndpoint = import.meta.env
+      .VITE_API_POST_PROFILE_IMAGE_CHANGE_ENDPOINT;
+    if (!uploadEndpoint) {
+      alert("VITE_API_PROFILE_IMAGE_ENDPOINT가 설정되지 않았습니다.");
+      return;
+    }
+
     await new Promise<void>((resolve, reject) => {
       profileChange(
-        { body: fd },
+        { body: fd, endpoint: uploadEndpoint },
         {
           onSuccess: () => resolve(),
           onError: () => reject(new Error("upload failed")),
@@ -81,7 +99,11 @@ const MyPageInfo = () => {
               <div className="relative w-[160px] h-[160px]">
                 <img
                   className="w-full h-full rounded-full object-cover"
-                  src={myProps.result.profileImageUrl}
+                  src={
+                    myProps.result.profileImageUrl
+                      ? myProps.result.profileImageUrl
+                      : `${sample}`
+                  }
                   alt="프로필 이미지"
                 />
                 {/* 프로필 사진 등록 버튼 */}
@@ -122,8 +144,16 @@ const MyPageInfo = () => {
               </div>
               <div className="flex justify-between">
                 <p className="label-large text-[#49454E]">대학교</p>
-                <p className="text-right label-large-emphasis">
+
+                <p className="text-right label-large-emphasis ">
                   {myProps.result.school}
+                  <button
+                    className="flex items-center label-small text-[#49454E] gap-1 mt-2 cursor-pointer"
+                    onClick={() => setUnivVerifyModal(true)}
+                  >
+                    <CirclePlus className="w-4 h-4" />
+                    대학교 등록 & 수정
+                  </button>
                 </p>
               </div>
               <div className="flex justify-between">
@@ -135,7 +165,13 @@ const MyPageInfo = () => {
               <div className="flex justify-between">
                 <p className="label-large text-[#49454E]">한줄소개</p>
                 <p className="text-right label-large-emphasis">
-                  {myProps.result.career}
+                  {myProps.result.profileTitle ? (
+                    myProps.result.profileTitle
+                  ) : (
+                    <span className="text-right label-large text-gray-500">
+                      한줄소개를 작성해주세요.
+                    </span>
+                  )}
                 </p>
               </div>
             </div>
@@ -153,13 +189,30 @@ const MyPageInfo = () => {
           {/* content */}
           <div className="flex w-[960px] justify-between">
             <p className="label-large text-[#49454E]">
-              카카오톡 로그인 사용 중 입니다.
-              <br />
-              비밀번호는 카카오톡에서 변경하실 수 있습니다.
+              {credentialType === "PASSWORD" ? (
+                <>
+                  현재 비밀번호를 사용 중입니다.
+                  <br />
+                  원하시는 경우 아래 버튼을 통해 변경하실 수 있습니다.
+                </>
+              ) : (
+                <>
+                  소셜로그인을 사용 중 입니다.
+                  <br />
+                  비밀번호는 소셜로그인 플랫폼을 통해 변경하실 수 있습니다.
+                </>
+              )}
             </p>
             <button
-              className="flex justify-center items-center px-3 py-1.5 gap-1 hover:cursor-pointer"
-              onClick={() => navigate("password")}
+              className={`flex justify-center items-center px-3 py-1.5 gap-1 ${
+                credentialType !== "PASSWORD"
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:cursor-pointer"
+              }`}
+              onClick={() =>
+                credentialType === "PASSWORD" && navigate("password")
+              }
+              disabled={credentialType !== "PASSWORD"}
             >
               <ChevronLeft className="w-[20px] h-[20px] text-[#49454E]" />
               <p className="label-large text-[#49454E]">변경 하러 가기</p>
@@ -194,6 +247,9 @@ const MyPageInfo = () => {
             onClose={() => setIsAddPhotoModal(false)}
             onUpload={onUpload} // ← 적용 시 업로드 수행
           />
+        )}
+        {univVerifyModal && (
+          <SchoolVerifyModal onClose={() => setUnivVerifyModal(false)} />
         )}
       </div>
     </div>

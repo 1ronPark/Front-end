@@ -21,6 +21,7 @@ import {
   useApplyToProject,
 } from "../../../hooks/useProjectMutation";
 import { useProjectDetailCtx } from "../../../types/ProjectDetailContext";
+import { useMyProjects } from "../../../hooks/useMyProjects";
 
 import ActionStatusModal from "../modals/ActionStatusModal";
 import AlertModal from "../modals/AlertModal";
@@ -38,23 +39,45 @@ const ProjectInfoCard = () => {
     age,
     mbti,
     email,
-    school,
+    schoolName,
     regions,
-    //description, -> projectOverview에 넘겨줄 형식
-    // likedByCurrentUser: liked,
-    //ecruitPositions,
     itemCategories,
-    //emComments,
     updatedAt: date,
     likedByCurrentUser,
     applicantStatus: applied_project = false,
-    suggestStatus: suggested_project = false, 
+    suggestStatus: suggested_project = false,
+    recruitStatus,
   } = useProjectDetailCtx();
+
+  const { createdProjects } = useMyProjects();
+  const myProjectIdSet = useMemo(
+    () => new Set((createdProjects ?? []).map((p) => p.itemId)),
+    [createdProjects]
+  );
+
+  const isRecruiting = recruitStatus === true; // true일 때만 배너
+
+  const isMine = myProjectIdSet.has(itemId);
 
   const [showActionModal, setShowActionModal] = useState(false);
   const [showAlertModal, setShowAlertModal] = useState(false);
   const [applied, setApplied] = useState(applied_project);
   const [liked, setLiked] = useState(likedByCurrentUser);
+
+  const canApply = recruitStatus && !applied;
+  const applyLabel = applied
+    ? "이미 지원했어요"
+    : recruitStatus
+    ? "지원하기"
+    : "모집 마감";
+  const applyIcon = recruitStatus && !applied ? ic_send : ic_hail;
+  const applyTooltip = !recruitStatus
+    ? "모집이 마감된 프로젝트예요"
+    : applied
+    ? "제안을 기다리고 있어요\n제안이 오면 알림을 보내드릴게요"
+    : suggested_project
+    ? "히로님에게 제안을 보낸 프로젝트예요\n지금 바로 지원하고 연락해 보세요!"
+    : "";
 
   // 카테고리 이름 배열로 변환
   const categoryNames = useMemo(
@@ -79,6 +102,11 @@ const ProjectInfoCard = () => {
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (loading) return; // 중복 클릭 방지
+    if (isMine) {
+      // 본인 프로젝트면 경고 후 종료
+      window.alert("내가 등록한 프로젝트에는 관심을 표시할 수 없어요.");
+      return;
+    }
 
     const prev = liked;
     setLiked(!prev);
@@ -94,9 +122,24 @@ const ProjectInfoCard = () => {
   // 지원 관련 상태
   const applyMutation = useApplyToProject(itemId);
 
-  // 지원 버튼 클릭
+  //지원 버튼 클릭
   const handleApplyClick = () => {
+    if (!canApply) return; // 마감/이미 지원 시 클릭 무시
     setShowActionModal(true);
+  };
+
+  const handleApplyToProject = () => {
+    applyMutation.mutate(
+      { body: undefined },
+      {
+        onSuccess: () => {
+          setApplied(true);
+          setShowActionModal(false);
+          setShowAlertModal(true);
+        },
+        onError: () => {},
+      }
+    );
   };
 
   return (
@@ -123,12 +166,14 @@ const ProjectInfoCard = () => {
           <div className="flex justify-start items-center gap-8 mb-4.5">
             {/* 제목 */}
             <h2 className="headline-small-emphasis">{sub_title}</h2>
-            <div className="flex gap-4 px-4 py-1 bg-[#FFDCBE] rounded-xl text-[#693C00] justify-center items-center">
-              <BellRing className="w-4 h-4 justify-center" />
-              <span className="label-small-emphasis text-sm text-[#693C00] py-1">
-                현재 모집 중인 프로젝트 입니다. 바로 지원해 보세요!
-              </span>
-            </div>
+            {isRecruiting && (
+              <div className="flex gap-4 px-4 py-1 bg-[#FFDCBE] rounded-xl text-[#693C00] justify-center items-center">
+                <BellRing className="w-4 h-4 justify-center" />
+                <span className="label-small-emphasis text-sm text-[#693C00] py-1">
+                  현재 모집 중인 프로젝트 입니다. 바로 지원해 보세요!
+                </span>
+              </div>
+            )}
           </div>
 
           {/* 구분선 */}
@@ -187,7 +232,7 @@ const ProjectInfoCard = () => {
                   <GraduationCap className="flex justify-center w-4 h-4" />
                   대학교
                 </div>
-                <span className="body-small ml-6">{school}</span>
+                <span className="body-small ml-6">{schoolName}</span>
               </div>
 
               <hr className="border-t px-4 border-[rgba(121,116,126,0.08)] py-[2px]" />
@@ -235,51 +280,37 @@ const ProjectInfoCard = () => {
         {/* 하단 버튼 + 팝업*/}
         <div className="flex gap-4 justify-center mt-4 mb-4">
           <div className="relative inline-block group">
-            <ToolTip
-              content={
-                applied
-                  ? "제안을 기다리고 있어요\n제안이 오면 알림을 보내드릴게요"
-                  : suggested_project
-                  ? "히로님에게 제안을 보낸 프로젝트예요\n지금 바로 지원하고 연락해 보세요!"
-                  : ""
-              }
-            >
+            <ToolTip content={applyTooltip}>
               <button
                 onClick={handleApplyClick}
-                disabled={applied}
+                disabled={!canApply} // 모집 마감 or 이미 지원 => 비활성화
                 className={`w-[200px] h-[56px] flex items-center justify-center gap-2.5 rounded-[16px] text-white
-        ${applied ? "opacity-60 bg-[#5A5891]" : "bg-[#545891] cursor-pointer"}`}
+    ${canApply ? "bg-[#545891] cursor-pointer" : "opacity-60 bg-[#5A5891]"}`}
               >
-                <img
-                  src={applied ? ic_hail : ic_send}
-                  alt="send icon"
-                  className="w-6 h-6"
-                />
-                <p className="title-medium text-white">
-                  {applied ? "이미 지원했어요" : "지원하기"}
-                </p>
+                <img src={applyIcon} className="w-6 h-6" />
+                <p className="title-medium text-white">{applyLabel}</p>
               </button>
             </ToolTip>
           </div>
-
           <button
             type="button"
             onClick={handleClick}
             disabled={loading}
             aria-pressed={liked}
             aria-busy={loading}
+            aria-disabled={loading || isMine}
             className={`w-[200px] h-[56px] inline-flex items-center justify-center gap-2.5 rounded-[16px] border transition
     ${
       liked
         ? "bg-[#E3E0F9] border-purple-200 text-[#545891] hover:[#E3E0F9]"
         : "bg-transparant border-[#C8C5D0] text-[#47464F] hover:bg-gray-200"
     }
-    ${loading ? "opacity-60 cursor-not-allowed" : "cursor-pointer"}
++    ${loading || isMine ? "opacity-40" : "cursor-pointer"}
     focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-400`}
           >
             <Heart className="w-5 h-5" fill={liked ? "currentColor" : "none"} />
             <span className="title-medium">
-              {liked ? "관심 해제" : "관심 목록 추가"}
+              {liked ? "관심 목록 추가됨" : "관심 목록 추가"}
             </span>
           </button>
         </div>
@@ -292,19 +323,7 @@ const ProjectInfoCard = () => {
           proposalSentTitle={`지원이 완료되었어요`}
           proposalSentButtonText="확인"
           onClose={() => setShowActionModal(false)}
-          onProposalSent={() => {
-            // 모달 '확인' 클릭 시 실제 서버로 지원 요청 전송
-            applyMutation.mutate(
-              { body: undefined },
-              {
-                onSuccess: () => {
-                  setApplied(true);
-                  setShowAlertModal(true);
-                },
-                onError: () => {},
-              }
-            );
-          }}
+          onProposalSent={handleApplyToProject}
         />
       )}
 

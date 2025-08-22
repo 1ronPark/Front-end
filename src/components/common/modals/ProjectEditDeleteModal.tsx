@@ -1,14 +1,19 @@
 import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { Pencil,Trash2} from "lucide-react";
+import { useDeleteMyProject } from '../../../hooks/useDeleteProject';
 
 interface MenuModalProps {
   onClose: () => void;
-  onShareClick: () => void; // ✅ 공유 버튼 클릭 핸들러 추가
+  projectId: number;
 }
 
-const MenuModal = ({ onClose}: MenuModalProps) => {
+const ProjectEditDeleteModal = ({ onClose, projectId}: MenuModalProps) => {
+
+  const { mutate } = useDeleteMyProject();
   // 바깥 클릭시 모달을 사라지게하는 ref
   const modalRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -34,7 +39,14 @@ const MenuModal = ({ onClose}: MenuModalProps) => {
       <div className="flex flex-col py-2">
         {/* 수정하기 버튼 => 만약 내가 쓴 글이면 */}
         {(
-          <button className="h-[48px] px-3 py-2 flex items-center gap-3 hover:bg-gray-100 cursor-pointer">
+          <button
+            onClick={() => {
+              navigate(`/edit-project/${projectId}`);
+              onClose(); // 모달 닫기
+              alert("썸네일과 기획서, 링크를 꼭 재등록해주세요!")
+            }}
+            className="h-[48px] px-3 py-2 flex items-center gap-3 hover:bg-gray-100 cursor-pointer"
+          >
             <div className="flex justify-center items-center w-6 h-6">
               <Pencil className="w-5 h-5 text-[#1C1B21]" />
             </div>
@@ -48,7 +60,14 @@ const MenuModal = ({ onClose}: MenuModalProps) => {
         )}
         {/* 삭제버튼 */}
         {(
-          <button className="h-[48px] px-3 py-2 flex items-center gap-3 hover:bg-gray-100 cursor-pointer">
+          <button
+            onClick={() => {
+              const endpoint = import.meta.env.VITE_API_DELETE_ITEM_ENDPOINT.replace(':id', String(projectId));
+              mutate({ endpoint });
+              onClose(); // 모달 닫기
+            }}
+            className="h-[48px] px-3 py-2 flex items-center gap-3 hover:bg-gray-100 cursor-pointer"
+          >
             <div className="flex justify-center items-center w-6 h-6">
               <Trash2 className="w-5 h-5 text-[#BA1A1A]" />
             </div>
@@ -60,4 +79,4 @@ const MenuModal = ({ onClose}: MenuModalProps) => {
   );
 };
 
-export default MenuModal;
+export default ProjectEditDeleteModal;

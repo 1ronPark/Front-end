@@ -1,19 +1,13 @@
-import { useState } from 'react';
-
 interface SwitchProps {
-  initialState?: boolean;
-  onToggle?: (toggled: boolean) => void;
+  state: boolean;
+  onToggle: (toggled: boolean) => void;
 }
 
-const Switch = ({ initialState = false, onToggle }: SwitchProps) => {
-  const [toggled, setToggled] = useState(initialState);
+const Switch = ({ state, onToggle }: SwitchProps) => {
+  const toggled = state;
 
   const handleToggle = () => {
-    const newState = !toggled;
-    setToggled(newState);
-    if (onToggle) {
-      onToggle(newState);
-    }
+    onToggle(!toggled);
   };
 
   return (

@@ -1,3 +1,19 @@
+// 전체 조회 응답 타입
+export interface ProjectListItem {
+  itemId: number;
+  itemName: string;
+  memberName: string;
+  itemImageUrl?: string; 
+  updatedAt: string;
+  recruitStatus?: boolean;
+  schoolName?: string;
+  introduce?: string;
+  viewCount: number;
+  commentCount: number;
+  likedByCurrentUser: boolean;
+}
+
+// 상세 조회 응답 타입
 export type ProjectRegion = { siDo: string; siGunGu: string };
 
 export type ProjectRecruitPosition = {
@@ -53,9 +69,10 @@ export type ProjectDetailDataApi = {
   age: number;
   mbti: string;
   email: string;
-  school: string;
+  schoolName: string;
   regions: ProjectRegion[];
   description?: string;
+  itemPlanFileUrl: string,
   recruitPositions: ProjectRecruitPosition[];
   itemCategories: { categoryName: CategoryType }[];
   itemComments: ProjectComment[];
@@ -64,6 +81,24 @@ export type ProjectDetailDataApi = {
   likedByCurrentUser: boolean;
   applicantStatus: boolean;
   suggestStatus: boolean;
+  recruitStatus: boolean;
 };
 
 export type ProjectDetailData = ProjectDetailDataApi & { itemId: number };
+
+// 필터 타입
+export type SortParam = 'popular' | 'latest'; // 스웨거에 열거가 없으면 프로젝트 합의 값으로
+
+// types/ProjectProps.ts
+export type SortApi = 'popular' | 'latest';
+
+export type ProjectListApiParams = {
+  page: number;
+  sort?: SortApi;
+  category?: string;          // 단일 선택(예: "블록체인")
+  positionId?: number;        // Part -> id 매핑해서 숫자
+  regions?: string[];         // ["서울특별시 전체","대구광역시 남구"]
+  onlyLiked?: boolean;
+};
+
+

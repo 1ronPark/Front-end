@@ -3,14 +3,22 @@ import addIcon from "../../assets/icons/mypage/ic_project_addsvg.svg";
 import MyProjectEmpty from "./project/MyProjectEmpty";
 import MyProjectList from "./project/MyProjectList";
 import type { Project } from "../../hooks/useMyProjects";
+import LoadingPage from "../../pages/LoadingPage";
+
 
 interface MyProjectProps {
-  hasData: boolean;
   isLoading: boolean;
-  projects: Project[];
+  createdProjects: Project[];
+  appliedProjects: Project[];
 }
 
-const MyProjects = ({ hasData, isLoading, projects }: MyProjectProps) => {
+const MyProjects = ({
+  isLoading,
+  createdProjects = [],
+  appliedProjects = [],
+}: MyProjectProps) => {
+  const hasData = createdProjects.length > 0 || appliedProjects.length > 0;
+
   return (
     <div className="flex-1 justify-center overflow-y-auto mx-[100px]">
       <div className="w-[960px] flex justify-between items-center ">
@@ -32,13 +40,16 @@ const MyProjects = ({ hasData, isLoading, projects }: MyProjectProps) => {
       </div>
       {/* 구분선 */}
       <hr className="w-[960px] mt-4 border-t border-[#CBC4CF]" />
-            <div className="w-[960px] mt-6 flex flex-col items-center gap-8">
+      <div className="w-[960px] mt-6 flex flex-col items-center gap-8">
         {isLoading ? (
-          <div>로딩 중...</div> // 여기에 스피너나 스켈레톤 UI 컴포넌트를 사용할 수 있습니다.
+          <LoadingPage />
         ) : hasData === false ? (
           <MyProjectEmpty />
         ) : (
-          <MyProjectList projectList={projects} />
+          <MyProjectList
+            createdProjects={createdProjects}
+            appliedProjects={appliedProjects}
+          />
         )}
       </div>
     </div>
