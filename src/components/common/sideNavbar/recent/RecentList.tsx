@@ -23,9 +23,27 @@ const RecentList = () => {
         프로젝트
       </div>
       <div className="flex flex-col items-center justify-center min-h-[72px] border-b border-[#CBC4CF]">
-        <NoticeItem />
-        <NoticeItem />
-        <NoticeItem />
+        <NoticeItem
+          notificationId={1}
+          message="프로젝트 A를 최근에 봤어요"
+          notificationType="INVITE"
+          isRead={false}
+          referenceId={101}
+        />
+        <NoticeItem
+          notificationId={2}
+          message="프로젝트 B를 최근에 봤어요"
+          notificationType="REMINDER"
+          isRead={true}
+          referenceId={102}
+        />
+        <NoticeItem
+          notificationId={3}
+          message="프로젝트 C를 최근에 봤어요"
+          notificationType="UPDATE"
+          isRead={false}
+          referenceId={103}
+        />
       </div>
     </div>
   );

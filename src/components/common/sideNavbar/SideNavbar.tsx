@@ -12,6 +12,7 @@ import NoNotificationList from "./notification/NoNotificationList";
 import NoFavoriteList from "./favorite/NoFavoriteList";
 import RecentList from "./recent/RecentList";
 import NoRecentList from "./recent/NoRecentList";
+import { useUnreadNotificationCount } from "../../../hooks/useUnreadNotificationCount";
 
 const SideNavbar = () => {
   const [activePanel, setActivePanel] = useState<
@@ -21,6 +22,11 @@ const SideNavbar = () => {
   const [lastPanel, setLastPanel] = useState<
     "notification" | "favorite" | "recent" | null
   >("notification");
+
+  const unreadCount = useUnreadNotificationCount();
+  const hasNotificationData = unreadCount > 0;
+  const hasFavoriteData = true;
+  const hasRecentData = true;
 
   const togglePanel = (panel: "notification" | "favorite" | "recent") => {
     setLastPanel(panel); //마지막에 열었던 패널 기록
@@ -67,21 +73,28 @@ const SideNavbar = () => {
             {/* 알림 버튼 */}
 
             <div className="flex flex-col justify-center items-center py-1.5 gap-1">
-              <button
-                onClick={() => togglePanel("notification")}
-                className={`flex flex-col items-center justify-center w-[56px] h-[32px] py-1 gap-2.5 rounded-2xl hover:cursor-pointer
-                  ${
-                    activePanel === "notification"
-                      ? "bg-[#E3E0F9]"
-                      : "hover:bg-gray-200 opacity-[0.58]"
-                  }
-                  `}
-              >
-                <img
-                  src={notificationIcon}
-                  className="flex justify-center items-center py-1 gap-[10px]"
-                />
-              </button>
+              <div className="relative">
+                <button
+                  onClick={() => togglePanel("notification")}
+                  className={`flex flex-col items-center justify-center w-[56px] h-[32px] py-1 gap-2.5 rounded-2xl hover:cursor-pointer
+                    ${
+                      activePanel === "notification"
+                        ? "bg-[#E3E0F9]"
+                        : "hover:bg-gray-200 opacity-[0.58]"
+                    }
+                    `}
+                >
+                  <img
+                    src={notificationIcon}
+                    className="flex justify-center items-center py-1 gap-[10px]"
+                  />
+                </button>
+                {hasNotificationData && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                    {unreadCount > 99 ? "99+" : unreadCount}
+                  </span>
+                )}
+              </div>
               <p
                 className={`label-medium 
                 ${
@@ -161,11 +174,11 @@ const SideNavbar = () => {
         isActive={activePanel !== null}
         hasData={
           activePanel === "notification"
-            ? true // 알림 data 있음
+            ? hasNotificationData
             : activePanel === "favorite"
-            ? true // 관심 data 있음
+            ? hasFavoriteData
             : activePanel === "recent"
-            ? true // 최근 data 있음
+            ? hasRecentData
             : false
         }
         list={
