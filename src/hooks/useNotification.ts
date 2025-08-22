@@ -13,6 +13,7 @@ export type NotificationItem = {
   notificationType: string;
   isRead: boolean;
   referenceId: number;
+  createdAt: string;
 };
 
 export type NotificationListResponse = {
@@ -73,11 +74,13 @@ export type NotificationDeleteResponse = {
 };
 
 // 알림 목록 요청
-export const useNotificationList = ({ page, size = 10 }: NotificationQueryParams) =>
-  useApiQuery<NotificationListResponse>({
+export const useNotificationList = ({ page, size = 200 }: NotificationQueryParams) => {
+  const query = useApiQuery<NotificationListResponse>({
     method: 'GET',
     endpoint: `${import.meta.env.VITE_API_NOTIFICATION_LIST_ENDPOINT}?page=${page}&size=${size}`,
   });
+  return query;
+};
 
 // 읽지 않은 알림 개수
 export const useNotificationCount = () =>

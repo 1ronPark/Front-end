@@ -9,6 +9,7 @@ interface NoticeItemProps {
   notificationType: string;
   isRead: boolean;
   referenceId: number;
+  createdAt: string;
 }
 
 const NoticeItem = ({
@@ -16,6 +17,7 @@ const NoticeItem = ({
   message,
   isRead,
   referenceId,
+  createdAt,
 }: NoticeItemProps) => {
   const navigate = useNavigate();
   const [read, setRead] = useState(isRead);
@@ -31,17 +33,37 @@ const NoticeItem = ({
 
   return (
     <div
-      className="flex w-[300px] h-[72px] justify-center items-center py-2 px-6 gap-4 hover:bg-gray-200 cursor-pointer"
+      className="flex w-[280px] h-[72px] justify-center items-center py-2 gap-4 hover:bg-gray-200 cursor-pointer"
       onClick={handleClick}
     >
-      <div className="flex w-[48px] h-[48px]">
+      <div className="flex w-[40px] h-[40px]">
         <img src={profileIcon} className="rounded-3xl" />
       </div>
-      <div className="flex flex-col justify-center items-start max-w-[160px] break-words">
+      <div className="flex flex-col justify-center items-start max-w-[140px] break-words">
 
-        <p className="body-large text-[#1D1B20]">{message}</p>
+        <p className="body-medium text-[#1D1B20]">{message}</p>
+        <p className="label-medium text-[#9E9E9E]">
+          {(() => {
+            const date = new Date(createdAt);
+            date.setHours(date.getHours() + 9);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            const day = String(date.getDate()).padStart(2, "0");
+            const hour = date.getHours();
+            const minute = String(date.getMinutes()).padStart(2, "0");
+            const isAM = hour < 12;
+            const displayHour = String(hour % 12 || 12).padStart(2, "0");
+            const period = isAM ? "오전" : "오후";
+
+            return `${year}. ${month}. ${day}. ${period} ${displayHour}:${minute}`;
+          })()}
+        </p>
       </div>
-      <div className="text-[11px] text-[#9E9E9E] ml-auto whitespace-nowrap min-w-[40px] text-right">
+      <div
+        className={`text-[11px] whitespace-nowrap min-w-[40px] text-right ${
+          read ? "text-[#9E9E9E]" : "text-[#D32F2F] font-semibold"
+        }`}
+      >
         {read ? "읽음" : "안읽음"}
       </div>
     </div>
