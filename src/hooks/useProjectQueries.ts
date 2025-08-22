@@ -33,7 +33,7 @@ export const useProjectList = (params: ProjectListApiParams) => {
 
   return useApiQuery<ProjectListResponse>({
     method: 'GET',
-    endpoint: endpointWithQS, // ✅ params 비움 → toQueryString 미사용
+    endpoint: endpointWithQS, // params 비움 → toQueryString 미사용
   });
 };
 
@@ -74,3 +74,35 @@ export const useLikedStatus = (itemId: number) => {
     endpoint: import.meta.env.VITE_API_ITEMS_LIKE_ENDPOINT.replace(":id", String(itemId)), 
   });
 };
+
+
+
+// 최근 본 프로젝트 api 데이터 타입
+
+export const RECENT_REFRESH_EVENT = "recent:view:refresh";
+
+
+export interface RecentViewedItem {
+  itemId: number;
+  itemName: string;
+  introduce: string;
+  itemProfileImageUrl: string | null;
+  viewedAt: string; // ISO
+}
+
+export interface RecentViewedResponse {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  result: {
+    recentViewedItems: RecentViewedItem[];
+  };
+  success: boolean;
+}
+
+// 
+export const useRecentViewedProjects = () =>
+  useApiQuery<RecentViewedResponse>({
+    method: 'GET',
+    endpoint: import.meta.env.VITE_API_ITEMS_RECENT_ENDPOINT,
+  });
