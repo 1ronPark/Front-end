@@ -8,7 +8,7 @@ import { useLikeMember, useUnLikeMember } from '../../../hooks/useMember';
 
 type MemberCardProps = Pick<
     MyInfoProps,
-    "id" | "name" | "nickname" | "gender" | "mbti" | "location" | "role" | "skills" | "strengths"
+    "id" | "name" | "nickname" | "gender" | "mbti" | "location" | "role" | "skills" | "strengths" | "profileImageUrl"
 > & {
     liked?: boolean;
 };
@@ -24,6 +24,7 @@ const MemberCard = ({
     skills,
     strengths,
     liked=false,
+    profileImageUrl,
 }: MemberCardProps) => {
 
     const [isLiked, setIsLiked] = useState(liked);
@@ -63,7 +64,7 @@ const MemberCard = ({
             {/* 프로필, 좋아요 아이콘 */}
             <div className="flex items-start justify-between p-4">
                 <div className="flex items-center gap-2">
-                <img src={ic_avatar} alt="avatar" className="w-10 h-10 rounded-full bg-[#E9DFF7]" />
+                <img src={profileImageUrl || ic_avatar} alt="avatar" className="w-10 h-10 rounded-full bg-[#E9DFF7]" />
                 <div className="flex flex-col ml-[16px] gap-[4px]">
                     <div className="flex flex-wrap items-center gap-1"> {/* flex-wrap 추가 */}
                         <span className="title-medium">{name}</span>

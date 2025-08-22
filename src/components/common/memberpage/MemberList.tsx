@@ -18,6 +18,7 @@ const MemberList: React.FC<MemberListProps> = ({ members }) => {
                     name={member.name}
                     nickname={member.nickname}
                     gender={member.gender}
+                    profileImageUrl={member.profileImageUrl}
                     mbti={member.mbti}
                     location={formatRegions(member.regions)}
                     role={member.positions.length > 0 
