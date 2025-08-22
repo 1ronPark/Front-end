@@ -12,5 +12,5 @@ interface UpdateProfileBody {
 export const useHistoryMutation = () =>
   useApiMutation<UpdateProfileBody, void>({
     method: "PUT",
-    endpoint: "/api/v1/members/me/profile",
+    endpoint: import.meta.env.VITE_API_GET_PROFILE_ENDPOINT,
   });
