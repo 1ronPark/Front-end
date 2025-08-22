@@ -55,7 +55,7 @@ React + TypeScript 기반의 모듈형 구조로 구성되어 있으며, 기능 
 
 ---
 
-# 📁 프로젝트 구조 (slu_front)
+## 📁 프로젝트 구조 (slu_front)
 
 <pre>
 slu_front/
