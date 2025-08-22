@@ -18,6 +18,7 @@ import {
 import Reception from "../components/mypage/edit/Reception";
 import { usePostProfileImage } from "../hooks/useProfile";
 import { useDeleteSkillById, usePostSkills } from "../hooks/useSkill";
+import { useHistoryMutation } from "../hooks/useHistory";
 
 const SECTIONS = [
   // { id: "basic-info", component: <Header /> },
@@ -58,6 +59,11 @@ export const FormEdit = () => {
   //스킬
   const initialSkills = useProfileStore((s) => s.initialSkills);
   const skills = useProfileStore((s) => s.skills);
+  //활동내역
+  const initialHistories = useProfileStore((s) => s.initialHistories);
+  const histories = useProfileStore((s) => s.histories);
+const { mutateAsync: updateHistories, isPending: postingHistories } = useHistoryMutation();
+  // const selfIntroduction = useProfileStore((s) => s.selfIntroduction);
   //저장된 날짜
   // const markSaved = useProfileStore((s) => s.markSaved);
 
@@ -79,6 +85,8 @@ export const FormEdit = () => {
   const { mutateAsync: PostSkills, isPending: PostingSkills } = usePostSkills();
   const { mutateAsync: deleteSkillById, isPending: deletingSkills } =
     useDeleteSkillById();
+  //활동내역
+
 
   // ===== Save =====
   const handleSave = async () => {
@@ -117,8 +125,53 @@ export const FormEdit = () => {
       (s) => !curSkillIds.has(s.skillId)
     );
 
+    // 5) 활동 내역 diff
+    const historiesToAdd = histories.filter(
+      (h) =>
+        !initialHistories.some(
+          (ih) =>
+            ih.name === h.name &&
+            ih.startDate === h.startDate &&
+            ih.endDate === h.endDate &&
+            ih.hasEndDate === h.hasEndDate
+        )
+    );
+    // console.log("🟣 historiesToAdd.length", historiesToAdd.length);
+    const validHistoriesToAdd = historiesToAdd.filter(
+      (h) => h.name.trim() && h.startDate.trim()
+    );
+    // console.log("✅ validHistoriesToAdd.length", validHistoriesToAdd.length);
+    // console.log("✅ validHistoriesToAdd", validHistoriesToAdd);
+
+    if (historiesToAdd.length > 0 && validHistoriesToAdd.length === 0) {
+      alert("활동 내역에 필수 값이 입력되지 않았습니다.");
+      return;
+    }
+
+    // const historiesToRemove = initialHistories.filter(
+    //   (ih) =>
+    //     !histories.some(
+    //       (h) =>
+    //         h.name === ih.name &&
+    //         h.startDate === ih.startDate &&
+    //         h.endDate === ih.endDate &&
+    //         h.hasEndDate === ih.hasEndDate
+    //     )
+    // );
+
     // ✅ 이미지 변경도 함께 판단
     const hasProfileImageChange = !!pendingProfileFile;
+
+    // console.log("🧪 Saving triggered");
+    // console.log("▶️ toAdd", toAdd);
+    // console.log("▶️ toRemove", toRemove);
+    // console.log("▶️ regionsToAdd", regionsToAdd);
+    // console.log("▶️ regionsToRemove", regionsToRemove);
+    // console.log("▶️ strengthsToAdd", strengthsToAdd);
+    // console.log("▶️ strengthsToRemove", strengthsToRemove);
+    // console.log("▶️ skillsToAdd", skillsToAdd);
+    // console.log("▶️ skillsToRemove", skillsToRemove);
+    // console.log("▶️ hasProfileImageChange", hasProfileImageChange);
 
     if (
       toAdd.length === 0 &&
@@ -129,6 +182,7 @@ export const FormEdit = () => {
       strengthsToRemove.length === 0 &&
       skillsToAdd.length === 0 &&
       skillsToRemove.length === 0 &&
+      historiesToAdd.length === 0 &&
       !hasProfileImageChange
     ) {
       alert("변경된 내용이 없습니다.");
@@ -216,6 +270,21 @@ export const FormEdit = () => {
         });
       }
 
+      // ✅ 활동 추가
+      if (validHistoriesToAdd.length > 0) {
+        // console.log("🟢 updateHistories payload", validHistoriesToAdd);
+        await updateHistories({
+          body: {
+            activities: validHistoriesToAdd.map(({ name, startDate }) => ({
+              name,
+              startDate,
+              hasEndDate: false,
+              endDate: "", // or same as startDate
+            })),
+          },
+        });
+      }
+
       // --- 프로필 이미지 업로드 (선택된 경우에만)
       if (pendingProfileFile) {
         const fd = new FormData();
@@ -293,7 +362,8 @@ export const FormEdit = () => {
               postingStrengths ||
               deletingStrengths ||
               PostingSkills ||
-              deletingSkills
+              deletingSkills ||
+              postingHistories 
             }
           />
         </div>

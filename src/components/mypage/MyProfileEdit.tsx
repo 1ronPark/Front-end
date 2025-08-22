@@ -19,7 +19,7 @@ const MyProfileEdit = () => {
         <div className="flex flex-col justify-center items-start gap-4 mb-4">
           <h1 className="text-2xl font-semibold">프로필 관리</h1>
           <li className="text-gray-500">
-            프로필을 완성하여 샤로운 제안을 받아보세요!
+            프로필을 완성하여 새로운 제안을 받아보세요!
           </li>
         </div>
 
@@ -29,7 +29,7 @@ const MyProfileEdit = () => {
           <div>
             <p className="title-small text-[#47464F]">
               {/* ⚠️ 저장시간을 저장하는 도메인 필요 백에 요청해야될듯 !! */}
-              최종수정일: {myInfo?.result.activities?.[0]?.startDate ?? "알 수 없음"}
+              최종수정일: {myInfo?.result.activities?.[0]?.endDate ?? "알 수 없음"}
             </p>
           </div>
           <button
