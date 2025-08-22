@@ -85,6 +85,39 @@ type ProfileEditStore = {
   // markSaved: (at?: Date) => void;
 
   reset: () => void;
+
+  // ===== NEW: 히스토리 아이디 =====
+  historyId: number | null;
+  setHistoryId: (id: number | null) => void;
+
+  initialHistories: {
+    name: string;
+    startDate: string;
+    hasEndDate: boolean;
+    endDate: string;
+  }[];
+  histories: {
+    name: string;
+    startDate: string;
+    hasEndDate: boolean;
+    endDate: string;
+  }[];
+  setInitialHistories: (
+    items: {
+      name: string;
+      startDate: string;
+      hasEndDate: boolean;
+      endDate: string;
+    }[]
+  ) => void;
+  setHistories: (
+    items: {
+      name: string;
+      startDate: string;
+      hasEndDate: boolean;
+      endDate: string;
+    }[]
+  ) => void;
 };
 
 export const useProfileStore = create<ProfileEditStore>((set, get) => ({
@@ -214,4 +247,13 @@ export const useProfileStore = create<ProfileEditStore>((set, get) => ({
       skills: [],
       // lastSavedYMD: null, // 저장일자도 초기화
     }),
+
+  // ===== NEW: 히스토리 아이디 =====
+  historyId: null,
+  setHistoryId: (id) => set({ historyId: id }),
+
+  initialHistories: [],
+  histories: [],
+  setInitialHistories: (items) => set({ initialHistories: items }),
+  setHistories: (items) => set({ histories: items }),
 }));

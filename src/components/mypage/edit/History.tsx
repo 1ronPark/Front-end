@@ -1,23 +1,22 @@
-import { useState } from 'react';
+// import { useState } from 'react';  
+import { useProfileStore } from '../../../store/useProfileStore';
 import HistoryCard from '../../common/cards/historys/HistoryCard';
 
-interface HistoryItem {
-  id: number;
-  activity: string;
-  date: string;
-}
-
 const History = () => {
-  const [histories, setHistories] = useState<HistoryItem[]>([
-    { id: 1, activity: '', date: '' },
-  ]);
+  const histories = useProfileStore(state => state.histories);
+  const setHistories = useProfileStore(state => state.setHistories);
 
   const addHistory = () => {
-    setHistories([...histories, { id: Date.now(), activity: '', date: '' }]);
+    setHistories([...histories, { name: '', startDate: '', hasEndDate: true, endDate: '' }]);
   };
 
-  const deleteHistory = (id: number) => {
-    setHistories(histories.filter(h => h.id !== id));
+  const handleHistoryChange = (index: number, updated: { name: string; startDate: string }) => {
+    setHistories(histories.map((item, i) => (i === index ? { ...item, ...updated } : item)));
+  };
+
+
+  const handleDelete = (index: number) => {
+    setHistories(histories.filter((_, i) => i !== index));
   };
 
   return (
@@ -28,8 +27,13 @@ const History = () => {
       </div>
 
       <div className="space-y-4">
-        {histories.map(history => (
-          <HistoryCard key={history.id} onDelete={() => deleteHistory(history.id)} />
+        {histories.map((history, index) => (
+          <HistoryCard
+            key={index}
+            history={history}
+            onDelete={() => handleDelete(index)}
+            onChange={(updated) => handleHistoryChange(index, updated)}
+          />
         ))}
       </div>
 
