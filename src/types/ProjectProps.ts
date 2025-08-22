@@ -72,6 +72,7 @@ export type ProjectDetailDataApi = {
   schoolName: string;
   regions: ProjectRegion[];
   description?: string;
+  itemPlanFileUrl: string,
   recruitPositions: ProjectRecruitPosition[];
   itemCategories: { categoryName: CategoryType }[];
   itemComments: ProjectComment[];
