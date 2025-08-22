@@ -31,6 +31,19 @@ const Portfolio = () => {
  
 
   const handleConfirm = (data: PortfolioItemData) => {
+    const isDuplicate = portfolioItems.some((item) => {
+      if (data.type === 'file') {
+        return item.name === data.file.name;
+      } else {
+        return item.fileUrl === data.url;
+      }
+    });
+
+    if (isDuplicate) {
+      alert('이미 등록된 포트폴리오입니다.');
+      return;
+    }
+
     if (data.type === 'file') {
       const formData = new FormData();
       formData.append("portfolioFile", data.file);
