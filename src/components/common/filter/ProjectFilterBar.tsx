@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import KeyboardArrowDownIcon from "../../../assets/icons/ic_keyboard_arrow_down.svg";
 import KeyboardArrowUpIcon from "../../../assets/icons/ic_keyboard_arrow_up.svg";
-import PartBox from "./dropdowns/PartBox";
-import MbtiBox from "./dropdowns/MbtiBox";
+// import PartBox from "./dropdowns/PartBox";
+// import MbtiBox from "./dropdowns/MbtiBox";
 import LocationBox from "./dropdowns/LocationBox";
 import { CATEGORY_ICON_MAP } from "../../../utils/categoryMap";
 import type { CategoryType, ProjectListApiParams } from "../../../types/ProjectProps";
@@ -27,8 +27,8 @@ const ProjectFilterBar: React.FC<Props> = ({ sortOption, onChangeSort, onFilters
   };
 
     const [selectedCategories, setSelectedCategories] = useState<CategoryType | null>(null);
-  const [selectedSort, setSelectedSort] = useState<string>("파트");
-  const [selectedMbti, setSelectedMbti] = useState<string[]>([]);
+  // const [selectedSort, setSelectedSort] = useState<string>("파트");
+  // const [selectedMbti, setSelectedMbti] = useState<string[]>([]);
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
   const [openDropdown, setOpenDropdown] = useState<Record<string, boolean>>({
     파트: false,
@@ -62,14 +62,14 @@ const ALL = "전체";
     }));
   };
 
-  const handleSortSelect = (sortOption: string) => {
-    setSelectedSort(sortOption);
-    handleDropdownClick("파트");
-  };
+  // const handleSortSelect = (sortOption: string) => {
+  //   setSelectedSort(sortOption);
+  //   handleDropdownClick("파트");
+  // };
 
-  const handleMbtiSelect = (mbtiList: string[]) => {
-    setSelectedMbti(mbtiList);
-  };
+  // const handleMbtiSelect = (mbtiList: string[]) => {
+  //   setSelectedMbti(mbtiList);
+  // };
 
   const handleLocationToggle = (locationOption: string) => {
     setSelectedLocations((prev) =>
@@ -89,19 +89,19 @@ const ALL = "전체";
     return `${selectedLocations[0]} 외 ${selectedLocations.length - 1}곳`;
   };
 
-  const getMbtiButtonText = () => {
-    if (selectedMbti.length === 0) {
-      return "MBTI";
-    }
-    return `${selectedMbti[0]} 외 ${selectedMbti.length - 1}개`;
-  };
+  // const getMbtiButtonText = () => {
+  //   if (selectedMbti.length === 0) {
+  //     return "MBTI";
+  //   }
+  //   return `${selectedMbti[0]} 외 ${selectedMbti.length - 1}개`;
+  // };
 
 
   return (
     <div className=" bg-white rounded-lg font-pretendard ">
       <div className="w-full flex items-center justify-between whitespace-nowrap gap-4">
         <div className="relative flex-1  ">
-          <div className="flex items-center gap-2 overflow-x-auto pt-8 -mt-5 pb-2 -mb-2 w-180 thin-scrollbar">
+          <div className="flex items-center gap-2 overflow-x-auto pt-8 -mt-5 pb-2 -mb-2 w-190 thin-scrollbar">
             {categories.map((category) => (
               <button
                 key={category.name}
@@ -146,7 +146,7 @@ const ALL = "전체";
           </div>
 
           {/*파트 dropdown*/}
-          <div className="relative flex">
+          {/* <div className="relative flex">
             <button
               className={`flex items-center px-4 py-2 text-sm font-semimedium border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none`}
               onClick={() => handleDropdownClick("파트")}
@@ -167,9 +167,9 @@ const ALL = "전체";
                 <PartBox onSelect={handleSortSelect} />
               </div>
             )}
-          </div>
+          </div> */}
           {/*MBTI dropdown*/}
-          <div className="relative flex">
+          {/* <div className="relative flex">
             <button
               className={`flex items-center px-4 py-2 text-sm font-semimedium rounded-md border border-gray-300 hover:bg-gray-200 focus:outline-none`}
               onClick={() => handleDropdownClick("MBTI")}
@@ -195,7 +195,7 @@ const ALL = "전체";
                 </div>
               </div>
             )}
-          </div>
+          </div> */}
           {/*위치 dropdown*/}
           <div className="relative flex">
             <button

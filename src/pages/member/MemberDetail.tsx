@@ -2,7 +2,7 @@ import MemberProfileCard from '../../components/common/memberpage/MemberProfileC
 import MemberStrengths from '../../components/common/memberpage/MemberStrengths';
 import MemberAwards from '../../components/common/memberpage/MemberAwards';
 import MemberPortfolio from '../../components/common/memberpage/MemberPortfolio';
-import LoadingPage from '../LoadingPage';
+// import LoadingPage from '../LoadingPage';
 import ErrorPage from '../ErrorPage';
 import { useMemberDetail } from '../../hooks/useMember';
 import { useParams } from 'react-router-dom';
@@ -37,7 +37,7 @@ const MemberDetail = () => {
         }
     }, [applyStatusData, memberId]);
 
-    if (isLoading) return <LoadingPage />;
+    if (isLoading) return <div>로딩중...</div>;
     if (isError || !data?.result) return <ErrorPage />;
 
     // if (!data?.result) return <p className="flex h-full items-center justify-center">존재하지 않는 팀원입니다</p>;
