@@ -79,7 +79,7 @@ export const MainNavbar = ({ bgColor = "white" }: MainNavbarProps) => {
             to={to}
             className={({ isActive }) =>
               `relative flex flex-col items-center title-small transition-colors duration-200               
-                ${isActive ? "text-[#5A5891]" : "text-[#47464F]"}`
+                ${isActive ? "text-[#5A5891] font-bold opacity-100" : "text-[#47464F] opacity-60"}`
             }
           >
             {({ isActive }) => (
