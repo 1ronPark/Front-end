@@ -14,7 +14,6 @@ interface NoticeItemProps {
 const NoticeItem = ({
   notificationId,
   message,
-  notificationType,
   isRead,
   referenceId,
 }: NoticeItemProps) => {
@@ -39,7 +38,7 @@ const NoticeItem = ({
         <img src={profileIcon} className="rounded-3xl" />
       </div>
       <div className="flex flex-col justify-center items-start max-w-[160px] break-words">
-        <p className="label-medium text-[#49454E]">{notificationType}</p>
+
         <p className="body-large text-[#1D1B20]">{message}</p>
       </div>
       <div className="text-[11px] text-[#9E9E9E] ml-auto whitespace-nowrap min-w-[40px] text-right">
