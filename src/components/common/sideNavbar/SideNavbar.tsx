@@ -36,7 +36,7 @@ const SideNavbar = () => {
       <div
         className="fixed right-0 w-[65px] h-screen py-6 bg-[#EEE]
              flex flex-col items-center gap-6 border-l border-l-[#CBC4CF]
-             box-border z-[60]" // ← 오버레이 z-40 보다 높게
+             box-border z-[60]" 
 
         // {`fixed right-0 w-[65px] h-screen py-6  flex flex-col items-center gap-6 border-l border-l-[#CBC4CF] box-border
         //   ${activePanel ? "bg-[#FFF]" : "bg-[#EEE]"}
@@ -155,28 +155,15 @@ const SideNavbar = () => {
         </div>
       </div>
 
-      {/*바깥 누르면 알림창 닫히는 기능 */}
-      {activePanel && (
-        <div
-          className="fixed inset-0 bg-black/15 z-30"
-          onClick={() => setActivePanel(null)}
-          aria-hidden
-        />
-      )}
 
-      {/*어두운 배경 부드럽게 */}
+      {/*어두운 배경 부드럽게 + 바깥클릭 시 닫기 */}
 <div
-  className={`fixed inset-0 z-40 bg-black transition-opacity duration-200 ease-out
-    ${activePanel ? 'opacity-30' : 'opacity-0'} pointer-events-none`}  // ← 클릭 막기
+  onClick={() => activePanel && setActivePanel(null)}
+  className={`fixed inset-0 right-[65px] z-30 bg-black
+    transition-opacity duration-200 ease-out
+    ${activePanel ? 'opacity-30 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
   aria-hidden
 />
-
-      <div
-        className={`fixed top-0 right-[65px] z-[60] 
-              transform transition-transform duration-200 ease-out
-              ${activePanel ? "translate-x-0" : "translate-x-full"}`}
-      ></div>
-
       <BasePanel
         isActive={activePanel !== null}
         hasData={
@@ -193,18 +180,18 @@ const SideNavbar = () => {
             <NotificationList />
           ) : activePanel === "favorite" ? (
             <FavoriteList />
-          ) : (
+          ) : activePanel === "recent" ? (
             <RecentList />
-          )
+          ) : null
         }
         empty={
           activePanel === "notification" ? (
             <NoNotificationList />
           ) : activePanel === "favorite" ? (
             <NoFavoriteList />
-          ) : (
+          ) : activePanel === "recent" ? (
             <NoRecentList />
-          )
+          ) : null
         }
         panelKey={activePanel ?? "none"} // "notification" | "favorite" | "recent" | "none"
       />

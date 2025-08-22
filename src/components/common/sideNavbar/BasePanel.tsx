@@ -8,6 +8,7 @@ type BasePanelProps = {
   panelKey?: string;
 };
 
+
 const BasePanel = ({
   hasData,
   list,
@@ -22,19 +23,15 @@ const BasePanel = ({
 
   // 패널 열기
   useEffect(() => {
-    if (isActive && !shouldRender) {
-      setShouldRender(true);
-    }
+    if (isActive && !shouldRender) setShouldRender(true);
   }, [isActive, shouldRender]);
 
   // 처음 렌더된 후 슬라이드 인 시작
   useEffect(() => {
     if (isActive && shouldRender) {
-      setHasEntered(false); // 초기화
-      const timer = setTimeout(() => {
-        setHasEntered(true); // 다음 프레임에 애니메이션 활성화
-      }, 100);
-      return () => clearTimeout(timer);
+      setHasEntered(false);
+      const id = requestAnimationFrame(() => setHasEntered(true));
+      return () => cancelAnimationFrame(id);
     }
   }, [isActive, shouldRender]);
 
@@ -65,17 +62,17 @@ const BasePanel = ({
   return (
     <div
       className={`
-        fixed top-0 right-[65px] w-[300px] h-screen z-40
-        bg-[#EEE] overflow-auto shadow-[0px_1px_3px_1px_rgba(0,0,0,0.15)]
-        transform transition-transform duration-200 ease-in-out
-        ${
-          isExiting
-            ? "translate-x-[300px]"
-            : hasEntered
-            ? "translate-x-0"
-            : "translate-x-[300px]"
-        }
-      `}
+      fixed top-0 right-[65px] w-[300px] h-screen z-[40]
+      bg-[#EEE] overflow-auto shadow-[0px_1px_3px_1px_rgba(0,0,0,0.15)]
+      transform transition-transform duration-200 ease-in-out will-change-transform
+      ${
+        isExiting
+          ? "translate-x-[300px]"
+          : hasEntered
+          ? "translate-x-0"
+          : "translate-x-[300px]"
+      }
+    `}
     >
       {/* 내부 콘텐츠는 부모에서 바뀌는 대로 반영됨 */}
       {hasData ? list : empty}
