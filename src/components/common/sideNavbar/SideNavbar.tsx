@@ -14,12 +14,14 @@ import RecentList from "./recent/RecentList";
 import NoRecentList from "./recent/NoRecentList";
 import { useUnreadNotificationCount } from "../../../hooks/useUnreadNotificationCount";
 
-type Panel = "notification" | "favorite" | "recent";
-
 const SideNavbar = () => {
-  const [activePanel, setActivePanel] = useState<Panel | null>(null);
-  const [lastPanel, setLastPanel] = useState<Panel | null>("notification");
+  const [activePanel, setActivePanel] = useState<
+    "notification" | "favorite" | "recent" | null
+  >(null);
 
+  const [lastPanel, setLastPanel] = useState<
+    "notification" | "favorite" | "recent" | null
+  >("notification");
 
   const unreadCount = useUnreadNotificationCount();
   const hasNotificationData = unreadCount > 0;
@@ -32,16 +34,18 @@ const SideNavbar = () => {
   };
 
   const handleMenuClick = () => {
-    setActivePanel((prev) => (prev ? null : lastPanel ?? "notification"));
+    if (activePanel) {
+      setActivePanel(null); //패널 닫기
+    } else if (lastPanel) {
+      setActivePanel(lastPanel); //마지막 패널 다시 열기
+    }
   };
 
   return (
     <div>
       <div
-        className="fixed right-0 w-[65px] h-screen py-6 bg-[#EEE]
-             flex flex-col items-center gap-6 border-l border-l-[#CBC4CF]
-             box-border z-[60]" 
-
+        className="fixed right-0 w-[65px] h-screen py-6 bg-[#EEE] 
+        flex flex-col items-center gap-6 border-l border-l-[#CBC4CF] box-border z-50"
         // {`fixed right-0 w-[65px] h-screen py-6  flex flex-col items-center gap-6 border-l border-l-[#CBC4CF] box-border
         //   ${activePanel ? "bg-[#FFF]" : "bg-[#EEE]"}
         //   `}
@@ -166,15 +170,6 @@ const SideNavbar = () => {
         </div>
       </div>
 
-
-      {/*어두운 배경 부드럽게 + 바깥클릭 시 닫기 */}
-<div
-  onClick={() => activePanel && setActivePanel(null)}
-  className={`fixed inset-0 right-[65px] z-30 bg-black
-    transition-opacity duration-200 ease-out
-    ${activePanel ? 'opacity-30 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
-  aria-hidden
-/>
       <BasePanel
         isActive={activePanel !== null}
         hasData={
@@ -191,18 +186,18 @@ const SideNavbar = () => {
             <NotificationList />
           ) : activePanel === "favorite" ? (
             <FavoriteList />
-          ) : activePanel === "recent" ? (
+          ) : (
             <RecentList />
-          ) : null
+          )
         }
         empty={
           activePanel === "notification" ? (
             <NoNotificationList />
           ) : activePanel === "favorite" ? (
             <NoFavoriteList />
-          ) : activePanel === "recent" ? (
+          ) : (
             <NoRecentList />
-          ) : null
+          )
         }
         panelKey={activePanel ?? "none"} // "notification" | "favorite" | "recent" | "none"
       />

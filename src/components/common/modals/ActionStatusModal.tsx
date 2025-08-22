@@ -65,7 +65,7 @@ const ActionStatusModal = ({
             >
                 {step === 'confirm' ? (
                     <>
-                        <h2 className="headline-large-emphasis mb-16 whitespace-pre-line">{proposalConfirmTitle}</h2>
+                        <h2 className="headline-medium-emphasis mb-16 whitespace-pre-line">{proposalConfirmTitle}</h2>
                         <button
                             onClick={handleConfirmProposal}
                             className="w-full py-4 rounded-[16px] bg-[#5A5891] text-white title-medium-emphasis"
