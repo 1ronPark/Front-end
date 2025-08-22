@@ -13,7 +13,7 @@ const ProjectList: React.FC<Props> = ({ items, isLoading, isError }) => {
   if (isError)   return <div className="p-8">목록을 불러오지 못했습니다.</div>;
 
   return (
-    <div className="mt-6 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-8">
+    <div className="mt-6 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8">
       {items.map((project) => (
         <ProjectCard
           key={project.itemId}

@@ -101,12 +101,12 @@ const MemberCard = ({
             {/* 스킬과 강점 두 개씩만 */}
             <div className="w-full px-4 py-2 mb-3">
                 {/* 역할 */}
-                <p className="body-large">{role}</p>
+                <p className="body-medium">{role}</p>
                 <div className="flex flex-wrap gap-[10px]">
                     {[...(skills ?? []).slice(0, 2), ...(strengths ?? []).slice(0, 2)].map((tag, index) => (
                         <span
                             key={`${tag}-${index}`}
-                            className="flex items-center justify-center bg-[#FCF8FF] body-medium p-1 rounded-[4px]"
+                            className="flex items-center justify-center bg-[#FCF8FF] body-small p-1 rounded-[4px]"
                         >
                             {tag}
                         </span>

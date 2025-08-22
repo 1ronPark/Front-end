@@ -101,7 +101,7 @@ const ALL = "전체";
     <div className=" bg-white rounded-lg font-pretendard ">
       <div className="w-full flex items-center justify-between whitespace-nowrap gap-4">
         <div className="relative flex-1  ">
-          <div className="flex items-center gap-2 overflow-x-auto pt-8 -mt-5 pb-2 -mb-2 w-240 thin-scrollbar">
+          <div className="flex items-center gap-2 overflow-x-auto pt-8 -mt-5 pb-2 -mb-2 w-190 thin-scrollbar">
             {categories.map((category) => (
               <button
                 key={category.name}

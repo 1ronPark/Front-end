@@ -52,7 +52,7 @@ export const Members = () => {
             <div className="
                 w-full mt-12 mb-7 overflow-visible
                 max-w-[1440px]
-                px-4 sm:px-8 md:px-16 xl:px-[130px]
+                px-4 sm:px-8 md:px-16 xl:px-[180px]
                 flex flex-col
                 min-h-[calc(100vh-200px)]
             ">
